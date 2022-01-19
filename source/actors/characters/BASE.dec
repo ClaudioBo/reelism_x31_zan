@@ -16,7 +16,8 @@ ACTOR MonsterTemplate
 	States
 	{
 	Idle:
-		"####" A 0 A_Jump(256,"See")
+		"####" A 1 A_Look
+		loop
 	Death: // just to stop console errors on startup
 		"####" A 0
 		stop
