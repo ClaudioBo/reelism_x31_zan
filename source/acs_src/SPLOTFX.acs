@@ -1,0 +1,7 @@
+#library "splotfx"
+#include "zcommon.acs"
+
+script "SmokeToggleCheck"(void)
+{
+	SetResultValue(GetCVAR("SmokeToggle"));
+}

@@ -1,0 +1,780 @@
+// Splot - The Undeader
+ACTOR ScientistZombie : MonsterTemplate
+{
+	Health 50
+	Height 56
+	Mass 100
+	Speed 8
+	PainChance 200
+	SeeSound "scizom/see"
+	PainSound "scizom/pain"
+	DeathSound "scizom/die"
+	ActiveSound "scizom/idle"
+	Obituary "$OB_SCIZOMB"
+	States
+	{
+	Spawn:
+		FSZK A 0
+		FSZK A 0 Thing_ChangeTID(0,900)
+		FSZK A 1 A_Look
+		FSZK A 0 A_AlertMonsters
+		goto See
+	See:
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==9,"DogWhistle")
+		//FSZK A 0 A_JumpIf(velz!=0,"MidAir")
+		FSZK A 4 A_Chase
+		FSZK A 0 A_JumpIf(velz!=0,"MidAir")
+		FSZK A 4 A_Chase
+		FSZK A 0 A_JumpIf(velz!=0,"MidAir")
+		FSZK B 4 A_Chase
+		FSZK A 0 A_JumpIf(velz!=0,"MidAir")
+		FSZK B 4 A_Chase
+		FSZK A 0 A_JumpIf(velz!=0,"MidAir")
+		FSZK C 4 A_Chase
+		FSZK A 0 A_JumpIf(velz!=0,"MidAir")
+		FSZK C 4 A_Chase
+		FSZK A 0 A_JumpIf(velz!=0,"MidAir")
+		FSZK D 4 A_Chase
+		FSZK A 0 A_JumpIf(velz!=0,"MidAir")
+		FSZK D 4 A_Chase
+		Loop
+	MidAir:
+		FSZK DDDDDD 1 A_CheckFloor("See")
+		TNT1 A 0 A_SpawnItemEx("CrushDamage")
+		FSZK D 1 A_CheckFloor("Landing")
+		TNT1 A 0 A_JumpIf(velz==0,"See")
+		goto MidAir+6
+	Landing:
+		FSZK E 1
+		FSZK E 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		FSZK E 5 A_PlaySound("human/land")
+		goto See
+	Melee:
+	Missile:
+		FSZK E 8 A_FaceTarget
+		FSZK F 6 A_CustomMissile("ZombieKnife")
+		Goto See
+	Pain:
+		FSZK G 2
+		FSZK G 2 A_Pain
+		Goto See
+	// NORMAL DEATH STATES
+	Death:
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==4,"XDeath")
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==8,"BirthdayParty")
+		FSZK H 0 A_NoBlocking
+		FSZK H 0 A_GiveToTarget("ScoreItem",100)
+		FSZK I 5
+		FSZK J 4 A_Scream
+		FSZK K 3
+		goto CorpseFalling
+	CorpseFalling:
+		FSZK JKJKJK 1 A_CheckFloor("Corpse")
+		FSZK J 1 A_CheckFloor("CorpseHard")
+		TNT1 A 0 A_JumpIf(velz==0,"Corpse")
+		goto CorpseFalling+6
+	Corpse:
+		FSZK M 1 A_PlaySound("human/body")
+		FSZK M 1 A_JumpIf(velz!=0,"CorpseFalling")
+		TNT1 A 0 A_CheckSight("Cleanup")
+		goto Corpse+1
+	CorpseHard:
+		FSZK M 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		goto Corpse
+	// GIB DEATH STATES
+	XDeath:
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==8,"BirthdayParty")
+		FSZK N 0 A_NoBlocking
+		FSZK N 0 A_GiveToTarget("ScoreItem",130)
+		TNT1 A 0 A_StopSound(CHAN_VOICE)
+		FSZK N 0 A_PlaySound("human/gib")
+		FSZK N 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		FSZK O 5 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		GIBS MNO 5 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		GIBS PQRST 4
+		GIBS U 5
+		GIBS V 1400
+		Stop
+	// COMEDY DEATH STATES
+	Death.Explosive:
+		BEGR F 0 A_Jump(64,"XDeath")
+		BEGR F 0 A_GiveToTarget("ScoreItem",100)
+		BEGR F 0 A_NoBlocking
+		BEGR F 0 ThrustThingZ(0,random(32,128),0,1)
+		BEGR F 0 A_Recoil(random(16,48))
+		FSZK H 2 A_Scream
+		goto CorpseFlying
+	CorpseFlying:
+		FSZK H 0 A_GiveToTarget("ScoreItem",1)
+		BEGR G 0 A_SpawnItemEx("BloodShredSilent")
+		BEGR G 0 A_SpawnItemEx("MissilePart",0,0,8)
+		BEGR G 0 A_JumpIf(velx == 0||vely == 0,"CorpseCrater")
+		FSZK H 1 A_CheckFloor("CorpseCrater")
+		BEGR F 0 A_GiveToTarget("ScoreItem",1)
+		BEGR H 0 A_SpawnItemEx("BloodShredSilent")
+		BEGR H 0 A_SpawnItemEx("MissilePart",0,0,8)
+		BEGR G 0 A_JumpIf(velx == 0||vely == 0,"CorpseCrater")
+		FSZK I 1 A_CheckFloor("CorpseCrater")
+		loop
+	CorpseCrater:
+		BEGR M 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		BEGR N 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		BEGR N 0 A_PlaySound("human/gib")
+		BEGR F 0 A_GiveToTarget("ScoreItem",50)
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==8,"BirthdayParty")
+		BEGR N 0 A_Stop
+		goto Corpse+1
+	Death.Fire:
+		FSZK A 0 A_PlaySound("human/scream")
+		FSZK A 0 A_SpawnItemEx("Flame1A",0,0,32)
+		FSZK A 0 A_Recoil(-8)
+		FSZK A 0 A_SpawnItemEx("Ember1",0,0,32)
+		FSZK AAAA 1 A_SetAngle(12 + angle)
+		FSZK B 0 A_Recoil(-8)
+		FSZK A 0 A_SpawnItemEx("Flame2A",0,0,32)
+		FSZK BBBB 1 A_SetAngle(12 + angle)
+		FSZK C 0 A_Recoil(-8)
+		FSZK A 0 A_SpawnItemEx("Flame1A",0,0,32)
+		FSZK CCCC 1 A_SetAngle(12 + angle)
+		FSZK D 0 A_Recoil(-8)
+		FSZK DDDD 1 A_SetAngle(12 + angle)
+		FSZK A 0 A_SpawnItemEx("Flame3B",0,0,32)
+		FSZK A 0 A_Jump(128,"Death.Fire")
+		goto Death
+	DogWhistle:
+		TNT1 A 0 A_SpawnItemEx("Confusion",0,0,56)
+		//FSZK A 0 A_JumpIf(velz!=0,"MidAir")
+		FSZK A 2 A_Wander
+		FSZK A 0 A_JumpIf(velz!=0,"MidAir")
+		FSZK A 2 A_Wander
+		FSZK A 0 A_JumpIf(velz!=0,"MidAir")
+		FSZK B 2 A_Wander
+		FSZK A 0 A_JumpIf(velz!=0,"MidAir")
+		FSZK B 2 A_Wander
+		FSZK A 0 A_JumpIf(velz!=0,"MidAir")
+		TNT1 A 0 A_SpawnItemEx("Confusion",0,0,56)
+		FSZK C 2 A_Wander
+		FSZK A 0 A_JumpIf(velz!=0,"MidAir")
+		FSZK C 2 A_Wander
+		FSZK A 0 A_JumpIf(velz!=0,"MidAir")
+		FSZK D 2 A_Wander
+		FSZK A 0 A_JumpIf(velz!=0,"MidAir")
+		FSZK D 2 A_Wander
+		goto See
+	}
+}
+
+actor ZombieKnife
+{
+	Radius 8
+	Height 8
+	Speed 17
+	Damage 7
+	PROJECTILE
+	+RANDOMIZE
+	+NOGRAVITY
+	//+FORCEXYBILLBOARD
+	gravity 0.4
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_PlaySound("attack/punchmiss")
+		DART A 10
+		DART A 0 A_ChangeFlag("NOGRAVITY",0)
+	Active:
+		DART A 1
+		loop
+	Death:
+		TNT1 A 0 A_PlaySound("zombie/dart")
+		stop
+	}
+}
+
+ACTOR BatGhost : MonsterTemplate
+{
+	-FLOORCLIP
+	-NOSPLASHALERT
+	-DROPOFF
+	-LOOKALLAROUND
+	Health 100
+	Radius 32
+	Height 56
+	Mass 400
+	Speed 2
+	Damage 3
+	PainChance 255
+	+FLOAT
+	+NOGRAVITY
+	+FLOATBOB
+	PainSound "batghost/pain"
+	DeathSound "eye/die"
+	ActiveSound "batghost/idle"
+	Obituary "$OB_BATGHOST"
+	damagetype BatGhost
+	States
+	{
+	Spawn:
+		BATG A 0
+		BATG A 0 Thing_ChangeTID(0,900)
+		BATG A 1 A_Look
+		goto See
+	See:
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==9,"DogWhistle")
+		BATG AAAABBBBCCCCDDDDCCCCBBBB 1 A_Chase
+		Loop
+	Missile:
+		BATG A 12
+		BATG A 0 A_PlaySound("batghost/attack")
+		BATG A 0 A_SkullAttack
+		BATG AABBCCDDCCBB 1
+		BATG AABBCCDDCCBB 1
+		BATG AABBCCDDCCBB 1
+		BATG AABBCCDDCCBB 1
+		BATG AABBCCDDCCBB 1
+		Goto See
+	Pain:
+		BATG A 0
+		BATG A 6 A_Pain
+		BATG A 6
+		Goto See
+	Death:
+		BATG A 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		BATG A 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		BATG A 0 A_GiveToTarget("ScoreItem",120)
+		BATG A 0 A_PlaySound("batghost/die")
+		BATG A 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		BATG A 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+	DeathLoop:
+		BATG ABCD 1
+		TNT1 A 0 A_JumpIf(velz==0,"Crash")
+		loop
+	Crash:
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==8,"BirthdayParty")
+		TNT1 A 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		TNT1 A 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		TNT1 A 0 A_Scream
+		TNT1 A 0 A_NoBlocking
+		TNT1 AAAAAA 0 A_CustomMissile("BatGib1",random(4,16),0,random(0,360),2,random(4,32))
+		TNT1 AAAAAA 0 A_CustomMissile("BatGib3",random(4,16),0,random(0,360),2,random(4,32))
+		TNT1 A 0 A_CustomMissile("BatGib2",random(4,16),0,random(0,360),2,random(4,32))
+		stop
+	DogWhistle:
+		TNT1 A 0 A_SpawnItemEx("Confusion",0,0,56)
+		BATG AAABBBCCCDDDCCCBBB 1 A_Wander
+		goto See
+	Death.Drill:
+		TNT1 A 0 A_GiveToTarget("ScoreItem",20)
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(12)
+		TNT1 A 0 ThrustThingZ(0,32,0,1)
+		goto Death
+	Death.Bat:
+		TNT1 A 0 A_GiveToTarget("ScoreItem",20)
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(48)
+		TNT1 A 0 ThrustThingZ(0,128,0,1)
+		TNT1 A 0 A_NoBlocking
+		goto Death
+	Death.Fire:
+		BATG D 0 A_GiveToTarget("ScoreItem",120)
+		BATG A 0 A_PlaySound("human/scream")
+		BATG A 0 A_SpawnItemEx("Flame1A",0,0,32)
+		BATG A 0 A_Recoil(-8)
+		BATG A 0 A_SpawnItemEx("Ember1",0,0,32)
+		BATG AAAA 1 A_SetAngle(12 + angle)
+		BATG A 0 A_Recoil(-8)
+		BATG A 0 A_SpawnItemEx("Flame2A",0,0,32)
+		BATG BBBB 1 A_SetAngle(12 + angle)
+		BATG A 0 A_Recoil(-8)
+		BATG A 0 A_SpawnItemEx("Flame1A",0,0,32)
+		BATG CCCC 1 A_SetAngle(12 + angle)
+		BATG A 0 A_Recoil(-8)
+		BATG DDDD 1 A_SetAngle(12 + angle)
+		BATG A 0 A_SpawnItemEx("Flame3B",0,0,32)
+		BATG CCCC 1 A_SetAngle(12 + angle)
+		BATG A 0 A_Recoil(-8)
+		BATG A 0 A_SpawnItemEx("Flame1A",0,0,32)
+		BATG BBBB 1 A_SetAngle(12 + angle)
+		BATG A 0 A_Recoil(-8)
+		BATG A 0 A_SpawnItemEx("Flame1A",0,0,32)
+		goto Death.Fire+1
+	// COMEDY DEATH STATES
+	Death.Explosive:
+		TNT1 A 0 A_GiveToTarget("ScoreItem",100)
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(random(16,48))
+		TNT1 A 0 ThrustThingZ(0,random(32,128),0,1)
+		TNT1 A 0 A_NoBlocking
+		goto Death
+	Death.Barkblast:
+		BEGR F 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		BEGR F 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		BATG A 8 A_GiveToTarget("ScoreItem",50)
+		BATG A 0 A_PlaySound("batghost/die")
+		BEGR F 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		BEGR F 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		goto Crash
+	Death.SuperShotgun:
+		TNT1 A 0 A_JumpIfCloser(72,"Death.SuperShotgunClose")
+	Death.EnemyShotgun:
+	Death.Shotgun:
+		TNT1 A 0 A_JumpIfCloser(72,"Death.ShotgunClose")
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(16)
+		goto Death
+	Death.ShotgunClose:
+		TNT1 A 0 A_GiveToTarget("ScoreItem",20)
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(15)
+		TNT1 A 0 ThrustThingZ(0,50,0,1)
+		TNT1 A 0 A_NoBlocking
+		goto Death
+	Death.SuperShotgunClose:
+		TNT1 A 0 A_GiveToTarget("ScoreItem",20)
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(100)
+		TNT1 A 0 ThrustThingZ(0,50,0,1)
+		TNT1 A 0 A_NoBlocking
+		goto Death
+	Death.CarCrash:
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==8,"BirthdayParty")
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_PlaySound("car/smash")
+		TNT1 A 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		TNT1 A 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		TNT1 A 0 A_Recoil(random(-30,50))
+		TNT1 A 0 ThrustThingZ(0,random(30,50),0,1)
+		TNT1 A 0 A_NoBlocking
+		TNT1 A 2 A_Scream
+		goto DeathLoop
+	}
+}
+
+actor BatGib1
+{
+	BounceType Doom
+	PROJECTILE
+	-NOGRAVITY
+	-NOBLOCKMAP
+	-NOTELEPORT
+	+dontsplash
+	Radius 2
+	SeeSound "skeleton/bones"
+	Speed 6
+	BounceFactor 0.6
+	+CLIENTSIDEONLY
+	States
+	{
+	Spawn:
+		BAB1 A 0
+		"####" A 0 A_Jump(255,"Fly1","Fly2","Fly3","Fly4","Fly5","Fly6")
+		goto Fly1
+	Bounce:
+		goto Spawn
+	Fly1:
+		"####" ABCD 5
+		loop
+	Fly2:
+		"####" ABCD 3
+		loop
+	Fly3:
+		"####" ABCD 2
+		loop
+	Fly4:
+		"####" DCBA 5
+		loop
+	Fly5:
+		"####" DCBA 3
+		loop
+	Fly6:
+		"####" DCBA 2
+		loop
+	Death:
+		TNT1 A 0
+		stop
+	}
+}
+
+actor BatGib2 : BatGib1
+{
+	States
+	{
+	Spawn:
+		BAB2 A 0
+		Goto Super::Spawn+1
+	}
+}
+
+actor BatGib3 : BatGib1
+{
+	States
+	{
+	Spawn:
+		BAB3 A 0
+		Goto Super::Spawn+1
+	}
+}
+
+// Actual Zombie
+ACTOR RealZombie : MonsterTemplate
+{
+	Health 40
+	Height 56
+	Speed 4
+	PainChance 200
+	SeeSound "realzed/see"
+	PainSound "realzed/pain"
+	DeathSound "realzed/die"
+	ActiveSound "realzed/idle"
+	Obituary "$OB_REALZOMBIE"
+	States
+	{
+	Spawn:
+		ZOSS A 0
+		ZOSS A 0 Thing_ChangeTID(0,900)
+		ZOSS A 1 A_Look
+		ZOSS A 0 A_AlertMonsters
+		goto See
+	See:
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==9,"DogWhistle")
+		//POSS A 0 A_JumpIf(velz!=0,"MidAir")
+		ZOSS A 4 A_Chase
+		ZOSS A 0 A_JumpIf(velz!=0,"MidAir")
+		ZOSS A 4 A_Chase
+		ZOSS A 0 A_JumpIf(velz!=0,"MidAir")
+		ZOSS B 4 A_Chase
+		ZOSS A 0 A_JumpIf(velz!=0,"MidAir")
+		ZOSS B 4 A_Chase
+		ZOSS A 0 A_JumpIf(velz!=0,"MidAir")
+		ZOSS C 4 A_Chase
+		ZOSS A 0 A_JumpIf(velz!=0,"MidAir")
+		ZOSS C 4 A_Chase
+		ZOSS A 0 A_JumpIf(velz!=0,"MidAir")
+		ZOSS D 4 A_Chase
+		ZOSS A 0 A_JumpIf(velz!=0,"MidAir")
+		ZOSS D 4 A_Chase
+		Loop
+	MidAir:
+		ZOSS DDDDDD 1 A_CheckFloor("See")
+		TNT1 A 0 A_SpawnItemEx("CrushDamage")
+		ZOSS D 1 A_CheckFloor("Landing")
+		TNT1 A 0 A_JumpIf(velz==0,"See")
+		goto MidAir+6
+	Landing:
+		ZOSS A 1
+		ZOSS A 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		ZOSS A 5 A_PlaySound("human/land")
+		goto See
+	Missile:
+		POSS E 10 A_FaceTarget
+		POSS F 0 A_PlaySound("human/gib")
+		POSS F 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		POSS F 8 A_CustomMissile("ZombieGibWeapon")
+		POSS E 8
+		Goto See
+	Pain:
+		POSS G 3
+		POSS G 3 A_Pain
+		Goto See
+	// NORMAL DEATH STATES
+	Death:
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==4,"XDeath")
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==8,"BirthdayParty")
+		POSS H 0 A_NoBlocking
+		POSS H 0 A_GiveToTarget("ScoreItem",100)
+		POSS H 5
+		POSS I 4 A_Scream
+		POSS JK 3
+		goto CorpseFalling
+	CorpseFalling:
+		POSS JKJKJK 1 A_CheckFloor("Corpse")
+		POSS J 1 A_CheckFloor("CorpseHard")
+		TNT1 A 0 A_JumpIf(velz==0,"Corpse")
+		goto CorpseFalling+6
+	Corpse:
+		POSS L 1 A_PlaySound("human/body")
+		POSS L 1 A_JumpIf(velz!=0,"CorpseFalling")
+		TNT1 A 0 A_CheckSight("Cleanup")
+		goto Corpse+1
+	CorpseHard:
+		POSS L 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		goto Corpse
+	// GIB DEATH STATES
+	XDeath:
+		POSS M 0 A_NoBlocking
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==8,"BirthdayParty")
+		POSS M 0 A_GiveToTarget("ScoreItem",130)
+		TNT1 A 0 A_StopSound(CHAN_VOICE)
+		POSS M 0 A_PlaySound("human/gib")
+		POSS M 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		POSS M 5 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		GIBS MNO 5 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		GIBS PQRST 4
+		GIBS U 5
+		GIBS V 1400
+		Stop
+	// COMEDY DEATH STATES
+	Death.Explosive:
+		BEGR F 0 A_Jump(64,"XDeath")
+		BEGR F 0 A_GiveToTarget("ScoreItem",100)
+		TNT1 A 0 A_NoBlocking
+		BEGR F 0 ThrustThingZ(0,random(32,128),0,1)
+		BEGR F 0 A_Recoil(random(16,48))
+		POSS J 2 A_Scream
+		goto CorpseFlying
+	CorpseFlying:
+		POSS J 0 A_GiveToTarget("ScoreItem",1)
+		BEGR G 0 A_SpawnItemEx("BloodShredSilent")
+		BEGR G 0 A_SpawnItemEx("MissilePart",0,0,8)
+		BEGR G 0 A_JumpIf(velx == 0||vely == 0,"CorpseCrater")
+		POSS I 1 A_CheckFloor("CorpseCrater")
+		BEGR F 0 A_GiveToTarget("ScoreItem",1)
+		BEGR H 0 A_SpawnItemEx("BloodShredSilent")
+		BEGR H 0 A_SpawnItemEx("MissilePart",0,0,8)
+		BEGR G 0 A_JumpIf(velx == 0||vely == 0,"CorpseCrater")
+		POSS J 1 A_CheckFloor("CorpseCrater")
+		loop
+	CorpseCrater:
+		BEGR M 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		BEGR N 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		BEGR N 0 A_PlaySound("human/gib")
+		BEGR F 0 A_GiveToTarget("ScoreItem",50)
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==8,"BirthdayParty")
+		BEGR N 0 A_Stop
+		goto Corpse+1
+	Death.Fire:
+		POSS A 0 A_PlaySound("human/scream")
+		POSS A 0 A_SpawnItemEx("Flame1A",0,0,32)
+		POSS A 0 A_Recoil(-8)
+		POSS A 0 A_SpawnItemEx("Ember1",0,0,32)
+		POSS AAAA 1 A_SetAngle(12 + angle)
+		POSS B 0 A_Recoil(-8)
+		POSS A 0 A_SpawnItemEx("Flame2A",0,0,32)
+		POSS BBBB 1 A_SetAngle(12 + angle)
+		POSS C 0 A_Recoil(-8)
+		POSS A 0 A_SpawnItemEx("Flame1A",0,0,32)
+		POSS CCCC 1 A_SetAngle(12 + angle)
+		POSS D 0 A_Recoil(-8)
+		POSS DDDD 1 A_SetAngle(12 + angle)
+		POSS A 0 A_SpawnItemEx("Flame3B",0,0,32)
+		POSS A 0 A_Jump(128,"Death.Fire")
+		goto Death
+	DogWhistle:
+		TNT1 A 0 A_SpawnItemEx("Confusion",0,0,56)
+		//POSS A 0 A_JumpIf(velz!=0,"MidAir")
+		ZOSS A 2 A_Wander
+		POSS A 0 A_JumpIf(velz!=0,"MidAir")
+		ZOSS A 2 A_Wander
+		POSS A 0 A_JumpIf(velz!=0,"MidAir")
+		ZOSS B 2 A_Wander
+		POSS A 0 A_JumpIf(velz!=0,"MidAir")
+		ZOSS B 2 A_Wander
+		POSS A 0 A_JumpIf(velz!=0,"MidAir")
+		TNT1 A 0 A_SpawnItemEx("Confusion",0,0,56)
+		ZOSS C 2 A_Wander
+		POSS A 0 A_JumpIf(velz!=0,"MidAir")
+		ZOSS C 2 A_Wander
+		POSS A 0 A_JumpIf(velz!=0,"MidAir")
+		ZOSS D 2 A_Wander
+		POSS A 0 A_JumpIf(velz!=0,"MidAir")
+		ZOSS D 2 A_Wander
+		goto See
+	}
+}
+
+actor ZombieGibWeapon
+{
+	Radius 8
+	Height 8
+	Speed 17
+	Damage 4
+	PROJECTILE
+	+RANDOMIZE
+	+NOGRAVITY
+	//+FORCEXYBILLBOARD
+	gravity 0.4
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_PlaySound("attack/punchmiss")
+		GIB1 AABBAABBAA 1 A_SpawnItemEx("BloodShredSilent",0,0,4)
+		DART A 0 A_ChangeFlag("NOGRAVITY",0)
+	Active:
+		GIB1 BA 2 A_SpawnItemEx("BloodShredSilent",0,0,4)
+		loop
+	Death:
+		TNT1 A 0 A_PlaySound("gibbage/xgibst")
+		SPLT ABCDDDDDD 4
+		stop
+	}
+}
+
+ACTOR ChainsawZombieMan : MonsterTemplate
+{
+	Health 20
+	Height 56
+	Speed 11
+	PainChance 200
+	SeeSound "grunt/sight"
+	AttackSound "grunt/attack"
+	PainSound "grunt/pain"
+	DeathSound "grunt/death"
+	ActiveSound "grunt/active"
+	Obituary "$OB_CHAINZOMBIE"
+	States
+	{
+	Spawn:
+		CHAN A 0
+		CHAN A 0 Thing_ChangeTID(0,900)
+		CHAN A 1 A_Look
+		CHAN A 0 A_AlertMonsters
+		goto See
+	See:
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==9,"DogWhistle")
+		CHAN A 0 A_PlaySound("weapons/sawidle")
+		CHAN A 2 A_Chase
+		CHAN A 0 A_JumpIf(velz!=0,"MidAir")
+		CHAN A 2 A_Chase
+		CHAN A 0 A_JumpIf(velz!=0,"MidAir")
+		CHAN A 0 A_PlaySound("weapons/sawidle")
+		CHAN B 2 A_Chase
+		CHAN A 0 A_JumpIf(velz!=0,"MidAir")
+		CHAN B 2 A_Chase
+		CHAN A 0 A_JumpIf(velz!=0,"MidAir")
+		CHAN A 0 A_PlaySound("weapons/sawidle")
+		CHAN C 2 A_Chase
+		CHAN A 0 A_JumpIf(velz!=0,"MidAir")
+		CHAN C 2 A_Chase
+		CHAN A 0 A_PlaySound("weapons/sawidle")
+		CHAN A 0 A_JumpIf(velz!=0,"MidAir")
+		CHAN D 2 A_Chase
+		CHAN A 0 A_JumpIf(velz!=0,"MidAir")
+		CHAN D 2 A_Chase
+		Loop
+	MidAir:
+		CHAN DDDDDD 1 A_CheckFloor("See")
+		TNT1 A 0 A_SpawnItemEx("CrushDamage")
+		CHAN D 1 A_CheckFloor("Landing")
+		TNT1 A 0 A_JumpIf(velz==0,"See")
+		goto MidAir+6
+	Landing:
+		CHAN E 1
+		CHAN E 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		CHAN E 5 A_PlaySound("human/land")
+		goto See
+    Melee:
+        CHAN E 1 A_FaceTarget
+        CHAN F 3 A_CustomMeleeAttack ((2 * random(1,5)), "weapons/sawhit", "weapons/sawfull", "Enemy", 1)
+		CHAN E 1 A_CPosRefire
+        Goto See
+	Pain:
+		CHAN G 3
+		CHAN G 3 A_Pain
+		Goto See
+	// NORMAL DEATH STATES
+	Death:
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==4,"XDeath")
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==8,"BirthdayParty")
+		POSS H 0 A_NoBlocking
+		POSS H 0 A_GiveToTarget("ScoreItem",100)
+		CHAN I 5
+		POSS I 4 A_Scream
+		POSS JK 3
+		goto CorpseFalling
+	CorpseFalling:
+		POSS JKJKJK 1 A_CheckFloor("Corpse")
+		POSS J 1 A_CheckFloor("CorpseHard")
+		TNT1 A 0 A_JumpIf(velz==0,"Corpse")
+		goto CorpseFalling+6
+	Corpse:
+		POSS L 1 A_PlaySound("human/body")
+		POSS L 1 A_JumpIf(velz!=0,"CorpseFalling")
+		TNT1 A 0 A_CheckSight("Cleanup")
+		goto Corpse+1
+	CorpseHard:
+		POSS L 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		goto Corpse
+	// GIB DEATH STATES
+	XDeath:
+		CHAN M 0 A_NoBlocking
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==8,"BirthdayParty")
+		CHAN M 0 A_GiveToTarget("ScoreItem",130)
+		TNT1 A 0 A_StopSound(CHAN_VOICE)
+		CHAN M 0 A_PlaySound("human/gib")
+		CHAN M 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		CHAN O 5 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		GIBS MNO 5 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		GIBS PQRST 4
+		GIBS U 5
+		GIBS V 1400
+		Stop
+	// COMEDY DEATH STATES
+	Death.Explosive:
+		BEGR F 0 A_Jump(64,"XDeath")
+		BEGR F 0 A_GiveToTarget("ScoreItem",100)
+		TNT1 A 0 A_NoBlocking
+		BEGR F 0 ThrustThingZ(0,random(32,128),0,1)
+		BEGR F 0 A_Recoil(random(16,48))
+		CHAN J 2 A_Scream
+		goto CorpseFlying
+	CorpseFlying:
+		POSS J 0 A_GiveToTarget("ScoreItem",1)
+		BEGR G 0 A_SpawnItemEx("BloodShredSilent")
+		BEGR G 0 A_SpawnItemEx("MissilePart",0,0,8)
+		BEGR G 0 A_JumpIf(velx == 0||vely == 0,"CorpseCrater")
+		POSS I 1 A_CheckFloor("CorpseCrater")
+		BEGR F 0 A_GiveToTarget("ScoreItem",1)
+		BEGR H 0 A_SpawnItemEx("BloodShredSilent")
+		BEGR H 0 A_SpawnItemEx("MissilePart",0,0,8)
+		BEGR G 0 A_JumpIf(velx == 0||vely == 0,"CorpseCrater")
+		POSS J 1 A_CheckFloor("CorpseCrater")
+		loop
+	CorpseCrater:
+		BEGR M 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		BEGR N 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		BEGR N 0 A_PlaySound("human/gib")
+		BEGR F 0 A_GiveToTarget("ScoreItem",50)
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==8,"BirthdayParty")
+		BEGR N 0 A_Stop
+		goto Corpse+1
+	Death.Fire:
+		CHAN A 0 A_PlaySound("human/scream")
+		CHAN A 0 A_SpawnItemEx("Flame1A",0,0,32)
+		CHAN A 0 A_Recoil(-8)
+		CHAN A 0 A_SpawnItemEx("Ember1",0,0,32)
+		CHAN AAAA 1 A_SetAngle(12 + angle)
+		CHAN B 0 A_Recoil(-8)
+		CHAN A 0 A_SpawnItemEx("Flame2A",0,0,32)
+		CHAN BBBB 1 A_SetAngle(12 + angle)
+		CHAN C 0 A_Recoil(-8)
+		CHAN A 0 A_SpawnItemEx("Flame1A",0,0,32)
+		CHAN CCCC 1 A_SetAngle(12 + angle)
+		CHAN D 0 A_Recoil(-8)
+		CHAN DDDD 1 A_SetAngle(12 + angle)
+		CHAN A 0 A_SpawnItemEx("Flame3B",0,0,32)
+		CHAN A 0 A_Jump(128,"Death.Fire")
+		goto Death
+	DogWhistle:
+		TNT1 A 0 A_SpawnItemEx("Confusion",0,0,56)
+		//CHAN A 0 A_JumpIf(velz!=0,"MidAir")
+		CHAN A 2 A_Wander
+		CHAN A 0 A_JumpIf(velz!=0,"MidAir")
+		CHAN A 2 A_Wander
+		CHAN A 0 A_JumpIf(velz!=0,"MidAir")
+		CHAN B 2 A_Wander
+		CHAN A 0 A_JumpIf(velz!=0,"MidAir")
+		CHAN B 2 A_Wander
+		CHAN A 0 A_JumpIf(velz!=0,"MidAir")
+		TNT1 A 0 A_SpawnItemEx("Confusion",0,0,56)
+		CHAN C 2 A_Wander
+		CHAN A 0 A_JumpIf(velz!=0,"MidAir")
+		CHAN C 2 A_Wander
+		CHAN A 0 A_JumpIf(velz!=0,"MidAir")
+		CHAN D 2 A_Wander
+		CHAN A 0 A_JumpIf(velz!=0,"MidAir")
+		CHAN D 2 A_Wander
+		goto See
+	}
+}

@@ -1,0 +1,51 @@
+// Sports
+sports/welcometonbajam wlcm2jam // Intro for the sports arena
+$singular sports/welcometonbajam
+
+qback/hut		hut
+qback/ready		ready
+qback/down		down
+qback/touchdown touchdwn
+qback/secret1	qbsecrt1
+qback/secret2	qbsecrt2
+qback/secret3	qbsecrt3
+qback/secret4	qbsecrt4
+
+//Alien Ship
+duke/switch		SWITCH
+duke/switch2	ASWTCH23
+
+EDOOR10		EDOOR10
+EDOOR11		EDOOR11
+ADOOR1		ADOOR1
+ADOOR2		ADOOR2
+
+VENTBUST	VENTBUST
+$alias DNEXPLO		duke/bombexp
+$limit DNEXPLO	0
+
+turret/sight	ACTURR1
+turret/shot		ACTURR2
+
+//Boss Rush Arena
+// crowd sounds
+crowd/crowd-1		crowd-1
+crowd/crowd-2		crowd-2
+crowd/crowd-3		crowd-3
+crowd/crowd-4		crowd-4
+crowd/crowd-5		crowd-5
+crowd/crowd-6		crowd-6
+
+crowd/rushmiss		rushmiss
+
+bossrush/f-round	f-round
+bossrush/rushanno	rushanno
+
+$ambient 1 crowd/crowd-1 world	continuous	40
+$ambient 2 crowd/crowd-2 world	continuous	10
+$ambient 3 crowd/crowd-3 world	continuous	25
+$ambient 4 crowd/crowd-4 world	continuous	35
+$ambient 5 crowd/crowd-5 world	continuous	30
+$ambient 6 crowd/crowd-6 world	continuous	20
+
+$musicvolume MUS-RUSH 0.75

@@ -1,0 +1,4 @@
+// This file removes the pre-existing lock definitions, fixing a HUD display bug
+// when the player uses the IDKFA cheat. Cheater.
+
+CLEARLOCKS

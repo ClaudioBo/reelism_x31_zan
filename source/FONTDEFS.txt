@@ -1,0 +1,9 @@
+SMALLFONT
+{
+	Template STCF2%03d
+}
+
+SMALLFONT2
+{
+	Template STCFN%03d
+}

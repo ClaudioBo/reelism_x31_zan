@@ -1,0 +1,84 @@
+ACTOR HereticBarrel2 : Barrel Replaces Barrel 7112
+{
+	//$Category Reelism Props - X1
+	//$Title "Wooden Barrel"
+}
+
+ACTOR ZSkullHang35 : SkullHang35 Replaces SkullHang35 7113
+{
+	//$Category Reelism Props - X1
+	//$Title "Hanging Skull 1"
+}
+
+ACTOR ZSkullHang45 : SkullHang45 Replaces SkullHang45 7114
+{
+	//$Category Reelism Props - X1
+	//$Title "Hanging Skull 2"
+}
+
+ACTOR ZSkullHang60 : SkullHang60 Replaces SkullHang60 7115
+{
+	//$Category Reelism Props - X1
+	//$Title "Hanging Skull 3"
+}
+
+ACTOR ZSkullHang70 : SkullHang70 Replaces SkullHang70 7116
+{
+	//$Category Reelism Props - X1
+	//$Title "Hanging Skull 4"
+}
+
+ACTOR SerpentTorch2 : SerpentTorch 7119
+{
+	//$Category Reelism Props - X1
+	//$Title "Serpent Torch"
+}
+
+ACTOR FireBrazier2 : FireBrazier 7120
+{
+	//$Category Reelism Props - X1
+	//$Title "Brazier"
+}
+
+ACTOR Chandelier2 : Chandelier replaces Chandelier 7071
+{
+	//$Category Reelism Props - X1
+	//$Title "Chandelier"
+}
+
+ACTOR WallTorch2 : WallTorch Replaces WallTorch 7072
+{
+	//$Category Reelism Props - X1
+	//$Title "Torch"
+}
+
+ACTOR EnternalDoomTree1 : ZTreeLarge1 4013
+{
+	//$Category Reelism Props - X1
+	//$Sprite ETR1A0
+	//$Title "Eternal Doom Tree 1"
+	States
+	{
+	Spawn:
+		ETR1 A -1
+		Stop
+	}
+}
+
+ACTOR GargoyleStatue1 : ZStatueGargoyleGreenShort 4014
+{
+	//$Category Reelism Props - X1
+	//$Title "Short Gargoyle Statue"
+}
+
+ACTOR GargoyleStatue2 : ZStatueGargoyleGreenTall 4015
+{
+	//$Category Reelism Props - X1
+	//$Title "Tall Gargoyle Statue"
+}
+
+ACTOR Hexsuit : ZSuitOfArmor 4016
+{
+	//$Category Reelism Props - X1
+	//$Title "A Suit of Armor"
+}

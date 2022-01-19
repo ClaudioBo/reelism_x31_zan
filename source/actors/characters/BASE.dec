@@ -1,0 +1,317 @@
+// Splot - Base stats for monsters to reduce code duplication
+ACTOR MonsterTemplate
+{
+	Monster
+	//+FORCEXYBILLBOARD
+	+NOBLOCKMONST
+	+FLOORCLIP
+	+NOSPLASHALERT
+	+DROPOFF
+	+LOOKALLAROUND
+	DropItem "DynAmmo"
+	MaxStepHeight 32
+	MaxDropoffHeight 32
+	DamageFactor Bat,999
+	+DONTGIB
+	States
+	{
+	Idle:
+		"####" A 0 A_Jump(256,"See")
+	Death: // just to stop console errors on startup
+		"####" A 0
+		stop
+	// COMEDY PAIN STATES
+	Pain.Fists:
+		"####" A 0 A_FaceTarget
+		"####" A 0 A_Recoil(8)
+		"####" A 0 A_Jump(256,"Pain")
+	Pain.Bat:
+		"####" A 0 A_FaceTarget
+		"####" A 0 A_Recoil(16)
+		"####" A 0 ThrustThingZ(0,16,0,1)
+		"####" A 0 A_Jump(256,"Pain")
+	Pain.Melee:
+		"####" A 0
+		"####" A 0 A_PlaySound("attack/punch")
+		"####" A 0 A_Jump(256,"Pain")
+	// COMEDY DEATH STATES
+	Death.Fists:
+		"####" A 0 A_GiveToTarget("ScoreItem",20)
+		"####" A 0 A_FaceTarget
+		"####" A 0 A_Recoil(8)
+		"####" A 0 A_Jump(256,"Death")
+	Death.EnemyShotgun:
+	Death.SuperShotgun:
+		"####" A 0
+		"####" A 0 A_JumpIfCloser(72,"Death.SuperShotgunClose")
+	Death.Shotgun:
+		"####" A 0
+		"####" A 0 A_JumpIfCloser(72,"Death.ShotgunClose")
+		"####" A 0 A_FaceTarget
+		"####" A 0 A_Recoil(16)
+		"####" A 0 A_Jump(256,"Death")
+	Death.Drill:
+		"####" A 0 A_GiveToTarget("ScoreItem",20)
+		"####" A 0 A_FaceTarget
+		"####" A 0 A_Recoil(12)
+		"####" A 0 ThrustThingZ(0,32,0,1)
+		"####" A 0 A_Jump(64,"XDeath")
+		"####" A 0 A_Jump(256,"Death")
+	Death.Bat:
+		"####" A 0 A_GiveToTarget("ScoreItem",20)
+		"####" A 0 A_FaceTarget
+		"####" A 0 A_Recoil(48)
+		"####" A 0 ThrustThingZ(0,128,0,1)
+		"####" A 0 A_NoBlocking
+		"####" A 2 A_Scream
+		"####" A 0 A_Jump(256,"CorpseFlying")
+	Death.ShotgunClose:
+		"####" A 0 A_GiveToTarget("ScoreItem",20)
+		"####" A 0 A_FaceTarget
+		"####" A 0 A_Recoil(15)
+		"####" A 0 ThrustThingZ(0,30,0,1)
+		"####" A 0 A_NoBlocking
+		"####" A 2 A_Scream
+		"####" A 0 A_Jump(256,"CorpseFlying")
+	Death.SuperShotgunClose:
+		"####" A 0 A_GiveToTarget("ScoreItem",20)
+		"####" A 0 A_FaceTarget
+		"####" A 0 A_Recoil(50)
+		"####" A 0 ThrustThingZ(0,50,0,1)
+		"####" A 0 A_NoBlocking
+		"####" A 2 A_Scream
+		"####" A 0 A_Jump(256,"CorpseFlying")
+	Death.Melee:
+		"####" A 0 A_PlaySound("attack/punch")
+		"####" A 0 A_Jump(256,"Death")
+	Death.Nuke:
+		"####" A 0 A_GiveToTarget("ScoreItem",20)
+		"####" A 0 A_FaceTarget
+		"####" A 0 A_Recoil(48)
+		"####" A 0 ThrustThingZ(0,128,0,1)
+		"####" A 0 A_NoBlocking
+		"####" A 2 A_Scream
+		"####" A 0 A_Jump(256,"Death.Fire")
+	Death.CarCrash:
+		"####" A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==8,"BirthdayParty")
+		"####" A 0 A_FaceTarget
+		"####" A 0 A_PlaySound("car/smash")
+		"####" A 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		"####" A 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		"####" A 0 A_Recoil(random(-30,50))
+		"####" A 0 ThrustThingZ(0,random(30,50),0,1)
+		"####" A 0 A_NoBlocking
+		"####" A 2 A_Scream
+		"####" A 0 A_Jump(256,"CorpseFalling")
+	BirthdayParty:
+		TNT1 A 0 A_GiveToTarget("ScoreItem",100)
+		TNT1 A 0 A_NoBlocking
+		TNT1 A 0 A_Scream
+		TNT1 A 0 A_CustomMissile("BirthdayPartyBomb")
+		stop
+	Death.RunOver:
+		"####" A 0 A_NoBlocking
+		"####" A 0 A_SetScale(1)
+		"####" A 0 A_GiveToTarget("ScoreItem",130)
+		"####" A 0 A_PlaySound("tank/runover")
+		"####" AA 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		"####" A 0 A_Stop
+		GIBS VVV 1 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		GIBS V 1400
+		Stop
+	Death.Explosive:
+		"####" A 0
+		goto Death
+	Cleanup:
+		TNT1 A 0
+		stop
+	Death.Barkblast:
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==8,"BirthdayParty")
+		TNT1 A 0 A_NoBlocking
+		TNT1 A 0 A_GiveToTarget("ScoreItem",50)
+		TNT1 A 0 A_StopSound(CHAN_VOICE)
+		TNT1 A 0 A_PlaySound("human/gib")
+		TNT1 AA 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		GIBS MNO 5 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		GIBS PQRST 4
+		GIBS U 5
+		GIBS V 1400
+		Stop
+	Death.DukeRPG:
+		TNT1 A 0 A_GiveToTarget("ScoreItem",130)
+		TNT1 A 0 A_SpawnDebris("DukeGibs1")
+		TNT1 A 0 A_SpawnDebris("DukeGibs2")
+		TNT1 A 0 A_SpawnDebris("DukeGibs3")
+		TNT1 A 0 A_SpawnDebris("DukeGibs4")
+		TNT1 A 0 A_SpawnDebris("DukeGibs5")
+		TNT1 A 0 A_SpawnDebris("DukeGibs6")
+		TNT1 AAA 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		TNT1 A 0 A_PlaySound("duke/enemygib")
+		TNT1 A 0 A_Stop
+		GIBS V 1400 A_NoBlocking
+		Stop
+	Death.HolyBrick:
+	Death.Godly:
+		TNT1 A 0 A_SetScale(0.7)
+		TNT1 A 0 A_PlaySound("wolf/spearkill")
+		TNT1 A 0 A_GiveToTarget("ScoreItem",150)
+		TNT1 A 0 A_Scream
+		VAPO ABCDEFG 2 BRIGHT
+		VAPO H 3 BRIGHT A_NoBlocking
+		VAPO AAAAAAAAAAAA 0 A_CustomMissile(soul, 32, 0, random(0,359))
+		VAPO AAAAAAAAAAAA 0 A_CustomMissile(soul2, 32, 0, random(0,359))
+		Stop
+	Death.Defib:
+		TNT1 A 0 A_NoBlocking
+		TNT1 A 0 A_GiveToTarget("ScoreItem",50)
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_StopSound(CHAN_VOICE)
+		TNT1 A 0 A_PlaySound("human/gib")
+		TNT1 AA 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		TNT1 A 0 A_Stop
+		GIBS MNO 5 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		GIBS PQRST 4
+		GIBS U 5
+		GIBS V 1400
+		Stop
+	Death.Quantum:
+		TNT1 A 0 A_Jump(150,"Death.ShotgunClose","Death.Drill","Death.CarCrash","Death.RunOver")
+		TNT1 A 0 A_Jump(120,"Glitch1","Glitch2","Glitch3","Glitch4")
+		TNT1 A 0 A_GiveToTarget("ScoreItem",111)
+		TNT1 A 0 A_SpawnDebris("DukeGibs1")
+		TNT1 A 0 A_SpawnDebris("DukeGibs2")
+		TNT1 A 0 A_SpawnDebris("DukeGibs3")
+		TNT1 A 0 A_SpawnDebris("DukeGibs4")
+		TNT1 A 0 A_SpawnDebris("DukeGibs5")
+		TNT1 A 0 A_SpawnDebris("DukeGibs6")
+		TNT1 AAA 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		TNT1 A 0 A_PlaySound("duke/enemygib")
+		TNT1 A 0 A_Stop
+		GIBS V 4 A_NoBlocking
+		GIBS V 1400 A_SpawnItemEx("Whoopsy")
+		Stop
+	Glitch1:
+		TNT1 A 0 A_PlaySound ("weapons/quantum/glitch")
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 1 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	Glitch2:
+		TNT1 A 0 A_PlaySound ("weapons/quantum/glitch")
+		TNT1 AAAAAAAAAAAAAA 24 A_SpawnItemEx("Glitchman2",0,0,128)
+		Stop
+	Glitch3:
+		TNT1 A 0 A_PlaySound ("weapons/quantum/glitch")
+		TNT1 A 1 A_SpawnItemEx("Glitchman1")
+		Stop
+	Glitch4:
+		TNT1 A 0 A_PlaySound ("weapons/quantum/glitch")
+		TNT1 A 1 A_SpawnItemEx("Glitchman3")
+		Stop
+	Ice:
+		"####" "#" 0 A_ChangeFlag("FLOATBOB",0)
+		"####" "#" 5 A_GenericFreezeDeath
+		"####" "#" 0 A_JumpIf(ACS_ExecuteWithResult(901) ==8,"BirthdayParty")
+		"####" "#" 0 A_GiveToTarget("ScoreItem",130)
+		"####" "#" 1 A_FreezeDeathChunks
+		wait
+	}
+}
+
+ACTOR Glitchman1
+{
+	Radius 40
+	Height 110
+	Mass 1000
+	States
+	{
+	Spawn:
+		MRGT ABCDEFGHI 10
+		MRPN ABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCD 1 A_PlaySound("beggar/die")
+		Stop
+	}
+}
+
+ACTOR Glitchman2
+{
+	Height 56
+	Mass 1000
+	States
+	{
+	Spawn:
+		CYBR AH 10
+		CYBR I 10 A_PlaySound("cyber/death")
+		CYBR JKL 10
+		CYBR M 10
+		CYBR NO 10
+		CYBR P 1600
+		Stop
+	}
+}
+
+ACTOR Glitchman3
+{
+	Radius 40
+	Height 110
+	Mass 1000
+	States
+	{
+	Spawn:
+		MSNG A 32
+		MSNG A 84 A_SpawnItemEx("Confusion",0,0,56)
+		Stop
+	}
+}
+
+actor soul
+{
+	Radius 8
+	Height 6
+	Speed 20
+	SCALE 0.25
+	PROJECTILE
+	+NOBLOCKMAP
+	States
+	{
+	Spawn:
+		SOUL A 1 Bright A_ChangeVelocity (0.0, 0.0, random(-5.0,5.0),0)
+		loop
+	Death:
+		SOUL A 3 Bright a_fadeout
+		loop
+	}
+}
+
+actor soul2 : soul
+{
+	Speed 0
+	States
+	{
+	Spawn:
+		SOUL B 1 Bright A_ChangeVelocity (0, 0, Random(10.0,20.0),0)
+		Loop
+	Death:
+		SOUL B 3 Bright a_fadeout
+		loop
+	}
+}
+
+ACTOR CrushDamage
+{
+	Radius 32
+	Height 1
+	Damage 5
+	Projectile
+	+RANDOMIZE
+	+BLOODSPLATTER
+	RenderStyle Add
+	Alpha 0.75
+	Obituary "$OB_MPPLASMARIFLE"
+	damagetype Stomp
+	+NOEXTREMEDEATH
+	States
+	{
+	Spawn:
+	Death:
+		TNT1 A 1
+		Stop
+	}
+}

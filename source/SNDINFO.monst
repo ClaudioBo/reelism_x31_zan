@@ -1,0 +1,424 @@
+// Splot - Monster Sounds
+
+// Imps
+$random imp/see{imp/see1 imp/see2}
+imp/see1	impsee1
+imp/see2	impsee2
+
+$random imp/hurt{imp/hurt1 imp/hurt2}
+imp/hurt1	imphurt1
+imp/hurt2	imphurt2
+
+$random imp/die{imp/die1 imp/die2}
+imp/die1	impdie1
+imp/die2	impdie2
+
+$random imp/fire{imp/fire1 imp/fire2}
+imp/fire1	impfire1
+imp/fire2	impfire2
+
+// Juvenile Imps
+$random jmp/see{jmp/see1 jmp/see2}
+jmp/see1	jmpsee1
+jmp/see2	jmpsee2
+
+$random jmp/hurt{jmp/hurt1 jmp/hurt2}
+jmp/hurt1	jmphurt1
+jmp/hurt2	jmphurt2
+
+$random jmp/die{jmp/die1 jmp/die2}
+jmp/die1	jmpdie1
+jmp/die2	jmpdie2
+
+$random jmp/fire{jmp/fire1 jmp/fire2}
+jmp/fire1	jmpfire1
+jmp/fire2	jmpfire2
+
+// Senior Imps
+$random amp/see{amp/see1 amp/see2}
+amp/see1	ampsee1
+amp/see2	ampsee2
+
+$random amp/hurt{amp/hurt1 amp/hurt2}
+amp/hurt1	amphurt1
+amp/hurt2	amphurt2
+
+$random amp/die{amp/die1 amp/die2}
+amp/die1	ampdie1
+amp/die2	ampdie2
+
+$random amp/fire{amp/fire1 amp/fire2}
+amp/fire1	ampfire1
+amp/fire2	ampfire2
+
+// Manchildren
+$random brony/chat{brony/chat1 brony/chat2 brony/chat3 brony/chat4 brony/chat5 brony/chat6}
+brony/chat1		brony1
+brony/chat2		brony2
+brony/chat3		brony3
+brony/chat4		brony4
+brony/chat5		brony5
+brony/chat6		brony6
+
+$random brony/pain{brony/pain1 brony/pain2 brony/pain3 brony/pain4 brony/pain5 brony/pain6}
+brony/pain1		bronyp1
+brony/pain2		bronyp2
+brony/pain3		bronyp3
+brony/pain4		bronyp4
+
+$random brony/die{brony/die1 brony/die2 brony/die3 brony/die4 brony/die5 brony/die6}
+brony/die1		bronyd1
+brony/die2		bronyd2
+brony/die3		bronyd3
+brony/die4		bronyd4
+
+// Eye Monster
+eye/die			eyedie
+
+$random eye/idle{eye/idle1 eye/idle2 eye/idle3}
+eye/idle1		eyedle1
+eye/idle2		eyedle2
+eye/idle3		eyedle3
+
+$random eye/fire{eye/fire1 eye/fire2 eye/fire3}
+eye/fire1		eyefire1
+eye/fire2		eyefire2
+eye/fire3		eyefire3
+
+// Tankbot
+tankbot/die		tbotdie
+tankbot/boom	tbotboom
+
+// Firebot
+$random robot/body{robot/body1 robot/body2 robot/body3}
+robot/body1		botty1
+robot/body2		botty2
+robot/body3		botty3
+
+robot/walk		botwalk
+
+firebot/die		fbotdie
+
+laser/fire		lasrfire
+$limit laser/fire 0
+$random laser/hit{laser/hit1 laser/hit2}
+laser/hit1		lasrhit1
+laser/hit2		lasrhit2
+
+// Jetpack Larry
+larry/jetpack	jetpakj
+
+$random larry/death{larry/death1 larry/death2 larry/death3 larry/death4 larry/death5 larry/death6 larry/death7}
+larry/death1	jdie1
+larry/death2	jdie2
+larry/death3	jdie3
+larry/death4	jdie4
+larry/death5	jdie5
+larry/death6	jdie6
+larry/death7	jdie7
+
+// jerk
+jerk/see		jerksee
+
+$random jerk/run{jerk/run1 jerk/run2 jerk/run3 jerk/run4}
+jerk/run1		jerkrun1
+jerk/run2		jerkrun2
+jerk/run3		jerkrun3
+jerk/run4		jerkrun4
+
+// Jackpot - Sawnik
+$random sawnik/chat{sawnik/chat1 sawnik/chat2 sawnik/chat3 sawnik/chat4}
+sawnik/chat1	sawnik1
+sawnik/chat2	sawnik2
+sawnik/chat3	sawnik3
+sawnik/chat4	sawnik4
+sawnik/die		sawndie
+
+// XP1 ADDITIONS
+
+// dogs
+$random dog/doggy{dog/doggy1 dog/doggy2}
+dog/doggy1		dog1
+dog/doggy2		dog2
+$random dog/die{dog/die1 dog/die2}
+dog/die1		dogdie1
+dog/die2		dogdie2
+
+// sectoid
+sectoid/pain	sectpain
+sectoid/die		sectdie
+
+// halt
+halt/halt		halthalt
+halt/die		haltdie
+$random halt/pain{halt/pain1 halt/pain2}
+halt/pain1		haltp1
+halt/pain2		haltp2
+
+// Bat Ghost
+batghost/attack		batgatk
+batghost/die		batgdie
+batghost/pain		batghurt
+batghost/idle		batgidle
+
+// Archer
+$random archer/idle{archer/idle1 archer/idle2 archer/idle3 archer/idle4}
+archer/idle1		archidl1
+archer/idle2		archidl2
+archer/idle3		archidl3
+archer/idle4		archidl4
+
+archer/pain		archpain
+
+$random archer/die{archer/die1 archer/die2}
+archer/die1		archdie1
+archer/die2		archdie2
+
+// Scientist Zombie
+scizom/see		scisee
+scizom/idle		sciidle
+scizom/pain		scipain
+zombie/dart		dart
+$random scizom/die{scizom/die1 scizom/die2 scizom/die3}
+scizom/die1		scidie1
+scizom/die2		scidie2
+scizom/die3		scidie3
+
+// Wolfenstein Enemies
+
+// Brownshirt
+//Enemy Weapon Sounds
+wolf3d/single		WOLFSHOT
+wolf3d/burst		WOLFBRST
+
+brown/sight		BRNSIT
+brown/pain		SOLDP
+
+white/sight		WHTSIT
+white/death		WHTDT
+
+$random brown/death	{ brown/die1 brown/die2 brown/die3 brown/die4 brown/die5 brown/die6 brown/die7 }
+brown/die1		SOLDT1
+brown/die2		SOLDT2
+brown/die3		SOLDT3
+brown/die4		SOLDT4
+brown/die5		SOLDT5
+brown/die6		SOLDT6
+brown/die7		SOLDT7
+
+// Cars
+car/drive		car
+$random car/smash { car/smash1 car/smash2 }
+car/smash1		carhit1
+car/smash2		carhit2
+
+// Real Zombies
+$random realzed/see { realzed/see1 realzed/see2 }
+realzed/see1			rzsee1
+realzed/see2			rzsee2
+
+realzed/pain			rzpain
+realzed/idle			rzidle
+
+$random realzed/die { realzed/die1 realzed/die2 realzed/die3 }
+realzed/die1			rzdie1
+realzed/die2			rzdie2
+realzed/die3			rzdie3
+
+$random gibbage/xgibst			{gibbage/git1 gibbage/git2 gibbage/git3}
+gibbage/git1				git1
+gibbage/git2				git2
+gibbage/git3				git3
+
+// Cowboys
+cowboy/pistol				cowgun1
+cowboy/rifle				cowgun2
+
+$random cowboy/pain { cowboy/pain1 cowboy/pain2 cowboy/pain3 cowboy/pain4 cowboy/pain5 cowboy/pain6 cowboy/pain7 cowboy/pain8 }
+cowboy/pain1				cowhit1
+cowboy/pain2				cowhit2
+cowboy/pain3				cowhit3
+cowboy/pain4				cowhit4
+cowboy/pain5				cowhit5
+cowboy/pain6				cowhit6
+cowboy/pain7				cowhit7
+cowboy/pain8				cowhit8
+
+$random cowboy/die { cowboy/die1 cowboy/die2 cowboy/die3 cowboy/die4 cowboy/die5 cowboy/die6 cowboy/die7 cowboy/die8 cowboy/die9 }
+cowboy/die1					cowdie1
+cowboy/die2					cowdie2
+cowboy/die3					cowdie3
+cowboy/die4					cowdie4
+cowboy/die5					cowdie5
+cowboy/die6					cowdie6
+cowboy/die7					cowdie7
+cowboy/die8					cowdie8
+cowboy/die9					cowdie9
+
+$random cowboy/slim { cowboy/slim1 cowboy/slim2 cowboy/slim3 cowboy/slim4 cowboy/slim5 cowboy/slim6 cowboy/slim7 cowboy/slim8 }
+cowboy/slim1				slim1
+cowboy/slim2				slim2
+cowboy/slim3				slim3
+cowboy/slim4				slim4
+cowboy/slim5				slim5
+cowboy/slim6				slim6
+cowboy/slim7				slim7
+cowboy/slim8				slim8
+
+$random cowboy/tubs { cowboy/tubs1 cowboy/tubs2 cowboy/tubs3 cowboy/tubs4 cowboy/tubs5 }
+cowboy/tubs1				tubs1
+cowboy/tubs2				tubs2
+cowboy/tubs3				tubs3
+cowboy/tubs4				tubs4
+cowboy/tubs5				tubs5
+
+$random cowboy/rifler { cowboy/rifler1 cowboy/rifler2 cowboy/rifler3 cowboy/rifler4 cowboy/rifler5 cowboy/rifler6 cowboy/rifler7 cowboy/rifler8 }
+cowboy/rifler1				cowb1
+cowboy/rifler2				cowb2
+cowboy/rifler3				cowb3
+cowboy/rifler4				cowb4
+cowboy/rifler5				cowb5
+cowboy/rifler6				cowb6
+cowboy/rifler7				cowb7
+cowboy/rifler8				cowb8
+
+// bob
+bob/attack		bobattk
+bob/burn		bobburn
+bob/pain		bobpain
+
+$random bob/die { bob/die1 bob/die2 }
+bob/die1		bobdie1
+bob/die2		bobdie2
+
+$random bob/gab { bob/gab1 bob/gab2 bob/gab3 bob/gab4 bob/gab5 bob/gab6 bob/gab7 bob/gab8 bob/gab9 }
+bob/gab1		bobgab1
+bob/gab2		bobgab2
+bob/gab3		bobgab3
+bob/gab4		bobgab4
+bob/gab5		bobgab5
+bob/gab6		bobgab6
+bob/gab7		bobgab7
+bob/gab8		bobgab8
+bob/gab9		bobgab9
+
+$random bob/ric { bob/ric1 bob/ric2 }
+bob/ric1		bobric1
+bob/ric2		bobric2
+
+// Oopsie
+$random oopsie/alert { oopsie/alert1 oopsie/alert2 oopsie/alert3 }
+oopsie/alert1		oopalrt1
+oopsie/alert2		oopalrt2
+oopsie/alert3		oopalrt3
+
+$random oopsie/die { oopsie/die1 oopsie/die2 }
+oopsie/die1		oopdie1
+oopsie/die2		oopdie2
+
+oopsie/pain		oophurt
+
+$random oopsie/puke { oopsie/puke1 oopsie/puke2 oopsie/puke3 oopsie/puke4 }
+oopsie/puke1		ooppuke1
+oopsie/puke2		ooppuke2
+oopsie/puke3		ooppuke3
+oopsie/puke4		ooppuke4
+
+// skeleton
+skeleton/attack		skelatk
+
+$random skeleton/die {skeleton/die1 skeleton/die2 skeleton/die3 }
+skeleton/die1		skeldie1
+skeleton/die2		skeldie2
+skeleton/die3		skeldie3
+
+$random skeleton/walk {skeleton/walk1 skeleton/walk2}
+skeleton/walk1		skelwlk1
+skeleton/walk2		skelwlk2
+
+$random skeleton/bones {skeleton/bones1 skeleton/bones2 skeleton/bones3 skeleton/bones4 skeleton/bones5 skeleton/bones6}
+skeleton/bones1		bones1
+skeleton/bones2		bones2
+skeleton/bones3		bones3
+skeleton/bones4		bones4
+skeleton/bones5		bones5
+skeleton/bones6		bones6
+
+// revenant
+revenant/sight			revsit
+revenant/active			revact
+revenant/pain			dspopain
+revenant/melee			revpch
+revenant/swing			revswg
+revenant/death			revdth
+revenant/attack			revatk
+revenant/tracex			revexp
+
+// crudux cruo!!
+$random cultist/die	{ cultist/die1 cultist/die2 }
+cultist/die1		cultdie1
+cultist/die2		cultdie2
+
+$random cultist/burn	{ cultist/burn1 cultist/burn2 cultist/burn3}
+cultist/burn1		cultfir1
+cultist/burn2		cultfir2
+cultist/burn3		cultfir3
+
+$random cultist/pain	{ cultist/pain1 cultist/pain2 cultist/pain3 cultist/pain4 }
+cultist/pain1		cultpai1
+cultist/pain2		cultpai2
+cultist/pain3		cultpai3
+cultist/pain4		cultpai4
+
+$random cultist/shotgun	{ cultist/shotgun1 cultist/shotgun2 }
+cultist/shotgun1	cultsht1
+cultist/shotgun2	cultsht2
+cultist/tommy		culttomy
+
+$random cultist/rant	{ cultist/rant1 cultist/rant2 cultist/rant3 cultist/rant4 cultist/rant5 cultist/rant6 cultist/rant7 cultist/rant8 cultist/rant9 }
+cultist/rant1		cultrnt1
+cultist/rant2		cultrnt2
+cultist/rant3		cultrnt3
+cultist/rant4		cultrnt4
+cultist/rant5		cultrnt5
+cultist/rant6		cultrnt6
+cultist/rant7		cultrnt7
+cultist/rant8		cultrnt8
+cultist/rant9		cultrnt9
+
+$random rtsguy/pain	{ rtsguy/pain1 rtsguy/pain2 rtsguy/pain3 }
+rtsguy/pain1		rts-pain1
+rtsguy/pain2		rts-pain2
+rtsguy/pain3		rts-pain3
+
+$random rtsguy/die	{ rtsguy/die1 rtsguy/die2 rtsguy/die3 }
+rtsguy/die1		rts-die1
+rtsguy/die2		rts-die2
+rtsguy/die3		rts-die3
+
+$random rtsguy/idle { rtsguy/idle1 rtsguy/idle2 rtsguy/idle3 rtsguy/idle4 rtsguy/idle5 }
+rtsguy/idle1	rts-idle1
+rtsguy/idle2	rts-idle2
+rtsguy/idle3	rts-idle3
+rtsguy/idle4	rts-idle4
+rtsguy/idle5	rts-idle5
+
+rtsguy/fire		rts-pist
+
+rtsguy/unitlost	rts-ulost
+
+rts/baseland		rts-base
+
+// Jumper
+8jumper/melee			8knife
+8jumper/jump			8jump
+8jumper/land			8land
+
+// animu
+$random jackpot/anime/idle 	{ jackpot/anime/idle1 jackpot/anime/idle2 jackpot/anime/idle3 }
+jackpot/anime/idle1		an-idle1
+jackpot/anime/idle2		an-idle2
+jackpot/anime/idle3		an-idle3
+
+jackpot/anime/pain		an-pain
+jackpot/anime/die		an-die

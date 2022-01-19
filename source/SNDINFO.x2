@@ -1,0 +1,5 @@
+spacemap/bossopen			omegopen
+spacemap/bossclose			omegclos
+
+world/volcano/blast		lobhit
+world/volcano/shoot		bstatk

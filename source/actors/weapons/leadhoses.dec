@@ -1,0 +1,344 @@
+// Splot - Lead Hoses
+
+// Minigun
+// Edited from Realm667 Armory "UberMinigun" by lolo_is_cool
+
+ACTOR NewMinigun : Weapon
+{
+	Inventory.PickupMessage "$GOTMINIGUN"
+	Tag "$TAGMINIGUN"
+	Inventory.PickupSound "misc/w_pkup"
+	Weapon.SelectionOrder 400
+	Weapon.Kickback 90
+	Weapon.AmmoType "DoomClip"
+	Weapon.AmmoGive 100
+	Weapon.AmmoUse 1
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(902)==5||ACS_ExecuteWithResult(904)>0,2)
+		TNT1 A 0 A_ChangeFlag("DROPPED",0)
+		TSSX A 1050 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	Ready:
+		TSSN A 1 A_WeaponReady
+		Loop
+	Deselect:
+		TSSN A 0 A_StopSound(6)
+		TSSN A 0 A_PlaySound("weapons/in")
+		//TSSN A 0 A_Lower
+		TSSN A 1 A_Lower
+		goto Deselect+2
+	Select:
+		TSSN A 0 A_StopSound(6)
+		TSSN A 0 A_PlaySound("weapons/miniout")
+		//TSSN A 0 A_Raise
+		TSSN A 1 A_Raise
+		goto Select+2
+	Fire:
+		TSSN B 6 A_PlaySound("weapons/minigunup",6)
+		TSSN C 5
+		TSSN D 4
+		TSSN A 3
+		TSSN B 2
+		TSSN CDABCDABCDABCDABC 1
+		TSSN D 0 A_ReFire
+	WindDown:
+		TSSN A 1 A_PlaySound("weapons/minigundown",6)
+		TSSN B 2
+		TSSN C 3
+		TSSN D 4
+		TSSN A 5
+		TSSN BCD 6
+		TNT1 A 0 A_CheckReload
+		Goto Ready
+	Hold:
+		TSSF A 0 A_GunFlash
+		TSSF A 0 A_Quake(8,2,0,128,"null")
+		TSSF A 0 A_PlaySound("weapons/minigun",CHAN_WEAPON)
+		TSSF A 0 A_PlaySound("weapons/minigunhold",6,1,1)
+		TSSF B 1 BRIGHT A_FireBullets(5.6,0,2,5,"HandgunPuff")
+		TSSN D 1 A_FireCustomMissile("BulletCasingSpawn",5,0,8,-9)
+		TSSN D 0 A_JumpIfNoAmmo("WindDown")
+		TSSN D 0 A_ReFire
+		Goto WindDown
+	}
+}
+
+// SUPERWEAPON - Instant Discharge Cannon
+
+ACTOR IDC : Weapon
+{
+	Weapon.SelectionOrder 700
+	Weapon.AmmoUse 1
+	Weapon.AmmoGive 50
+	Weapon.AmmoType "DoomClip"
+	Inventory.PickupMessage "$GOT1SHOT" // "You got the chaingun"
+	Tag "$TAG1SHOT"
+	Inventory.PickupSound "misc/ws_pkup"
+	States
+	{
+	Ready:
+		HSTM A 1 A_WeaponReady
+		Loop
+	Deselect:
+		HSTM A 0 A_PlaySound("weapons/in")
+		TNT1 A 0 A_Lower
+		HSTM A 1 A_Lower
+		goto Deselect+1
+	Select:
+		HSTM A 0 A_PlaySound("weapons/in")
+		TNT1 A 0 A_Raise
+		HSTM A 1 A_Raise
+		goto Select+1
+	Fire:
+		HSTM A 0 A_JumpIfInventory("PowerInfiniteAmmoFixed", 1, "YouFuckedUp")
+		HSTM A 0 A_FireBullets(0,0,2,5,"HandgunPuff")
+		HSTM A 0 A_FireCustomMissile("BulletCasingSpawn",5,0,8,-9)
+		HSTM A 0 A_JumpIfNoAmmo("WindDown")
+		loop
+	WindDown:
+		HSTM B 2 A_PlaySound("weapons/idc",CHAN_WEAPON)
+		HSTM CDE 2
+		HSTM AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_CheckReload
+		Goto Ready
+	YouFuckedUp:
+		HSTM A 0 A_PlaySound("jackpot/evillaugh")
+		HSTM A 100 // Message Goes Here
+		HSTM A 0 A_PlaySound("jackpot/smite")
+	Boom:
+		HSTM A 1 A_SpawnItemEx("ThunderboltWhoopsie",random(0,8),random(0,8),random(10,30),0,0,0,random(0,360))
+		TNT1 A 0 A_JumpIf(Health > 0,"Boom")
+		Goto Deselect
+	Spawn:
+		//TNT1 A 0
+		//TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(902)==5||ACS_ExecuteWithResult(904)>0,2)
+		//TNT1 A 0 A_ChangeFlag("DROPPED",0)
+		HSTM F 1050 BRIGHT
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	}
+}
+
+// Powerslave M60
+// Edited from Re-Exhumed by Maxxy
+// and ww-nazis by Wildweasel
+// (a marriage made in hell?)
+
+actor M60 : Weapon
+{
+	Inventory.PickupMessage "$GOTM60"
+	Tag "$TAGM60"
+	Inventory.PickupSound "misc/w_pkup"
+	Weapon.AmmoType "DoomClip"
+	Weapon.Ammouse 1
+	Weapon.Ammogive 24
+	scale 0.4
+	AttackSound "weapons/m90/fire"
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(902)==5||ACS_ExecuteWithResult(904)>0,2)
+		TNT1 A 0 A_ChangeFlag("DROPPED",0)
+		WM60 A 1050 BRIGHT
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	Select:
+		W60_ A 0 A_Raise
+		Loop
+	Ready:
+		W60_ A 0 A_PlaySound("weapons/m90/up")
+		W60S ABCDEFGHIJKLMNOPQRSTUV 1
+		goto Ready2
+	Ready2:
+		W60_ A 1 A_WeaponReady
+		loop
+	Deselect:
+		W60_ A 0 A_PlaySound("weapons/m90/down")
+		W60D ABCDEFGHIJK 1
+		W60_ A 0 A_Lower
+		Wait
+	Fire:
+		W60F A 0 A_PlaySound("weapons/m90/fire",CHAN_WEAPON)
+		W60F A 1 A_FireCustomMissile("M60Tracer",frandom(-1.5,1.5),1,16,0,0,frandom(-0.8,0.8))
+		TNT1 A 0 A_Recoil(0.1 * cos(pitch))
+		TNT1 A 0 A_SetAngle(angle + frandom(-0.25, 0.25))
+		TNT1 A 0 A_CustomMissile("BulletCasingSpawn", 32, 16, 0, CMF_AIMDIRECTION, -pitch)
+		W60F B 1 A_SetPitch(pitch - 0.1)
+		W60F C 1
+		W60F D 1 A_SetPitch(pitch + 0.05)
+		W60F D Random(1,2)
+		TNT1 A 0 A_Refire
+		goto Ready2
+	}
+}
+
+ACTOR Tracer : FastProjectile
+{
+	Alpha .9
+	RenderStyle Add
+	Radius 2
+	Height 2
+	Speed 90
+	PROJECTILE
+	+BLOODSPLATTER
+	Scale .4
+	MissileType TracerTrail
+	MissileHeight 8
+	Decal BulletChip
+	States
+	{
+	Spawn:
+		PUFF A 1 BRIGHT A_JumpIfTracerCloser(96,"Whiz")
+		Loop
+	Whiz:
+		PUFF A -1 BRIGHT A_SpawnItemEx("Whizzer")
+		Stop
+	Death:
+	Crash:
+		PUFF A 0 A_SpawnDebris("TracerSpark")
+		PUFF A 2 BRIGHT A_PlaySound("weapons/ric")
+		PUFF BCD 2 BRIGHT
+		Stop
+	XDeath:
+		TNT1 A 3 A_PlaySound("human/damage",CHAN_AUTO)
+		Stop
+	}
+}
+
+ACTOR Whizzer
+{
+	States
+	{
+	Spawn:
+		TNT1 A 1 A_PlaySound("whiz")
+		Stop
+	}
+}
+
+ACTOR TracerTrail
+{
+	Alpha .75
+	RenderStyle Add
+	+NOBLOCKMAP
+	+NOGRAVITY
+	+NOTELEPORT
+	+CANNOTPUSH
+	+NODAMAGETHRUST
+	Scale .4
+	States
+	{
+	Spawn:
+		PUFF A 1 BRIGHT A_FadeOut(0.3)
+		Loop
+	}
+}
+
+ACTOR TracerSpark
+{
+	Health 4
+	Radius 3
+	Height 6
+	Speed .1
+	RenderStyle Add
+	Scale .5
+	Mass 0
+	+MISSILE
+	BounceType Doom
+	+FLOORCLIP
+	+DONTSPLASH
+	+NOTELEPORT
+	States
+	{
+	Spawn:
+		PUFF A 1
+		PUFF A 5 BRIGHT A_SetTranslucent(.8,1)
+		PUFF A 6 BRIGHT A_SetTranslucent(.6,1)
+		PUFF A 8 BRIGHT A_SetTranslucent(.4,1)
+		PUFF A 10 BRIGHT A_SetTranslucent(.2,1)
+		Stop
+	}
+}
+
+// Tracer Variants for every weapon and enemy
+ACTOR M60Tracer : Tracer
+{
+	Damage 6
+}
+
+ACTOR DevilDriverTracer : Tracer
+{
+	Damage 4
+}
+
+// Burst Rifle, art by DoomNukem
+ACTOR BurstRifle : Weapon
+{
+	Inventory.PickupSound "misc/w_pkup"
+	Inventory.PickupMessage "$GOTBURST"
+	Tag "$TAGBURST"
+	Weapon.AmmoUse 1
+	Weapon.AmmoGive 24
+	Weapon.AmmoType "DoomClip"
+	AttackSound "weapons/burstgun"
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(902)==5||ACS_ExecuteWithResult(904)>0,2)
+		TNT1 A 0 A_ChangeFlag("DROPPED",0)
+		BURS Z 1050 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	Ready:
+		BURS A 1 A_WeaponReady
+		Loop
+	Deselect:
+		BURS A 0 A_PlaySound("weapons/in")
+		TNT1 A 0 A_Lower
+		BURS A 1 A_Lower
+		goto Deselect+1
+	Select:
+		BURS A 0 A_PlaySound("weapons/out")
+		TNT1 A 0 A_Raise
+		BURS A 1 A_Raise
+		goto Select+1
+	Fire:
+		BURS A 0
+		BURS B 1 BRIGHT Offset(0,36) A_FireBullets(5.6,5.6,2,5,"HandgunPuff")
+		BURS B 0 A_FireCustomMissile("BulletCasingSpawn",5,0,8,-9)
+		BURS B 1 Offset(0,38)
+		BURS C 2 Offset(0,39)
+		BURS C 0 A_JumpIfNoAmmo("Finish1")
+		BURS B 2 Offset(0,37) BRIGHT A_FireBullets(5.6,5.6,2,5,"HandgunPuff")
+		BURS B 0 A_FireCustomMissile("BulletCasingSpawn",5,0,8,-9)
+		BURS B 1 Offset(0,40)
+		BURS C 2 Offset(0,41)
+		BURS C 0 A_JumpIfNoAmmo("Finish2")
+		BURS B 1 BRIGHT Offset(0,39) A_FireBullets(5.6,5.6,2,5,"HandgunPuff")
+		BURS B 0 A_FireCustomMissile("BulletCasingSpawn",5,0,8,-9)
+		BURS B 1 Offset(0,43)
+		BURS C 2 Offset(0,44)
+		BURS C 0 A_JumpIfNoAmmo("Finish3")
+		BURS B 1 BRIGHT Offset(0,41) A_FireBullets(5.6,5.6,2,5,"HandgunPuff")
+		BURS B 0 A_FireCustomMissile("BulletCasingSpawn",5,0,8,-9)
+		BURS B 1 Offset(0,44)
+		BURS C 4 Offset(0,45)
+		BURS A 1 Offset(0,43)
+		Finish3:
+		BURS A 1 Offset(0,41)
+		Finish2:
+		BURS A 1 Offset(0,39)
+		Finish1:
+		BURS A 1 Offset(0,37)
+		BURS A 1 Offset(0,35)
+		BURS A 1 Offset(0,33)
+		BURS A 1 Offset(0,32)
+		BURS A 4
+		Goto Ready
+	}
+}

@@ -1,0 +1,47 @@
+:dukedoor1
+	door		1
+	playuntildone	EDOOR10
+	nostopcutoff
+end
+
+:dukedoor2
+	door		2
+	playuntildone	EDOOR11
+	nostopcutoff
+end
+
+:dukedoor3
+	door		3
+	playuntildone	ADOOR1
+	nostopcutoff
+end
+
+:dukedoor4
+	door		4
+	playuntildone	ADOOR2
+	nostopcutoff
+end
+
+:dukeplat1
+	platform	1
+	playuntildone	NULL
+	nostopcutoff
+end
+
+:dukeplat2
+	platform	2
+	playuntildone	NULL
+	nostopcutoff
+end
+
+:dukeplat3
+	platform		3
+	playuntildone	NULL
+	nostopcutoff
+end
+
+:dukeplat4
+	platform		4
+	playuntildone	NULL
+	nostopcutoff
+end

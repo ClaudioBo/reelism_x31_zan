@@ -1,0 +1,196 @@
+// Splot - Base Sounds
+//null		dsempty
+
+mapescape	BZK_CHIC
+
+// Player
+$playeralias	player	male	*death		player/die
+$playersound	player	male	*xdeath		pxdie1
+$playeralias	player	male	*gibbed		human/gib
+$playeralias	player	male	*pain100	player/hurt
+$playersounddup	player	male	*pain75		*pain100
+$playersounddup	player	male	*pain50		*pain100
+$playersounddup	player	male	*pain25		*pain100
+$playersound	player	male	*grunt		pgrunt
+$playersound	player	male	*land		pland
+$playersound	player	male	*jump		pjump1
+$playersound	player	male	*fist		dspunch
+$playersound	player	male	*usefail	pgrunt
+$playersound	player	male	*falling	playfall
+
+$playeralias	chicken male	*usefail	chicken/peck
+$PlayerAlias   	Chicken Male   	*Grunt   	chicken/pain
+$PlayerAlias   	Chicken Male   	*Land      	chicken/pain
+$PlayerAlias   	Chicken Male   	*Jump      	chicken/active
+$PlayerAlias   	Chicken Male   	*EvilLaugh 	chicken/active
+
+$random player/hurt{player/hurt1 player/hurt2 player/hurt3 player/hurt4 player/hurt5 player/hurt6}
+player/hurt1	phurt1
+player/hurt2	phurt2
+player/hurt3	phurt3
+player/hurt4	phurt4
+player/hurt5	phurt5
+player/hurt6	phurt6
+
+$random player/die{player/die1 player/die2 player/die3 player/die4}
+player/die1		pdie1
+player/die2		pdie2
+player/die3		pdie3
+player/die4		pdie4
+
+player/frozen	pdieice
+
+chicken/sight			chicpai
+chicken/pain			chicpai
+chicken/death			chicdth
+chicken/attack			chicatk
+
+//Morphs
+
+//Tank
+$playersound	Tank	male	*death		dsempty
+$playersounddup	Tank	male	*xdeath		*death
+$playersound	Tank	male	*grunt		dsempty
+$playersound	Tank	male	*land		dsempty
+$playersound	Tank	male	*jump		dsempty
+$playersound	Tank	male	*usefail	dsempty
+$playersound	Tank	male	*falling	dsempty
+//Dog
+$playersound	Dog	male	*death		dsempty
+$playersound	Dog	male	*xdeath		dsempty
+$playersound	Dog	male	*pain100	dsempty
+$playersound	Dog	male	*pain75		dsempty
+$playersound	Dog	male	*pain50		dsempty
+$playersound	Dog	male	*pain25		dsempty
+$playersound	Dog	male	*grunt		dsempty
+$playersound	Dog	male	*land		dsempty
+$playersound	Dog	male	*jump		dsempty
+$playersound	Dog	male	*usefail	dsempty
+$playersound	Dog	male	*falling	dsempty
+//Cyberdemon
+$playeralias	Cyberdemon	male	*death		cyber/death
+$playersounddup	Cyberdemon	male	*xdeath		*death
+$playeralias	Cyberdemon	male	*pain100	cyber/pain
+$playersounddup	Cyberdemon	male	*pain75		*pain100
+$playersounddup	Cyberdemon	male	*pain50		*pain100
+$playersounddup	Cyberdemon	male	*pain25		*pain100
+$playersound	Cyberdemon	male	*grunt		dsempty
+$playersound	Cyberdemon	male	*land		dsempty
+$playersound	Cyberdemon	male	*jump		dsempty
+$playersound	Cyberdemon	male	*usefail	dsempty
+$playersound	Cyberdemon	male	*falling	dsempty
+
+// Menu
+menu/activate		menusel		// Activate a new menu
+menu/backup			menuback	// Backup to previous menu
+menu/prompt			menusel		// Activate a prompt "menu"
+menu/cursor			menuroll	// Move cursor up/down
+menu/change			menuroll	// Select new value for option
+menu/invalid		menuback	// Menu not available
+menu/dismiss		menuback	// Dismiss a prompt message
+menu/choose			menusel		// Choose a menu item
+menu/clear			menuback	// Close top menu
+
+// Slot Machine
+slot/start			slotgo
+slot/reel			slotreel
+slot/ding			slotding
+slot/jackpot		jackpot
+jackpot/evillaugh	evillaff
+jackpot/smite		smite
+jackpot/pause		jackpaus
+jackpot/mini		jackmini
+jackpot/duke		dukepot
+jackpot/bahbow		bahbow
+jackpot/maybe		j-maybe
+jackpot/denied		j-denied
+jackpot/chickenmorph	j-cmorf
+
+$singular slot/start
+
+// Ammo
+items/clip		clipget
+items/shell		shelget
+items/rocket	rockget
+items/cell		cellget
+items/raven		rvnget
+items/fuel		fuelget
+items/gas		gasget
+items/bluem		blumget
+items/duke		getitm19
+
+// World
+world/watersplash	dssplash
+world/drip			dsdrip
+
+// Ice
+$random misc/icebreak	{ misc/icebreak1 misc/icebreak2 misc/icebreak3 }
+misc/icebreak1		icebrk1
+misc/icebreak2		icebrk2
+misc/icebreak3		icebrk3
+
+// Crates
+crate/spawn		cratshow
+crate/land		cratphys
+
+$random crate/die{crate/die1 crate/die2 crate/die3}
+crate/die1	cratdie1
+crate/die2	cratdie2
+crate/die3	cratdie3
+
+// Items
+items/health	getheal
+items/health_c	gethealc
+items/armor		getarmr
+items/cash		getcash
+items/omc		eggomc
+items/coin		getcoin
+
+items/superheal		suprheal
+items/superarmor	suprarmr
+
+// Powerups
+powerups/repulsor	repulse
+powerups/pogo		pogo
+powerups/slow1		slow1
+powerups/slow2		slow2
+
+$random powerups/barrel{powerups/barrel1 powerups/barrel2 powerups/barrel3}
+powerups/barrel1	barrel1
+powerups/barrel2	barrel2
+powerups/barrel3	barrel3
+
+soab/arm	soabarm
+soab/blau	DSKABOOM
+soab/get	soabget
+
+// Weather
+ambient/rainloop		rainloop
+ambience/teleporter		teleloop
+ambience/water			watrloop
+ambience/fountain		fntnloop
+
+$random world/thunder{world/thunder1 world/thunder2 world/thunder3 world/thunder4}
+world/thunder1		thund1
+world/thunder2		thund2
+world/thunder3		thund3
+world/thunder4		thund4
+
+// Co-Op
+mp/die		mp-die
+
+// Teleporter
+$random misc/teleport{misc/teleport1 misc/teleport2 misc/teleport3}
+misc/teleport1		tele1
+misc/teleport2		tele2
+misc/teleport3		tele3
+
+// Morphs
+morph/on		mpon
+morph/off		mpoff
+
+morph/dogon		mpondog
+morph/dogoff	mpoffdog
+
+morph/ontank	mpontank
+morph/oncyb		mponcyb

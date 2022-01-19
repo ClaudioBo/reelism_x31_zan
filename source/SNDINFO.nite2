@@ -1,0 +1,126 @@
+// Splot - Night2 Sounds
+
+// Items
+misc/w_pkup		getgun	// Pickup weapon
+misc/ws_pkup	getsgun // Pickup superweapon
+misc/p_pkup		getpow	// Pickup powerup
+misc/i_pkup		dsitemup
+
+weapons/superm60	superm60
+
+weapons/in			weapin
+weapons/out			weapout
+
+$random weapons/ric{weapons/ric1 weapons/ric2 weapons/ric3 weapons/ric4 weapons/ric5 weapons/ric6 weapons/ric7}
+weapons/ric1		ric1
+weapons/ric2		ric2
+weapons/ric3		ric3
+weapons/ric4		ric4
+weapons/ric5		ric5
+weapons/ric6		ric6
+weapons/ric7		ric7
+
+weapons/grenadethrow	grenthro
+weapons/grenadebounce	grenbnce
+
+weapons/rpg		rpgfire
+
+$random weapons/explode{weapons/explode1 weapons/explode2 weapons/explode3 weapons/explode4 weapons/explode5 weapons/explode6}
+weapons/explode1		boom1
+weapons/explode2		boom2
+weapons/explode3		boom3
+weapons/explode4		boom4
+weapons/explode5		boom5
+weapons/explode6		boom6
+weapons/explodedist		distboom
+
+items/despawn	despawn
+
+// Characters
+human/land		land
+
+$random human/body{human/body1 human/body2 human/body3 human/body4 human/body5}
+human/body1		body1
+human/body2		body2
+human/body3		body3
+human/body4		body4
+human/body5		body5
+
+$random human/gib{human/gib1 human/gib2 human/gib3 human/gib4}
+human/gib1		gib1
+human/gib2		gib2
+human/gib3		gib3
+human/gib4		gib4
+
+$random human/damage{human/damage1 human/damage2 human/damage3 human/damage4}
+human/damage1	bhit1
+human/damage2	bhit2
+human/damage3	bhit3
+human/damage4	bhit4
+
+$random human/scream{human/scream1 human/scream2 human/scream3 human/scream4 human/scream5 human/scream6}
+human/scream1	scream1
+human/scream2	scream2
+human/scream3	scream3
+human/scream4	scream4
+human/scream5	scream5
+human/scream6	scream6
+
+$alias human/imonfire	human/scream
+
+// Beggar
+$random beggar/idle{beggar/idle1 beggar/idle2 beggar/idle3}
+beggar/idle1	bidle1
+beggar/idle2	bidle2
+beggar/idle3	bidle3
+
+$random beggar/wiff{beggar/wiff1 beggar/wiff2 beggar/wiff3}
+beggar/wiff1	bwiff1
+beggar/wiff2	bwiff2
+beggar/wiff3	bwiff3
+
+$random beggar/stab{beggar/stab1 beggar/stab2 beggar/stab3}
+beggar/stab1	bstab1
+beggar/stab2	bstab2
+beggar/stab3	bstab3
+
+$random beggar/die{beggar/die1 beggar/die2 beggar/die3}
+beggar/die1			bdie1
+beggar/die2			bdie2
+beggar/die3			bdie3
+beggar/die4			bdie4
+beggar/die5			bdie5
+beggar/die6			bdie6
+beggar/die7			bdie7
+beggar/die8			bdie8
+beggar/die9			bdie9
+beggar/die10		bdie10
+beggar/die11		bdie11
+beggar/die12		bdie12
+beggar/die13		bdie13
+beggar/die14		bdie14
+beggar/die15		bdie15
+beggar/die16		bdie16
+beggar/die17		bdie17
+beggar/die18		bdie18
+beggar/die19		bdie19
+beggar/die20		bdie20
+beggar/die21		bdie21
+beggar/die22		bdie22
+beggar/die23		bdie23
+
+$random beggar/pain { beggar/pain1 beggar/pain2 beggar/pain3 beggar/pain4 }
+beggar/pain1		bpain1
+beggar/pain2		bpain2
+beggar/pain3		bpain3
+beggar/pain4		bpain4
+
+SFX/FireStart	FIRESTRT
+SFX/FireLoop1	FIRELOP1
+SFX/FireLoop2	FIRELOP2
+SFX/FireLoop3	FIRELOP3
+SFX/FireDie		FIREDIE
+
+$Limit SFX/FireStart 0
+$Limit SFX/FireLoop 0
+$Limit SFX/FireDie 0

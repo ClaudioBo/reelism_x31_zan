@@ -1,0 +1,77 @@
+#library "splot995"
+#import "splot.acs"
+#include "zcommon.acs"
+
+script 995 ENTER // Initialize the player!
+{
+	Thing_ChangeTID(0,1337+PlayerNumber());				//Ed - This gives every player a unique TID
+	SetActorProperty(0,APROP_NoTarget,0);
+	SetPlayerProperty(1,0,PROP_NOTARGET);
+	SetPlayerProperty(1,0,PROP_TOTALLYFROZEN);
+	SetActorProperty(0,APROP_Score,0);
+	ACS_Execute(997,0);
+}
+
+Script 997 RESPAWN		//Ed - Special script to make sure everyone's got the right stuff for the round, even if they died
+{
+	Thing_ChangeTID(0,1337+PlayerNumber());		//Ed - Restore the TID, since dying seems to erase it
+
+	if(slotting&&slot1==0)
+		GiveInventory("Slot1Spinning",1);
+	else if(slot1==100)
+		GiveInventory("SlotBoss1",1);
+	else if(slot1)
+		GiveInventory(slot1list[slot1-1][0],1);
+
+	if(slot1==1)
+		SetActorProperty(0,APROP_Speed,0.7);
+	else if(slot1==3)
+		GiveInventory("PowerDoubleFiringSpeed",1);
+	else if(slot1==5)
+		SetActorProperty(0,APROP_Speed,2.0);
+	else if(slot1==6)
+		GiveInventory("PowerInfiniteAmmoFixed",1);
+	else if(slot1==7)
+		GiveInventory("PowerFlight",1);
+	else if(slot1 == 14)
+		GiveInventory("DisableHUD",1);
+	else if(slot1 == 16)
+		GiveInventory("PowerAsbestos",1);
+	else if(slot1 == 17)
+		GiveInventory("PowerQuadDamage",1);
+	else if(slot1 > REELMAX && slot1 <= 100)
+		ACS_NamedExecuteAlways(slot1script[slot1-1],0,2);
+	if(slotting&&slot2==0)
+		GiveInventory("Slot2Spinning",1);
+	else if(slot2==100)
+		GiveInventory("SlotBoss2",1);
+	else if(slot2)
+		GiveInventory(slot2list[slot2-1][0],1);
+
+	if(slot2 == 2)
+		if(slot1 == 15)
+			ACS_NamedExecuteAlways("MorphMe",0,0,"HyperTankMorpherEX");
+		else
+			ACS_NamedExecuteAlways("MorphMe",0,0,"TankMorpherEX");
+	else if(slot2 == 13)
+		if(slot1 == 15)
+			ACS_NamedExecuteAlways("MorphMe",0,0,"HyperDogMorpherEX");
+		else
+			ACS_NamedExecuteAlways("MorphMe",0,0,"DogMorpherEX");
+	else if(slot2 > REELMAX && slot2 <= 100)
+	ACS_NamedExecuteAlways(slot2script[slot2-1],0,3);
+
+	if(slotting&&slot3==0)
+		GiveInventory("Slot3Spinning",1);
+	else if(slot3==100)
+		GiveInventory("SlotBoss3",1);
+	else if(slot3)
+		GiveInventory(slot3list[slot3-1][0],1);
+
+	if(slot1==6&&slot2==6&&slot3==6)
+		ACS_NamedExecuteAlways("MorphMe",0,0,"CyberdemonMorpherEx");
+	else if(slot1==12&&slot2==12&&slot3==12)
+		GiveInventory("ScreamingShits",1);
+	else if(slot1 == 16 & slot2 == 16 & slot3 == 16)
+		ACS_NamedExecuteAlways("MorphMe",0,0,"ChickenMorpherEx");
+}

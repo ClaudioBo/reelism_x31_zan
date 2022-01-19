@@ -1,0 +1,216 @@
+ACTOR SOMTree 8901
+{
+	//$Category Reelism Props - X2
+	//$Title "SoM Tree"
+	Radius 32
+	Height 120
+	+SOLID
+	States
+	{
+	Spawn:
+		SQTR A -1
+		Stop
+	}
+}
+
+ACTOR SOMRock1 8902
+{
+	//$Category Reelism Props - X2
+	//$Title "SoM Rock 1"
+	Radius 32
+	Height 64
+	+SOLID
+	States
+	{
+	Spawn:
+		SQRH A -1
+		Stop
+	}
+}
+
+ACTOR SOMRock2 8903
+{
+	//$Category Reelism Props - X2
+	//$Title "SoM Rock 2"
+	Radius 16
+	Height 40
+	+SOLID
+	States
+	{
+	Spawn:
+		SQRJ A -1
+		Stop
+	}
+}
+
+ACTOR SOMRock3 8904
+{
+	//$Category Reelism Props - X2
+	//$Title "SoM Rock 3"
+	Radius 8
+	Height 20
+	+SOLID
+	States
+	{
+	Spawn:
+		SQRK A -1
+		Stop
+	}
+}
+
+ACTOR SOMPillar 8905
+{
+	//$Category Reelism Props - X2
+	//$Title "SoM Stone Statue"
+	Radius 16
+	Height 40
+	+SOLID
+	States
+	{
+	Spawn:
+		SQRI A -1
+		Stop
+	}
+}
+
+ACTOR CustomBarrel1 8906
+{
+	//$Category Reelism Props - X2
+	//$Title "Custom Wooden Barrel 1"
+	Radius 32
+	Height 64
+	+SOLID
+	States
+	{
+	Spawn:
+		NBRL A -1
+		Stop
+	}
+}
+
+ACTOR CustomBarrel2 8907
+{
+	//$Category Reelism Props - X2
+	//$Title "Custom Wooden Barrel 2"
+	Radius 16
+	Height 32
+	+SOLID
+	States
+	{
+	Spawn:
+		NBR2 A -1
+		Stop
+	}
+}
+
+ACTOR BlueLolly 7108
+{
+	//$Category Reelism Props - X2
+	//$Title "Blue Lollypop"
+	Radius 8
+	Height 82
+	+SOLID
+	States
+	{
+	Spawn:
+		BLOL A -1
+		Stop
+	}
+}
+
+ACTOR GreenLolly : BlueLolly 7101
+{
+	//$Category Reelism Props - X2
+	//$Title "Green Lollypop"
+	States
+	{
+	Spawn:
+		GLOL A -1
+		Stop
+	}
+}
+
+ACTOR YellowLolly : BlueLolly 7102
+{
+	//$Category Reelism Props - X2
+	//$Title "Yellow Lollypop"
+	States
+	{
+	Spawn:
+		YLOL A -1
+		Stop
+	}
+}
+
+ACTOR RedLolly : BlueLolly 7103
+{
+	//$Category Reelism Props - X2
+	//$Title "Red Lollypop"
+	States
+	{
+	Spawn:
+		RLOL A -1
+		Stop
+	}
+}
+
+ACTOR BlueCane : BlueLolly 7104
+{
+	//$Category Reelism Props - X2
+	//$Title "Blue Candy Cane"
+	States
+	{
+	Spawn:
+		BLUC A -1
+		Stop
+	}
+}
+
+ACTOR GreenCane : BlueLolly 7105
+{
+	//$Category Reelism Props - X2
+	//$Title "Green Candy Cane"
+	States
+	{
+	Spawn:
+		GREC A -1
+		Stop
+	}
+}
+
+ACTOR YellowCane : BlueLolly 7106
+{
+	//$Category Reelism Props - X2
+	//$Title "Yellow Candy Cane"
+	States
+	{
+	Spawn:
+		YELC A -1
+		Stop
+	}
+}
+
+ACTOR RedCane : BlueLolly 7107
+{
+	//$Category Reelism Props - X2
+	//$Title "Red Candy Cane"
+	States
+	{
+	Spawn:
+		REDC A -1
+		Stop
+	}
+}
+
+ACTOR Strawberry 7109
+{
+	//$Category Reelism Props - X2
+	//$Title "Strawberry"
+	Height 20
+	States
+	{
+	Spawn:
+		STRB A -1
+		Stop
+	}
+}

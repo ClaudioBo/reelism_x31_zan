@@ -1,0 +1,234 @@
+// Splot - Boss Sounds
+boss/new		bin-none
+boss/wmbg		bin-wmbg
+boss/tank		bin-itan
+boss/pope		bin-pope
+boss/cyb		bin-cyb
+boss/msjerk		bin-mj
+boss/player2	bin-p2
+boss/shape		bin-shap
+boss/macg		bin-mcg
+boss/mehi		bin-mehi
+boss/wizard		bin-mfw
+boss/devil		bin-devl
+boss/guardian	bin-guar
+boss/juggernaut	bin-jugg
+
+boss/explode	bossdead
+boss/land		bossland
+
+// WMBG
+$random wmbg/idle{wmbg/idle1 wmbg/idle2 wmbg/idle3 wmbg/idle4 wmbg/idle5 wmbg/idle6}
+wmbg/idle1		wmbg1
+wmbg/idle2		wmbg2
+wmbg/idle3		wmbg3
+wmbg/idle4		wmbg4
+wmbg/idle5		wmbg5
+wmbg/idle6		wmbg6
+
+$random wmbg/pain{wmbg/pain1 wmbg/pain2 wmbg/pain3}
+wmbg/pain1		wmbgp1
+wmbg/pain2		wmbgp2
+wmbg/pain3		wmbgp3
+
+wmbg/die		wmbgdie
+
+// IMP TANK
+imptank/idle	imptank1
+imptank/die		imptankd
+imptank/fire	tankfir2
+
+// CYBREDEMON
+cyb/die			cybdie
+
+// DOG POPE
+$random dogpope/idle{dogpope/idle1 dogpope/idle2 dogpope/idle3 dogpope/idle4 dogpope/idle5}
+dogpope/idle1	pope1
+dogpope/idle1	pope2
+dogpope/idle1	pope3
+dogpope/idle1	pope4
+dogpope/idle1	pope5
+
+$random dogpope/pain{dogpope/pain1 dogpope/pain2}
+dogpope/pain1	popep1
+dogpope/pain2	popep2
+
+dogpope/die		popedie
+
+$random dogbees/fire{dogbees/fire1 dogbees/fire2 dogbees/fire3}
+dogbees/fire1	beefire1
+dogbees/fire2	beefire2
+dogbees/fire3	beefire3
+
+$random dogbees/hit{dogbees/hit1 dogbees/hit2 dogbees/hit3}
+dogbees/hit1	beehit1
+dogbees/hit2	beehit2
+dogbees/hit3	beehit3
+
+// MS JERK
+$random msjerk/run{msjerk/run1 msjerk/run2 msjerk/run3}
+msjerk/run1		mjrun1
+msjerk/run2		mjrun2
+msjerk/run3		mjrun3
+
+$random msjerk/pain{msjerk/pain1 msjerk/pain2}
+msjerk/pain1	mjpain1
+msjerk/pain2	mjpain2
+
+msjerk/die		mjdie
+
+// SHAPESHIFTER
+$random shape/morph{shape/morph1 shape/morph2 shape/morph3 shape/morph4 shape/morph5}
+shape/morph1	morph1
+shape/morph2	morph2
+shape/morph3	morph3
+shape/morph4	morph4
+shape/morph5	morph5
+
+$random shape/act{shape/act1 shape/act2 shape/act3 shape/act4}
+shape/act1		shapact1
+shape/act2		shapact2
+shape/act3		shapact3
+shape/act4		shapact4
+
+shape/die		shapdie
+
+shape/ohmaw			ohmaw
+shape/mechahitler	ssmhit
+
+// MACGUFFIN
+boss/macdeath	bos1dy
+boss/macroar	bos1rm
+boss/macshot	macshot
+
+// HITLER
+hitler/break		mh-brk
+hitler/chaingun		mh-cg
+hitler/die		mh-die
+hitler/hoof		mh-hoof
+hitler/rocket		mh-rl
+hitler/shit		mh-shit
+
+// MF WIZARD
+gibbage/beep		dsbeep!
+wizard/blitz		wizblitz
+wizard/charge		wizchrge
+
+$random wizard/truck { wizard/truck1 wizard/truck2 wizard/truck3 wizard/truck4 wizard/truck5 wizard/truck6 }
+wizard/truck1		wiztruk1
+wizard/truck2		wiztruk2
+wizard/truck3		wiztruk3
+wizard/truck4		wiztruk4
+wizard/truck5		wiztruk5
+wizard/truck6		wiztruk6
+wizard/truckdie		wiztrukd
+
+$random wizard/see { wizard/see1 wizard/see2 }
+wizard/see1		wizsee1
+wizard/see2		wizsee2
+
+$random wizard/idle { wizard/idle1 wizard/idle2 wizard/idle3 wizard/idle4 wizard/idle5 wizard/idle6 }
+wizard/idle1		wizidle1
+wizard/idle2		wizidle2
+wizard/idle3		wizidle3
+wizard/idle4		wizidle4
+wizard/idle5		wizidle5
+wizard/idle6		wizidle6
+wizard/die		wizdie
+
+// DEVILDRIVER
+ddbeep "Sounds/bosses/devildriver/bomb_timer2.ogg" // Taken from STALKER: Shadows of Chernobyl
+ddrockalert "Sounds/bosses/devildriver/rocketalert.ogg" // Taken from a simple pager
+
+ddheal "Sounds/bosses/devildriver/DDHeal.ogg" // Edited from Chronicles of Riddick
+
+$random devildriver/active { ddactive1 ddactive2 } // Taken from Killing Floor
+
+ddactive1 "Sounds/bosses/devildriver/DDActive1.ogg"
+ddactive2 "Sounds/bosses/devildriver/DDActive2.ogg"
+
+$rolloff devildriver/active 400 2400
+
+$random devildriver/death { dddeath1 dddeath2 } // Taken from Killing Floor
+
+dddeath1 "Sounds/bosses/devildriver/DDDeath1.ogg"
+dddeath2 "Sounds/bosses/devildriver/DDDeath2.ogg"
+
+$random devildriver/pain { ddpain1 ddpain2 } // Taken from Killing Floor
+
+ddpain1 "Sounds/bosses/devildriver/DDPain1.ogg"
+ddpain2 "Sounds/bosses/devildriver/DDPain2.ogg"
+
+$rolloff devildriver/pain 400 2400
+
+$random devildriver/see {ddsee1 ddsee2 ddsee3 ddsee4 } // Taken from Killing Floor
+
+ddsee1 "Sounds/bosses/devildriver/DDSee1.ogg"
+ddsee2 "Sounds/bosses/devildriver/DDSee2.ogg"
+ddsee3 "Sounds/bosses/devildriver/DDSee3.ogg"
+ddsee4 "Sounds/bosses/devildriver/DDSee4.ogg"
+
+$random devildriver/rocket { ddrock1 ddrock2 ddrock3 ddrock4 } // Taken from Halo: Reach
+ddrock1          DDFIRE1
+ddrock2          DDFIRE2
+ddrock3          DDFIRE3
+ddrock4          DDFIRE4
+
+$rolloff devildriver/rocket 400 2400
+
+$random devildriver/jukerocket { ddjrock1 ddjrock2 ddjrock3 } // Taken from Halo: Reach
+ddjrock1         DDHFIRE1
+ddjrock2         DDHFIRE2
+ddjrock3         DDHFIRE3
+
+$rolloff devildriver/jukerocket 800 3200
+
+$random devildriver/honk { ddhonk1 ddhonk2 ddhonk3 } // Taken from the General Series 6000
+ddhonk1          DDHONK1
+ddhonk2          DDHONK2
+ddhonk3          DDHONK3
+
+$rolloff devildriver/honk 1800 3200
+
+$random devildriver/seekrocket { ddsrock1 ddsrock2 ddsrock3 } // Taken from Halo: Reach
+ddsrock1         DDSFIRE1
+ddsrock2         DDSFIRE2
+ddsrock3         DDSFIRE3
+
+$rolloff devildriver/seekrocket 400 2400
+
+devildriver/loop         DDLOOP   // Taken from the General Series 6000
+devildriver/end          DDLOOPE  // Taken from the General Series 6000
+devildriver/tasecharge   DDECHARG // Taken from Devil May Cry 3
+devildriver/tase         DDETASE  // Taken from Derp May Herp 3
+
+$rolloff devildriver/loop 400 2400
+$rolloff devildriver/end 400 2400
+$rolloff devildriver/tasecharge 400 2400
+$rolloff devildriver/tase 400 2400
+
+$random guardian/step	{ guardian/step1 guardian/step2 guardian/step3 guardian/step4 }
+guardian/step1		gu-step1
+guardian/step2		gu-step2
+guardian/step3		gu-step3
+guardian/step4		gu-step4
+
+$random guardian/temp	{ guardian/temp1 guardian/temp2 guardian/temp3 guardian/temp4 }
+guardian/temp1		gu-temp1
+guardian/temp2		gu-temp2
+guardian/temp3		gu-temp3
+guardian/temp4		gu-temp4
+
+$random guardian/idle	{ guardian/idle1 guardian/idle2 guardian/idle3 guardian/idle4 }
+guardian/idle1		gu-idle1
+guardian/idle2		gu-idle2
+guardian/idle3		gu-idle3
+guardian/idle4		gu-idle4
+
+guardian/die		gu-die
+
+juggernaut/aim			juggaim
+juggernaut/die			juggdie
+juggernaut/jocket		juggjock
+juggernaut/laser		jugglasr
+juggernaut/pain			juggpain

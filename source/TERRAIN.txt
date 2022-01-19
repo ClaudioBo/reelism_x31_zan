@@ -1,0 +1,57 @@
+splash Water
+{
+	smallclass		WaterSplash
+	smallclip		12
+	smallsound		world/drip
+
+	baseclass		WaterSplashBase
+	chunkclass		WaterSplash
+	chunkxvelshift	8
+	chunkyvelshift	8
+	chunkzvelshift	8
+	chunkbasezvel	2
+	sound			world/watersplash
+}
+
+floor WATER Water
+floor VRWATER Water
+floor BWAT_01 Water
+
+splash Blood
+{
+	smallclass		BloodSplash
+	smallclip		12
+	smallsound		world/drip
+
+	baseclass		BloodSplashBase
+	chunkclass		BloodSplash
+	chunkxvelshift	8
+	chunkyvelshift	8
+	chunkzvelshift	8
+	chunkbasezvel	1
+	sound			world/watersplash
+}
+terrain Blood
+{
+	splash			Blood
+	footclip		10
+	liquid
+}
+floor BLUDPOOL Blood
+
+// x3 sports
+Terrain ScaldingHotOil
+{
+	FootClip 8
+	Liquid
+	
+	DamageType Slime
+	DamageAmount 1
+	DamageTimeMask 3
+	AllowProtection
+}
+
+Floor YUCKY01 ScaldingHotOil
+Floor YUCKY02 ScaldingHotOil
+Floor YUCKY03 ScaldingHotOil
+Floor YUCKY04 ScaldingHotOil

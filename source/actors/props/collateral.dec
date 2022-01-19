@@ -1,0 +1,272 @@
+// Splot - Collateral Damage
+
+actor CarSpawner : RandomSpawner 30501
+{
+	//$sprite CARZA2A8
+	//$Category Reelism Props
+	//$Title "Collateral Car"
+	radius 56
+	height 56
+	+NOGRAVITY
+	DropItem Car1
+	DropItem Car2
+	DropItem Car3
+	DropItem Car4
+}
+
+actor Car1
+{
+	obituary "%o was hit by a parked car."
+	health 300
+	radius 56
+	height 56
+	mass 10000
+	deathsound "weapons/rocklx"
+	+SOLID
+	+SHOOTABLE
+	+DONTGIB
+	+NOICEDEATH
+	+CANPASS
+	+NOBLOODDECALS
+	bloodtype "MetalSpark"
+	states
+	{
+	Spawn:
+		CARZ A -1
+		Stop
+	Death:
+		CARZ A 0 Radius_Quake(10,60,0,120,0)
+		CARZ A 0 A_Explode(150)
+		CARZ A 0 ThrustThingZ(0,64,0,1)
+		CARZ AAAAAAAAAAAAAAAAAAAAA 0 A_CustomMissile("DEBRIS",random(16,56),0,random(0,360),2,random(4,32))
+		CARZ A 0 A_PlaySound("weapons/explodedist",CHAN_WEAPON,1,0,ATTN_NONE)
+		CARZ A 0 A_PlaySound("weapons/explode",CHAN_VOICE)
+		CARZ A 0 A_Quake(6,8,0,2048,"weapons/explodedist")
+		CARZ A 0 A_SpawnItemEx("Fire",0,0,16,16,0,0,random(0,360))
+	SmashUp:
+		CARZ A 0 A_Explode(150)
+		CARZ A 8 A_SpawnItemEx("Spawner_Explosion_Normal1",random(0,30),random(0,30),random(0,30),0,0,0,random(0,360))
+		CARZ A 0 A_PlaySound("weapons/explodedist",CHAN_WEAPON,1,0,ATTN_NONE)
+		CARZ A 0 A_PlaySound("weapons/explode",CHAN_VOICE)
+		CARZ A 0 A_Quake(6,8,0,2048,"weapons/explodedist")
+		CARZ A 0 A_SpawnItemEx("Fire",0,0,16,16,0,0,random(0,360))
+		CARZ A 0 A_JumpIf(z == floorz,"SmashUpEnd")
+		loop
+	SmashUpEnd:
+		CARZ A 0 A_Explode(150)
+		CARZ AAAAAAAAAAAAAAAAAAAAA 0 A_CustomMissile("DEBRIS",random(16,56),0,random(0,360),2,random(4,32))
+		CARZ AAAAAAAAAAAAAAAAAAAAA 0 A_CustomMissile("RobotShards",random(16,56),0,random(0,360),2,random(4,32))
+		CARZ A 0 A_SpawnItemEx("Spawner_Explosion_Normal1",random(0,30),random(0,30),random(0,30),0,0,0,random(0,360))
+		CARZ A 0 A_SpawnItem("MapFireMedium")
+		stop
+	Death.RunOver:
+		CARZ A 0 A_Stop
+		CARZ AAAAAAAAAAAAAAAAAAAAA 0 A_CustomMissile("DEBRIS",random(16,56),0,random(0,360),2,random(4,32))
+		CARZ AAAAAAAAAAAAAAAAAAAAA 0 A_CustomMissile("RobotShards",random(16,56),0,random(0,360),2,random(4,32))
+		CARZ A 0 A_PlaySound("tank/runovercar")
+		CARZ A 0 A_NoBlocking
+		CARZ A -1 A_SetScale(1,0.2)
+		loop
+	Death.Fists:
+	Death.Bat:
+		CARZ A 0 A_Stop
+		CARZ AAAAAAAAAAAAAAAAAAAAA 0 A_CustomMissile("DEBRIS",random(16,56),0,random(0,360),2,random(4,32))
+		CARZ AAAAAAAAAAAAAAAAAAAAA 0 A_CustomMissile("RobotShards",random(16,56),0,random(0,360),2,random(4,32))
+		CARZ A 0 A_PlaySound("tank/runovercar")
+		CARZ A 0 A_NoBlocking
+		CARZ A 36 A_SetScale(1,0.2)
+		CARZ A -1 A_PlaySound("items/omc",CHAN_WEAPON,1,0,ATTN_NONE)
+		loop
+	}
+}
+
+actor Car2 : Car1
+{
+	Translation "0:0=0:0"
+}
+
+actor Car3 : Car1
+{
+	Translation 1
+}
+
+actor Car4 : Car1
+{
+	Translation 2
+}
+
+actor ConstructionSign 30502
+{
+	health 50
+	radius 32
+	height 32
+	scale 0.7
+	+SOLID
+	+SHOOTABLE
+	+NOBLOOD
+	+DONTGIB
+	+RANDOMIZE
+	+NOICEDEATH
+	+CANPASS
+	+CANBLAST
+	//$sprite CONSA2A8
+	//$Category Reelism Props
+	//$Title "Collateral Construction Sign"
+	states
+	{
+	Spawn:
+		CONS A -1
+		loop
+	Death:
+		TNT1 A 0 A_NoBlocking
+		TNT1 A 0 A_PlaySound("crate/die")
+		TNT1 A 1 A_CustomMissile("DEBRIS",random(4,16),0,random(0,360),2,6)
+		TNT1 A 0 A_CustomMissile("DEBRIS",random(4,16),0,random(0,360),2,10)
+		TNT1 A 0 A_CustomMissile("DEBRIS",random(4,16),0,random(0,360),2,20)
+		TNT1 A 0 A_CustomMissile("DEBRIS",random(4,16),0,random(0,360),2,15)
+		TNT1 A 1 A_CustomMissile("DEBRIS",random(4,16),0,random(0,360),2,8)
+		TNT1 A 0 A_CustomMissile("DEBRIS",random(4,16),0,random(0,360),2,32)
+		TNT1 A 0 A_CustomMissile("DEBRIS",random(4,16),0,random(0,360),2,8)
+		TNT1 A 0 A_CustomMissile("DEBRIS",random(4,16),0,random(0,360),2,10)
+		stop
+	}
+}
+
+actor WoodenTable 30503
+{
+	health 40
+	radius 32
+	height 32
+	+SOLID
+	+SHOOTABLE
+	+NOBLOOD
+	+DONTGIB
+	+RANDOMIZE
+	+NOICEDEATH
+	+CANPASS
+	//$sprite TABLA0
+	//$Category Reelism Props
+	//$Title "Collateral Table"
+	states
+	{
+	Spawn:
+		TABL A -1
+		loop
+	Death:
+		TNT1 A 0 A_NoBlocking
+		TNT1 A 0 A_PlaySound("crate/die")
+		TNT1 A 1 A_CustomMissile("DEBRIS",random(4,16),0,random(0,360),2,6)
+		TNT1 A 0 A_CustomMissile("DEBRIS",random(4,16),0,random(0,360),2,10)
+		TNT1 A 0 A_CustomMissile("DEBRIS",random(4,16),0,random(0,360),2,20)
+		TNT1 A 0 A_CustomMissile("DEBRIS",random(4,16),0,random(0,360),2,15)
+		TNT1 A 1 A_CustomMissile("DEBRIS",random(4,16),0,random(0,360),2,8)
+		TNT1 A 0 A_CustomMissile("DEBRIS",random(4,16),0,random(0,360),2,32)
+		TNT1 A 0 A_CustomMissile("DEBRIS",random(4,16),0,random(0,360),2,8)
+		TNT1 A 0 A_CustomMissile("DEBRIS",random(4,16),0,random(0,360),2,10)
+		stop
+	}
+}
+
+// Diving cars for bridge map
+actor DrivingCarSpawner 31501
+{
+	//$sprite CARZA1
+	//$Category Reelism
+	//$Title "Speeding Car Spawner"
+	radius 56
+	height 56
+	Obituary "$OB_CAR"
+	+NOGRAVITY
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A -1 ACS_ExecuteAlways(677,0,0,0,0)
+		Loop
+	}
+}
+
+actor DrivingCar1
+{
+	+Missile
+	+DROPOFF
+	+FOILINVUL
+	+RANDOMIZE
+	+RIPPER
+	+NOEXPLODEFLOOR
+	+STEPMISSILE
+	+SHOOTABLE
+	+NOBLOODDECALS
+	//+NODAMAGE
+	MaxStepHeight 16
+	Damage 300
+	health 500
+	speed 64
+	radius 56
+	height 56
+	mass 500
+	bloodtype "MetalSpark"
+	damagetype CarCrash
+	Obituary "$OB_CAR"
+	states
+	{
+	Spawn:
+		CARZ A 0
+		CARZ A 0 A_PlaySound("car/drive",7,1.0,1)
+		CARZ A 1 ThrustThing(angle*256/360,16,0,0)
+		Wait
+	Death:
+		CARZ A 0 A_Recoil(20)
+		CARZ A 0 Radius_Quake(10,60,0,120,0)
+		CARZ A 0 A_Explode(150)
+		CARZ AAAAAAAAAAAAAAAAAAAAA 0 A_CustomMissile("DEBRIS",random(16,56),0,random(0,360),2,random(4,32))
+		CARZ A 0 A_PlaySound("weapons/explodedist",CHAN_WEAPON,1,0,ATTN_NONE)
+		CARZ A 0 A_PlaySound("weapons/explode",CHAN_VOICE)
+		CARZ A 0 A_Quake(6,8,0,2048,"weapons/explodedist")
+		CARZ A 0 A_SpawnItemEx("Fire",0,0,16,16,0,0,random(0,360))
+		CARZ A 0 A_Explode(150)
+		CARZ A 8 A_SpawnItemEx("Spawner_Explosion_Normal1",random(0,30),random(0,30),random(0,30),0,0,0,random(0,360))
+		CARZ A 0 A_PlaySound("weapons/explodedist",CHAN_WEAPON,1,0,ATTN_NONE)
+		CARZ A 0 A_PlaySound("weapons/explode",CHAN_VOICE)
+		CARZ A 0 A_Quake(6,8,0,2048,"weapons/explodedist")
+		CARZ A 0 A_SpawnItemEx("Fire",0,0,16,16,0,0,random(0,360))
+		CARZ A 0 A_Explode(150)
+		CARZ A 8 A_SpawnItemEx("Spawner_Explosion_Normal1",random(0,30),random(0,30),random(0,30),0,0,0,random(0,360))
+		CARZ A 0 A_PlaySound("weapons/explodedist",CHAN_WEAPON,1,0,ATTN_NONE)
+		CARZ A 0 A_PlaySound("weapons/explode",CHAN_VOICE)
+		CARZ A 0 A_Quake(6,8,0,2048,"weapons/explodedist")
+		CARZ A 0 A_SpawnItemEx("Fire",0,0,16,16,0,0,random(0,360))
+		CARZ A 0 A_Explode(150)
+		CARZ A 8 A_SpawnItemEx("Spawner_Explosion_Normal1",random(0,30),random(0,30),random(0,30),0,0,0,random(0,360))
+		CARZ A 0 A_PlaySound("weapons/explodedist",CHAN_WEAPON,1,0,ATTN_NONE)
+		CARZ A 0 A_PlaySound("weapons/explode",CHAN_VOICE)
+		CARZ A 0 A_Quake(6,8,0,2048,"weapons/explodedist")
+		CARZ A 0 A_SpawnItemEx("Fire",0,0,16,16,0,0,random(0,360))
+		CARZ A 0 A_Explode(150)
+		CARZ A 8 A_SpawnItemEx("Spawner_Explosion_Normal1",random(0,30),random(0,30),random(0,30),0,0,0,random(0,360))
+		CARZ A 0 A_PlaySound("weapons/explodedist",CHAN_WEAPON,1,0,ATTN_NONE)
+		CARZ A 0 A_PlaySound("weapons/explode",CHAN_VOICE)
+		CARZ A 0 A_Quake(6,8,0,2048,"weapons/explodedist")
+		CARZ A 0 A_SpawnItemEx("Fire",0,0,16,16,0,0,random(0,360))
+		CARZ A 0 A_Explode(150)
+		CARZ AAAAAAAAAAAAAAAAAAAAA 0 A_CustomMissile("DEBRIS",random(16,56),0,random(0,360),2,random(4,32))
+		CARZ AAAAAAAAAAAAAAAAAAAAA 0 A_CustomMissile("RobotShards",random(16,56),0,random(0,360),2,random(4,32))
+		CARZ A 0 A_SpawnItemEx("Spawner_Explosion_Normal1",random(0,30),random(0,30),random(0,30),0,0,0,random(0,360))
+		stop
+	}
+}
+
+actor DrivingCar2 : DrivingCar1
+{
+	Translation "0:0=0:0"
+}
+
+actor DrivingCar3 : DrivingCar1
+{
+	Translation 1
+}
+
+actor DrivingCar4 : DrivingCar1
+{
+	Translation 2
+}

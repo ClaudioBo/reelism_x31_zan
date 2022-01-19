@@ -1,0 +1,32 @@
+// Splot - Expansion1 Map sounds
+
+pa/bing		pa-bing
+
+$random pa/talk		{ pa/talk1 pa/talk2 pa/talk3 pa/talk4 pa/talk5 pa/talk6 pa/talk7 pa/talk8 pa/talk9 pa/talk10 pa/talk11 pa/talk12 pa/talk13 pa/talk14 pa/talk15 pa/talk16 pa/talk17 pa/talk18 pa/talk19 pa/talk20 pa/talk21 pa/talk22 pa/talk23 pa/talk24 }
+pa/talk1	pa-1
+pa/talk2	pa-2
+pa/talk3	pa-3
+pa/talk4	pa-4
+pa/talk5	pa-5
+pa/talk6	pa-6
+pa/talk7	pa-7
+pa/talk8	pa-8
+pa/talk9	pa-9
+pa/talk10	pa-10
+pa/talk11	pa-11
+pa/talk12	pa-12
+pa/talk13	pa-13
+pa/talk14	pa-14
+pa/talk15	pa-15
+pa/talk16	pa-16
+pa/talk17	pa-17
+pa/talk18	pa-18
+pa/talk19	pa-19
+pa/talk20	pa-20
+pa/talk21	pa-21
+pa/talk22	pa-22
+pa/talk23	pa-23
+pa/talk24	pa-24
+
+// CoC
+SuitofArmorBreak        armorexp

@@ -1,0 +1,369 @@
+// Splot - Other Inventory Items
+
+//Base
+ACTOR SplotPowerup : CustomInventory
+{
+	inventory.pickupsound "misc/p_pkup"
+	+INVENTORY.ALWAYSPICKUP
+	+INVENTORY.INVBAR
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	}
+}
+// Pogo Stick
+actor PogoStick : SplotPowerup
+{
+	inventory.pickupmessage "$GOTPOGO"
+	inventory.icon "INVPOGO"
+	inventory.usesound "powerups/pogo"
+	inventory.maxamount 4
+	Tag "$TAGPOGO"
+	states
+	{
+	Spawn:
+		POGO A 1050 bright
+		Goto Super::Spawn
+	Use:
+		TNT1 A 0 ThrustThingZ(0,128,0,0)
+		stop
+	}
+}
+
+actor Repulsor : SplotPowerup
+{
+	inventory.icon "REFLB0"
+	inventory.pickupmessage "$GOTREPULSE"
+	inventory.amount 5
+	inventory.maxamount 12
+	+INVENTORY.FANCYPICKUPSOUND
+	Tag "$TAGREPULSE"
+	states
+	{
+	Spawn:
+		REFL A 1050 bright
+		Goto Super::Spawn
+	Use:
+		TNT1 A 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_Blast(0,255,255,20,"LandingPart","powerups/repulsor")
+		Stop
+	}
+}
+
+actor BarrelPickup : SplotPowerup
+{
+	inventory.pickupmessage "$GOTBARREL"
+	inventory.icon "INVBAREL"
+	inventory.amount 3
+	inventory.maxamount 12
+	Tag "$TAGBARREL"
+	states
+	{
+	Spawn:
+		BPUP A 1050 bright
+		Goto Super::Spawn
+	Use:
+		TMT1 A 0 A_PlaySound("weapons/grenadethrow")
+		TNT1 A 0 A_FireCustomMissile("BoomBarrel",0,0) //A_SpawnItemEx("BoomBarrel",32,0,8,16,0,9,0,SXF_TRANSFERPITCH|SXF_TRANSFERPOINTERS)
+		stop
+	}
+}
+
+actor BoomBarrel replaces ExplosiveBarrel
+{
+	health 10
+	radius 13
+	height 34
+	Speed 10
+	+SHOOTABLE
+	+NOBLOOD
+	+DONTGIB
+	+NOICEDEATH
+	+CANPASS
+	DamageType Explosive
+	BloodType "MetalSpark"
+	+NOBLOODDECALS
+	+CANBLAST
+	+NOBLOCKMONST
+	states
+	{
+	Spawn:
+		BAR1 AAABBB 1 A_CheckFloor("Land")
+		loop
+	Land:
+		BAR1 AA 0 A_SpawnItemEx("GreenBloodShredSilent",random(-4,4),random(-4,4),28,0,0,2,0,SXF_NOCHECKPOSITION)
+		BAR1 A 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		BAR1 A 0 A_PlaySound("powerups/barrel")
+	Ground:
+		TNT1 A 0 A_JumpIfCloser(16,2)	//Don't turn solid until the guy who placed it is out of its radius (with slight buffer)
+		BAR1 A 0 A_ChangeFlag("SOLID",1)
+		BAR1 AAABBB 1 A_JumpIf(velz!=0,"Spawn")
+		loop
+	Death:
+		TNT1 A 0 A_NoBlocking
+		TNT1 AAAAAAAAAAAAAA 0 A_CustomMissile("DEBRIS",random(4,16),0,random(0,360),2,random(4,32))
+		TNT1 AAAAAAAA 4 A_SpawnItemEx("BirthdayPartyBomb",random(0,32),random(0,32),random(10,30),0,0,0,random(0,360))
+		stop
+	}
+}
+
+actor BarrelBoom	//Unused actor? The explosion can't trigger anyway
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0 A_Explode
+		TNT1 A 0 A_PlaySound("weapons/explode",CHAN_VOICE)
+		TNT1 A 0 A_PlaySound("weapons/explodedist",CHAN_WEAPON,1,0,ATTN_NONE)
+		TNT1 A 0 A_Quake(6,8,0,2048,"weapons/explodedist")
+		TNT1 A 8 A_SpawnItem("Spawner_Explosion_Normal1")
+		stop
+	}
+}
+
+// SOAB
+actor SOBPickup : SplotPowerup
+{
+	inventory.pickupmessage "$GOTSOAB"
+	inventory.pickupsound "soab/get"
+	inventory.icon "INVSOAB"
+	Tag "$TAGSOAB"
+	states
+	{
+	Spawn:
+		SOAB A 1050 bright
+		Goto Super::Spawn
+	Use:
+		TMT1 A 0 A_PlaySound("weapons/grenadethrow")
+		TNT1 A 0 A_SpawnItemEx("SonOfABitch",32,0,8,16,0,9,0,SXF_TRANSFERPITCH|SXF_TRANSFERPOINTERS)
+		stop
+	}
+}
+
+actor SonOfABitch
+{
+	radius 13
+	height 34
+	-SOLID
+	damagetype Explosive
+	+NOBLOCKMONST
+	states
+	{
+	Spawn:
+		SOAB A 1 A_CheckFloor("Land")
+		loop
+	Land:
+		SOAB A 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		SOAB A 0 A_PlaySound("powerups/barrel",CHAN_VOICE)
+		goto Ground
+	Ground:
+		SOAB A 0 A_Stop
+		//SOAB A 14
+		SOAB A 0 A_PlaySound("soab/arm",CHAN_BODY,1,0,ATTN_NONE)
+		SOAB A 70 bright
+	Death:
+		TNT1 A 0 A_NoBlocking
+		TNT1 A 0 A_SpawnItem("Nuke")
+		stop
+	}
+}
+
+Actor Nuke
+{
+	+NoBlockmap
+	+NoGravity
+	+ForceRadiusDmg
+	damagetype Nuke
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_PlaySound("soab/blau",CHAN_VOICE,1,0,ATTN_NONE)
+		TNT1 A 1 A_Explode(5000,1024,1)
+		TNT1 A 0 Radius_Quake(7,105,32,100,0)
+		TNT1 A 0 A_SpawnItem("NukeFlare",0,0,0)
+		TNT1 A 25 A_SpawnItem("NukeFloor",0,0,0)
+		TNT1 AA 0 A_SpawnItem("NukeSmokeFloor",0,0,0)
+		TNT1 A 0 A_SpawnItemEx("NukePillar",0,0,0,0,0,10)
+		TNT1 A 105 A_SpawnItemEx("NukeSmokePillar",0,0,0,0,0,10)
+		TNT1 A 0 A_SpawnItem("NukeMushroom",0,800,0)
+		TNT1 AA 0 A_SpawnItem("NukeSmokeMushroom",0,800,0)
+		Stop
+	}
+}
+
+Actor NukeFire : Nuke
+{
+	RenderStyle Add
+	+NoInteraction
+	+CLIENTSIDEONLY
+	Scale 0.75
+	States
+	{
+	Spawn:
+		TNT1 AA 0 A_Jump(196,"Spawn2","Spawn3","Spawn4")
+		FLA1 A 1 Bright A_FadeOut(0.005)
+		Wait
+	Spawn2:
+		FLA2 A 1 Bright A_FadeOut(0.005)
+		Wait
+	Spawn3:
+		FLA3 A 1 Bright A_FadeOut(0.005)
+		Wait
+	Spawn4:
+		FLA4 A 1 Bright A_FadeOut(0.005)
+		Wait
+	}
+}
+
+Actor NukeSmoke : Nuke
+{
+	Scale 3.5
+	+NoInteraction
+	+CLIENTSIDEONLY
+	Alpha 0.5
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_Jump(256,"Spawn1","Spawn2","Spawn3","Spawn4")
+	Spawn1:
+		SMOK A 0
+		Goto Idle
+	Spawn2:
+		SMOK B 0
+		Goto Idle
+	Spawn3:
+		SMOK C 0
+		Goto Idle
+	Spawn4:
+		SMOK D 0
+		Goto Idle
+	Idle:
+		TNT1 A 0 A_JumpIf(CallACS("SmokeToggleCheck")==0,"Death")
+		SMOK "#" 5 A_FadeOut(0.005)
+		Loop
+	Death:
+		TNT1 A 1
+		Stop
+	}
+}
+
+Actor NukeFlare : NukeFire
+{
+	Scale 16
+	+NoInteraction
+	States
+	{
+	Spawn:
+		FLAR A 1 Bright A_FadeOut(0.01)
+		Wait
+	}
+}
+
+Actor NukeFloor : Nuke
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 1 A_SpawnItemEx("NukeFire",0,0,0,0.00001 * Random(0,300000),0.00001 * Random(0,300000),0,Random(0,359))
+		Stop
+	}
+}
+
+Actor NukeSmokeFloor : Nuke
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 1 A_SpawnItemEx("NukeSmoke",0,0,0,0.00001 * Random(0,300000),0.00001 * Random(0,300000),0,Random(0,359))
+		Stop
+	}
+}
+
+Actor NukePillar : Nuke
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 1 A_SpawnItemEx("NukeFire",0,0,0,0.00001 * Random(0,100000),0.00001 * Random(0,100000),Random(0,-3),Random(0,359))
+		TNT1 A 0 A_SpawnItem("NukeSmokering",0,0,0)
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 1 A_SpawnItemEx("NukeFire",0,0,0,0.00001 * Random(0,100000),0.00001 * Random(0,100000),Random(0,-3),Random(0,359))
+		Stop
+	}
+}
+
+Actor NukeSmokePillar : Nuke
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 1 A_SpawnItemEx("NukeSmoke",0,0,0,0.00001 * Random(0,100000),0.00001 * Random(0,100000),0.00001 * Random(0,-400000),Random(0,359))
+		Stop
+	}
+}
+
+Actor NukeMushroom : Nuke
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 1 A_SpawnItemEx("NukeFire",0,0,0,0.00001 * Random(0,250000),0.00001 * Random(0,250000),0.00001 * Random(-100000,100000),Random(0,359))
+		Stop
+	}
+}
+
+Actor NukeSmokeMushroom : Nuke
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 1 A_SpawnItemEx("NukeSmoke",0,0,0,0.00001 * Random(0,250000),0.00001 * Random(0,250000),0.00001 * Random(-100000,100000),Random(0,359))
+		Stop
+	}
+}
+
+Actor NukeSmokering : Nuke
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_SpawnItemEx("NukeSmoke",0,0,0,4)
+		TNT1 A 0 A_SpawnItemEx("NukeSmoke",0,0,0,4,0,0,20)
+		TNT1 A 0 A_SpawnItemEx("NukeSmoke",0,0,0,4,0,0,40)
+		TNT1 A 0 A_SpawnItemEx("NukeSmoke",0,0,0,4,0,0,60)
+		TNT1 A 0 A_SpawnItemEx("NukeSmoke",0,0,0,4,0,0,80)
+		TNT1 A 0 A_SpawnItemEx("NukeSmoke",0,0,0,4,0,0,100)
+		TNT1 A 0 A_SpawnItemEx("NukeSmoke",0,0,0,4,0,0,120)
+		TNT1 A 0 A_SpawnItemEx("NukeSmoke",0,0,0,4,0,0,140)
+		TNT1 A 0 A_SpawnItemEx("NukeSmoke",0,0,0,4,0,0,160)
+		TNT1 A 0 A_SpawnItemEx("NukeSmoke",0,0,0,4,0,0,180)
+		TNT1 A 0 A_SpawnItemEx("NukeSmoke",0,0,0,4,0,0,200)
+		TNT1 A 0 A_SpawnItemEx("NukeSmoke",0,0,0,4,0,0,220)
+		TNT1 A 0 A_SpawnItemEx("NukeSmoke",0,0,0,4,0,0,240)
+		TNT1 A 0 A_SpawnItemEx("NukeSmoke",0,0,0,4,0,0,260)
+		TNT1 A 0 A_SpawnItemEx("NukeSmoke",0,0,0,4,0,0,280)
+		TNT1 A 0 A_SpawnItemEx("NukeSmoke",0,0,0,4,0,0,300)
+		TNT1 A 0 A_SpawnItemEx("NukeSmoke",0,0,0,4,0,0,320)
+		TNT1 A 0 A_SpawnItemEx("NukeSmoke",0,0,0,4,0,0,340)
+		Stop
+	}
+}
+
+// For Shadsy
+
+actor PowerTheyLive : Powerup
+{
+	Powerup.Colormap 0,0,0,1,1,1
+	Powerup.Duration 0x7ffffffd
+}

@@ -1,0 +1,131 @@
+// Splot - Includes
+ACTOR PowerPseudoInvincible : PowerProtection
+{
+	damagefactor "normal",0
+	Powerup.Duration 0x7fffffff
+}
+/*DAMAGETYPE ReelPoison
+{
+	NoArmor
+}*/
+
+#include "actors/D-PLAYER.dec"
+#include "actors/D-SPAWN.dec"
+#include "actors/D-REEL.dec"
+#include "actors/D-FX.dec"
+#include "actors/D-FIRE.dec"
+
+#include "actors/characters/BASE.dec"
+#include "actors/characters/zombiemen.dec"
+#include "actors/characters/brony.dec"
+#include "actors/characters/strife.dec"
+#include "actors/characters/imps.dec"
+#include "actors/characters/barons.dec"
+#include "actors/characters/eyes.dec"
+#include "actors/characters/robots.dec"
+#include "actors/characters/dogs.dec"
+#include "actors/characters/aliens.dec"
+#include "actors/characters/medieval.dec"
+#include "actors/characters/undead.dec"
+#include "actors/characters/wolf3d.dec"
+#include "actors/characters/cowboys.dec"
+#include "actors/characters/marathon.dec"
+#include "actors/characters/skeletons.dec"
+#include "actors/characters/cultist.dec"
+
+#include "actors/props/collateral.dec"
+
+#include "actors/pickups/throwables.dec"
+#include "actors/pickups/items.dec"
+#include "actors/pickups/ammo.dec"
+#include "actors/pickups/inventory.dec"
+
+#include "actors/weapons/melee.dec"
+#include "actors/weapons/pistols.dec"
+#include "actors/weapons/crateshower.dec"
+#include "actors/weapons/blau.dec"
+#include "actors/weapons/wolf3d.dec"
+#include "actors/weapons/shotguns.dec"
+#include "actors/weapons/raven.dec"
+#include "actors/weapons/fire.dec"
+#include "actors/weapons/nrg.dec"
+#include "actors/weapons/bluemagic.dec"
+#include "actors/weapons/leadhoses.dec"
+#include "actors/weapons/hacx.dec"
+#include "actors/weapons/duke3d.dec"
+#include "actors/weapons/crapshoot.dec"
+#include "actors/weapons/chinabeta.dec"
+
+#include "actors/characters/bosses.dec"
+#include "actors/characters/bosses-x3.dec" // for sanity's sake...
+#include "actors/characters/jackpots.dec"	//Move this down here for inheritance
+
+#include "actors/D-TANK.dec"
+#include "actors/D-DOG.dec"
+#include "actors/D-CHICKEN.dec"
+#include "actors/D-MULTI.dec"
+
+#include "actors/props/X1PROPS.dec"
+#include "actors/props/X2PROPS.dec"
+#include "actors/props/X3PROPS.dec"
+#include "actors/props/valhalla.dec"
+
+ACTOR Confusion
+{
+	Radius 8
+	Height 8
+	+NOGRAVITY
+	+CLIENTSIDEONLY
+	VSpeed 16
+	States
+	{
+	Spawn:
+		CONF A 0
+		CONF A 16 ThrustThingZ(0,4,0,1)
+		CONF A 1 A_FadeOut
+		Wait
+	}
+}
+
+ACTOR PowerInfiniteAmmoFixed : PowerInfiniteAmmo
+{
+	Powerup.Duration -60
+}
+
+actor PowerAsbestos : PowerProtection
+{
+	damagefactor "Fire", 0.0
+	Powerup.Duration -60
+}
+
+actor PowerBoing : PowerHighJump
+{
+	powerup.duration -60
+}
+
+actor PowerStressTest : PowerProtection
+{
+	damagefactor "Fire", 0.0
+	DamageFactor "Enemy",0
+	DamageFactor "EnemyShotgun",0
+	DamageFactor "EnemyAlien",0
+	DamageFactor "Nuke",0
+	DamageFactor "CarCrash",0
+	DamageFactor "Barkblast",0
+	DamageFactor "RunOver",0
+	DamageFactor "Defib",0
+	Powerup.Duration -60
+}
+
+actor PowerQuadDamage : PowerDamage
+{
+	damagefactor "None", 4
+	Powerup.Color "00 50 FF", 0.15
+	Powerup.Duration -60
+}
+
+ACTOR IceGibs : IceChunk replaces IceChunk
+{
+	BounceType Hexen
+	gravity 0.4
+}

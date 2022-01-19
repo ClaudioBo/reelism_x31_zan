@@ -1,0 +1,19 @@
+#library "splot994"
+#import "splot.acs"
+#include "zcommon.acs"
+
+script 994(void)	// ending use button detection.
+{
+	//Ed - this will let any of the players end the stage
+	int success = 0;
+	for(int i = 0;!success && i < 64;i++)
+		if (GetPlayerInput(i,INPUT_BUTTONS)&BT_USE)
+			success = 1;
+	if(success == 1)
+		if(GameType()==GAME_SINGLE_PLAYER)
+			Exit_Normal(0);
+		else
+			ChangeLevel("LOBBY",0,CHANGELEVEL_RESETINVENTORY|CHANGELEVEL_RESETHEALTH|CHANGELEVEL_NOINTERMISSION,-1);
+	delay(1);
+	Restart;
+}

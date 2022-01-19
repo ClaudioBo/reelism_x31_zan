@@ -1,0 +1,10 @@
+SPLOT	//Main library
+
+SPLOT100//Reel Effects
+SPLOT101//Bosstime
+SPLOT102//Music
+SPLOT104//Jackpots
+SPLOT993//Victory Sequence
+SPLOT994//Exiting Map
+SPLOT995//Initialize Player
+SPLOTFX	//Control extra visuals (currently smoke and embers)

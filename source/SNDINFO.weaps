@@ -1,0 +1,304 @@
+// Splot - Weapons Sounds
+$random weapons/drill{weapons/drill1 weapons/drill2 weapons/drill3 weapons/drill4}
+weapons/drill1		drill1
+weapons/drill2		drill2
+weapons/drill3		drill3
+weapons/drill4		drill4
+
+weapons/handgun/fire	handgun
+
+weapons/tankmissile/fire	tankfir1
+
+weapons/tankmissile/hyper	rockmg
+
+$random weapons/tankmissile/explode{weapons/tankmissile/explode1 weapons/tankmissile/explode2}
+weapons/tankmissile/explode1	tankexp1
+weapons/tankmissile/explode2	tankexp2
+
+weapons/flamethrower/start		flthstrt
+weapons/flamethrower/loop		flthloop
+weapons/flamethrower/end		flthend
+
+weapons/gasbomb/fire		gasbomb
+weapons/gasbomb/explode		gasboom
+
+// Raven
+weapons/bowshoot		bowsht
+weapons/bowhit			hrnhit
+weapons/maceshoot		lobsht
+weapons/macebounce		bounce
+weapons/macehit			lobhit
+weapons/macestop		pstop
+weapons/maceexplode		phohit
+weapons/ravenget		getravn
+$limit weapons/maceexplode 0
+$limit weapons/maceshoot 0
+FighterHammerMiss		hammis2
+FighterHammerHitWall	hamwal1
+FighterHammerHitThing	hmhit1a
+FighterHammerContinuous hamfly1
+FighterHammerExplode	impact3
+
+HolySymbolFire			holy3
+SpiritActive			spirt7
+SpiritAttack			spirt5
+SpiritDie				spirts1
+
+
+
+// Tank
+tank/move	tankmove
+tank/hlaser	TANKLAZR
+tank/hloop	TANKLZLP
+
+$random tank/hit{tank/hit1 tank/hit2 tank/hit3 tank/hit4}
+tank/hit1		tankhit1
+tank/hit2		tankhit2
+tank/hit3		tankhit3
+tank/hit4		tankhit4
+
+$random tank/runover{tank/runover1 tank/runover2 tank/runover3}
+tank/runover1		runover1
+tank/runover2		runover2
+tank/runover3		runover3
+
+$random tank/runovercar{tank/runovercar1 tank/runovercar2 tank/runovercar3}
+tank/runovercar1	carcrsh1
+tank/runovercar2	carcrsh2
+tank/runovercar3	carcrsh3
+
+// Fists
+attack/punchwall		punchwal
+$random attack/punch{attack/punch1 attack/punch2 attack/punch3}
+attack/punch1 fist1
+attack/punch2 fist2
+attack/punch3 fist3
+attack/punchmiss fistmiss
+
+defib/zap		defibzap
+
+// Bat
+bat/wall		batwall
+bat/hit			bathit
+
+// Wolfenstein sounds
+wolf/lugerget		getwlugr
+wolf/lugerfire		wolflugr
+wolf/machineget		getwmgun
+wolf/machinefire	wolfmgun
+wolf/chainget		getwchgn
+wolf/chainfire		wolfcgun
+wolf/spearget		getspear
+wolf/spearfire		wsprfire
+wolf/spearhit		wsprhit
+wolf/spearkill		wsprkill
+
+// Dog Mode
+dog/chew	P_DOGBIT
+dog/charge1	P_DOGPR1
+dog/charge2	P_DOGPR2
+dog/charge3	P_DOGPR3
+dog/charge4	P_DOGPR4
+dog/charge5	P_DOGPR5
+dog/lick	P_DOGLIK
+dog/blast	P_DOGBLA
+dog/bark	P_DOGBRK
+dog/bspark	P_DOGSPK
+
+// Minigun
+weapons/minigunhold	DSMGMID
+weapons/minigunup	dsmgup
+weapons/minigundown	dsmgdown
+weapons/miniout		miniout
+
+weapons/idc			idc
+
+$random weapons/minigun{weapons/minigun1 weapons/minigun2}
+weapons/minigun1	DSMINIG1
+weapons/minigun2	DSMINIG2
+
+// Street Sweeper
+$random weapons/sweeper{weapons/sweeper1 weapons/sweeper2 weapons/sweeper3}
+weapons/sweeper1	sweep1
+weapons/sweeper2	sweep2
+weapons/sweeper3	sweep3
+
+weapons/xshot/fire	xshot1
+weapons/xshot/cock	xshot2
+
+$random weapons/xshot/boom { weapons/xshot/boom1 weapons/xshot/boom2 }
+weapons/xshot/boom1	xshot-x1
+weapons/xshot/boom2	xshot-x2
+
+// Casings
+$random weapons/casing1{weapons/casings/bullet1 weapons/casings/bullet2 weapons/casings/bullet3 weapons/casings/bullet4 weapons/casings/bullet5}
+weapons/casings/bullet1	bcase1
+weapons/casings/bullet2	bcase2
+weapons/casings/bullet3	bcase3
+weapons/casings/bullet4	bcase4
+weapons/casings/bullet5	bcase5
+
+$random weapons/casing2{weapons/casings/shell1 weapons/casings/shell2 weapons/casings/shell3 weapons/casings/shell4 weapons/casings/shell5}
+weapons/casings/shell1	scase1
+weapons/casings/shell2	scase2
+weapons/casings/shell3	scase3
+weapons/casings/shell4	scase4
+weapons/casings/shell5	scase5
+
+//Thunderbolt
+weapons/lightning/start	thunon
+weapons/lightning/loop	thunloop
+
+// flaregun
+weapons/flaregun	flarfire
+weapons/flare		flarimpt
+
+// Javelin
+weapons/javelin/fire	javfire
+
+$random weapons/javelin/bounce{weapons/javelin/bounce1 weapons/javelin/bounce2}
+weapons/javelin/bounce1	javbnc1
+weapons/javelin/bounce2	javbnc2
+
+// baronarm
+weapons/baronarm	getarm
+$random baronarm/fire{baronarm/fire1 baronarm/fire2}
+baronarm/fire1	brmfire1
+baronarm/fire2	brmfire2
+weapons/armin	barmin
+
+bog			bog
+
+// HACX 2.0 Weapons
+weapons/tazer				dstazgun
+weapons/tazerfire			dstazerf
+weapons/tazerhit			dstazerh
+weapons/tazerzap			dstazerz
+weapons/tazercharge			dstazerc
+
+weapons/uzi					dsuzi
+weapons/uzireload			dsuzirel
+$limit weapons/uzi 0
+
+weapons/antigun				dsantign
+weapons/antigunhit			dsanthit
+$limit weapons/antigun 0
+
+weapons/nuker				dsnuker
+weapons/nukehit				dsnuboom
+
+// Duke 3D Weapons
+// dukerpg
+duke/wpnsel			wpnsel21
+duke/rpgfire		drpgfire
+duke/ripper			dripper
+duke/devfire		devfire
+duke/freezer		dufrfire
+weapons/dukefreeze	dufreeze
+$limit duke/devfire 0
+$limit duke/ripper 0
+
+$random duke/bombexp { duke/bombexp1 duke/bombexp2 duke/bombexp3 }
+duke/bombexp1				bombexp1
+duke/bombexp2				bombexp2
+duke/bombexp3				bombexp3
+
+duke/enemygib				dnsplat
+
+// Bottle
+bottle/intactwall			btl1wall
+bottle/smash				btl1smsh
+bottle/wall				btl2wall
+bottle/flesh				btl2flsh
+
+drunk/fire				drunkm
+
+// THE HOLY BRICK
+weapons/getholybrick		gethbrk
+holybrick/trigger			getfinal
+
+// CRAPSHOOT!
+weapons/m16/fire			crapmg-1
+weapons/m16/misfire			crapmg-2
+
+weapons/quantum/fire		quantum
+
+$random weapons/quantum/hit { weapons/quantum/hit1 weapons/quantum/hit2 weapons/quantum/hit3 }
+weapons/quantum/hit1		quanhit1
+weapons/quantum/hit2		quanhit2
+weapons/quantum/hit3		quanhit3
+
+$random weapons/quantum/glitch	{ weapons/quantum/glitch1 weapons/quantum/glitch2 weapons/quantum/glitch3 }
+weapons/quantum/glitch1		glitch1
+weapons/quantum/glitch2		glitch2
+weapons/quantum/glitch3		glitch3
+
+weapons/blackhole/portal    bholport
+
+// Expansion 3 starts here
+weapons/quad				damage3
+$limit weapons/quad 1
+
+weapons/discgun/fire			discgun
+weapons/discgun/get				discget
+$random weapons/discgun/bounce	{weapons/discgun/bounce1 weapons/discgun/bounce2}
+weapons/discgun/bounce1			discbnc1
+weapons/discgun/bounce2			discbnc2
+
+weapons/betarifle/fire			betapist
+weapons/betarifle/melee			betabayo
+
+weapons/flechette/explode		FLECBOOM
+weapons/flechette/bounce		FLECBNCE
+weapons/flechette/throw			FLECTHROW
+weapons/flechette/get			GETFLECH
+
+weapons/conc/pickup		getconc
+weapons/conc/bounce		concbnce
+weapons/conc/boom		concboom
+weapons/conc/throw		concthro
+
+weapons/proxy/get		getprox
+weapons/proxy/land		proxland
+weapons/proxy/throw		proxthro
+weapons/proxy/trig		proxtrig
+
+weapons/icebomb/get			geticeb
+weapons/icebomb/bounce		icebbnce
+weapons/icebomb/boom		icebboom
+
+weapons/craprl			craprlfi
+
+weapons/m90/fire		m90fire
+weapons/m90/up			m90up
+weapons/m90/down		m90down
+
+weapons/burstgun		bursfire
+
+weapons/wolfflamer/attack		dsbo3atk
+weapons/wolfflamer/impact		dsflame
+weapons/wolfflamer/get			getwflam
+weapons/wolfpanzer/get			getwpanz
+weapons/wolfexplode				wolfboom
+
+weapons/mastersword/clang		ms-clang
+weapons/mastersword/draw		ms-draw
+weapons/mastersword/lower		ms-lower
+weapons/mastersword/magic		ms-magic
+weapons/mastersword/swing		ms-swing
+weapons/mastersword/hit			ms-hit
+weapons/mastersword/magichit	ms-mhit
+weapons/mastersword/magicloop	ms-mlop
+
+weapons/clusterbomb/fire		clusfire
+weapons/clusterbomb/explode		clusboom
+weapons/clusterbomb/pop1		cluspop1
+weapons/clusterbomb/pop2		cluspop2
+$random weapons/clusterbomb/pop { weapons/clusterbomb/pop1 weapons/clusterbomb/pop2 }
+
+weapons/betarpg/fire			betarpg
+
+weapons/angstbots/drop			biodrop
+weapons/angstbots/move			biomed
+weapons/angstbots/boom			bioboom
+

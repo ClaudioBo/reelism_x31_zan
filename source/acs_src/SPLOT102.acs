@@ -1,0 +1,38 @@
+#library "splot102"
+#import "splot.acs"
+#include "zcommon.acs"
+
+script 102(void) // Normal Music Change Script
+{
+	song = random(1,15);
+	SetMusic(playlist[song - 1],0);
+}
+
+script 103(void) // Boss Music Change Script
+{
+	song = random(1,9);
+	SetMusic(bosslist[song - 1],0);
+}
+
+script 105(void) // Victory Music Change Script
+{
+	if(GetLevelInfo(LEVELINFO_LEVELNUM)>=100)
+		SetMusic("RUSHVICT",0);
+	else
+	{
+		song = random(1,9);
+		SetMusic(winlist[song - 1],0);
+	}
+}
+
+script "SpecialBossMusic" (int mode)
+{
+	if(GetLevelInfo(LEVELINFO_LEVELNUM)>=100)
+		terminate;
+	if(mode==1)
+		SetMusic("mus-ulti",0);
+	else if(mode==2)
+		SetMusic("mus-wiz",0);
+	else
+		SetMusic("");
+}

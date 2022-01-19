@@ -1,0 +1,262 @@
+#library "splot100"
+#import "splot.acs"
+#include "zcommon.acs"
+
+// These rig the slots in round 1 to avoid unfairness
+int round1slots1[10] = { 2, 3, 4, 5, 6, 7, 8, 16, 17, 18 };
+int round1slots2[11] = { 1, 3, 4, 5, 6, 7, 8, 11, 12, 14, 15 };
+int round1slots3[12] = { 1, 2, 3, 4, 5, 7, 8, 11, 12, 13, 14, 15 };
+
+//[Ed850] Used for shuffled slots in shuffle mode
+int slot1_shuffle[30];
+int slot2_shuffle[30];
+int slot3_shuffle[30];
+
+script 100(void)	// Slot Machine Script						//Ed - Rewritten to use loops and run it for every player when necessary
+{
+	slotting = 1;
+	ResetMachine();
+	delay(10);	//shaved off six tics, trying to sync this up with actual seconds (10+60 tics is exactly 2 secs)
+	SetMusic("mus-drum",0);
+	delay(60);
+
+	if (round == 1 && GameSkill() == 13) //[Ed850] In shuffle mode, so set it all up!
+	{
+		int i, move1, move2, move3, new;
+
+		for (i = 0; i < REELMAXSHUFFLE; i++)
+		{
+			slot1_shuffle[i] = i+1;
+			slot2_shuffle[i] = i+1;
+			slot3_shuffle[i] = i+1;
+		}
+
+		for (i = 0; i < REELMAXSHUFFLE-1; i++)
+		{
+			//Pick a random value. First one uses the round1slots
+			if(i == 0)
+			{
+				move1 = round1slots1[random_ext(0, 7)] - 1;
+				move2 = round1slots2[random_ext(0, 10)] - 1;
+				move3 = round1slots3[random_ext(0, 11)] - 1;
+			}
+			else
+			{
+				move1 = random_ext(i, REELMAXSHUFFLE-1);
+				move2 = random_ext(i, REELMAXSHUFFLE-1);
+				move3 = random_ext(i, REELMAXSHUFFLE-1);
+			}
+
+			new = slot1_shuffle[i];
+			slot1_shuffle[i] = slot1_shuffle[move1];
+			slot1_shuffle[move1] = new;
+
+			new = slot2_shuffle[i];
+			slot2_shuffle[i] = slot2_shuffle[move2];
+			slot2_shuffle[move2] = new;
+
+			new = slot3_shuffle[i];
+			slot3_shuffle[i] = slot3_shuffle[move3];
+			slot3_shuffle[move3] = new;
+		}
+
+		if(GetCvar("ReelDev"))
+		{
+			for (i = 0; i < REELMAXSHUFFLE; i++)
+				log(s:"Slot 1, pos ", d:i, s:": ", d:slot1_shuffle[i]);
+			for (i = 0; i < REELMAXSHUFFLE; i++)
+				log(s:"Slot 2, pos ", d:i, s:": ", d:slot2_shuffle[i]);
+			for (i = 0; i < REELMAXSHUFFLE; i++)
+				log(s:"Slot 3, pos ", d:i, s:": ", d:slot3_shuffle[i]);
+		}
+	}
+
+	// [XA] Allow for rigged slots here. (also in other reels)
+	if(rigslot1 > 0 && rigslot1 < REEL1MAX+1)//If someone rigged it higher than the maximum
+	{
+		slot1 = rigslot1;
+		rigslot1 = 0;
+	}
+	else if (GameSkill() == 13)
+		slot1 = slot1_shuffle[round-1];
+	else if (round == 1)
+		slot1 = round1slots1[random_ext(0,9)];
+	else
+		slot1 = random_ext(1,REEL1MAX);
+
+	if(GetCvar("ReelDev"))
+		log(s:"Slot 1, rolled ", d:slot1);
+
+	// set up hud number for custom slots
+	if(slot1 > REELMAX)
+		customslotnum1 = slot1;
+
+	AmbientSound("slot/reel",127);
+	//Ed - Give everyone the same item for Slot 1
+	for(i = 1337; i < 1400; i++)
+		TakeActorInventory(i,"Slot1Spinning",1);
+	delay(1);
+	for(i = 1337; i < 1400; i++)
+		GiveActorInventory(i,slot1list[slot1-1][0],1);
+	delay(34);
+
+	// [XA] Rig slot 2.
+	if(rigslot2 > 0 && rigslot2 < REEL2MAX+1)//If someone rigged it higher than the maximum
+	{
+		slot2 = rigslot2;
+		rigslot2 = 0;
+	}
+	else if (GameSkill() == 13)
+		slot2 = slot2_shuffle[round-1];
+	else if (round == 1)
+		slot2 = round1slots2[random_ext(0,10)];
+	else
+		slot2 = random_ext(1,REEL2MAX);
+
+	if(GetCvar("ReelDev"))
+		log(s:"Slot 2, rolled ", d:slot2);
+
+	// set up hud number for custom slots
+	if(slot2 > REELMAX)
+		customslotnum2 = slot2;
+
+	AmbientSound("slot/reel",127);
+	//Ed - Give everyone Slot 2
+	for(i = 1337; i < 1400; i++)
+		TakeActorInventory(i,"Slot2Spinning",1);
+	delay(1);
+	for(i = 1337; i < 1400; i++)
+		GiveActorInventory(i,slot2list[slot2-1][0],1);
+
+	if (slot1 == slot2) // Add a little drama and rig jackpots to be a little more likely
+		AmbientSound("jackpot/maybe",127);
+	delay(34);
+
+	// [XA] Rig slot 3.
+	if(rigslot3 > 0 && rigslot3 < REEL3MAX+1)//If someone rigged it higher than the maximum (currently 13)
+	{
+		slot3 = rigslot3;
+		rigslot3 = 0;
+	}
+	else if (GameSkill() == 13)
+		slot3 = slot3_shuffle[round-1];
+	else if (round == 1)
+		slot3 = round1slots3[random_ext(0,11)];
+	else if (slot1==slot2&&random(0,1))	// Let's make jackpots a little more likely - flip a coin!
+		slot3 = slot2;
+	else
+		slot3 = random_ext(1,REEL3MAX);
+
+	if(GetCvar("ReelDev"))
+		log(s:"Slot 3, rolled ", d:slot3);
+
+	// set up hud number for custom slots
+	if(slot3 > REELMAX)
+		customslotnum3 = slot3;
+
+	AmbientSound("slot/reel",127);
+	//Ed - Slot 3
+	for(i = 1337; i < 1400; i++)
+		TakeActorInventory(i,"Slot3Spinning",1);
+	ACS_NamedExecuteAlways("SlotResults",0);
+	delay(1);
+	for(i = 1337; i < 1400; i++)
+		GiveActorInventory(i,slot3list[slot3-1][0],1);
+}
+
+script "SlotResults"(void)
+{
+	// PRINT THE RESULTS!
+	if(dead)
+		terminate;
+	ACS_ExecuteAlways(104,0);
+	//slotting = 0;	//Moved this to 104, to give it a chance to finish before effects get set in stone
+	SetMusic("");
+	AmbientSound("slot/ding",127);
+
+	if (slot1 == slot2 && slot3 != slot2) // DEEE-NIED
+		AmbientSound("jackpot/denied",127);
+
+	PrinterPrepReels();
+
+	//Slot 1
+	SetFont("BIGFONT");
+	hudmessagebold(s:slot1list[slot1 - 1][1]; HUDMSG_FADEOUT|HUDMSG_LOG,1,5,0.1,8.0,8.0,1.0);
+	SetFont("SMALLFONT");
+	hudmessagebold(s:slot1list[slot1 - 1][2]; HUDMSG_FADEOUT,2,9,0.1,20.0,8.0,1.0);
+	//Slot 2
+	SetFont("BIGFONT");
+	hudmessagebold(s:slot2list[slot2 - 1][1]; HUDMSG_FADEOUT|HUDMSG_LOG,3,5,0.1,29.1,8.0,1.0);
+	SetFont("SMALLFONT");
+	hudmessagebold(s:slot2list[slot2 - 1][2]; HUDMSG_FADEOUT,4,9,0.1,45.1,8.0,1.0);
+	//Slot 3
+	SetFont("BIGFONT");
+	hudmessagebold(s:slot3list[slot3 - 1][1]; HUDMSG_FADEOUT|HUDMSG_LOG,5,5,0.1,60.1,8.0,1.0);
+	SetFont("SMALLFONT");
+	hudmessagebold(s:slot3list[slot3 - 1][2]; HUDMSG_FADEOUT,6,9,0.1,76.1,8.0,1.0);
+
+	// Trigger the actual effects
+	//Local effects
+	for(int i = 1337; i < 1400; i++)
+	{
+		if(slot1 == 1)
+			SetActorProperty(i,APROP_Speed,0.7);
+		else if(slot1 == 3)
+			GiveActorInventory(i,"PowerDoubleFiringSpeed",1);
+		else if(slot1 == 5)
+			SetActorProperty(i,APROP_Speed,2.0);
+		else if(slot1 == 6)
+			GiveActorInventory(i,"PowerInfiniteAmmoFixed",1);
+		else if(slot1 == 7)
+			GiveActorInventory(i,"PowerFlight",1);
+		else if(slot1 == 14)
+			GiveActorInventory(i,"DisableHUD",1);
+		else if(slot1 == 16)
+			GiveActorInventory(i,"PowerAsbestos",1);
+		else if(slot1 == 17)
+			GiveActorInventory(i,"PowerQuadDamage",1);
+
+
+		if(slot2 == 2)
+			if(slot1 == 15)
+				ACS_NamedExecuteAlways("MorphMe",0,i,"HyperTankMorpherEX");
+			else
+				ACS_NamedExecuteAlways("MorphMe",0,i,"TankMorpherEX");
+		else if(slot2 == 13)
+			if(slot1 == 15)
+				ACS_NamedExecuteAlways("MorphMe",0,i,"HyperDogMorpherEX");
+			else
+				ACS_NamedExecuteAlways("MorphMe",0,i,"DogMorpherEX");
+	}
+
+	//Global effects
+	if(slot1 == 2)
+		SetGravity(200.0);
+	else if(slot1 == 10)
+		ACS_ExecuteAlways(183,0);
+	else if(slot1 == 12)
+		ACS_ExecuteAlways(184,0);
+	else if(slot1 == 13)
+	{
+		SetHudSize(1024,768,1);
+		SetFont("IREEL");
+		hudmessagebold(s:"A"; HUDMSG_PLAIN,42,9,512.0,384.0,99.0);
+	}
+	else if(slot1 == 17)
+	{
+		AmbientSound("weapons/quad",127);
+		PlayAnnouncer("announcer/quad");
+	}
+
+	if(slot1 > REELMAX)
+		ACS_NamedExecuteAlways(slot1script[slot1-1],0,1);
+
+	if(slot3 == 9)
+		SpawnSpotForced("TheJerk",905,899,0);	//Even if someone runs over the spawnpoint, it'll show up
+
+	delay(4);
+	roundsplayed++;
+	//slottimer = 60;
+	if(dead == 0)
+		ACS_ExecuteAlways(102,0);
+}

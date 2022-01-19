@@ -1,0 +1,2187 @@
+// Splot - Jackpot Actors
+// 3333333333
+ACTOR Three
+{
+	Health 3
+	Radius 32
+	Height 32
+	scale 2
+	Speed 8
+	Monster
+	+FLOORCLIP
+	+NOSPLASHALERT
+	+DROPOFF
+	+LOOKALLAROUND
+	+NOBLOCKMONST
+	//+FORCEXYBILLBOARD
+	DropItem "DynAmmo"
+	States
+	{
+	Spawn:
+		THRE A 0
+		THRE A 0 Thing_ChangeTID(0,900)
+		THRE A 1 A_Look
+		THRE A 0 A_AlertMonsters
+		goto See
+	See:
+		THRE A 1 A_Wander
+		Loop
+	Death:
+		TNT1 A 1 A_GiveToTarget("ScoreItem",333)
+		Stop
+	}
+}
+
+// Sonic
+ACTOR Sonic1 : MonsterTemplate
+{
+	Health 10
+	Height 56
+	Speed 8
+	PainChance 200
+	PainSound "brony/pain"
+	DeathSound "sawnik/die"
+	ActiveSound "sawnik/chat"
+	Obituary "HOW???"
+	//DropItem ""
+	States
+	{
+	Spawn:
+		SONC A 0
+		SONC A 0 Thing_ChangeTID(0,900)
+		SONC A 1 A_Look
+		SONC A 0 A_AlertMonsters
+		Goto See
+	See:
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==9,"DogWhistle")
+		//SONC D 0 A_JumpIf(velz!=0,"MidAir")
+		SONC D 4 A_Chase
+		SONC A 0 A_JumpIf(velz!=0,"MidAir")
+		SONC E 4 A_Chase
+		SONC A 0 A_JumpIf(velz!=0,"MidAir")
+		SONC F 4 A_Chase
+		SONC A 0 A_JumpIf(velz!=0,"MidAir")
+		SONC G 4 A_Chase
+		SONC A 0 A_JumpIf(velz!=0,"MidAir")
+		SONC H 4 A_Chase
+		SONC A 0 A_JumpIf(velz!=0,"MidAir")
+		SONC I 4 A_Chase
+		SONC A 0 A_JumpIf(velz!=0,"MidAir")
+		SONC J 4 A_Chase
+		SONC A 0 A_JumpIf(velz!=0,"MidAir")
+		SONC K 4 A_Chase
+		Loop
+	MidAir:
+		SONC BBCCBB 1 A_CheckFloor("See")
+		SONC CCBB 1 A_CheckFloor("Landing")
+		TNT1 A 0 A_JumpIf(velz==0,"See")
+		Goto MidAir+6
+	Landing:
+		SONC A 1
+		SONC A 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		SONC A 5 A_PlaySound("human/land")
+		goto See
+	Missile:
+		//SONC A 0 A_JumpIf(velz!=0,"MidAir")
+		SONC L 1 A_Wander
+		SONC A 0 A_JumpIf(velz!=0,"MidAir")
+		SONC M 1 A_Wander
+		SONC A 0 A_JumpIf(velz!=0,"MidAir")
+		SONC N 1 A_Wander
+		SONC A 0 A_JumpIf(velz!=0,"MidAir")
+		SONC O 1 A_Wander
+		SONC A 0 A_JumpIf(velz!=0,"MidAir")
+		SONC L 1 A_Wander
+		SONC A 0 A_JumpIf(velz!=0,"MidAir")
+		SONC M 1 A_Wander
+		SONC A 0 A_JumpIf(velz!=0,"MidAir")
+		SONC N 1 A_Wander
+		SONC A 0 A_JumpIf(velz!=0,"MidAir")
+		SONC O 1 A_Wander
+		SONC A 0 A_JumpIf(velz!=0,"MidAir")
+		SONC L 1 A_Wander
+		SONC A 0 A_JumpIf(velz!=0,"MidAir")
+		SONC M 1 A_Wander
+		SONC A 0 A_JumpIf(velz!=0,"MidAir")
+		SONC N 1 A_Wander
+		SONC A 0 A_JumpIf(velz!=0,"MidAir")
+		SONC O 1 A_Wander
+		Goto See
+	Pain:
+		SONC P 3
+		SONC P 3 A_Pain
+		Goto See
+	// NORMAL DEATH STATES
+	Death:
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==8,"BirthdayParty")
+		SONC Q 0 A_NoBlocking
+		SONC Q 0 A_GiveToTarget("ScoreItem",100)
+		SONC Q 5 ThrustThingZ(0,64,0,1)
+		SONC Q 10 A_Scream
+		goto CorpseFalling
+	CorpseFalling:
+		SONC Q 1 A_CheckFloor("Corpse")
+		TNT1 A 0 A_JumpIf(velz==0,"CorpseFall2")
+		Loop
+	CorpseFall2:
+		SONC Q 1 A_ChangeFlag("NOCLIP",1)
+		Goto CorpseFalling
+	Corpse:
+		TNT1 A 1
+		Stop
+	// COMEDY DEATH STATES
+	Death.Fire:
+		SONC A 0 A_PlaySound("human/scream")
+		SONC A 0 A_SpawnItemEx("Flame1A",0,0,32)
+		SONC A 0 A_Recoil(-8)
+		SONC A 0 A_SpawnItemEx("Ember1",0,0,32)
+		SONC LMNO 1 A_SetAngle(12 + angle)
+		SONC B 0 A_Recoil(-8)
+		SONC A 0 A_SpawnItemEx("Flame2A",0,0,32)
+		SONC LMNO 1 A_SetAngle(12 + angle)
+		SONC C 0 A_Recoil(-8)
+		SONC A 0 A_SpawnItemEx("Flame1A",0,0,32)
+		SONC LMNO 1 A_SetAngle(12 + angle)
+		SONC D 0 A_Recoil(-8)
+		SONC LMNO 1 A_SetAngle(12 + angle)
+		SONC A 0 A_SpawnItemEx("Flame3B",0,0,32)
+		SONC A 0 A_Jump(128,"Death.Fire")
+		goto Death
+	DogWhistle:
+		TNT1 A 0 A_SpawnItemEx("Confusion",0,0,56)
+		SONC A 0 A_JumpIf(velz!=0,"MidAir")
+		SONC D 2 A_Wander
+		SONC A 0 A_JumpIf(velz!=0,"MidAir")
+		SONC E 2 A_Wander
+		SONC A 0 A_JumpIf(velz!=0,"MidAir")
+		SONC F 2 A_Wander
+		SONC A 0 A_JumpIf(velz!=0,"MidAir")
+		SONC G 2 A_Wander
+		SONC A 0 A_JumpIf(velz!=0,"MidAir")
+		SONC H 2 A_Wander
+		SONC A 0 A_JumpIf(velz!=0,"MidAir")
+		SONC I 2 A_Wander
+		SONC A 0 A_JumpIf(velz!=0,"MidAir")
+		SONC J 2 A_Wander
+		SONC A 0 A_JumpIf(velz!=0,"MidAir")
+		SONC K 2 A_Wander
+		SONC A 0 A_JumpIf(velz!=0,"MidAir")
+		Goto See
+	}
+}
+
+actor Sonic2 : Sonic1
+{
+	Translation 0
+}
+actor Sonic3 : Sonic1
+{
+	Translation 1
+}
+actor Sonic4 : Sonic1
+{
+	Translation 2
+}
+
+// Jackpot!
+ACTOR SevenSevenSeven
+{
+	+NOGRAVITY
+	var int user_count;
+	States
+	{
+	Spawn:
+		TNT1 A 1 A_JumpIf(user_count>=185,3)
+		TNT1 A 0 A_SpawnItemEx("JackpotItem")
+		TNT1 A 0 A_SetUserVar("user_count",user_count+1)
+		Loop
+		TNT1 A 0
+		Stop
+	}
+}
+
+Actor JackpotItem
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_Jump(64,"Telly")
+	Dosh:
+		TNT1 A 0 A_SpawnItemEx("Cash",0,0,64,random(4,16),0,random(8,16),random(0,360),SXF_ABSOLUTEANGLE)
+		stop
+	Telly:
+		TNT1 A 0 A_SpawnItemEx("TV",0,0,64,random(4,16),0,random(8,16),random(0,360),SXF_ABSOLUTEANGLE)
+		stop
+	}
+}
+
+ACTOR Poopla : TheJerk	//Updates a couple of previously-absent properties, like stepheight
+{
+	-NOBLOODDECALS
+	bloodtype "BloodShred"
+	Translation "0:0=0:0"
+	Speed 13	//You sure?
+	Obituary "$OB_POOPLA"
+	States
+	{
+	Spawn:
+		POOP A 0
+		POOP A 0 //Thing_ChangeTID(0,899)
+		POOP A 1 A_Look
+		goto See
+	See:
+		POOP A 0 A_SpawnItemEx("TankTreads")
+		POOP AAAAAA 0 A_SpawnItemEx("Particle_Smoke_Normal5",Random(-32,32),Random(-32,32),Random(0,112),Random(-1,1),Random(-1,1),Random(-1,1))
+		POOP A 2 A_Chase
+		POOP A 0 A_JumpIf(velz!=0,"MidAir")
+		Loop
+	MidAir:
+		POOP AAAAAA 1 A_CheckFloor("See")
+		POOP AAAAAA 0 A_SpawnItemEx("Particle_Smoke_Normal5",Random(-32,32),Random(-32,32),Random(0,112),Random(-1,1),Random(-1,1),Random(-1,1))
+		POOP AA 1 A_CheckFloor("Landing")
+		TNT1 A 0 A_JumpIf(velz==0,"See")
+		goto MidAir+6
+	Landing:
+		POOP A 1
+		POOP A 0 A_SpawnItemEx("Spawner_Explosion_Normal1",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		POOP A 5 A_PlaySound("weapons/explode")
+		goto See
+	Melee:
+		POOP A 8 A_FaceTarget
+		Goto See
+	Death:
+		POOP A 8
+		Stop
+	}
+}
+
+// Cybie Player
+actor CyberdemonPlayer : PlayerPawn
+{
+	health 4000
+	radius 40
+	height 110
+	mass 1000
+	seesound "cyber/sight"
+	painsound "cyber/pain"
+	deathsound "cyber/death"
+	activesound "cyber/active"
+	Player.MaxHealth 4000
+	Player.ForwardMove 0.8
+	Player.SideMove 0.8
+	Player.MorphWeapon "CyberdemonGun"
+	Player.ViewHeight 100
+	DamageFactor 0.05
+	DamageFactor RunOver,0
+	//+NODAMAGE
+	+NOSKIN
+	Player.SoundClass Cyberdemon
+	states
+	{
+	Spawn:
+		CYBR A -1
+		loop
+	See:
+		CYBR A 3 A_PlaySound("cyber/hoof")
+		CYBR ABBCC 3
+		CYBR D 3 A_PlaySound("spider/walk")
+		CYBR D 3
+		goto Spawn
+	Melee:
+	Missile:
+		CYBR E 6
+		CYBR FE 12
+		goto Spawn
+	Pain:
+		CYBR G 10 A_Pain
+		goto Spawn
+	Death:
+		CYBR H 10
+		CYBR I 10 A_Scream
+		CYBR JKL 10
+		CYBR M 10 A_NoBlocking
+		CYBR NO 10
+		CYBR P -1
+		Stop
+	}
+}
+
+ACTOR CyberdemonGun : Weapon
+{
+	Weapon.SelectionOrder 2500
+	+WEAPON.NOAUTOFIRE
+	+INVENTORY.UNDROPPABLE
+	//+INVENTORY.UNTOSSABLE
+	Tag "$TAGCYB"
+	States
+	{
+	Ready:
+		TNT1 A 0 A_StopSound(6)
+		CARM A 1 A_WeaponReady
+		Loop
+	Deselect:
+		CARM A 1 A_Lower
+		Loop
+	Select:
+		CARM A 1 A_Raise
+		Loop
+	Fire:
+		CARM B 0 A_GunFlash
+		CARM B 2 bright A_FireCustomMissile("Missile",0,0,0,32)
+		CARM CDEF 2
+		CARM A 12
+		CARM A 0 A_ReFire
+		Goto Ready
+	Flash:
+		TNT1 A 3 A_Light1
+		TNT1 A 4 A_Light2
+		Goto LightDone
+	Spawn:
+		LAUN A 1 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		stop
+	}
+}
+
+// Pac-Man
+ACTOR Pac1 : TheJerk
+{
+	Translation "0:0=0:0"
+	SeeSound ""
+	AttackSound ""
+	DeathSound ""
+	ActiveSound ""
+	scale 1
+	Speed 20
+	Obituary "$OB_PAC1"
+	//Radius 16
+	//Height 56
+	States
+	{
+	Spawn:
+		GHO1 A 0
+		"####" A 0 Thing_ChangeTID(0,899)
+		"####" A 1 A_Look
+		goto See
+	See:
+		"####" A 0 A_SpawnItemEx("TankTreads")
+		//"####" A 0 A_JumpIf(velz!=0,"MidAir")
+		"####" A 2 A_Chase
+		"####" A 0 A_SpawnItemEx("TankTreads")
+		"####" A 0 A_JumpIf(velz!=0,"MidAir")
+		"####" A 2 A_Chase
+		"####" A 0 A_SpawnItemEx("TankTreads")
+		"####" A 0 A_JumpIf(velz!=0,"MidAir")
+		"####" A 2 A_Chase
+		"####" A 0 A_SpawnItemEx("TankTreads")
+		"####" A 0 A_JumpIf(velz!=0,"MidAir")
+		"####" A 2 A_Chase
+		"####" A 0 A_SpawnItemEx("TankTreads")
+		"####" A 0 A_JumpIf(velz!=0,"MidAir")
+		"####" B 2 A_Chase
+		"####" A 0 A_SpawnItemEx("TankTreads")
+		"####" A 0 A_JumpIf(velz!=0,"MidAir")
+		"####" B 2 A_Chase
+		"####" A 0 A_SpawnItemEx("TankTreads")
+		"####" A 0 A_JumpIf(velz!=0,"MidAir")
+		"####" B 2 A_Chase
+		"####" A 0 A_SpawnItemEx("TankTreads")
+		"####" A 0 A_JumpIf(velz!=0,"MidAir")
+		"####" B 2 A_Chase
+		Loop
+	MidAir:
+		"####" AAABBB 1 A_CheckFloor("See")
+		"####" A 0 A_JumpIf(velz==0,"See")
+		Loop
+	Death:
+		Stop
+	}
+}
+
+ACTOR Pac2 : Pac1
+{
+	Obituary "$OB_PAC2"
+	States
+	{
+	Spawn:
+		GHO2 A 0
+		Goto Super::Spawn+1
+	}
+}
+
+ACTOR Pac3 : Pac1
+{
+	Obituary "$OB_PAC3"
+	States
+	{
+	Spawn:
+		GHO3 A 0
+		Goto Super::Spawn+1
+	}
+}
+
+ACTOR Pac4 : Pac1
+{
+	Obituary "$OB_PAC4"
+	States
+	{
+	Spawn:
+		GHO4 A 0
+		Goto Super::Spawn+1
+	}
+}
+
+ACTOR ScreamingShits : Inventory{+INVENTORY.UNDROPPABLE}
+
+ACTOR DogSoul
+{
+	+NOBLOCKMAP
+	+NOGRAVITY
+	States
+	{
+	Spawn:
+		DOGG A 1 ThrustThingZ(0,1,0,1)
+		DOGG A 0 A_FadeOut(0.03)
+		loop
+	}
+}
+
+ACTOR InstantArmy
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TANK A 0 A_SpawnItemEx("Bob",128,0,16,0,0,0,0,SXF_NOCHECKPOSITION|SXF_TRANSFERPOINTERS)
+		TANK A 0 A_SpawnItemEx("Bob",128,0,16,0,0,0,45,SXF_NOCHECKPOSITION|SXF_TRANSFERPOINTERS)
+		TANK A 0 A_SpawnItemEx("Bob",128,0,16,0,0,0,67,SXF_NOCHECKPOSITION|SXF_TRANSFERPOINTERS)
+		TANK A 0 A_SpawnItemEx("Bob",128,0,16,0,0,0,135,SXF_NOCHECKPOSITION|SXF_TRANSFERPOINTERS)
+		TANK A 0 A_SpawnItemEx("Bob",128,0,16,0,0,0,180,SXF_NOCHECKPOSITION|SXF_TRANSFERPOINTERS)
+		TANK A 0 A_SpawnItemEx("Bob",128,0,16,0,0,0,225,SXF_NOCHECKPOSITION|SXF_TRANSFERPOINTERS)
+		TANK A 0 A_SpawnItemEx("Bob",128,0,16,0,0,0,270,SXF_NOCHECKPOSITION|SXF_TRANSFERPOINTERS)
+		TANK A 0 A_SpawnItemEx("Bob",128,0,16,0,0,0,315,SXF_NOCHECKPOSITION|SXF_TRANSFERPOINTERS)
+		Stop
+	}
+}
+
+// Golden Friend Jerk
+ACTOR GoldenJerk : TheJerk
+{
+	+FRIENDLY
+	Translation "16:47=160:167"
+	Obituary "$OB_GOLDENJERK"
+}
+
+// Generic Custom Slot Jackpot
+ACTOR JackpotPayout
+{
+	+NOGRAVITY
+	States
+	{
+	Spawn:
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 1 A_SpawnItemEx("GoldCoin",0,0,0,random(4,16),0,random(8,16),random(0,360),SXF_ABSOLUTEANGLE)
+		Stop
+	}
+}
+
+Actor GoldCoin : CustomInventory
+{
+	Inventory.PickupMessage "$GOTCOIN"
+	Inventory.PickupSound "items/coin"
+	BounceSound "weapons/casing1"
+	+NOTELEPORT
+	+DROPOFF
+	+MISSILE
+	BounceType Doom
+	+BOUNCEONACTORS
+	+CANBOUNCEWATER
+	+DONTSPLASH
+	+PICKUP
+	+ALWAYSPICKUP
+	+DONTBLAST
+	scale 0.5
+	States
+	{
+	Spawn:
+	Death:
+		GCOI ABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCDABCD 4 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		stop
+	Pickup:
+		TNT1 A 0 A_GiveInventory("ScoreItem",25)
+		Stop
+	}
+}
+
+
+
+// Tecmo Super Bowl quarterbacks (hut hut hut hut hut hut hut hut hut hut hut)
+ACTOR Quarterback : MonsterTemplate
+{
+	Health 5
+	Height 48
+	Radius 24
+	Scale 3
+	Speed 24
+	PainChance 32
+	PainSound "brony/pain"
+	SeeSound "qback/ready"
+	DeathSound "qback/down"
+	ActiveSound "qback/hut"
+	Obituary "$OB_QUARTERBACK"
+	HitObituary "$OB_QUARTERBACKHIT"
+	//DropItem ""
+	States
+	{
+	Spawn:
+		QBAK A 0
+		QBAK A 0 Thing_ChangeTID(0,900)
+		QBAK A 1 A_Look
+		QBAK A 0 A_AlertMonsters
+		Goto See
+	See:
+		// Check for Dog Whistle, UNLESS it's 9-9-9, since they're only spawned during that jackpot and it doesn't make sense to confuse them right off the bat
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901)==9 && !(ACS_ExecuteWithResult(902)==9 && ACS_ExecuteWithResult(903)==9),"DogWhistle")
+		// Otherwise, run
+		QBAK A 3 A_Chase("Melee", "Missile", CHF_NOPLAYACTIVE)
+		QBAK A 0 A_ActiveSound
+		QBAK A 0 A_JumpIf(velz!=0,"MidAir")
+		QBAK B 3 A_Chase("Melee", "Missile", CHF_NOPLAYACTIVE)
+		QBAK B 0 A_JumpIf(velz!=0,"MidAir")
+		QBAK C 3 A_Chase("Melee", "Missile", CHF_NOPLAYACTIVE)
+		QBAK C 0 A_JumpIf(velz!=0,"MidAir")
+		QBAK D 3 A_Chase("Melee", "Missile", CHF_NOPLAYACTIVE)
+		QBAK D 0 A_ActiveSound
+		QBAK D 0 A_JumpIf(velz!=0,"MidAir")
+		QBAK E 3 A_Chase("Melee", "Missile", CHF_NOPLAYACTIVE)
+		QBAK E 0 A_JumpIf(velz!=0,"MidAir")
+		QBAK F 3 A_Chase("Melee", "Missile", CHF_NOPLAYACTIVE)
+		Loop
+	MidAir:
+		QBAK AAAAAA 1 A_CheckFloor("See")
+		TNT1 A 0 A_SpawnItemEx("CrushDamage")
+		QBAK A 1 A_CheckFloor("Landing")
+		TNT1 A 0 A_JumpIf(velz==0,"See")
+		goto MidAir+6
+	Landing:
+		QBAK A 1
+		QBAK A 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		QBAK A 5 A_PlaySound("human/land")
+		goto See
+	Melee:
+	Missile:
+		QBAK G 0 A_PlaySound("qback/ready")
+		QBAK GG 8 A_FaceTarget
+		QBAK H 0 A_CustomComboAttack("HandEgg", 12, 10, "attack/punch")
+		QBAK H 8 A_PlaySound("qback/down")
+		Goto See
+	Pain:
+		QBAK I 0 A_Pain
+		QBAK I 3 A_Chase("", "")
+		Goto See
+	// NORMAL DEATH STATES
+	Death:
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901)==8,"BirthdayParty")
+		QBAK I 0 A_NoBlocking
+		QBAK I 0 A_GiveToTarget("ScoreItem",100)
+		QBAK I 1 A_Scream
+		goto CorpseFalling
+	CorpseFalling:
+		QBAK IIIIII 1 A_CheckFloor("Corpse")
+		QBAK I 1 A_CheckFloor("CorpseHard")
+		TNT1 A 0 A_JumpIf(velz==0,"Corpse")
+		goto CorpseFalling+6
+	Corpse:
+		QBAK I 4 A_PlaySound("human/body")
+		QBAK J 4
+		QBAK K 10 A_JumpIf(velz!=0,"CorpseFalling")
+		TNT1 A 0 A_CheckSight("Cleanup")
+		QBAK L 10 A_JumpIf(velz!=0,"CorpseFalling")
+		TNT1 A 0 A_CheckSight("Cleanup")
+		goto Corpse+2
+	CorpseHard:
+		QBAK I 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		goto Corpse
+	// COMEDY DEATH STATES
+	CorpseFlying:
+		QBAK I 0 A_GiveToTarget("ScoreItem",1)
+		QBAK I 0 A_SpawnItemEx("BloodShredSilent")
+		QBAK I 0 A_SpawnItemEx("MissilePart",0,0,8)
+		QBAK I 0 A_JumpIf(momx == 0,"CorpseCrater")
+		QBAK I 0 A_JumpIf(momy == 0,"CorpseCrater")
+		QBAK I 1 A_CheckFloor("CorpseCrater")
+		loop
+	CorpseCrater:
+		QBAK I 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		QBAK I 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		QBAK I 0 A_PlaySound("human/gib")
+		QBAK I 0 A_GiveToTarget("ScoreItem",50)
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==8,"BirthdayParty")
+		QBAK I 0 A_Stop
+		goto Corpse+1
+	Death.Fire:
+		QBAK A 0 A_PlaySound("human/scream")
+		QBAK A 0 A_SpawnItemEx("Flame1A",0,0,32)
+		QBAK A 0 A_Recoil(-8)
+		QBAK A 0 A_SpawnItemEx("Ember1",0,0,32)
+		QBAK AABBCC 1 A_SetAngle(12 + angle)
+		QBAK B 0 A_Recoil(-8)
+		QBAK A 0 A_SpawnItemEx("Flame2A",0,0,32)
+		QBAK DDEEFF 1 A_SetAngle(12 + angle)
+		QBAK C 0 A_Recoil(-8)
+		QBAK A 0 A_SpawnItemEx("Flame1A",0,0,32)
+		QBAK AABBCC 1 A_SetAngle(12 + angle)
+		QBAK D 0 A_Recoil(-8)
+		QBAK DDEEFF 1 A_SetAngle(12 + angle)
+		QBAK A 0 A_SpawnItemEx("Flame3B",0,0,32)
+		QBAK A 0 A_Jump(128,"Death.Fire")
+		goto Death
+	DogWhistle:
+		TNT1 A 0 A_SpawnItemEx("Confusion",0,0,56)
+		QBAK A 3 A_Wander
+		QBAK A 0 A_JumpIf(velz!=0,"MidAir")
+		QBAK B 3 A_Wander
+		QBAK B 0 A_JumpIf(velz!=0,"MidAir")
+		QBAK C 3 A_Wander
+		QBAK C 0 A_JumpIf(velz!=0,"MidAir")
+		QBAK D 3 A_Wander
+		QBAK D 0 A_JumpIf(velz!=0,"MidAir")
+		QBAK E 3 A_Wander
+		QBAK E 0 A_JumpIf(velz!=0,"MidAir")
+		QBAK F 3 A_Wander
+		Goto See
+	}
+}
+
+// (John Madden John Madden John Madden) Football
+ACTOR HandEgg
+{
+	Radius 12
+	Height 15
+	Scale 3
+	Speed 40
+	Damage (5)
+	Projectile
+	-NOGRAVITY
+	BounceType Doom
+	BounceFactor 0.5
+	WallBounceFactor 0.5
+	BounceSound "human/land"
+	-BOUNCEAUTOOFF
+	+BOUNCEAUTOOFFFLOORONLY
+	+BOUNCEONACTORS
+	+CANBOUNCEWATER
+	States
+	{
+	Spawn:
+		HEGG A 0
+		HEGG A 1 ThrustThingZ(0, 24, 0, 1)
+		HEGG A 1
+		Wait
+	Death:
+		TNT1 A 1
+		Stop
+	}
+}
+
+// Separate palette swaps to sport every NFL team uniform, with 5 skin colors (two black, one hispanic, two white).
+// Would take forever to write by hand, but regular expressions are your friend.
+ACTOR QBBill1 : Quarterback {
+	Translation "4:4=[0,42,131]:[0,42,131]", "117:117=[255,255,255]:[255,255,255]", "195:195=[255,255,255]:[255,255,255]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBBill2 : Quarterback {
+	Translation "4:4=[0,42,131]:[0,42,131]", "117:117=[255,255,255]:[255,255,255]", "195:195=[255,255,255]:[255,255,255]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBBill3 : Quarterback {
+	Translation "4:4=[0,42,131]:[0,42,131]", "117:117=[255,255,255]:[255,255,255]", "195:195=[255,255,255]:[255,255,255]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBBill4 : Quarterback {
+	Translation "4:4=[0,42,131]:[0,42,131]", "117:117=[255,255,255]:[255,255,255]", "195:195=[255,255,255]:[255,255,255]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBBill5 : Quarterback {
+	Translation "4:4=[0,42,131]:[0,42,131]", "117:117=[255,255,255]:[255,255,255]", "195:195=[255,255,255]:[255,255,255]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBDolphin1 : Quarterback {
+	Translation "4:4=[0,142,151]:[0,142,151]", "117:117=[255,255,255]:[255,255,255]", "195:195=[255,255,255]:[255,255,255]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBDolphin2 : Quarterback {
+	Translation "4:4=[0,142,151]:[0,142,151]", "117:117=[255,255,255]:[255,255,255]", "195:195=[255,255,255]:[255,255,255]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBDolphin3 : Quarterback {
+	Translation "4:4=[0,142,151]:[0,142,151]", "117:117=[255,255,255]:[255,255,255]", "195:195=[255,255,255]:[255,255,255]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBDolphin4 : Quarterback {
+	Translation "4:4=[0,142,151]:[0,142,151]", "117:117=[255,255,255]:[255,255,255]", "195:195=[255,255,255]:[255,255,255]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBDolphin5 : Quarterback {
+	Translation "4:4=[0,142,151]:[0,142,151]", "117:117=[255,255,255]:[255,255,255]", "195:195=[255,255,255]:[255,255,255]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBPatriot1 : Quarterback {
+	Translation "4:4=[5,32,75]:[5,32,75]", "117:117=[215,215,215]:[215,215,215]", "195:195=[215,215,215]:[255,255,255]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBPatriot2 : Quarterback {
+	Translation "4:4=[5,32,75]:[5,32,75]", "117:117=[215,215,215]:[215,215,215]", "195:195=[215,215,215]:[255,255,255]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBPatriot3 : Quarterback {
+	Translation "4:4=[5,32,75]:[5,32,75]", "117:117=[215,215,215]:[215,215,215]", "195:195=[215,215,215]:[255,255,255]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBPatriot4 : Quarterback {
+	Translation "4:4=[5,32,75]:[5,32,75]", "117:117=[215,215,215]:[215,215,215]", "195:195=[215,215,215]:[255,255,255]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBPatriot5 : Quarterback {
+	Translation "4:4=[5,32,75]:[5,32,75]", "117:117=[215,215,215]:[215,215,215]", "195:195=[215,215,215]:[255,255,255]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBJet1 : Quarterback {
+	Translation "4:4=[4,52,23]:[4,52,23]", "117:117=[255,255,255]:[255,255,255]", "195:195=[255,255,255]:[255,255,255]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBJet2 : Quarterback {
+	Translation "4:4=[4,52,23]:[4,52,23]", "117:117=[255,255,255]:[255,255,255]", "195:195=[255,255,255]:[255,255,255]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBJet3 : Quarterback {
+	Translation "4:4=[4,52,23]:[4,52,23]", "117:117=[255,255,255]:[255,255,255]", "195:195=[255,255,255]:[255,255,255]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBJet4 : Quarterback {
+	Translation "4:4=[4,52,23]:[4,52,23]", "117:117=[255,255,255]:[255,255,255]", "195:195=[255,255,255]:[255,255,255]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBJet5 : Quarterback {
+	Translation "4:4=[4,52,23]:[4,52,23]", "117:117=[255,255,255]:[255,255,255]", "195:195=[255,255,255]:[255,255,255]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBRaven1 : Quarterback {
+	Translation "4:4=[36,26,115]:[36,26,115]", "117:117=[7,13,16]:[7,13,16]", "195:195=[255,255,255]:[255,255,255]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBRaven2 : Quarterback {
+	Translation "4:4=[36,26,115]:[36,26,115]", "117:117=[7,13,16]:[7,13,16]", "195:195=[255,255,255]:[255,255,255]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBRaven3 : Quarterback {
+	Translation "4:4=[36,26,115]:[36,26,115]", "117:117=[7,13,16]:[7,13,16]", "195:195=[255,255,255]:[255,255,255]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBRaven4 : Quarterback {
+	Translation "4:4=[36,26,115]:[36,26,115]", "117:117=[7,13,16]:[7,13,16]", "195:195=[255,255,255]:[255,255,255]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBRaven5 : Quarterback {
+	Translation "4:4=[36,26,115]:[36,26,115]", "117:117=[7,13,16]:[7,13,16]", "195:195=[255,255,255]:[255,255,255]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBBengal1 : Quarterback {
+	Translation "4:4=[17,28,36]:[17,28,36]", "117:117=[228,50,5]:[228,50,5]", "195:195=[255,255,255]:[255,255,255]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBBengal2 : Quarterback {
+	Translation "4:4=[17,28,36]:[17,28,36]", "117:117=[228,50,5]:[228,50,5]", "195:195=[255,255,255]:[255,255,255]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBBengal3 : Quarterback {
+	Translation "4:4=[17,28,36]:[17,28,36]", "117:117=[228,50,5]:[228,50,5]", "195:195=[255,255,255]:[255,255,255]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBBengal4 : Quarterback {
+	Translation "4:4=[17,28,36]:[17,28,36]", "117:117=[228,50,5]:[228,50,5]", "195:195=[255,255,255]:[255,255,255]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBBengal5 : Quarterback {
+	Translation "4:4=[17,28,36]:[17,28,36]", "117:117=[228,50,5]:[228,50,5]", "195:195=[255,255,255]:[255,255,255]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBBrown1 : Quarterback {
+	Translation "4:4=[57,49,47]:[57,49,47]", "117:117=[235,54,36]:[235,54,36]", "195:195=[255,255,255]:[255,255,255]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBBrown2 : Quarterback {
+	Translation "4:4=[57,49,47]:[57,49,47]", "117:117=[235,54,36]:[235,54,36]", "195:195=[255,255,255]:[255,255,255]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBBrown3 : Quarterback {
+	Translation "4:4=[57,49,47]:[57,49,47]", "117:117=[235,54,36]:[235,54,36]", "195:195=[255,255,255]:[255,255,255]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBBrown4 : Quarterback {
+	Translation "4:4=[57,49,47]:[57,49,47]", "117:117=[235,54,36]:[235,54,36]", "195:195=[255,255,255]:[255,255,255]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBBrown5 : Quarterback {
+	Translation "4:4=[57,49,47]:[57,49,47]", "117:117=[235,54,36]:[235,54,36]", "195:195=[255,255,255]:[255,255,255]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBSteeler1 : Quarterback {
+	Translation "4:4=[25,19,16]:[25,19,16]", "117:117=[25,19,16]:[25,19,16]", "195:195=[255,183,10]:[255,183,10]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBSteeler2 : Quarterback {
+	Translation "4:4=[25,19,16]:[25,19,16]", "117:117=[25,19,16]:[25,19,16]", "195:195=[255,183,10]:[255,183,10]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBSteeler3 : Quarterback {
+	Translation "4:4=[25,19,16]:[25,19,16]", "117:117=[25,19,16]:[25,19,16]", "195:195=[255,183,10]:[255,183,10]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBSteeler4 : Quarterback {
+	Translation "4:4=[25,19,16]:[25,19,16]", "117:117=[25,19,16]:[25,19,16]", "195:195=[255,183,10]:[255,183,10]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBSteeler5 : Quarterback {
+	Translation "4:4=[25,19,16]:[25,19,16]", "117:117=[25,19,16]:[25,19,16]", "195:195=[255,183,10]:[255,183,10]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBTexan1 : Quarterback {
+	Translation "4:4=[2,37,58]:[2,37,58]", "117:117=[1,29,46]:[1,29,46]", "195:195=[255,255,255]:[255,255,255]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBTexan2 : Quarterback {
+	Translation "4:4=[2,37,58]:[2,37,58]", "117:117=[1,29,46]:[1,29,46]", "195:195=[255,255,255]:[255,255,255]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBTexan3 : Quarterback {
+	Translation "4:4=[2,37,58]:[2,37,58]", "117:117=[1,29,46]:[1,29,46]", "195:195=[255,255,255]:[255,255,255]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBTexan4 : Quarterback {
+	Translation "4:4=[2,37,58]:[2,37,58]", "117:117=[1,29,46]:[1,29,46]", "195:195=[255,255,255]:[255,255,255]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBTexan5 : Quarterback {
+	Translation "4:4=[2,37,58]:[2,37,58]", "117:117=[1,29,46]:[1,29,46]", "195:195=[255,255,255]:[255,255,255]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBColt1 : Quarterback {
+	Translation "4:4=[7,31,77]:[7,31,77]", "117:117=[255,255,255]:[255,255,255]", "195:195=[255,255,255]:[255,255,255]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBColt2 : Quarterback {
+	Translation "4:4=[7,31,77]:[7,31,77]", "117:117=[255,255,255]:[255,255,255]", "195:195=[255,255,255]:[255,255,255]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBColt3 : Quarterback {
+	Translation "4:4=[7,31,77]:[7,31,77]", "117:117=[255,255,255]:[255,255,255]", "195:195=[255,255,255]:[255,255,255]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBColt4 : Quarterback {
+	Translation "4:4=[7,31,77]:[7,31,77]", "117:117=[255,255,255]:[255,255,255]", "195:195=[255,255,255]:[255,255,255]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBColt5 : Quarterback {
+	Translation "4:4=[7,31,77]:[7,31,77]", "117:117=[255,255,255]:[255,255,255]", "195:195=[255,255,255]:[255,255,255]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBJaguar1 : Quarterback {
+	Translation "4:4=[35,101,119]:[35,101,119]", "117:117=[200,172,64]:[200,172,64]", "195:195=[1,1,1]:[1,1,1]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBJaguar2 : Quarterback {
+	Translation "4:4=[35,101,119]:[35,101,119]", "117:117=[200,172,64]:[200,172,64]", "195:195=[1,1,1]:[1,1,1]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBJaguar3 : Quarterback {
+	Translation "4:4=[35,101,119]:[35,101,119]", "117:117=[200,172,64]:[200,172,64]", "195:195=[1,1,1]:[1,1,1]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBJaguar4 : Quarterback {
+	Translation "4:4=[35,101,119]:[35,101,119]", "117:117=[200,172,64]:[200,172,64]", "195:195=[1,1,1]:[1,1,1]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBJaguar5 : Quarterback {
+	Translation "4:4=[35,101,119]:[35,101,119]", "117:117=[200,172,64]:[200,172,64]", "195:195=[1,1,1]:[1,1,1]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBTitan1 : Quarterback {
+	Translation "4:4=[75,146,219]:[75,146,219]", "117:117=[255,255,255]:[255,255,255]", "195:195=[0,33,71]:[0,33,71]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBTitan2 : Quarterback {
+	Translation "4:4=[75,146,219]:[75,146,219]", "117:117=[255,255,255]:[255,255,255]", "195:195=[0,33,71]:[0,33,71]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBTitan3 : Quarterback {
+	Translation "4:4=[75,146,219]:[75,146,219]", "117:117=[255,255,255]:[255,255,255]", "195:195=[0,33,71]:[0,33,71]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBTitan4 : Quarterback {
+	Translation "4:4=[75,146,219]:[75,146,219]", "117:117=[255,255,255]:[255,255,255]", "195:195=[0,33,71]:[0,33,71]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBTitan5 : Quarterback {
+	Translation "4:4=[75,146,219]:[75,146,219]", "117:117=[255,255,255]:[255,255,255]", "195:195=[0,33,71]:[0,33,71]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBBronco1 : Quarterback {
+	Translation "4:4=[240,84,30]:[240,84,30]", "117:117=[0,25,81]:[0,25,81]", "195:195=[255,255,255]:[255,255,255]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBBronco2 : Quarterback {
+	Translation "4:4=[240,84,30]:[240,84,30]", "117:117=[0,25,81]:[0,25,81]", "195:195=[255,255,255]:[255,255,255]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBBronco3 : Quarterback {
+	Translation "4:4=[240,84,30]:[240,84,30]", "117:117=[0,25,81]:[0,25,81]", "195:195=[255,255,255]:[255,255,255]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBBronco4 : Quarterback {
+	Translation "4:4=[240,84,30]:[240,84,30]", "117:117=[0,25,81]:[0,25,81]", "195:195=[255,255,255]:[255,255,255]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBBronco5 : Quarterback {
+	Translation "4:4=[240,84,30]:[240,84,30]", "117:117=[0,25,81]:[0,25,81]", "195:195=[255,255,255]:[255,255,255]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBChief1 : Quarterback {
+	Translation "4:4=[199,4,44]:[199,4,44]", "117:117=[199,4,44]:[199,4,44]", "195:195=[255,255,255]:[255,255,255]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBChief2 : Quarterback {
+	Translation "4:4=[199,4,44]:[199,4,44]", "117:117=[199,4,44]:[199,4,44]", "195:195=[255,255,255]:[255,255,255]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBChief3 : Quarterback {
+	Translation "4:4=[199,4,44]:[199,4,44]", "117:117=[199,4,44]:[199,4,44]", "195:195=[255,255,255]:[255,255,255]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBChief4 : Quarterback {
+	Translation "4:4=[199,4,44]:[199,4,44]", "117:117=[199,4,44]:[199,4,44]", "195:195=[255,255,255]:[255,255,255]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBChief5 : Quarterback {
+	Translation "4:4=[199,4,44]:[199,4,44]", "117:117=[199,4,44]:[199,4,44]", "195:195=[255,255,255]:[255,255,255]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBRaider1 : Quarterback {
+	Translation "4:4=[11,20,27]:[11,20,27]", "117:117=[123,126,129]:[123,126,129]", "195:195=[133,136,139]:[133,136,139]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBRaider2 : Quarterback {
+	Translation "4:4=[11,20,27]:[11,20,27]", "117:117=[123,126,129]:[123,126,129]", "195:195=[133,136,139]:[133,136,139]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBRaider3 : Quarterback {
+	Translation "4:4=[11,20,27]:[11,20,27]", "117:117=[123,126,129]:[123,126,129]", "195:195=[133,136,139]:[133,136,139]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBRaider4 : Quarterback {
+	Translation "4:4=[11,20,27]:[11,20,27]", "117:117=[123,126,129]:[123,126,129]", "195:195=[133,136,139]:[133,136,139]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBRaider5 : Quarterback {
+	Translation "4:4=[11,20,27]:[11,20,27]", "117:117=[123,126,129]:[123,126,129]", "195:195=[133,136,139]:[133,136,139]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBCharger1 : Quarterback {
+	Translation "4:4=[0,36,77]:[0,36,77]", "117:117=[255,255,255]:[255,255,255]", "195:195=[255,255,255]:[255,255,255]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBCharger2 : Quarterback {
+	Translation "4:4=[0,36,77]:[0,36,77]", "117:117=[255,255,255]:[255,255,255]", "195:195=[255,255,255]:[255,255,255]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBCharger3 : Quarterback {
+	Translation "4:4=[0,36,77]:[0,36,77]", "117:117=[255,255,255]:[255,255,255]", "195:195=[255,255,255]:[255,255,255]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBCharger4 : Quarterback {
+	Translation "4:4=[0,36,77]:[0,36,77]", "117:117=[255,255,255]:[255,255,255]", "195:195=[255,255,255]:[255,255,255]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBCharger5 : Quarterback {
+	Translation "4:4=[0,36,77]:[0,36,77]", "117:117=[255,255,255]:[255,255,255]", "195:195=[255,255,255]:[255,255,255]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBCowboy1 : Quarterback {
+	Translation "4:4=[33,42,82]:[33,42,82]", "117:117=[172,171,170]:[172,171,170]", "195:195=[195,195,199]:[195,195,199]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBCowboy2 : Quarterback {
+	Translation "4:4=[33,42,82]:[33,42,82]", "117:117=[172,171,170]:[172,171,170]", "195:195=[195,195,199]:[195,195,199]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBCowboy3 : Quarterback {
+	Translation "4:4=[33,42,82]:[33,42,82]", "117:117=[172,171,170]:[172,171,170]", "195:195=[195,195,199]:[195,195,199]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBCowboy4 : Quarterback {
+	Translation "4:4=[33,42,82]:[33,42,82]", "117:117=[172,171,170]:[172,171,170]", "195:195=[195,195,199]:[195,195,199]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBCowboy5 : Quarterback {
+	Translation "4:4=[33,42,82]:[33,42,82]", "117:117=[172,171,170]:[172,171,170]", "195:195=[195,195,199]:[195,195,199]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBGiant1 : Quarterback {
+	Translation "4:4=[91,97,160]:[91,97,160]", "117:117=[69,111,180]:[69,111,180]", "195:195=[223,223,221]:[223,223,221]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBGiant2 : Quarterback {
+	Translation "4:4=[91,97,160]:[91,97,160]", "117:117=[69,111,180]:[69,111,180]", "195:195=[223,223,221]:[223,223,221]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBGiant3 : Quarterback {
+	Translation "4:4=[91,97,160]:[91,97,160]", "117:117=[69,111,180]:[69,111,180]", "195:195=[223,223,221]:[223,223,221]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBGiant4 : Quarterback {
+	Translation "4:4=[91,97,160]:[91,97,160]", "117:117=[69,111,180]:[69,111,180]", "195:195=[223,223,221]:[223,223,221]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBGiant5 : Quarterback {
+	Translation "4:4=[91,97,160]:[91,97,160]", "117:117=[69,111,180]:[69,111,180]", "195:195=[223,223,221]:[223,223,221]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBEagle1 : Quarterback {
+	Translation "4:4=[0,62,70]:[0,62,70]", "117:117=[0,49,55]:[0,49,55]", "195:195=[255,255,255]:[255,255,255]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBEagle2 : Quarterback {
+	Translation "4:4=[0,62,70]:[0,62,70]", "117:117=[0,49,55]:[0,49,55]", "195:195=[255,255,255]:[255,255,255]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBEagle3 : Quarterback {
+	Translation "4:4=[0,62,70]:[0,62,70]", "117:117=[0,49,55]:[0,49,55]", "195:195=[255,255,255]:[255,255,255]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBEagle4 : Quarterback {
+	Translation "4:4=[0,62,70]:[0,62,70]", "117:117=[0,49,55]:[0,49,55]", "195:195=[255,255,255]:[255,255,255]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBEagle5 : Quarterback {
+	Translation "4:4=[0,62,70]:[0,62,70]", "117:117=[0,49,55]:[0,49,55]", "195:195=[255,255,255]:[255,255,255]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBRedskin1 : Quarterback {
+	Translation "4:4=[125,0,8]:[125,0,8]", "117:117=[125,0,8]:[125,0,8]", "195:195=[255,190,38]:[255,190,38]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBRedskin2 : Quarterback {
+	Translation "4:4=[125,0,8]:[125,0,8]", "117:117=[125,0,8]:[125,0,8]", "195:195=[255,190,38]:[255,190,38]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBRedskin3 : Quarterback {
+	Translation "4:4=[125,0,8]:[125,0,8]", "117:117=[125,0,8]:[125,0,8]", "195:195=[255,190,38]:[255,190,38]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBRedskin4 : Quarterback {
+	Translation "4:4=[125,0,8]:[125,0,8]", "117:117=[125,0,8]:[125,0,8]", "195:195=[255,190,38]:[255,190,38]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBRedskin5 : Quarterback {
+	Translation "4:4=[125,0,8]:[125,0,8]", "117:117=[125,0,8]:[125,0,8]", "195:195=[255,190,38]:[255,190,38]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBBear1 : Quarterback {
+	Translation "4:4=[19,57,83]:[19,57,83]", "117:117=[19,57,83]:[19,57,83]", "195:195=[255,255,255]:[255,255,255]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBBear2 : Quarterback {
+	Translation "4:4=[19,57,83]:[19,57,83]", "117:117=[19,57,83]:[19,57,83]", "195:195=[255,255,255]:[255,255,255]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBBear3 : Quarterback {
+	Translation "4:4=[19,57,83]:[19,57,83]", "117:117=[19,57,83]:[19,57,83]", "195:195=[255,255,255]:[255,255,255]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBBear4 : Quarterback {
+	Translation "4:4=[19,57,83]:[19,57,83]", "117:117=[19,57,83]:[19,57,83]", "195:195=[255,255,255]:[255,255,255]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBBear5 : Quarterback {
+	Translation "4:4=[19,57,83]:[19,57,83]", "117:117=[19,57,83]:[19,57,83]", "195:195=[255,255,255]:[255,255,255]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBLion1 : Quarterback {
+	Translation "4:4=[42,110,187]:[42,110,187]", "117:117=[165,172,175]:[165,172,175]", "195:195=[165,172,175]:[165,172,175]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBLion2 : Quarterback {
+	Translation "4:4=[42,110,187]:[42,110,187]", "117:117=[165,172,175]:[165,172,175]", "195:195=[165,172,175]:[165,172,175]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBLion3 : Quarterback {
+	Translation "4:4=[42,110,187]:[42,110,187]", "117:117=[165,172,175]:[165,172,175]", "195:195=[165,172,175]:[165,172,175]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBLion4 : Quarterback {
+	Translation "4:4=[42,110,187]:[42,110,187]", "117:117=[165,172,175]:[165,172,175]", "195:195=[165,172,175]:[165,172,175]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBLion5 : Quarterback {
+	Translation "4:4=[42,110,187]:[42,110,187]", "117:117=[165,172,175]:[165,172,175]", "195:195=[165,172,175]:[165,172,175]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBPacker1 : Quarterback {
+	Translation "4:4=[25,63,47]:[25,63,47]", "117:117=[255,207,0]:[255,207,0]", "195:195=[255,207,0]:[255,207,0]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBPacker2 : Quarterback {
+	Translation "4:4=[25,63,47]:[25,63,47]", "117:117=[255,207,0]:[255,207,0]", "195:195=[255,207,0]:[255,207,0]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBPacker3 : Quarterback {
+	Translation "4:4=[25,63,47]:[25,63,47]", "117:117=[255,207,0]:[255,207,0]", "195:195=[255,207,0]:[255,207,0]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBPacker4 : Quarterback {
+	Translation "4:4=[25,63,47]:[25,63,47]", "117:117=[255,207,0]:[255,207,0]", "195:195=[255,207,0]:[255,207,0]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBPacker5 : Quarterback {
+	Translation "4:4=[25,63,47]:[25,63,47]", "117:117=[255,207,0]:[255,207,0]", "195:195=[255,207,0]:[255,207,0]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBViking1 : Quarterback {
+	Translation "4:4=[81,39,133]:[81,39,133]", "117:117=[79,38,131]:[79,38,131]", "195:195=[81,39,133]:[81,39,133]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBViking2 : Quarterback {
+	Translation "4:4=[81,39,133]:[81,39,133]", "117:117=[79,38,131]:[79,38,131]", "195:195=[81,39,133]:[81,39,133]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBViking3 : Quarterback {
+	Translation "4:4=[81,39,133]:[81,39,133]", "117:117=[79,38,131]:[79,38,131]", "195:195=[81,39,133]:[81,39,133]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBViking4 : Quarterback {
+	Translation "4:4=[81,39,133]:[81,39,133]", "117:117=[79,38,131]:[79,38,131]", "195:195=[81,39,133]:[81,39,133]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBViking5 : Quarterback {
+	Translation "4:4=[81,39,133]:[81,39,133]", "117:117=[79,38,131]:[79,38,131]", "195:195=[81,39,133]:[81,39,133]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBFalcon1 : Quarterback {
+	Translation "4:4=[198,12,48]:[198,12,48]", "117:117=[11,18,23]:[11,18,23]", "195:195=[255,255,255]:[255,255,255]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBFalcon2 : Quarterback {
+	Translation "4:4=[198,12,48]:[198,12,48]", "117:117=[11,18,23]:[11,18,23]", "195:195=[255,255,255]:[255,255,255]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBFalcon3 : Quarterback {
+	Translation "4:4=[198,12,48]:[198,12,48]", "117:117=[11,18,23]:[11,18,23]", "195:195=[255,255,255]:[255,255,255]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBFalcon4 : Quarterback {
+	Translation "4:4=[198,12,48]:[198,12,48]", "117:117=[11,18,23]:[11,18,23]", "195:195=[255,255,255]:[255,255,255]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBFalcon5 : Quarterback {
+	Translation "4:4=[198,12,48]:[198,12,48]", "117:117=[11,18,23]:[11,18,23]", "195:195=[255,255,255]:[255,255,255]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBPanther1 : Quarterback {
+	Translation "4:4=[17,28,36]:[17,28,36]", "117:117=[165,172,175]:[165,172,175]", "195:195=[165,172,175]:[165,172,175]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBPanther2 : Quarterback {
+	Translation "4:4=[17,28,36]:[17,28,36]", "117:117=[165,172,175]:[165,172,175]", "195:195=[165,172,175]:[165,172,175]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBPanther3 : Quarterback {
+	Translation "4:4=[17,28,36]:[17,28,36]", "117:117=[165,172,175]:[165,172,175]", "195:195=[165,172,175]:[165,172,175]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBPanther4 : Quarterback {
+	Translation "4:4=[17,28,36]:[17,28,36]", "117:117=[165,172,175]:[165,172,175]", "195:195=[165,172,175]:[165,172,175]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBPanther5 : Quarterback {
+	Translation "4:4=[17,28,36]:[17,28,36]", "117:117=[165,172,175]:[165,172,175]", "195:195=[165,172,175]:[165,172,175]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBSaint1 : Quarterback {
+	Translation "4:4=[0,0,0]:[0,0,0]", "117:117=[190,157,81]:[190,157,81]", "195:195=[255,222,151]:[255,222,151]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBSaint2 : Quarterback {
+	Translation "4:4=[0,0,0]:[0,0,0]", "117:117=[190,157,81]:[190,157,81]", "195:195=[255,222,151]:[255,222,151]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBSaint3 : Quarterback {
+	Translation "4:4=[0,0,0]:[0,0,0]", "117:117=[190,157,81]:[190,157,81]", "195:195=[255,222,151]:[255,222,151]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBSaint4 : Quarterback {
+	Translation "4:4=[0,0,0]:[0,0,0]", "117:117=[190,157,81]:[190,157,81]", "195:195=[255,222,151]:[255,222,151]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBSaint5 : Quarterback {
+	Translation "4:4=[0,0,0]:[0,0,0]", "117:117=[190,157,81]:[190,157,81]", "195:195=[255,222,151]:[255,222,151]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBBuccaneer1 : Quarterback {
+	Translation "4:4=[202,19,50]:[202,19,50]", "117:117=[52,48,43]:[52,48,43]", "195:195=[255,255,254]:[255,255,254]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBBuccaneer2 : Quarterback {
+	Translation "4:4=[202,19,50]:[202,19,50]", "117:117=[52,48,43]:[52,48,43]", "195:195=[255,255,254]:[255,255,254]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBBuccaneer3 : Quarterback {
+	Translation "4:4=[202,19,50]:[202,19,50]", "117:117=[52,48,43]:[52,48,43]", "195:195=[255,255,254]:[255,255,254]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBBuccaneer4 : Quarterback {
+	Translation "4:4=[202,19,50]:[202,19,50]", "117:117=[52,48,43]:[52,48,43]", "195:195=[255,255,254]:[255,255,254]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBBuccaneer5 : Quarterback {
+	Translation "4:4=[202,19,50]:[202,19,50]", "117:117=[52,48,43]:[52,48,43]", "195:195=[255,255,254]:[255,255,254]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBCardinal1 : Quarterback {
+	Translation "4:4=[179,3,58]:[179,3,58]", "117:117=[255,255,255]:[255,255,255]", "195:195=[255,255,255]:[255,255,255]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBCardinal2 : Quarterback {
+	Translation "4:4=[179,3,58]:[179,3,58]", "117:117=[255,255,255]:[255,255,255]", "195:195=[255,255,255]:[255,255,255]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBCardinal3 : Quarterback {
+	Translation "4:4=[179,3,58]:[179,3,58]", "117:117=[255,255,255]:[255,255,255]", "195:195=[255,255,255]:[255,255,255]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBCardinal4 : Quarterback {
+	Translation "4:4=[179,3,58]:[179,3,58]", "117:117=[255,255,255]:[255,255,255]", "195:195=[255,255,255]:[255,255,255]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBCardinal5 : Quarterback {
+	Translation "4:4=[179,3,58]:[179,3,58]", "117:117=[255,255,255]:[255,255,255]", "195:195=[255,255,255]:[255,255,255]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBRam1 : Quarterback {
+	Translation "4:4=[11,33,74]:[11,33,74]", "117:117=[202,177,117]:[202,177,117]", "195:195=[11,33,74]:[11,33,74]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBRam2 : Quarterback {
+	Translation "4:4=[11,33,74]:[11,33,74]", "117:117=[202,177,117]:[202,177,117]", "195:195=[11,33,74]:[11,33,74]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBRam3 : Quarterback {
+	Translation "4:4=[11,33,74]:[11,33,74]", "117:117=[202,177,117]:[202,177,117]", "195:195=[11,33,74]:[11,33,74]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBRam4 : Quarterback {
+	Translation "4:4=[11,33,74]:[11,33,74]", "117:117=[202,177,117]:[202,177,117]", "195:195=[11,33,74]:[11,33,74]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBRam5 : Quarterback {
+	Translation "4:4=[11,33,74]:[11,33,74]", "117:117=[202,177,117]:[202,177,117]", "195:195=[11,33,74]:[11,33,74]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QB49er1 : Quarterback {
+	Translation "4:4=[200,37,63]:[200,37,63]", "117:117=[200,166,97]:[200,166,97]", "195:195=[200,166,97]:[200,166,97]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QB49er2 : Quarterback {
+	Translation "4:4=[200,37,63]:[200,37,63]", "117:117=[200,166,97]:[200,166,97]", "195:195=[200,166,97]:[200,166,97]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QB49er3 : Quarterback {
+	Translation "4:4=[200,37,63]:[200,37,63]", "117:117=[200,166,97]:[200,166,97]", "195:195=[200,166,97]:[200,166,97]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QB49er4 : Quarterback {
+	Translation "4:4=[200,37,63]:[200,37,63]", "117:117=[200,166,97]:[200,166,97]", "195:195=[200,166,97]:[200,166,97]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QB49er5 : Quarterback {
+	Translation "4:4=[200,37,63]:[200,37,63]", "117:117=[200,166,97]:[200,166,97]", "195:195=[200,166,97]:[200,166,97]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBSeahawk1 : Quarterback {
+	Translation "4:4=[11,19,32]:[11,19,32]", "117:117=[8,15,25]:[8,15,25]", "195:195=[11,19,32]:[11,19,32]", "171:171=[103,70,51]:[103,70,51]"
+}
+ACTOR QBSeahawk2 : Quarterback {
+	Translation "4:4=[11,19,32]:[11,19,32]", "117:117=[8,15,25]:[8,15,25]", "195:195=[11,19,32]:[11,19,32]", "171:171=[131,90,68]:[131,90,68]"
+}
+ACTOR QBSeahawk3 : Quarterback {
+	Translation "4:4=[11,19,32]:[11,19,32]", "117:117=[8,15,25]:[8,15,25]", "195:195=[11,19,32]:[11,19,32]", "171:171=[214,160,122]:[214,160,122]"
+}
+ACTOR QBSeahawk4 : Quarterback {
+	Translation "4:4=[11,19,32]:[11,19,32]", "117:117=[8,15,25]:[8,15,25]", "195:195=[11,19,32]:[11,19,32]", "171:171=[237,189,166]:[237,189,166]"
+}
+ACTOR QBSeahawk5 : Quarterback {
+	Translation "4:4=[11,19,32]:[11,19,32]", "117:117=[8,15,25]:[8,15,25]", "195:195=[11,19,32]:[11,19,32]", "171:171=[253,225,204]:[253,225,204]"
+}
+
+ACTOR QBSecret : Quarterback
+{
+	PainSound "qback/secret2"
+	SeeSound "qback/secret2"
+	DeathSound "qback/secret4"
+	ActiveSound "qback/secret1"
+	Translation "4:4=[255,85,255]:[255,85,255]", "117:117=[255,255,85]:[255,255,85]", "195:195=[85,85,255]:[85,85,255]", "171:171=[255,255,255]:[255,255,255]"
+	States
+	{
+	Melee:
+	Missile:
+		QBAK G 0 A_PlaySound("qback/secret2")
+		QBAK GG 8 A_FaceTarget
+		QBAK H 0 A_CustomComboAttack("HandEgg", 12, 10, "attack/punch")
+		QBAK H 8 A_PlaySound("qback/secret3")
+		Goto See
+	}
+}
+
+// Spawner of footballm'n. Spawns one, then immediately removes itself.
+ACTOR QBSpawner
+{
+	+NOGRAVITY
+	Radius 24
+	Height 64
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_Jump(8, "Secret1")
+	Normal:
+		TNT1 A 0 A_Jump(256, "QBBill", "QBDolphin", "QBPatriot", "QBJet", "QBRaven", "QBBengal", "QBBrown", "QBSteeler", "QBTexan", "QBColt", "QBJaguar", "QBTitan", "QBBronco", "QBChief", "QBRaider", "QBCharger", "QBCowboy", "QBGiant", "QBEagle", "QBRedskin", "QBBear", "QBLion", "QBPacker", "QBViking", "QBFalcon", "QBPanther", "QBSaint", "QBBuccaneer", "QBCardinal", "QBRam", "QB49er", "QBSeahawk")
+		Stop
+
+	QBBill:
+		TNT1 A 0 A_Jump(256, "QBBill1", "QBBill2", "QBBill3", "QBBill4", "QBBill5")
+	QBBill1:
+		TNT1 A 1 A_SpawnItemEx("QBBill1")
+		Stop
+	QBBill2:
+		TNT1 A 1 A_SpawnItemEx("QBBill2")
+		Stop
+	QBBill3:
+		TNT1 A 1 A_SpawnItemEx("QBBill3")
+		Stop
+	QBBill4:
+		TNT1 A 1 A_SpawnItemEx("QBBill4")
+		Stop
+	QBBill5:
+		TNT1 A 1 A_SpawnItemEx("QBBill5")
+		Stop
+
+	QBDolphin:
+		TNT1 A 0 A_Jump(256, "QBDolphin1", "QBDolphin2", "QBDolphin3", "QBDolphin4", "QBDolphin5")
+	QBDolphin1:
+		TNT1 A 1 A_SpawnItemEx("QBDolphin1")
+		Stop
+	QBDolphin2:
+		TNT1 A 1 A_SpawnItemEx("QBDolphin2")
+		Stop
+	QBDolphin3:
+		TNT1 A 1 A_SpawnItemEx("QBDolphin3")
+		Stop
+	QBDolphin4:
+		TNT1 A 1 A_SpawnItemEx("QBDolphin4")
+		Stop
+	QBDolphin5:
+		TNT1 A 1 A_SpawnItemEx("QBDolphin5")
+		Stop
+
+	QBPatriot:
+		TNT1 A 0 A_Jump(256, "QBPatriot1", "QBPatriot2", "QBPatriot3", "QBPatriot4", "QBPatriot5")
+	QBPatriot1:
+		TNT1 A 1 A_SpawnItemEx("QBPatriot1")
+		Stop
+	QBPatriot2:
+		TNT1 A 1 A_SpawnItemEx("QBPatriot2")
+		Stop
+	QBPatriot3:
+		TNT1 A 1 A_SpawnItemEx("QBPatriot3")
+		Stop
+	QBPatriot4:
+		TNT1 A 1 A_SpawnItemEx("QBPatriot4")
+		Stop
+	QBPatriot5:
+		TNT1 A 1 A_SpawnItemEx("QBPatriot5")
+		Stop
+
+	QBJet:
+		TNT1 A 0 A_Jump(256, "QBJet1", "QBJet2", "QBJet3", "QBJet4", "QBJet5")
+	QBJet1:
+		TNT1 A 1 A_SpawnItemEx("QBJet1")
+		Stop
+	QBJet2:
+		TNT1 A 1 A_SpawnItemEx("QBJet2")
+		Stop
+	QBJet3:
+		TNT1 A 1 A_SpawnItemEx("QBJet3")
+		Stop
+	QBJet4:
+		TNT1 A 1 A_SpawnItemEx("QBJet4")
+		Stop
+	QBJet5:
+		TNT1 A 1 A_SpawnItemEx("QBJet5")
+		Stop
+
+	QBRaven:
+		TNT1 A 0 A_Jump(256, "QBRaven1", "QBRaven2", "QBRaven3", "QBRaven4", "QBRaven5")
+	QBRaven1:
+		TNT1 A 1 A_SpawnItemEx("QBRaven1")
+		Stop
+	QBRaven2:
+		TNT1 A 1 A_SpawnItemEx("QBRaven2")
+		Stop
+	QBRaven3:
+		TNT1 A 1 A_SpawnItemEx("QBRaven3")
+		Stop
+	QBRaven4:
+		TNT1 A 1 A_SpawnItemEx("QBRaven4")
+		Stop
+	QBRaven5:
+		TNT1 A 1 A_SpawnItemEx("QBRaven5")
+		Stop
+
+	QBBengal:
+		TNT1 A 0 A_Jump(256, "QBBengal1", "QBBengal2", "QBBengal3", "QBBengal4", "QBBengal5")
+	QBBengal1:
+		TNT1 A 1 A_SpawnItemEx("QBBengal1")
+		Stop
+	QBBengal2:
+		TNT1 A 1 A_SpawnItemEx("QBBengal2")
+		Stop
+	QBBengal3:
+		TNT1 A 1 A_SpawnItemEx("QBBengal3")
+		Stop
+	QBBengal4:
+		TNT1 A 1 A_SpawnItemEx("QBBengal4")
+		Stop
+	QBBengal5:
+		TNT1 A 1 A_SpawnItemEx("QBBengal5")
+		Stop
+
+	QBBrown:
+		TNT1 A 0 A_Jump(256, "QBBrown1", "QBBrown2", "QBBrown3", "QBBrown4", "QBBrown5")
+	QBBrown1:
+		TNT1 A 1 A_SpawnItemEx("QBBrown1")
+		Stop
+	QBBrown2:
+		TNT1 A 1 A_SpawnItemEx("QBBrown2")
+		Stop
+	QBBrown3:
+		TNT1 A 1 A_SpawnItemEx("QBBrown3")
+		Stop
+	QBBrown4:
+		TNT1 A 1 A_SpawnItemEx("QBBrown4")
+		Stop
+	QBBrown5:
+		TNT1 A 1 A_SpawnItemEx("QBBrown5")
+		Stop
+
+	QBSteeler:
+		TNT1 A 0 A_Jump(256, "QBSteeler1", "QBSteeler2", "QBSteeler3", "QBSteeler4", "QBSteeler5")
+	QBSteeler1:
+		TNT1 A 1 A_SpawnItemEx("QBSteeler1")
+		Stop
+	QBSteeler2:
+		TNT1 A 1 A_SpawnItemEx("QBSteeler2")
+		Stop
+	QBSteeler3:
+		TNT1 A 1 A_SpawnItemEx("QBSteeler3")
+		Stop
+	QBSteeler4:
+		TNT1 A 1 A_SpawnItemEx("QBSteeler4")
+		Stop
+	QBSteeler5:
+		TNT1 A 1 A_SpawnItemEx("QBSteeler5")
+		Stop
+
+	QBTexan:
+		TNT1 A 0 A_Jump(256, "QBTexan1", "QBTexan2", "QBTexan3", "QBTexan4", "QBTexan5")
+	QBTexan1:
+		TNT1 A 1 A_SpawnItemEx("QBTexan1")
+		Stop
+	QBTexan2:
+		TNT1 A 1 A_SpawnItemEx("QBTexan2")
+		Stop
+	QBTexan3:
+		TNT1 A 1 A_SpawnItemEx("QBTexan3")
+		Stop
+	QBTexan4:
+		TNT1 A 1 A_SpawnItemEx("QBTexan4")
+		Stop
+	QBTexan5:
+		TNT1 A 1 A_SpawnItemEx("QBTexan5")
+		Stop
+
+	QBColt:
+		TNT1 A 0 A_Jump(256, "QBColt1", "QBColt2", "QBColt3", "QBColt4", "QBColt5")
+	QBColt1:
+		TNT1 A 1 A_SpawnItemEx("QBColt1")
+		Stop
+	QBColt2:
+		TNT1 A 1 A_SpawnItemEx("QBColt2")
+		Stop
+	QBColt3:
+		TNT1 A 1 A_SpawnItemEx("QBColt3")
+		Stop
+	QBColt4:
+		TNT1 A 1 A_SpawnItemEx("QBColt4")
+		Stop
+	QBColt5:
+		TNT1 A 1 A_SpawnItemEx("QBColt5")
+		Stop
+
+	QBJaguar:
+		TNT1 A 0 A_Jump(256, "QBJaguar1", "QBJaguar2", "QBJaguar3", "QBJaguar4", "QBJaguar5")
+	QBJaguar1:
+		TNT1 A 1 A_SpawnItemEx("QBJaguar1")
+		Stop
+	QBJaguar2:
+		TNT1 A 1 A_SpawnItemEx("QBJaguar2")
+		Stop
+	QBJaguar3:
+		TNT1 A 1 A_SpawnItemEx("QBJaguar3")
+		Stop
+	QBJaguar4:
+		TNT1 A 1 A_SpawnItemEx("QBJaguar4")
+		Stop
+	QBJaguar5:
+		TNT1 A 1 A_SpawnItemEx("QBJaguar5")
+		Stop
+
+	QBTitan:
+		TNT1 A 0 A_Jump(256, "QBTitan1", "QBTitan2", "QBTitan3", "QBTitan4", "QBTitan5")
+	QBTitan1:
+		TNT1 A 1 A_SpawnItemEx("QBTitan1")
+		Stop
+	QBTitan2:
+		TNT1 A 1 A_SpawnItemEx("QBTitan2")
+		Stop
+	QBTitan3:
+		TNT1 A 1 A_SpawnItemEx("QBTitan3")
+		Stop
+	QBTitan4:
+		TNT1 A 1 A_SpawnItemEx("QBTitan4")
+		Stop
+	QBTitan5:
+		TNT1 A 1 A_SpawnItemEx("QBTitan5")
+		Stop
+
+	QBBronco:
+		TNT1 A 0 A_Jump(256, "QBBronco1", "QBBronco2", "QBBronco3", "QBBronco4", "QBBronco5")
+	QBBronco1:
+		TNT1 A 1 A_SpawnItemEx("QBBronco1")
+		Stop
+	QBBronco2:
+		TNT1 A 1 A_SpawnItemEx("QBBronco2")
+		Stop
+	QBBronco3:
+		TNT1 A 1 A_SpawnItemEx("QBBronco3")
+		Stop
+	QBBronco4:
+		TNT1 A 1 A_SpawnItemEx("QBBronco4")
+		Stop
+	QBBronco5:
+		TNT1 A 1 A_SpawnItemEx("QBBronco5")
+		Stop
+
+	QBChief:
+		TNT1 A 0 A_Jump(256, "QBChief1", "QBChief2", "QBChief3", "QBChief4", "QBChief5")
+	QBChief1:
+		TNT1 A 1 A_SpawnItemEx("QBChief1")
+		Stop
+	QBChief2:
+		TNT1 A 1 A_SpawnItemEx("QBChief2")
+		Stop
+	QBChief3:
+		TNT1 A 1 A_SpawnItemEx("QBChief3")
+		Stop
+	QBChief4:
+		TNT1 A 1 A_SpawnItemEx("QBChief4")
+		Stop
+	QBChief5:
+		TNT1 A 1 A_SpawnItemEx("QBChief5")
+		Stop
+
+	QBRaider:
+		TNT1 A 0 A_Jump(256, "QBRaider1", "QBRaider2", "QBRaider3", "QBRaider4", "QBRaider5")
+	QBRaider1:
+		TNT1 A 1 A_SpawnItemEx("QBRaider1")
+		Stop
+	QBRaider2:
+		TNT1 A 1 A_SpawnItemEx("QBRaider2")
+		Stop
+	QBRaider3:
+		TNT1 A 1 A_SpawnItemEx("QBRaider3")
+		Stop
+	QBRaider4:
+		TNT1 A 1 A_SpawnItemEx("QBRaider4")
+		Stop
+	QBRaider5:
+		TNT1 A 1 A_SpawnItemEx("QBRaider5")
+		Stop
+
+	QBCharger:
+		TNT1 A 0 A_Jump(256, "QBCharger1", "QBCharger2", "QBCharger3", "QBCharger4", "QBCharger5")
+	QBCharger1:
+		TNT1 A 1 A_SpawnItemEx("QBCharger1")
+		Stop
+	QBCharger2:
+		TNT1 A 1 A_SpawnItemEx("QBCharger2")
+		Stop
+	QBCharger3:
+		TNT1 A 1 A_SpawnItemEx("QBCharger3")
+		Stop
+	QBCharger4:
+		TNT1 A 1 A_SpawnItemEx("QBCharger4")
+		Stop
+	QBCharger5:
+		TNT1 A 1 A_SpawnItemEx("QBCharger5")
+		Stop
+
+	QBCowboy:
+		TNT1 A 0 A_Jump(256, "QBCowboy1", "QBCowboy2", "QBCowboy3", "QBCowboy4", "QBCowboy5")
+	QBCowboy1:
+		TNT1 A 1 A_SpawnItemEx("QBCowboy1")
+		Stop
+	QBCowboy2:
+		TNT1 A 1 A_SpawnItemEx("QBCowboy2")
+		Stop
+	QBCowboy3:
+		TNT1 A 1 A_SpawnItemEx("QBCowboy3")
+		Stop
+	QBCowboy4:
+		TNT1 A 1 A_SpawnItemEx("QBCowboy4")
+		Stop
+	QBCowboy5:
+		TNT1 A 1 A_SpawnItemEx("QBCowboy5")
+		Stop
+
+	QBGiant:
+		TNT1 A 0 A_Jump(256, "QBGiant1", "QBGiant2", "QBGiant3", "QBGiant4", "QBGiant5")
+	QBGiant1:
+		TNT1 A 1 A_SpawnItemEx("QBGiant1")
+		Stop
+	QBGiant2:
+		TNT1 A 1 A_SpawnItemEx("QBGiant2")
+		Stop
+	QBGiant3:
+		TNT1 A 1 A_SpawnItemEx("QBGiant3")
+		Stop
+	QBGiant4:
+		TNT1 A 1 A_SpawnItemEx("QBGiant4")
+		Stop
+	QBGiant5:
+		TNT1 A 1 A_SpawnItemEx("QBGiant5")
+		Stop
+
+	QBEagle:
+		TNT1 A 0 A_Jump(256, "QBEagle1", "QBEagle2", "QBEagle3", "QBEagle4", "QBEagle5")
+	QBEagle1:
+		TNT1 A 1 A_SpawnItemEx("QBEagle1")
+		Stop
+	QBEagle2:
+		TNT1 A 1 A_SpawnItemEx("QBEagle2")
+		Stop
+	QBEagle3:
+		TNT1 A 1 A_SpawnItemEx("QBEagle3")
+		Stop
+	QBEagle4:
+		TNT1 A 1 A_SpawnItemEx("QBEagle4")
+		Stop
+	QBEagle5:
+		TNT1 A 1 A_SpawnItemEx("QBEagle5")
+		Stop
+
+	QBRedskin:
+		TNT1 A 0 A_Jump(256, "QBRedskin1", "QBRedskin2", "QBRedskin3", "QBRedskin4", "QBRedskin5")
+	QBRedskin1:
+		TNT1 A 1 A_SpawnItemEx("QBRedskin1")
+		Stop
+	QBRedskin2:
+		TNT1 A 1 A_SpawnItemEx("QBRedskin2")
+		Stop
+	QBRedskin3:
+		TNT1 A 1 A_SpawnItemEx("QBRedskin3")
+		Stop
+	QBRedskin4:
+		TNT1 A 1 A_SpawnItemEx("QBRedskin4")
+		Stop
+	QBRedskin5:
+		TNT1 A 1 A_SpawnItemEx("QBRedskin5")
+		Stop
+
+	QBBear:
+		TNT1 A 0 A_Jump(256, "QBBear1", "QBBear2", "QBBear3", "QBBear4", "QBBear5")
+	QBBear1:
+		TNT1 A 1 A_SpawnItemEx("QBBear1")
+		Stop
+	QBBear2:
+		TNT1 A 1 A_SpawnItemEx("QBBear2")
+		Stop
+	QBBear3:
+		TNT1 A 1 A_SpawnItemEx("QBBear3")
+		Stop
+	QBBear4:
+		TNT1 A 1 A_SpawnItemEx("QBBear4")
+		Stop
+	QBBear5:
+		TNT1 A 1 A_SpawnItemEx("QBBear5")
+		Stop
+
+	QBLion:
+		TNT1 A 0 A_Jump(256, "QBLion1", "QBLion2", "QBLion3", "QBLion4", "QBLion5")
+	QBLion1:
+		TNT1 A 1 A_SpawnItemEx("QBLion1")
+		Stop
+	QBLion2:
+		TNT1 A 1 A_SpawnItemEx("QBLion2")
+		Stop
+	QBLion3:
+		TNT1 A 1 A_SpawnItemEx("QBLion3")
+		Stop
+	QBLion4:
+		TNT1 A 1 A_SpawnItemEx("QBLion4")
+		Stop
+	QBLion5:
+		TNT1 A 1 A_SpawnItemEx("QBLion5")
+		Stop
+
+	QBPacker:
+		TNT1 A 0 A_Jump(256, "QBPacker1", "QBPacker2", "QBPacker3", "QBPacker4", "QBPacker5")
+	QBPacker1:
+		TNT1 A 1 A_SpawnItemEx("QBPacker1")
+		Stop
+	QBPacker2:
+		TNT1 A 1 A_SpawnItemEx("QBPacker2")
+		Stop
+	QBPacker3:
+		TNT1 A 1 A_SpawnItemEx("QBPacker3")
+		Stop
+	QBPacker4:
+		TNT1 A 1 A_SpawnItemEx("QBPacker4")
+		Stop
+	QBPacker5:
+		TNT1 A 1 A_SpawnItemEx("QBPacker5")
+		Stop
+
+	QBViking:
+		TNT1 A 0 A_Jump(256, "QBViking1", "QBViking2", "QBViking3", "QBViking4", "QBViking5")
+	QBViking1:
+		TNT1 A 1 A_SpawnItemEx("QBViking1")
+		Stop
+	QBViking2:
+		TNT1 A 1 A_SpawnItemEx("QBViking2")
+		Stop
+	QBViking3:
+		TNT1 A 1 A_SpawnItemEx("QBViking3")
+		Stop
+	QBViking4:
+		TNT1 A 1 A_SpawnItemEx("QBViking4")
+		Stop
+	QBViking5:
+		TNT1 A 1 A_SpawnItemEx("QBViking5")
+		Stop
+
+	QBFalcon:
+		TNT1 A 0 A_Jump(256, "QBFalcon1", "QBFalcon2", "QBFalcon3", "QBFalcon4", "QBFalcon5")
+	QBFalcon1:
+		TNT1 A 1 A_SpawnItemEx("QBFalcon1")
+		Stop
+	QBFalcon2:
+		TNT1 A 1 A_SpawnItemEx("QBFalcon2")
+		Stop
+	QBFalcon3:
+		TNT1 A 1 A_SpawnItemEx("QBFalcon3")
+		Stop
+	QBFalcon4:
+		TNT1 A 1 A_SpawnItemEx("QBFalcon4")
+		Stop
+	QBFalcon5:
+		TNT1 A 1 A_SpawnItemEx("QBFalcon5")
+		Stop
+
+	QBPanther:
+		TNT1 A 0 A_Jump(256, "QBPanther1", "QBPanther2", "QBPanther3", "QBPanther4", "QBPanther5")
+	QBPanther1:
+		TNT1 A 1 A_SpawnItemEx("QBPanther1")
+		Stop
+	QBPanther2:
+		TNT1 A 1 A_SpawnItemEx("QBPanther2")
+		Stop
+	QBPanther3:
+		TNT1 A 1 A_SpawnItemEx("QBPanther3")
+		Stop
+	QBPanther4:
+		TNT1 A 1 A_SpawnItemEx("QBPanther4")
+		Stop
+	QBPanther5:
+		TNT1 A 1 A_SpawnItemEx("QBPanther5")
+		Stop
+
+	QBSaint:
+		TNT1 A 0 A_Jump(256, "QBSaint1", "QBSaint2", "QBSaint3", "QBSaint4", "QBSaint5")
+	QBSaint1:
+		TNT1 A 1 A_SpawnItemEx("QBSaint1")
+		Stop
+	QBSaint2:
+		TNT1 A 1 A_SpawnItemEx("QBSaint2")
+		Stop
+	QBSaint3:
+		TNT1 A 1 A_SpawnItemEx("QBSaint3")
+		Stop
+	QBSaint4:
+		TNT1 A 1 A_SpawnItemEx("QBSaint4")
+		Stop
+	QBSaint5:
+		TNT1 A 1 A_SpawnItemEx("QBSaint5")
+		Stop
+
+	QBBuccaneer:
+		TNT1 A 0 A_Jump(256, "QBBuccaneer1", "QBBuccaneer2", "QBBuccaneer3", "QBBuccaneer4", "QBBuccaneer5")
+	QBBuccaneer1:
+		TNT1 A 1 A_SpawnItemEx("QBBuccaneer1")
+		Stop
+	QBBuccaneer2:
+		TNT1 A 1 A_SpawnItemEx("QBBuccaneer2")
+		Stop
+	QBBuccaneer3:
+		TNT1 A 1 A_SpawnItemEx("QBBuccaneer3")
+		Stop
+	QBBuccaneer4:
+		TNT1 A 1 A_SpawnItemEx("QBBuccaneer4")
+		Stop
+	QBBuccaneer5:
+		TNT1 A 1 A_SpawnItemEx("QBBuccaneer5")
+		Stop
+
+	QBCardinal:
+		TNT1 A 0 A_Jump(256, "QBCardinal1", "QBCardinal2", "QBCardinal3", "QBCardinal4", "QBCardinal5")
+	QBCardinal1:
+		TNT1 A 1 A_SpawnItemEx("QBCardinal1")
+		Stop
+	QBCardinal2:
+		TNT1 A 1 A_SpawnItemEx("QBCardinal2")
+		Stop
+	QBCardinal3:
+		TNT1 A 1 A_SpawnItemEx("QBCardinal3")
+		Stop
+	QBCardinal4:
+		TNT1 A 1 A_SpawnItemEx("QBCardinal4")
+		Stop
+	QBCardinal5:
+		TNT1 A 1 A_SpawnItemEx("QBCardinal5")
+		Stop
+
+	QBRam:
+		TNT1 A 0 A_Jump(256, "QBRam1", "QBRam2", "QBRam3", "QBRam4", "QBRam5")
+	QBRam1:
+		TNT1 A 1 A_SpawnItemEx("QBRam1")
+		Stop
+	QBRam2:
+		TNT1 A 1 A_SpawnItemEx("QBRam2")
+		Stop
+	QBRam3:
+		TNT1 A 1 A_SpawnItemEx("QBRam3")
+		Stop
+	QBRam4:
+		TNT1 A 1 A_SpawnItemEx("QBRam4")
+		Stop
+	QBRam5:
+		TNT1 A 1 A_SpawnItemEx("QBRam5")
+		Stop
+
+	QB49er:
+		TNT1 A 0 A_Jump(256, "QB49er1", "QB49er2", "QB49er3", "QB49er4", "QB49er5")
+	QB49er1:
+		TNT1 A 1 A_SpawnItemEx("QB49er1")
+		Stop
+	QB49er2:
+		TNT1 A 1 A_SpawnItemEx("QB49er2")
+		Stop
+	QB49er3:
+		TNT1 A 1 A_SpawnItemEx("QB49er3")
+		Stop
+	QB49er4:
+		TNT1 A 1 A_SpawnItemEx("QB49er4")
+		Stop
+	QB49er5:
+		TNT1 A 1 A_SpawnItemEx("QB49er5")
+		Stop
+
+	QBSeahawk:
+		TNT1 A 0 A_Jump(256, "QBSeahawk1", "QBSeahawk2", "QBSeahawk3", "QBSeahawk4", "QBSeahawk5")
+	QBSeahawk1:
+		TNT1 A 1 A_SpawnItemEx("QBSeahawk1")
+		Stop
+	QBSeahawk2:
+		TNT1 A 1 A_SpawnItemEx("QBSeahawk2")
+		Stop
+	QBSeahawk3:
+		TNT1 A 1 A_SpawnItemEx("QBSeahawk3")
+		Stop
+	QBSeahawk4:
+		TNT1 A 1 A_SpawnItemEx("QBSeahawk4")
+		Stop
+	QBSeahawk5:
+		TNT1 A 1 A_SpawnItemEx("QBSeahawk5")
+		Stop
+
+	Secret1:
+		TNT1 A 0 A_Jump(8, "Secret2")
+		goto Normal
+	Secret2:
+		TNT1 A 1 A_SpawnItemEx("QBSecret")
+		Stop
+	}
+}
+
+// bitman jumpers!
+ACTOR 8Jumper : MonsterTemplate
+{
+  Health 50
+  PainChance 180
+  Speed 4
+  Radius 15
+  Height 56
+  Mass 400
+  seesound "8enemy/see"
+  AttackSound "8enemy/melee"
+  painsound "8enemy/hurt"
+  deathsound "8enemy/die"
+  Obituary "$OB_JUMPER"
+  States
+  {
+  Spawn:
+	JMPR A 0
+	JMPR A 0 Thing_ChangeTID(0,900)
+	JMPR A 1 A_Look
+	JMPR A 0 A_AlertMonsters
+    Loop
+  See:
+    JMPR A 0
+    JMPR A 0 A_PlaySound("8jumper/land")
+    goto Stand
+  Stand:
+	JMPR A 0 
+    JMPR A 0 Thing_Stop(0)
+    JMPR A 2 A_Chase
+    JMPR A 0 A_Jump(128, "Stand")
+    JMPR A 1 
+    goto Bounce
+  Bounce:
+    JMPR B 0 
+    JMPR B 0 A_PlaySound("8jumper/jump")
+    JMPR B 1 A_Chase
+    JMPR B 1 ThrustThingZ(0,40,0,0)
+    JMPR B 1 ThrustThing(angle*256/360, 10, 0, 0)
+    goto Midair
+  Midair:
+    JMPR B 1
+    JMPR B 0 A_JumpIf(z == floorz, "See")
+    Loop
+  Melee:
+	JMPR C 4 A_FaceTarget
+	JMPR D 3 A_CustomMeleeAttack(3,"8jumper/melee", "8jumper/melee", Enemy)
+	JMPR C 3 A_FaceTarget
+	JMPR D 8 A_CustomMeleeAttack(3,"8jumper/melee")
+	goto See
+  Pain:
+    JMPR E 2
+    JMPR E 2 A_Pain
+    Goto See
+  Death:
+	TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==4,"XDeath")
+	TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==8,"BirthdayParty")
+    JMPR E 10 A_Scream
+    JMPR F 10 A_NoBlocking
+    goto CorpseFalling
+	CorpseFalling:
+		JMPR EFEFEF 1 A_CheckFloor("Corpse")
+		JMPR F 1 A_CheckFloor("CorpseHard")
+		TNT1 A 0 A_JumpIf(velz==0,"Corpse")
+		goto CorpseFalling+6
+	Corpse:
+		JMPR F 1 A_PlaySound("human/body")
+		JMPR F 1 A_JumpIf(velz!=0,"CorpseFalling")
+		TNT1 A 0 A_CheckSight("Cleanup")
+		goto Corpse+1
+	CorpseHard:
+		JMPR F 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		goto Corpse
+	// GIB DEATH STATES
+	XDeath:
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==8,"BirthdayParty")
+		JMPR E 0 A_NoBlocking
+		JMPR E 0 A_GiveToTarget("ScoreItem",130)
+		TNT1 A 0 A_StopSound(CHAN_VOICE)
+		JMPR E 0 A_PlaySound("human/gib")
+		JMPR E 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		JMPR F 5 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		TNT1 A 0 A_SetScale(1)
+		GIBS MNO 5 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		GIBS PQRST 4
+		GIBS U 5
+		GIBS V 1400
+		Stop
+	// COMEDY DEATH STATES
+	Death.Explosive:
+		JMPR E 0 A_Jump(64,"XDeath")
+		JMPR E 0 A_GiveToTarget("ScoreItem",100)
+		JMPR E 0 A_NoBlocking
+		JMPR E 0 ThrustThingZ(0,random(32,128),0,1)
+		JMPR E 0 A_Recoil(random(16,48))
+		JMPR E 2 A_Scream
+		goto CorpseFlying
+	CorpseFlying:
+		JMPR E 0 A_GiveToTarget("ScoreItem")
+		JMPR E 0 A_SpawnItemEx("BloodShredSilent")
+		JMPR E 0 A_SpawnItemEx("MissilePart",0,0,8)
+		JMPR E 0 A_JumpIf(velx == 0||vely == 0,"CorpseCrater")
+		JMPR E 1 A_CheckFloor("CorpseCrater")
+		JMPR E 0 A_GiveToTarget("ScoreItem",1)
+		JMPR E 0 A_SpawnItemEx("BloodShredSilent")
+		JMPR E 0 A_SpawnItemEx("MissilePart",0,0,8)
+		JMPR E 0 A_JumpIf(velx == 0||vely == 0,"CorpseCrater")
+		JMPR E 1 A_CheckFloor("CorpseCrater")
+		loop
+	CorpseCrater:
+		JMPR F 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		JMPR F 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		JMPR F 0 A_PlaySound("human/gib")
+		JMPR F 0 A_GiveToTarget("ScoreItem",50)
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==8,"BirthdayParty")
+		JMPR F 0 A_Stop
+		goto Corpse+1
+	Death.Fire:
+		JMPR A 0 A_PlaySound("human/scream")
+		JMPR A 0 A_SpawnItemEx("Flame1A",0,0,32)
+		JMPR A 0 A_Recoil(-8)
+		JMPR A 0 A_SpawnItemEx("Ember1",0,0,32)
+		JMPR AAAA 1 A_SetAngle(12 + angle)
+		JMPR B 0 A_Recoil(-8)
+		JMPR A 0 A_SpawnItemEx("Flame2A",0,0,32)
+		JMPR BBBB 1 A_SetAngle(12 + angle)
+		JMPR C 0 A_Recoil(-8)
+		JMPR A 0 A_SpawnItemEx("Flame1A",0,0,32)
+		JMPR BBBB 1 A_SetAngle(12 + angle)
+		JMPR A 0 A_Recoil(-8)
+		JMPR BBBB 1 A_SetAngle(12 + angle)
+		JMPR A 0 A_SpawnItemEx("Flame3B",0,0,32)
+		JMPR A 0 A_Jump(128,"Death.Fire")
+		goto Death
+	DogWhistle:
+		TNT1 A 0 A_SpawnItemEx("Confusion",0,0,56)
+		JMPR A 2 A_Wander
+		JMPR A 0 A_JumpIf(velz!=0,"MidAir")
+		JMPR A 2 A_Wander
+		JMPR A 0 A_JumpIf(velz!=0,"MidAir")
+		JMPR B 2 A_Wander
+		JMPR A 0 A_JumpIf(velz!=0,"MidAir")
+		JMPR B 2 A_Wander
+		JMPR A 0 A_JumpIf(velz!=0,"MidAir")
+		TNT1 A 0 A_SpawnItemEx("Confusion",0,0,56)
+		JMPR B 2 A_Wander
+		JMPR A 0 A_JumpIf(velz!=0,"MidAir")
+		JMPR B 2 A_Wander
+		JMPR A 0 A_JumpIf(velz!=0,"MidAir")
+		JMPR B 2 A_Wander
+		JMPR A 0 A_JumpIf(velz!=0,"MidAir")
+		JMPR B 2 A_Wander
+		goto See
+	Death.Barkblast:
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==8,"BirthdayParty")
+		JMPR E 0 A_NoBlocking
+		JMPR E 0 A_GiveToTarget("ScoreItem",50)
+		JMPR E 0 A_PlaySound("human/gib")
+		JMPR E 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		JMPR F 5 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		TNT1 A 0 A_SetScale(1)
+		GIBS MNO 5 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		GIBS PQRST 4
+		GIBS U 5
+		GIBS V 1400
+		Stop
+  }
+}
+
+// anime
+ACTOR Anime : MonsterTemplate
+{
+	Health 40
+	Height 56
+	Speed 8
+	PainChance 200
+	SeeSound "jackpot/anime/idle"
+	PainSound "jackpot/anime/pain"
+	DeathSound "jackpot/anime/die"
+	ActiveSound "jackpot/anime/idle"
+	Obituary "$OB_ANIME"
+	DamageFactor Mango,0
+	var int user_count;
+	States
+	{
+	Spawn:
+		ANIM A 0
+		ANIM A 0 Thing_ChangeTID(0,900)
+		ANIM A 1 A_Look
+		ANIM A 0 A_AlertMonsters
+		goto See
+	See:
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==9,"DogWhistle")
+		//POSS A 0 A_JumpIf(velz!=0,"MidAir")
+		ANIM A 2 A_Chase
+		ANIM A 0 A_JumpIf(velz!=0,"MidAir")
+		ANIM A 2 A_Chase
+		ANIM A 0 A_JumpIf(velz!=0,"MidAir")
+		ANIM B 2 A_Chase
+		ANIM A 0 A_JumpIf(velz!=0,"MidAir")
+		ANIM B 2 A_Chase
+		ANIM A 0 A_JumpIf(velz!=0,"MidAir")
+		ANIM C 2 A_Chase
+		ANIM A 0 A_JumpIf(velz!=0,"MidAir")
+		ANIM C 2 A_Chase
+		ANIM A 0 A_JumpIf(velz!=0,"MidAir")
+		ANIM D 2 A_Chase
+		ANIM A 0 A_JumpIf(velz!=0,"MidAir")
+		ANIM D 2 A_Chase
+		Loop
+	MidAir:
+		ANIM DDDDDD 1 A_CheckFloor("See")
+		TNT1 A 0 A_SpawnItemEx("CrushDamage")
+		ANIM D 1 A_CheckFloor("Landing")
+		TNT1 A 0 A_JumpIf(velz==0,"See")
+		goto MidAir+6
+	Landing:
+		ANIM B 1
+		ANIM B 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		ANIM B 5 A_PlaySound("human/land")
+		goto See
+	Missile:
+		ANIM B 10 A_FaceTarget
+	MissileMid:
+		ANIM A 0 A_JumpIf(user_count>=40,"MissileEnd")
+		ANIM A 0 A_SetAngle(16 + angle)
+		ANIM A 1 A_CustomMissile("AnimePulsar", 35, 0, 0, CMF_TRACKOWNER|CMF_AIMDIRECTION)
+		ANIM A 0 A_SetUserVar("user_count",user_count+1)
+		loop	
+	MissileEnd:
+		ANIM B 0 A_SetUserVar("user_count",0)
+		ANIM B 8
+		Goto See
+	Pain:
+		ANIM E 3
+		ANIM E 3 A_Pain
+		Goto See
+	// NORMAL DEATH STATES
+	Death:
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==4,"XDeath")
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==8,"BirthdayParty")
+		ANIM F 0 A_NoBlocking
+		ANIM F 0 A_GiveToTarget("ScoreItem",100)
+		ANIM G 5
+		ANIM H 4 A_Scream
+		ANIM I 3
+		goto CorpseFalling
+	CorpseFalling:
+		ANIM HIHIHI 1 A_CheckFloor("Corpse")
+		ANIM I 1 A_CheckFloor("CorpseHard")
+		TNT1 A 0 A_JumpIf(velz==0,"Corpse")
+		goto CorpseFalling+6
+	Corpse:
+		ANIM J 1 A_PlaySound("human/body")
+		ANIM J 1 A_JumpIf(velz!=0,"CorpseFalling")
+		TNT1 A 0 A_CheckSight("Cleanup")
+		goto Corpse+1
+	CorpseHard:
+		ANIM J 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		goto Corpse
+	// GIB DEATH STATES
+	XDeath:
+		ANIM E 0 A_NoBlocking
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==8,"BirthdayParty")
+		ANIM E 0 A_GiveToTarget("ScoreItem",130)
+		TNT1 A 0 A_StopSound(CHAN_VOICE)
+		POSS M 0 A_PlaySound("human/gib")
+		POSS M 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		POSS M 5 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		GIBS MNO 5 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		GIBS PQRST 4
+		GIBS U 5
+		GIBS V 1400
+		Stop
+	// COMEDY DEATH STATES
+	Death.Explosive:
+		ANIM H 0 A_Jump(64,"XDeath")
+		ANIM H 0 A_GiveToTarget("ScoreItem",100)
+		TNT1 A 0 A_NoBlocking
+		ANIM H 0 ThrustThingZ(0,random(32,128),0,1)
+		ANIM H 0 A_Recoil(random(16,48))
+		ANIM H 2 A_Scream
+		goto CorpseFlying
+	CorpseFlying:
+		ANIM H 0 A_GiveToTarget("ScoreItem",1)
+		ANIM H 0 A_SpawnItemEx("BloodShredSilent")
+		ANIM H 0 A_SpawnItemEx("MissilePart",0,0,8)
+		ANIM H 0 A_JumpIf(velx == 0||vely == 0,"CorpseCrater")
+		ANIM H 1 A_CheckFloor("CorpseCrater")
+		ANIM H 0 A_GiveToTarget("ScoreItem",1)
+		ANIM H 0 A_SpawnItemEx("BloodShredSilent")
+		ANIM H 0 A_SpawnItemEx("MissilePart",0,0,8)
+		ANIM H 0 A_JumpIf(velx == 0||vely == 0,"CorpseCrater")
+		ANIM H 1 A_CheckFloor("CorpseCrater")
+		loop
+	CorpseCrater:
+		BEGR M 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		BEGR N 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		BEGR N 0 A_PlaySound("human/gib")
+		BEGR F 0 A_GiveToTarget("ScoreItem",50)
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==8,"BirthdayParty")
+		BEGR N 0 A_Stop
+		goto Corpse+1
+	Death.Fire:
+		POSS A 0 A_PlaySound("human/scream")
+		POSS A 0 A_SpawnItemEx("Flame1A",0,0,32)
+		POSS A 0 A_Recoil(-8)
+		POSS A 0 A_SpawnItemEx("Ember1",0,0,32)
+		ANIM AAAA 1 A_SetAngle(12 + angle)
+		POSS B 0 A_Recoil(-8)
+		POSS A 0 A_SpawnItemEx("Flame2A",0,0,32)
+		ANIM BBBB 1 A_SetAngle(12 + angle)
+		POSS C 0 A_Recoil(-8)
+		POSS A 0 A_SpawnItemEx("Flame1A",0,0,32)
+		ANIM CCCC 1 A_SetAngle(12 + angle)
+		POSS D 0 A_Recoil(-8)
+		ANIM DDDD 1 A_SetAngle(12 + angle)
+		POSS A 0 A_SpawnItemEx("Flame3B",0,0,32)
+		POSS A 0 A_Jump(128,"Death.Fire")
+		goto Death
+	DogWhistle:
+		TNT1 A 0 A_SpawnItemEx("Confusion",0,0,56)
+		//POSS A 0 A_JumpIf(velz!=0,"MidAir")
+		ANIM A 2 A_Wander
+		ANIM A 0 A_JumpIf(velz!=0,"MidAir")
+		ANIM A 2 A_Wander
+		ANIM A 0 A_JumpIf(velz!=0,"MidAir")
+		ANIM B 2 A_Wander
+		ANIM A 0 A_JumpIf(velz!=0,"MidAir")
+		ANIM B 2 A_Wander
+		ANIM A 0 A_JumpIf(velz!=0,"MidAir")
+		TNT1 A 0 A_SpawnItemEx("Confusion",0,0,56)
+		ANIM C 2 A_Wander
+		ANIM A 0 A_JumpIf(velz!=0,"MidAir")
+		ANIM C 2 A_Wander
+		ANIM A 0 A_JumpIf(velz!=0,"MidAir")
+		ANIM D 2 A_Wander
+		ANIM A 0 A_JumpIf(velz!=0,"MidAir")
+		ANIM D 2 A_Wander
+		goto See
+	}
+}
+
+actor AnimePulsar
+{
+	Radius 12
+	Height 12
+	Speed 30
+	Scale 1.25
+	Damage (15)
+	PROJECTILE
+	+BRIGHT
+	DeathSound "laser/hit"
+	DamageType Mango
+	states
+	{
+	Spawn:
+		PLS2 A 3 A_SpawnItemEx("TankPulsarTrail1")
+		HTPA B 3 A_SpawnItemEx("TankPulsarTrail2")
+		HTPB A 3 A_SpawnItemEx("TankPulsarTrail3")
+		HTPA B 3 A_SpawnItemEx("TankPulsarTrail2")
+		Loop
+	Death:
+		PLS2 CDEFG 4
+		Stop
+	}
+}

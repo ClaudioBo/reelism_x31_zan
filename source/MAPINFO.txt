@@ -1,0 +1,346 @@
+// Game Info
+gameinfo
+{
+	infopage = "HELP", "CREDIT1", "CREDIT2"
+	quitsound = "weapons/explode" //"menu/quit2"
+	dimcolor = "00 00 00" //"4c 81 c7"
+	dimamount = 0.5
+	playerclasses = "SplotPlayer"
+
+	quitmessages =  // New messages
+					"$QUITMSG_R1", "$QUITMSG_R2", "$QUITMSG_R3", "$QUITMSG_R4", "$QUITMSG_R5", "$QUITMSG_R6",
+					"$QUITMSG_R7", "$QUITMSG_R8", "$QUITMSG_R9", "$QUITMSG_R10", "$QUITMSG_R11", "$QUITMSG_R12",
+					"$QUITMSG_R13", "$QUITMSG_R14",
+					// Misc stuff
+					// "$QUITMSG_M1", "$QUITMSG_M2", "$QUITMSG_M3", "$QUITMSG_M4",
+					// Wolfenstein crap
+					"$QUITMSG_W1", "$QUITMSG_W2", "$QUITMSG_W3", "$QUITMSG_W4",	"$QUITMSG_W5", "$QUITMSG_W6",
+					// Carmageddon
+					"$QUITMSG_C1", "$QUITMSG_C2", "$QUITMSG_C3",
+					// Doom
+					"$QUITMSG_D1", "$QUITMSG_D2",
+					// funney computer
+					"$QUITMSG_Y1", "$QUITMSG_Y2", "$QUITMSG_Y3", "$QUITMSG_Y4",
+					// Other videogame shit for nerds
+					"$QUITMSG_G1", "$QUITMSG_G2", "$QUITMSG_G3", "$QUITMSG_G4", "$QUITMSG_G5", "$QUITMSG_G6",
+					"$QUITMSG_G7", "$QUITMSG_G8", "$QUITMSG_G9", "$QUITMSG_G10", "$QUITMSG_G11", "$QUITMSG_G12",
+					"$QUITMSG_G13", "$QUITMSG_G14", "$QUITMSG_G15", "$QUITMSG_G16", "$QUITMSG_G17", "$QUITMSG_G18",
+					"$QUITMSG_G19", "$QUITMSG_G20","$QUITMSG_G21",
+					// Expansion 3 stuff
+					"$QUITMSG_X3_1", "$QUITMSG_X3_2", "$QUITMSG_X3_3", "$QUITMSG_X3_4", "$QUITMSG_X3_5", "$QUITMSG_X3_6"
+
+	menufontcolor_title = "White"
+	menufontcolor_label = "White"
+	menufontcolor_value = "GRAY"
+	menufontcolor_action = "GRAY"
+	menufontcolor_header = "White"
+	menufontcolor_highlight = "GOLD"
+	menufontcolor_selection = "GOLD"
+}
+
+// Skills
+clearskills
+
+skill normal
+{
+	SpawnFilter = Normal
+	Name = "$SKILL1"
+	DefaultSkill
+	acsreturn = 10
+}
+
+skill double
+{
+	SpawnFilter = Normal
+	Name = "$SKILL2"
+	acsreturn = 11
+}
+
+skill infinite
+{
+	SpawnFilter = Normal
+	Name = "$SKILL3"
+	acsreturn = 12
+}
+
+skill shuffle
+{
+	SpawnFilter = Normal
+	Name = "$SKILL4"
+	acsreturn = 13
+}
+
+skill test
+{
+	SpawnFilter = Normal
+	Name = "$SKILL99"
+	acsreturn = 99
+}
+
+// Maps
+clearepisodes
+
+defaultmap
+{
+	totalinfighting
+	nointermission
+	resethealth
+	resetinventory
+	noautosavehint
+}
+
+map TITLEMAP "Splot"
+{
+	sky1 = "SPACESKY"
+}
+map LOBBY "The Lobby"{}
+episode LOBBY
+{
+   name = "Co-Op Lobby"
+   noskillmenu
+}
+
+map VALHALLA "???"{}
+
+map CREDITS "Splot"
+{
+	music = "MUS-CRED"
+}
+
+//episode CREDITS
+//{
+//   name = "View Credits"
+//   noskillmenu
+//}
+
+map MAP01 "NO WAY!"
+{
+	music = "MUS-NOWA"
+}
+
+// Default Maps
+map GUTROT "Gutrot Island"
+{
+	next = "GUTROT"
+}
+
+episode GUTROT
+{
+   name = "Gutrot Island"
+}
+
+map VR "The Internet Machine"
+{
+	next = "VR"
+	doublesky
+	sky1 = "vrsky2", 0.1
+	sky2 = "vrsky", -0.1
+	forcenoskystretch
+}
+
+episode VR
+{
+   name = "The Internet Machine"
+}
+
+// Maps
+map X2 "Municipal Transpo"
+{
+	next = "X2"
+	sky1 = "SKY1"
+}
+
+episode X2
+{
+   name = "Municipal Transpo"
+}
+
+map X3 "Creature of Chaos"
+{
+	next = "X3"
+	sky1 = "SCV4SKY1"
+	lightning
+}
+
+episode X3
+{
+   name = "Creature of Chaos"
+}
+
+// Xasermaps
+map DISCORD "Continuum of Discord"
+{
+	next = "DISCORD"
+	sky1 = "XEROXSKY", 0.3
+	sky2 = "XEROVSKY", -0.3
+	forcenoskystretch
+}
+
+episode DISCORD
+{
+	name = "Continuum of Discord"
+}
+
+// Splot X2 Maps
+
+map FLESHY "Flesh Palace"
+{
+	next = "FLESHY"
+	sky1 = "FIRESK00"
+}
+
+map JRPG "JRPGVille"
+{
+	next = "JRPG"
+	sky1 = "NREELSKY"
+	sky2 = "STARBACK", 1
+}
+
+map X4 "Astrolab"
+{
+	next = "X4"
+	sky1 = "SPACESKY"
+}
+
+map RELMAP70 "Candy Planet"
+{
+	next = "RELMAP70"
+	sky1 = "CARNSKY"
+}
+
+map X1 "Abridged"
+{
+	next = "X1"
+	sky1 = "BRIDGESK"
+}
+
+map DOGHELL "Dog Hell"
+{
+	next = "LOBBY"
+	sky1 = "DOGSET"
+}
+
+episode RELMAP70
+{
+   name = "Candy Planet"
+}
+episode X1
+{
+   name = "Abridged"
+}
+episode "FLESHY"
+{
+	name = "Flesh Palace"
+}
+episode JRPG
+{
+   name = "JRPGVille"
+}
+episode X4
+{
+   name = "Astrolab"
+}
+
+// Expansion 3!
+
+map GRAD "Planet Eioneus"
+{
+	next = "GRAD"
+	sky1 = "GRADSKY1"
+	forcenoskystretch
+}
+
+episode GRAD
+{
+   name = "Planet Eioneus"
+}
+
+map TRONIC "Grid-Based Combat"
+{
+	next = "TRONIC"
+	sky1 = "TRONSKY"
+}
+
+episode "TRONIC"
+{
+	name = "Grid-Based Combat"
+}
+
+map SIMPLER "Deadly Simple"
+{
+	next = "SIMPLER"
+	sky1 = "SKY1"
+	CheckSwitchRange
+}
+
+episode SIMPLER
+{
+   name = "Deadly Simple"
+}
+
+map ALIEN "Alien Ship"
+{
+	next = "ALIEN"
+	sky1 = "DNTEX001"
+}
+
+episode ALIEN
+{
+	name = "Alien Ship"
+}
+
+map SPORTS "Reel Stadium"
+{
+	next = "SPORTS"
+	doublesky
+	sky1 = "BLACK"
+}
+
+episode SPORTS
+{
+   name = "Reel Stadium"
+}
+
+map CONTRA "Fort FireStorm"
+{
+	next = "CONTRA"
+	sky1 = "CNTR_SKY"
+	nointermission
+	resethealth
+	resetinventory
+	noautosavehint 
+	totalinfighting
+}
+
+episode CONTRA
+{
+name = "Fort FireStorm"
+}
+
+map BITMAN "Bitman Graveyard"
+{
+	next = "BITMAN"	
+	sky1 = "8CITYSKY"
+	nointermission
+	resethealth
+	resetinventory
+	totalinfighting
+}
+
+// Maps
+map BOSSRUSH "Boss Rush"
+{
+	next = "BOSSRUSH"
+	LevelNum = 100
+}
+
+episode BOSSRUSH
+{
+   name = "*Boss Rush*"
+   noskillmenu
+}
+
+map FINALE "The Last Stand!"
+{
+	sky1 = "DOGSET"
+}

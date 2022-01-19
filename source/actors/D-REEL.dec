@@ -1,0 +1,74 @@
+// Splot - Hud Animation Controllers
+
+ACTOR Slot : Key{+INVENTORY.UNDROPPABLE}
+ACTOR Slot1Spinning : Slot{Inventory.Icon "SLOTSPN1"}
+ACTOR Slot2Spinning : Slot1Spinning{}
+ACTOR Slot3Spinning : Slot1Spinning{}
+
+ACTOR Slot1_1 : Slot{Inventory.Icon "SLOT1-1"}
+ACTOR Slot1_2 : Slot{Inventory.Icon "SLOT1-2"}
+ACTOR Slot1_3 : Slot{Inventory.Icon "SLOT1-3"}
+ACTOR Slot1_4 : Slot{Inventory.Icon "SLOT1-4"}
+ACTOR Slot1_5 : Slot{Inventory.Icon "SLOT1-5"}
+ACTOR Slot1_6 : Slot{Inventory.Icon "SLOT1-6"}
+ACTOR Slot1_7 : Slot{Inventory.Icon "SLOT1-7"}
+ACTOR Slot1_8 : Slot{Inventory.Icon "SLOT1-8"}
+ACTOR Slot1_9 : Slot{Inventory.Icon "SLOT1-9"}
+ACTOR Slot1_10 : Slot{Inventory.Icon "SLOT1-10"}
+ACTOR Slot1_11 : Slot{Inventory.Icon "SLOT1-11"}
+ACTOR Slot1_12 : Slot{Inventory.Icon "SLOT1-12"}
+ACTOR Slot1_13 : Slot{Inventory.Icon "SLOT1-13"}
+ACTOR Slot1_14 : Slot{Inventory.Icon "SLOT1-14"}
+ACTOR Slot1_15 : Slot{Inventory.Icon "SLOT1-15"}
+ACTOR Slot1_16 : Slot{Inventory.Icon "SLOT1-16"}
+ACTOR Slot1_17 : Slot{Inventory.Icon "SLOT1-17"}
+ACTOR Slot1_18 : Slot{Inventory.Icon "SLOT1-18"}
+
+ACTOR Slot2_1 : Slot{Inventory.Icon "SLOT2-1"}
+ACTOR Slot2_2 : Slot{Inventory.Icon "SLOT2-2"}
+ACTOR Slot2_3 : Slot{Inventory.Icon "SLOT2-3"}
+ACTOR Slot2_4 : Slot{Inventory.Icon "SLOT2-4"}
+ACTOR Slot2_5 : Slot{Inventory.Icon "SLOT2-5"}
+ACTOR Slot2_6 : Slot{Inventory.Icon "SLOT2-6"}
+ACTOR Slot2_7 : Slot{Inventory.Icon "SLOT2-7"}
+ACTOR Slot2_8 : Slot{Inventory.Icon "SLOT2-8"}
+ACTOR Slot2_9 : Slot{Inventory.Icon "SLOT2-9"}
+ACTOR Slot2_10 : Slot{Inventory.Icon "SLOT2-10"}
+ACTOR Slot2_11 : Slot{Inventory.Icon "SLOT2-11"}
+ACTOR Slot2_12 : Slot{Inventory.Icon "SLOT2-12"}
+ACTOR Slot2_13 : Slot{Inventory.Icon "SLOT2-13"}
+ACTOR Slot2_14 : Slot{Inventory.Icon "SLOT2-14"}
+ACTOR Slot2_15 : Slot{Inventory.Icon "SLOT2-15"}
+ACTOR Slot2_16 : Slot{Inventory.Icon "SLOT2-16"}
+ACTOR Slot2_17 : Slot{Inventory.Icon "SLOT2-17"}
+ACTOR Slot2_18 : Slot{Inventory.Icon "SLOT2-18"}
+
+ACTOR Slot3_1 : Slot{Inventory.Icon "SLOT3-1"}
+ACTOR Slot3_2 : Slot{Inventory.Icon "SLOT3-2"}
+ACTOR Slot3_3 : Slot{Inventory.Icon "SLOT3-3"}
+ACTOR Slot3_4 : Slot{Inventory.Icon "SLOT3-4"}
+ACTOR Slot3_5 : Slot{Inventory.Icon "SLOT3-5"}
+ACTOR Slot3_6 : Slot{Inventory.Icon "SLOT3-6"}
+ACTOR Slot3_7 : Slot{Inventory.Icon "SLOT3-7"}
+ACTOR Slot3_8 : Slot{Inventory.Icon "SLOT3-8"}
+ACTOR Slot3_9 : Slot{Inventory.Icon "SLOT3-9"}
+ACTOR Slot3_10 : Slot{Inventory.Icon "SLOT3-10"}
+ACTOR Slot3_11 : Slot{Inventory.Icon "SLOT3-11"}
+ACTOR Slot3_12 : Slot{Inventory.Icon "SLOT3-12"}
+ACTOR Slot3_13 : Slot{Inventory.Icon "SLOT3-13"}
+ACTOR Slot3_14 : Slot{Inventory.Icon "SLOT3-14"}
+ACTOR Slot3_15 : Slot{Inventory.Icon "SLOT3-15"}
+ACTOR Slot3_16 : Slot{Inventory.Icon "SLOT3-16"}
+ACTOR Slot3_17 : Slot{Inventory.Icon "SLOT3-17"}
+ACTOR Slot3_18 : Slot{Inventory.Icon "SLOT3-18"}
+
+ACTOR SlotBoss1 : Slot{Inventory.Icon "SLOTBOS1"}
+ACTOR SlotBoss2 : Slot{Inventory.Icon "SLOTBOS2"}
+ACTOR SlotBoss3 : Slot{Inventory.Icon "SLOTBOS3"}
+
+ACTOR DisableHUD : Inventory{}
+
+//Custom
+ACTOR Slot1_XX : Slot{Inventory.Icon "SLOTXX"}
+ACTOR Slot2_XX : Slot1_XX{}
+ACTOR Slot3_XX : Slot1_XX{}

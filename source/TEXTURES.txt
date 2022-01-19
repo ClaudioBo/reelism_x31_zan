@@ -1,0 +1,1473 @@
+Texture CLOUDS1,1024,1024
+{
+	XScale 4.0
+	YScale 4.0
+	NoDecals
+	Patch PURPCLD,0,0
+}
+
+Texture RAILING1,64,64
+{
+	Patch RW43_1,0,0
+}
+
+Texture VRWATER,64,64
+{
+	Patch VRPLAIN4,0,0
+}
+
+Texture CURTAIN,128,748
+{
+	XScale 2.0
+	YScale 2.0
+	Patch CURTAIN,0,0
+}
+
+Texture XEROVSKY,256,256
+{
+	XScale 4.0
+	YScale 4.0
+	Patch XEROVEIN,0,0
+}
+
+Texture N_GRGB59,128,128
+{
+	Patch N_GRBL34,0,0
+	Patch N_GRBL34,64,-16
+	Patch N_GRAY36,0,0
+	Patch N_GRAY38,0,-72
+}
+
+Texture N_GRAY36,128,128
+{
+	Patch N_GRAY34,0,0
+	Patch N_GRAY34,64,-16
+	Patch N_GRAY36,0,0
+}
+
+Texture N_GRAY38,128,128
+{
+	Patch N_GRAY34,0,0
+	Patch N_GRAY34,64,-16
+	Patch N_GRAY38,0,0
+}
+
+Texture N_GRBL34,128,128
+{
+	Patch N_GRBL34,0,0
+	Patch N_GRBL34,64,-16
+}
+
+Texture CANDWAL3,128,512
+{
+	Patch CANDWAL2,0,0
+	Patch CANDWAL1,0,128
+	Patch CANDWAL1,0,256
+	Patch CANDWAL1,0,384
+}
+
+Texture SOMROCK3,128,1024
+{
+	Patch SOMROCK3,0,0
+	Patch SOMROCK2,0,128
+	Patch SOMROCK2,0,256
+	Patch SOMROCK2,0,384
+	Patch SOMROCK2,0,512
+	Patch SOMROCK2,0,640
+	Patch SOMROCK2,0,768
+	Patch SOMROCK1,0,896
+}
+
+Sprite W60_A0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,181,68
+	Patch M60BB0,193,117
+}
+
+Sprite W60SA0,428,168
+{
+	Offset 32,0
+	Patch M60RB0,164,133
+}
+
+Sprite W60SB0,428,168
+{
+	Offset 32,0
+	Patch M60RB0,165,123
+}
+
+Sprite W60SC0,428,168
+{
+	Offset 32,0
+	Patch M60RB0,165,113
+}
+
+Sprite W60SD0,428,168
+{
+	Offset 32,0
+	Patch M60RB0,167,105
+}
+
+Sprite W60SE0,428,168
+{
+	Offset 32,0
+	Patch M60RB0,168,97
+	Patch M60BB0,193,162
+}
+
+Sprite W60SF0,428,168
+{
+	Offset 32,0
+	Patch M60RB0,170,86
+	Patch M60BB0,193,152
+}
+
+Sprite W60SG0,428,168
+{
+	Offset 32,0
+	Patch M60RB0,171,83
+	Patch M60BB0,193,147
+}
+
+Sprite W60SH0,428,168
+{
+	Offset 32,0
+	Patch M60RB0,172,78
+	Patch M60BB0,193,140
+}
+
+Sprite W60SI0,428,168
+{
+	Offset 32,0
+	Patch M60RB0,173,76
+	Patch M60BB0,195,138
+}
+
+Sprite W60SJ0,428,168
+{
+	Offset 32,0
+	Patch M60RB0,174,75
+	Patch M60BB0,195,136
+}
+
+Sprite W60SK0,428,168
+{
+	Offset 32,0
+	Patch M60RB0,176,68
+	Patch M60BB0,195,134
+}
+
+Sprite W60SL0,428,168
+{
+	Offset 32,0
+	Patch M60RB0,178,66
+	Patch M60BB0,192,131
+}
+
+Sprite W60SM0,428,168
+{
+	Offset 32,0
+	Patch M60RB0,180,65
+	Patch M60BB0,188,128
+}
+
+Sprite W60SN0,428,168
+{
+	Offset 32,0
+	Patch M60RB0,180,65
+	Patch M60BB0,188,125
+}
+
+Sprite W60SO0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,181,72
+	Patch M60BB0,188,123
+}
+
+Sprite W60SP0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,181,68
+	Patch M60BB0,189,119
+}
+
+Sprite W60SQ0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,181,68
+	Patch M60BB0,189,119
+}
+
+Sprite W60SR0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,181,68
+	Patch M60BB0,190,116
+}
+
+Sprite W60SS0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,181,68
+	Patch M60BB0,190,116
+}
+
+Sprite W60ST0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,181,68
+	Patch M60BB0,190,116
+}
+
+Sprite W60SU0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,181,68
+	Patch M60BB0,190,116
+}
+
+Sprite W60SV0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,181,68
+	Patch M60BB0,193,117
+}
+
+Sprite W60DA0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,176,82
+	Patch M60BB0,187,129
+}
+
+Sprite W60DB0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,174,91
+	Patch M60BB0,185,137
+}
+
+Sprite W60DC0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,174,94
+	Patch M60BB0,185,141
+}
+
+Sprite W60DD0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,173,97
+	Patch M60BB0,184,144
+}
+
+Sprite W60DE0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,173,100
+	Patch M60BB0,184,148
+}
+
+Sprite W60DF0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,173,109
+	Patch M60BB0,184,160
+}
+
+Sprite W60DG0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,173,115
+	Patch M60BB0,184,164
+}
+
+Sprite W60DH0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,173,121
+	Patch M60BB0,184,164
+}
+
+Sprite W60DI0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,173,128
+}
+
+Sprite W60DJ0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,173,135
+}
+
+Sprite W60DK0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,172,152
+}
+
+Sprite W60FA0,428,168
+{
+	Offset 32,0
+	Patch M60FA0,194,56
+	Patch M60_B0,183,64
+	Patch M60BB0,198,122
+}
+
+Sprite W60FB0,428,168
+{
+	Offset 32,0
+	Patch M60FA0,196,63
+	{
+		FlipY
+	}
+	Patch M60_B0,184,64
+	Patch M60BB0,199,122
+}
+
+Sprite W60FC0,428,168
+{
+	Offset 32,0
+	Patch M60FA0,204,58
+	{
+		FlipX
+	}
+	Patch M60_B0,186,64
+	Patch M60BB0,201,122
+}
+
+Sprite W60FD0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,180,68
+	Patch M60BB0,199,118
+}
+
+Sprite W60FE0,428,168
+{
+	Offset 32,0
+	Patch M60FA0,199,56
+	{
+		FlipX
+	}
+	Patch M60_B0,183,64
+	Patch M60BC0,203,125
+}
+
+Sprite W60FF0,428,168
+{
+	Offset 32,0
+	Patch M60FA0,194,56
+	Patch M60_B0,184,64
+	Patch M60BC0,204,125
+}
+
+Sprite W60FG0,428,168
+{
+	Offset 32,0
+	Patch M60FA0,194,60
+	{
+		FlipY
+	}
+	Patch M60_B0,185,64
+	Patch M60BC0,205,125
+}
+
+Sprite W60FH0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,182,69
+	Patch M60BG0,224,128
+	Patch M60BI0,213,145
+	Patch M60BE0,234,117
+}
+
+Sprite W60FI0,428,168
+{
+	Offset 32,0
+	Patch M60FA0,196,54
+	Patch M60_B0,182,64
+	Patch M60BG0,227,135
+	Patch M60BE0,239,123
+	Patch M60BI0,217,144
+}
+
+Sprite W60FJ0,428,168
+{
+	Offset 32,0
+	Patch M60FA0,201,59
+	{
+		FlipX
+		FlipY
+	}
+	Patch M60_B0,183,64
+	Patch M60BG0,229,135
+	Patch M60BE0,240,123
+	Patch M60BI0,218,144
+}
+
+Sprite W60FK0,428,168
+{
+	Offset 32,0
+	Patch M60FA0,201,59
+	{
+		FlipY
+	}
+	Patch M60_B0,184,64
+	Patch M60BG0,230,135
+	Patch M60BE0,241,123
+	Patch M60BI0,219,144
+}
+
+Sprite W60FL0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,181,67
+	Patch M60BB0,200,117
+}
+
+Sprite W60RA0,428,168
+{
+	Offset 32,0
+	Patch M60RB0,168,69
+}
+
+Sprite W60RB0,428,168
+{
+	Offset 32,0
+	Patch M60RB0,166,71
+}
+
+Sprite W60RC0,428,168
+{
+	Offset 32,0
+	Patch M60RB0,164,73
+}
+
+Sprite W60RD0,428,168
+{
+	Offset 32,0
+	Patch M60RB0,162,75
+}
+
+Sprite W60RE0,428,168
+{
+	Offset 32,0
+	Patch M60RB0,155,72
+}
+
+Sprite W60RF0,428,168
+{
+	Offset 32,0
+	Patch M60RB0,148,69
+}
+
+Sprite W60RG0,428,168
+{
+	Offset 32,0
+	Patch M60RA0,161,67
+}
+
+Sprite W60RH0,428,168
+{
+	Offset 32,0
+	Patch M60RA0,159,69
+}
+
+Sprite W60RI0,428,168
+{
+	Offset 32,0
+	Patch M60RA0,158,70
+}
+
+Sprite W60RJ0,428,168
+{
+	Offset 32,0
+	Patch M60RA0,156,72
+}
+
+Sprite W60RK0,428,168
+{
+	Offset 32,0
+	Patch M60RA0,154,74
+}
+
+Sprite W60RL0,428,168
+{
+	Offset 32,0
+	Patch M60RA0,152,75
+}
+
+Sprite W60RM0,428,168
+{
+	Offset 32,0
+	Patch M60RA0,150,77
+}
+
+Sprite W60RN0,428,168
+{
+	Offset 32,0
+	Patch M60RA0,149,82
+}
+
+Sprite W60RO0,428,168
+{
+	Offset 32,0
+	Patch M60RA0,147,88
+}
+
+Sprite W60RP0,428,168
+{
+	Offset 32,0
+	Patch M60RA0,146,93
+}
+
+Sprite W60RQ0,428,168
+{
+	Offset 32,0
+	Patch M60RA0,146,96
+}
+
+Sprite W60RR0,428,168
+{
+	Offset 32,0
+	Patch M60RA0,145,98
+}
+
+Sprite W60RS0,428,168
+{
+	Offset 32,0
+	Patch M60RA0,145,101
+}
+
+Sprite W60RT0,428,168
+{
+	Offset 32,0
+	Patch M60RA0,145,97
+}
+
+Sprite W60RU0,428,168
+{
+	Offset 32,0
+	Patch M60RA0,145,99
+}
+
+Sprite W60RV0,428,168
+{
+	Offset 32,0
+	Patch M60RA0,146,100
+}
+
+Sprite W60RW0,428,168
+{
+	Offset 32,0
+	Patch M60RA0,147,102
+}
+
+Sprite W60RX0,428,168
+{
+	Offset 32,0
+	Patch M60RA0,148,103
+}
+
+Sprite W60RY0,428,168
+{
+	Offset 32,0
+	Patch M60RA0,149,103
+}
+
+Sprite W60RZ0,428,168
+{
+	Offset 32,0
+	Patch M60RA0,151,104
+}
+
+Sprite W61RA0,428,168
+{
+	Offset 32,0
+	Patch M60RA0,148,103
+}
+
+Sprite W61RB0,428,168
+{
+	Offset 32,0
+	Patch M60RA0,148,100
+}
+
+Sprite W61RC0,428,168
+{
+	Offset 32,0
+	Patch M60RA0,148,97
+}
+
+Sprite W61RD0,428,168
+{
+	Offset 32,0
+	Patch M60RA0,148,95
+}
+
+Sprite W61RE0,428,168
+{
+	Offset 32,0
+	Patch M60RA0,148,93
+}
+
+Sprite W61RF0,428,168
+{
+	Offset 32,0
+	Patch M60RA0,148,90
+}
+
+Sprite W61RG0,428,168
+{
+	Offset 32,0
+	Patch M60RA0,149,87
+}
+
+Sprite W61RH0,428,168
+{
+	Offset 32,0
+	Patch M60RA0,149,85
+}
+
+Sprite W61RI0,428,168
+{
+	Offset 32,0
+	Patch M60RA0,150,82
+}
+
+Sprite W61RJ0,428,168
+{
+	Offset 32,0
+	Patch M60RB0,150,76
+	Patch M60BB0,163,144
+}
+
+Sprite W61RK0,428,168
+{
+	Offset 32,0
+	Patch M60RB0,151,75
+	Patch M60BB0,164,143
+}
+
+Sprite W61RL0,428,168
+{
+	Offset 32,0
+	Patch M60RB0,151,73
+	Patch M60BB0,164,141
+}
+
+Sprite W61RM0,428,168
+{
+	Offset 32,0
+	Patch M60RB0,152,72
+	Patch M60BB0,165,140
+}
+
+Sprite W61RN0,428,168
+{
+	Offset 32,0
+	Patch M60RB0,154,69
+	Patch M60BB0,167,137
+}
+
+Sprite W61RO0,428,168
+{
+	Offset 32,0
+	Patch M60RB0,157,67
+	Patch M60BB0,170,133
+}
+
+Sprite W61RP0,428,168
+{
+	Offset 32,0
+	Patch M60RB0,159,64
+	Patch M60BB0,172,130
+}
+
+Sprite W61RQ0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,160,65
+	Patch M60BB0,168,113
+}
+
+Sprite W61RS0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,160,64
+	Patch M60BB0,168,112
+}
+
+Sprite W61RT0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,160,63
+	Patch M60BB0,168,111
+}
+
+Sprite W61RU0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,160,61
+	Patch M60BB0,168,109
+}
+
+Sprite W61RV0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,160,60
+	Patch M60BB0,168,108
+}
+
+Sprite W61RW0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,161,60
+	Patch M60BB0,169,108
+}
+
+Sprite W61RX0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,163,60
+	Patch M60BB0,171,108
+}
+
+Sprite W61RY0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,165,61
+	Patch M60BB0,173,109
+}
+
+Sprite W61RZ0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,167,62
+	Patch M60BB0,175,109
+}
+
+Sprite W62RA0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,169,62
+	Patch M60BB0,177,110
+}
+
+Sprite W62RB0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,171,63
+	Patch M60BB0,179,111
+}
+
+Sprite W62RC0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,173,64
+	Patch M60BB0,181,112
+}
+
+Sprite W62RD0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,174,64
+	Patch M60BB0,182,112
+}
+
+Sprite W62RE0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,176,65
+	Patch M60BB0,184,113
+}
+
+Sprite W62RF0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,178,66
+	Patch M60BB0,186,114
+}
+
+Sprite W62RG0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,180,66
+	Patch M60BB0,188,114
+}
+
+Sprite W62RH0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,182,67
+	Patch M60BB0,190,115
+}
+
+Sprite W62RI0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,181,68
+	Patch M60BB0,189,116
+}
+
+Sprite W60FM0,428,168
+{
+	Offset 32,0
+	Patch M60FA0,199,56
+	{
+		FlipX
+	}
+	Patch M60_B0,183,64
+	Patch M60BC0,203,125
+}
+
+Sprite W60FN0,428,168
+{
+	Offset 32,0
+	Patch M60FA0,194,56
+	Patch M60_B0,184,64
+	Patch M60BC0,204,125
+}
+
+Sprite W60FO0,428,168
+{
+	Offset 32,0
+	Patch M60FA0,194,60
+	{
+		FlipY
+	}
+	Patch M60_B0,185,64
+	Patch M60BC0,205,125
+}
+
+Sprite W60FP0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,182,69
+	Patch M60BG0,217,132
+	Patch M60BE0,234,117
+}
+
+Sprite W60FQ0,428,168
+{
+	Offset 32,0
+	Patch M60FA0,196,54
+	Patch M60_B0,182,64
+	Patch M60BG0,221,137
+	Patch M60BE0,239,123
+}
+
+Sprite W60FR0,428,168
+{
+	Offset 32,0
+	Patch M60FA0,201,59
+	{
+		FlipX
+		FlipY
+	}
+	Patch M60_B0,183,64
+	Patch M60BG0,221,137
+	Patch M60BE0,240,123
+}
+
+Sprite W60FS0,428,168
+{
+	Offset 32,0
+	Patch M60FA0,201,59
+	{
+		FlipY
+	}
+	Patch M60_B0,184,64
+	Patch M60BG0,228,136
+	Patch M60BF0,247,122
+}
+
+Sprite W60FT0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,181,67
+	Patch M60BE0,240,117
+}
+
+Sprite W60FU0,428,168
+{
+	Offset 32,0
+	Patch M60FA0,199,56
+	{
+		FlipX
+	}
+	Patch M60_B0,183,64
+	Patch M60BE0,240,122
+}
+
+Sprite W60FV0,428,168
+{
+	Offset 32,0
+	Patch M60FA0,194,56
+	Patch M60_B0,184,64
+	Patch M60BE0,241,122
+}
+
+Sprite W60FW0,428,168
+{
+	Offset 32,0
+	Patch M60FA0,194,60
+	{
+		FlipY
+	}
+	Patch M60_B0,185,64
+	Patch M60BF0,250,120
+}
+
+Sprite W60FX0,428,168
+{
+	Offset 32,0
+	Patch M60_A0,182,69
+}
+
+Texture SCV4SKY1,417,160
+{
+	XScale 0.8
+	Patch SCV4SKY1,0,0
+}
+
+Texture NREELSKY,768,151
+{
+	XScale 1.3
+	Patch NREELSKY,0,0
+}
+
+Texture GRADSKY1,288,160
+{
+	XScale 0.8
+	Patch GRADSKY1,0,0
+}
+
+Texture DOGSET,512,171
+{
+	XScale 0.5
+	Patch DOGSET,0,-24
+}
+
+Texture 8CITYSKY, 320,128
+{
+	XScale 1.24
+	Patch 8CITYSKY,0,0
+}
+
+// contra shit
+
+Texture CN3_AL1, 260, 224
+{
+	Patch CN3_AL1, 0, 0
+}
+
+Texture CN3_FEN1, 64, 40
+{
+	Patch CN3_FEN1, 0, 0
+}
+
+Texture CN3_STR1, 32, 32
+{
+	Patch CN3_STR1, 0, 0
+}
+
+Texture CN3_STR2, 32, 32
+{
+	Patch CN3_STR2, 0, 0
+}
+
+Texture CNTR_F1, 64, 64
+{
+	Patch CNTR_F1, 0, 0
+}
+
+Texture CNTR_F2, 64, 64
+{
+	Patch CNTR_F2, 0, 0
+}
+
+Texture CNTR_GRS, 32, 32
+{
+	Patch CNTR_GRS, 0, 0
+}
+
+Texture CNTR_JNG, 64, 128
+{
+	Patch CNTR_JNG, 0, 0
+}
+
+Texture CNTR_P1, 128, 128
+{
+	Patch CNTR_P1, 0, 0
+}
+
+Texture CNTR_P2, 128, 128
+{
+	Patch CNTR_P2, 0, 0
+}
+
+Texture CNTR_P3, 128, 128
+{
+	Patch CNTR_P3, 0, 0
+}
+
+Texture CNTR_RK1, 64, 128
+{
+	Patch CNTR_RK1, 0, 0
+}
+
+Texture CNTR_RK2, 64, 64
+{
+	Patch CNTR_RK2, 0, 0
+}
+
+Texture CNTR_RK3, 64, 512
+{
+	Patch CNTR_RK3, 0, 0
+}
+
+Texture CNTR_SKY, 256, 128
+{
+	Patch CNTR_SKY, 0, 0
+}
+
+Texture SUPC_AL1, 64, 64
+{
+	Patch SUPC_AL1, 0, 0
+}
+
+Texture SUPC_AL2, 64, 512
+{
+	Patch SUPC_AL2, 0, 0
+}
+
+Texture SUPC_AL3, 64, 64
+{
+	Patch SUPC_AL3, 0, 0
+}
+
+Texture SUPC_AL4, 128, 128
+{
+	Patch SUPC_AL4, 0, 0
+}
+
+Texture SUPC_AL5, 64, 64
+{
+	Patch SUPC_AL5, 0, 0
+}
+
+Texture SUPC_C1, 64, 64
+{
+	Patch SUPC_C1, 0, 0
+}
+
+Texture SUPC_C2, 64, 64
+{
+	Patch SUPC_C2, 0, 0
+}
+
+Texture SUPC_CMT, 64, 64
+{
+	Patch SUPC_CMT, 0, 0
+}
+
+Texture SUPC_F1, 64, 64
+{
+	Patch SUPC_F1, 0, 0
+}
+
+Texture SUPC_F2, 64, 64
+{
+	Patch SUPC_F2, 0, 0
+}
+
+Texture SUPC_F3, 64, 64
+{
+	Patch SUPC_F3, 0, 0
+}
+
+Texture SUPC_F4, 64, 64
+{
+	Patch SUPC_F4, 0, 0
+}
+
+Texture SUPC_F5, 64, 64
+{
+	Patch SUPC_F5, 0, 0
+}
+
+Texture SUPC_JNG, 96, 224
+{
+	Patch SUPC_JNG, 0, 0
+}
+
+Texture SUPC_RK1, 128, 180
+{
+	Patch SUPC_RK1, 0, 0
+}
+
+Texture SUPC_RK2, 64, 64
+{
+	Patch SUPC_RK2, 0, 0
+}
+
+Texture SUPC_ST1, 64, 64
+{
+	Patch SUPC_ST1, 0, 0
+}
+
+Texture SUPC_ST2, 16, 96
+{
+	Patch SUPC_ST2, 0, 0
+}
+
+Texture SUPC_ST3, 128, 128
+{
+	Patch SUPC_ST3, 0, 0
+}
+
+Texture SUPC_ST4, 64, 64
+{
+	Patch SUPC_ST4, 0, 0
+}
+
+Texture SUPC_T1, 128, 64
+{
+	Patch SUPC_T1, 0, 0
+}
+
+Texture SUPC_T2, 128, 64
+{
+	Patch SUPC_T2, 0, 0
+}
+
+Texture SUPC_T3, 128, 64
+{
+	Patch SUPC_T3, 0, 0
+}
+
+Texture STPIPE, 64, 64
+{
+	Patch STPIPE, 0, 0
+}
+
+Texture F_FENCE, 128, 128
+{
+	Patch F_FENCE, 0, 0
+}
+
+Texture NTEK1, 128, 128
+{
+	Patch NTEK1, 0, 0
+}
+
+Texture NTEK2, 128, 128
+{
+	Patch NTEK2, 0, 0
+}
+
+Texture NTEK3, 256, 128
+{
+	Patch NTEK3, 0, 0
+}
+
+Texture PSX_DR1, 64, 128
+{
+	Patch PSX_DR1, 0, 0
+}
+
+Texture PSX_DR2, 64, 128
+{
+	Patch PSX_DR2, 0, 0
+}
+
+Texture PSX_DR3, 128, 128
+{
+	Patch PSX_DR3, 0, 0
+}
+
+Texture PSX_CP1, 64, 128
+{
+	Patch PSX_CP1, 0, 0
+}
+
+Texture PSX_CP2, 64, 128
+{
+	Patch PSX_CP2, 0, 0
+}
+
+Texture PSX_CP3, 128, 128
+{
+	Patch PSX_CP3, 0, 0
+}
+
+Texture CHC_RFLG, 64, 80
+{
+	Patch CHC_RFLG, 0, 0
+}
+
+Texture CN3_AL2, 256, 224
+{
+	Patch CN3_AL2, 0, 0
+}
+
+Texture FALSHAWN, 128, 128
+{
+	Patch FALSHAWN, 0, 0
+}
+
+Texture FS_S1, 128, 128
+{
+	Patch FS_S1, 0, 0
+}
+
+Texture FS_SAL1, 128, 128
+{
+	Patch FS_SAL1, 0, 0
+}
+
+Texture FS_SAL2, 32, 128
+{
+	Patch FS_SAL2, 0, 0
+}
+
+Texture FS_SAL3, 32, 128
+{
+	Patch FS_SAL3, 0, 0
+}
+
+Texture FS_SAL4, 128, 128
+{
+	Patch FS_SAL4, 0, 0
+}
+
+Texture FS_SAL5, 128, 128
+{
+	Patch FS_SAL5, 0, 0
+}
+
+Texture FS_SAL6, 128, 128
+{
+	Patch FS_SAL6, 0, 0
+}
+
+Texture FS_SAL7, 128, 128
+{
+	Patch FS_SAL7, 0, 0
+}
+
+Texture FS_SAL8, 128, 128
+{
+	Patch FS_SAL8, 0, 0
+}
+
+Texture FS_SKIN, 128, 128
+{
+	Patch FS_SKIN, 0, 0
+}
+
+Texture FS_SKIN2, 256, 128
+{
+	Patch FS_SKIN2, 0, 0
+}
+
+Texture FS_SKS2A, 128, 128
+{
+	Patch FS_SKS2A, 0, 0
+}
+
+Texture FS_SKS2B, 256, 96
+{
+	Patch FS_SKS2B, 0, 0
+}
+
+Texture FS_SKSN, 64, 128
+{
+	Patch FS_SKSN, 0, 0
+}
+
+Texture FS_SKSP, 128, 128
+{
+	Patch FS_SKSP, 0, 0
+}
+
+Texture FS_SKSP2, 256, 96
+{
+	Patch FS_SKSP2, 0, 0
+}
+
+Texture FS_SP_F, 128, 96
+{
+	Patch FS_SP_F, 0, 0
+}
+
+Texture FS_VIN01, 64, 128
+{
+	Patch FS_VIN01, 0, 0
+}
+
+Texture FS_VIN02, 64, 128
+{
+	Patch FS_VIN02, 0, 0
+}
+
+Texture RF_CR12A, 64, 128
+{
+	Patch RF_CR12A, 0, 0
+}
+
+Texture RF_CR12B, 32, 32
+{
+	Patch RF_CR12B, 0, 0
+}
+
+Texture RF_CRT1A, 64, 128
+{
+	Patch RF_CRT1A, 0, 0
+}
+
+Texture RF_CRT1B, 32, 32
+{
+	Patch RF_CRT1B, 0, 0
+}
+
+Texture RF_CRT1C, 64, 64
+{
+	Patch RF_CRT1C, 0, 0
+}
+
+Texture RF_CRT2A, 64, 128
+{
+	Patch RF_CRT2A, 0, 0
+}
+
+Texture RF_CRT2B, 32, 32
+{
+	Patch RF_CRT2B, 0, 0
+}
+
+Texture RF_CRT2C, 64, 64
+{
+	Patch RF_CRT2C, 0, 0
+}
+
+Texture VOID, 64, 64
+{
+	Patch VOID, 0, 0
+}
+
+Texture CNTR_JN2, 64, 128
+{
+	Patch CNTR_JN2, 0, 0
+}
+
+Texture SUPC_BS1, 32, 64
+{
+	Patch SUPC_BS1, 0, 0
+}
+
+Texture SUPC_D1A, 128, 128
+{
+	Patch SUPC_D1A, 0, 0
+}
+
+Texture SUPC_D1B, 128, 128
+{
+	Patch SUPC_D1B, 0, 0
+}
+
+Texture SUPC_D2A, 128, 128
+{
+	Patch SUPC_D2A, 0, 0
+}
+
+Texture SUPC_D2B, 128, 128
+{
+	Patch SUPC_D2B, 0, 0
+}
+
+Texture SUPC_D3A, 128, 128
+{
+	Patch SUPC_D3A, 0, 0
+}
+
+Texture SUPC_D3B, 128, 128
+{
+	Patch SUPC_D3B, 0, 0
+}
+
+Texture SUPC_F6, 64, 64
+{
+	Patch SUPC_F6, 0, 0
+}
+
+Texture SUPC_F7, 64, 64
+{
+	Patch SUPC_F7, 0, 0
+}
+
+Texture SUPC_F8, 64, 64
+{
+	Patch SUPC_F8, 0, 0
+}
+
+Texture SUPC_S08, 32, 128
+{
+	Patch SUPC_S08, 0, 0
+}
+
+Texture SUPC_S16, 32, 128
+{
+	Patch SUPC_S16, 0, 0
+}
+
+Texture SUPC_S32, 32, 128
+{
+	Patch SUPC_S32, 0, 0
+}
+
+Texture SUPC_SP1, 32, 48
+{
+	Patch SUPC_SP1, 0, 0
+}
+
+Texture SUPC_T08, 128, 32
+{
+	Patch SUPC_T08, 0, 0
+}
+
+Texture SUPC_T16, 128, 32
+{
+	Patch SUPC_T16, 0, 0
+}
+
+Texture SUPC_T32, 128, 32
+{
+	Patch SUPC_T32, 0, 0
+}
+
+Texture SUPC_W01, 64, 64
+{
+	Patch SUPC_W01, 0, 0
+}
+
+Texture SUPC_W02, 64, 128
+{
+	Patch SUPC_W02, 0, 0
+}
+
+Texture SUPC_W03, 64, 512
+{
+	Patch SUPC_W03, 0, 0
+}
+
+Texture CARNSKY, 507,370
+{
+XScale 0.99
+Patch CARNSKY,0,0
+}

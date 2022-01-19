@@ -1,0 +1,9 @@
+// Splot - Chicken Morph
+// Mostly inherited from Heretic to keep native code
+
+ACTOR ReelChickenPlayer : ChickenPlayer
+{
+  Health 999
+  DamageFactor 0.05
+  DamageFactor RunOver,0
+}

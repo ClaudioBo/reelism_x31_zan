@@ -1,0 +1,239 @@
+height 41;
+monospacefonts true, "0";
+
+statusbar fullscreen, fullscreenoffsets // ZDoom HUD
+{
+	InInventory not DisableHUD{
+	//health
+	drawimage "HUDHEAL", 10, -2, centerbottom;
+	drawnumber 2147483647, IntermissionFont_Doom, untranslated, health, drawshadow, 60, -16;
+
+	//armor
+	drawimage armoricon, 10, -24, centerbottom;
+	drawnumber 2147483647, IntermissionFont_Doom, untranslated, armor, drawshadow, whennotzero, 60, -38;
+
+	//ammo
+	usesammo
+	{
+		drawimage ammoicon1, -10, -2, centerbottom;
+		InInventory PowerInfiniteAmmoFixed, 1
+		{
+			drawimage "WINUMI", -35, -2, centerbottom;
+		}
+		else
+		{
+			drawnumber 2147483647, IntermissionFont_Doom, untranslated, ammo1, drawshadow, -25, -16;
+		}
+	}
+	else
+	{
+		drawimage "SLOTBLNK", -10, -2, centerbottom;
+		drawimage "WINUMI", -35, -2, centerbottom;
+	}
+
+	usesammo
+	{
+		//secondary ammo and inventory
+		usessecondaryammo
+		{
+			drawimage ammoicon2, -14, -22, centerbottom;
+			drawnumber 2147483647, IntermissionFont_Doom, untranslated, ammo2, drawshadow, -25, -37;
+			inventorybarnotvisible
+			{
+				drawselectedinventory centerbottom, drawshadow, alwaysshowcounter, IntermissionFont_Doom, -14, -39, -26, -56, untranslated;
+			}
+		}
+		else //no secondary ammo
+		{
+			inventorybarnotvisible
+			{
+				drawselectedinventory centerbottom, drawshadow, alwaysshowcounter, IntermissionFont_Doom, -14, -21, -26, -38, untranslated;
+			}
+		}
+	}
+	else // no ammo but inventory
+	{
+		inventorybarnotvisible
+		{
+			drawselectedinventory centerbottom, drawshadow, alwaysshowcounter, IntermissionFont_Doom, -14, -21, -26, -38, untranslated;
+		}
+	}
+
+	gamemode deathmatch
+	{
+		drawnumber 2147483647, IntermissionFont_Doom, untranslated, frags, drawshadow, -3, 1;
+	}
+	// Slots
+	DrawImage "SLOTBLNK", -18 + center, -20;
+	DrawImage "SLOTBLNK", 0 + center, -20;
+	DrawImage "SLOTBLNK", 18 + center, -20;
+	ininventory Slot1Spinning
+	{
+		DrawSwitchableImage Slot1Spinning, "TNT1A0", "SLOTSPN1", -18 + center, -20;
+		DrawSwitchableImage Slot2Spinning, "TNT1A0", "SLOTSPN1", 0 + center, -20;
+		DrawSwitchableImage Slot3Spinning, "TNT1A0", "SLOTSPN1", 18 + center, -20;
+	}
+	else ininventory Slot2Spinning
+	{
+		DrawKeyBar 1,horizontal,reverse,18,-18 + center, -20;
+		drawnumber 2, SMALLFONT2, untranslated, globalvar 3, whennotzero, -3 + center, -12;
+		DrawSwitchableImage Slot2Spinning, "TNT1A0", "SLOTSPN1", 0 + center, -20;
+		DrawSwitchableImage Slot3Spinning, "TNT1A0", "SLOTSPN1", 18 + center, -20;
+	}
+	else ininventory Slot3Spinning
+	{
+		DrawKeyBar 2,horizontal,reverse,18,0 + center, -20;
+		drawnumber 2, SMALLFONT2, untranslated, globalvar 3, whennotzero, -3 + center, -12;
+		drawnumber 2, SMALLFONT2, untranslated, globalvar 4, whennotzero, 15 + center, -12;
+		drawnumber 2, SMALLFONT2, untranslated, globalvar 5, whennotzero, 33 + center, -12;
+		DrawSwitchableImage Slot3Spinning, "TNT1A0", "SLOTSPN1", 18 + center, -20;
+	}
+	else
+	{
+		DrawKeyBar 3,horizontal,reverse,18,18 + center, -20;
+		drawnumber 2, SMALLFONT2, untranslated, globalvar 3, whennotzero, -3 + center, -12;
+		drawnumber 2, SMALLFONT2, untranslated, globalvar 4, whennotzero, 15 + center, -12;
+		drawnumber 2, SMALLFONT2, untranslated, globalvar 5, whennotzero, 33 + center, -12;
+	}
+
+	InInventory Revolver, 1
+	{
+	DrawString SMALLFONT2, untranslated, "CHEATER!", -10, -64;
+	} else {
+	// Score
+	DrawString SMALLFONT2, untranslated, "score:", -100, -64;
+	drawnumber 9, SMALLFONT, untranslated, Score, interpolate(16), -8, -64;
+	}
+	// Round
+	DrawString SMALLFONT2, untranslated, "round:", 50, -64;
+	drawnumber 2, SMALLFONT, untranslated, globalvar 1, 64, -64;
+	// Timer
+	InInventory Slot3Spinning, 1
+	{
+	drawstring SMALLFONT2, untranslated, "??", 8 + center, -64, 0, alignment(center);
+	} else InInventory SlotBoss3, 1
+	{
+	drawstring SMALLFONT2, untranslated, "boss!!", 8 + center, -64, 0, alignment(center);
+	} else {
+	drawnumber 2, SMALLFONT2, untranslated, globalvar 2, fillzeros|alignment(center), 8 + center, -64;
+	}
+	}
+}
+
+statusbar normal // Standard Doom Status bar
+{
+	drawimage "STBAR2a", 0, 159;
+	drawimage "STBAR2a", 320, 159;
+	drawimage "STBAR2a", -320, 159;
+	drawimage "STBARa", 0, 168;
+	drawimage "STBARA", 320, 168;
+	drawimage "STBARA", -320, 168;
+	InInventory not DisableHUD{
+	drawimage "STBAR", 0, 168;
+	drawimage "STBAR2", 0, 159;
+	drawimage "STTPRCNT", 90, 171;
+	drawimage "STTPRCNT", 221, 171;
+	InInventory PowerInfiniteAmmoFixed, 1
+	{
+		drawimage "STTNUMI", 17, 172;
+	} else {
+		usesammo
+		{
+		drawnumber 3, HUDFONT_DOOM, untranslated, ammo1, 44, 171;
+		} else {
+		drawimage "STTNUMI", 17, 172;
+		}
+	}
+	drawnumber 3, HUDFONT_DOOM, untranslated, health, 90, 171;
+	drawnumber 3, HUDFONT_DOOM, untranslated, armor, 221, 171;
+
+	gamemode deathmatch, teamgame
+	{
+		drawnumber 2, HUDFONT_DOOM, untranslated, frags, 138, 171;
+	}
+	gamemode cooperative, singleplayer
+	{
+		drawimage "STARMS", 104, 168;
+		drawswitchableimage weaponslot 2, "STGNUM2", "STYSNUM2", 111, 172;
+		drawswitchableimage weaponslot 3, "STGNUM3", "STYSNUM3", 123, 172;
+		drawswitchableimage weaponslot 4, "STGNUM4", "STYSNUM4", 135, 172;
+		drawswitchableimage weaponslot 5, "STGNUM5", "STYSNUM5", 111, 182;
+		drawswitchableimage weaponslot 6, "STGNUM6", "STYSNUM6", 123, 182;
+		drawswitchableimage weaponslot 7, "STGNUM7", "STYSNUM7", 135, 182;
+		drawswitchableimage weaponslot 8, "TNT1A0", "STSUPR", 107, 190;
+	}
+	gamemode cooperative, deathmatch, teamgame
+	{
+		drawimage translatable "STFBANY", 143, 169;
+	}
+	drawselectedinventory alternateonempty, INDEXFONT, 143, 168
+	{
+		drawmugshot "STF", 5, 143, 168;
+	}
+
+	// Slots
+	DrawImage "SLOTBLNK", 253, 172;
+	DrawImage "SLOTBLNK", 271, 172;
+	DrawImage "SLOTBLNK", 289, 172;
+	ininventory Slot1Spinning
+	{
+		DrawSwitchableImage Slot1Spinning, "TNT1A0", "SLOTSPN1", 253, 172;
+		DrawSwitchableImage Slot2Spinning, "TNT1A0", "SLOTSPN1", 271, 172;
+		DrawSwitchableImage Slot3Spinning, "TNT1A0", "SLOTSPN1", 289, 172;
+	}
+	else ininventory Slot2Spinning
+	{
+		DrawKeyBar 1,horizontal,reverse,18,253,172;
+		drawnumber 2, SMALLFONT2, untranslated, globalvar 3, whennotzero, 268, 180;
+		DrawSwitchableImage Slot2Spinning, "TNT1A0", "SLOTSPN1", 271, 172;
+		DrawSwitchableImage Slot3Spinning, "TNT1A0", "SLOTSPN1", 289, 172;
+	}
+	else ininventory Slot3Spinning
+	{
+		DrawKeyBar 2,horizontal,reverse,18,271,172;
+		drawnumber 2, SMALLFONT2, untranslated, globalvar 3, whennotzero, 268, 180;
+		drawnumber 2, SMALLFONT2, untranslated, globalvar 4, whennotzero, 286, 180;
+		DrawSwitchableImage Slot3Spinning, "TNT1A0", "SLOTSPN1", 289, 172;
+	}
+	else
+	{
+		DrawKeyBar 3,horizontal,reverse,18,289,172;
+		drawnumber 2, SMALLFONT2, untranslated, globalvar 3, whennotzero, 268, 180;
+		drawnumber 2, SMALLFONT2, untranslated, globalvar 4, whennotzero, 286, 180;
+		drawnumber 2, SMALLFONT2, untranslated, globalvar 5, whennotzero, 304, 180;
+	}
+
+	InInventory Revolver, 1
+	{
+	DrawString SMALLFONT2, untranslated, "CHEATER!", 320, 160;
+	} else {
+	// Score
+	DrawString SMALLFONT2, untranslated, "score:", 250, 160;
+	drawnumber 9, SMALLFONT2, untranslated, Score, interpolate(16), 319, 160;
+	}
+	// Round
+	DrawString SMALLFONT2, untranslated, "round:", 50, 160;
+	drawnumber 2, SMALLFONT2, untranslated, globalvar 1, 64, 160;
+
+	// Timer
+	InInventory Slot3Spinning, 1
+	{
+	drawstring SMALLFONT2, untranslated, "??", 160, 160, 0, alignment(center);
+	} else InInventory SlotBoss3, 1
+	{
+	drawstring SMALLFONT2, untranslated, "boss!!", 160, 160, 0, alignment(center);
+	} else {
+	drawnumber 2, SMALLFONT2, untranslated, globalvar 2, fillzeros|alignment(center), 160, 160;
+	}
+	}
+}
+
+statusbar inventory // Standard bar overlay (ZDoom Addition)
+{
+	drawinventorybar Doom, 7, INDEXFONT, 50, 170;
+}
+
+statusbar inventoryfullscreen, fullscreenoffsets // ZDoom HUD overlay.
+{
+	drawinventorybar Doom, translucent, 7, INDEXFONT, -106+center, -31;
+}

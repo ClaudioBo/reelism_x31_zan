@@ -1,0 +1,446 @@
+// Splot - Crate Shower Stuff
+
+ACTOR CrateShower
+{
+	+NOGRAVITY
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901)==15,"SpawnChest")
+		TNT1 A 35 A_SpawnItemEx("Crate1",0,0,64,8,0,8,random(0,360),SXF_ABSOLUTEANGLE)
+		TNT1 A 35 A_SpawnItemEx("Crate2",0,0,64,8,0,8,random(0,360),SXF_ABSOLUTEANGLE)
+		TNT1 A 35 A_SpawnItemEx("Crate3",0,0,64,8,0,8,random(0,360),SXF_ABSOLUTEANGLE)
+		TNT1 A 35 A_SpawnItemEx("Crate1",0,0,64,8,0,8,random(0,360),SXF_ABSOLUTEANGLE)
+		TNT1 A 35 A_SpawnItemEx("Crate2",0,0,64,8,0,8,random(0,360),SXF_ABSOLUTEANGLE)
+		TNT1 A 35 A_SpawnItemEx("Crate3",0,0,64,8,0,8,random(0,360),SXF_ABSOLUTEANGLE)
+		TNT1 A 35 A_SpawnItemEx("Crate1",0,0,64,8,0,8,random(0,360),SXF_ABSOLUTEANGLE)
+		TNT1 A 35 A_SpawnItemEx("Crate2",0,0,64,8,0,8,random(0,360),SXF_ABSOLUTEANGLE)
+		TNT1 A 35 A_SpawnItemEx("Crate3",0,0,64,8,0,8,random(0,360),SXF_ABSOLUTEANGLE)
+		Stop
+	SpawnChest:
+		TNT1 A 35 A_SpawnItemEx("Crate1",0,0,64,8,0,8,random(0,360),SXF_ABSOLUTEANGLE)
+		TNT1 A 35 A_SpawnItemEx("Crate2",0,0,64,8,0,8,random(0,360),SXF_ABSOLUTEANGLE)
+		TNT1 A 35 A_SpawnItemEx("Crate3",0,0,64,8,0,8,random(0,360),SXF_ABSOLUTEANGLE)
+		TNT1 A 35 A_SpawnItemEx("TreasureChest",0,0,0,8,0,8,random(0,360),SXF_ABSOLUTEANGLE)
+		Stop
+	}
+}
+
+actor Crate1
+{
+	health 10
+	radius 32
+	height 32
+	+SOLID
+	+SHOOTABLE
+	+NOBLOOD
+	+DONTGIB
+	+RANDOMIZE
+	+NOICEDEATH
+	+CANPASS
+	+CANBLAST
+	+CORPSE
+	states
+	{
+	Spawn:
+		CRAT A 0
+		"####" "#" 0 A_PlaySound("crate/spawn")
+	Idle:
+		"####" "#" 4 BRIGHT
+		"####" "#" 4
+		Loop
+	Crash:
+		"####" "#" 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		"####" "#" 0 A_PlaySound("crate/land")
+		goto Idle
+	Death:
+		TNT1 A 0 A_NoBlocking
+		TNT1 A 0 A_PlaySound("crate/die")
+		TNT1 AAAAAAAAAAAAAA 0 A_CustomMissile("DEBRIS",random(4,16),0,random(0,360),2,random(4,32))
+		TNT1 A 0 A_Jump(200,"SpawnHealth","SpawnArmor","SpawnScore","SpawnGun")
+		TNT1 A 0 A_Jump(100,"SpawnHealth","SpawnArmor","SpawnScore","SpawnGun")
+		TNT1 A 0 A_Jump(32,"SpawnBrick","SpawnBottle","SpawnSOB")
+		goto BoobyTrap
+	SpawnHealth:
+		TNT1 A 0 A_Jump(128,"SpawnHealthC")
+		TNT1 A 1 A_SpawnItemEx("HealthKit",0,0,8,0,0,8)
+		stop
+	SpawnHealthC:
+		TNT1 A 1 A_SpawnItemEx("HealthKitCensored",0,0,8,0,0,8)
+		stop
+	SpawnArmor:
+		TNT1 A 1 A_SpawnItemEx("BodyArmor",0,0,8,0,0,8)
+		stop
+	SpawnScore:
+		TNT1 A 0 A_Jump(128,"Telly")
+	Cash:
+		TNT1 A 1 A_SpawnItemEx("Cash",0,0,8,0,0,8)
+		stop
+	Telly:
+		TNT1 A 1 A_SpawnItemEx("TV",0,0,8,0,0,8)
+		stop
+	SpawnGun:
+		TNT1 A 0 A_Jump(255,"Shotgun","Gas","Flare","Chain1","Chain2","Thunderbolt","Raven","Rail")
+	Shotgun:
+		TNT1 A 1 A_SpawnItemEx("DoomSuperShotgun",0,0,8,0,0,8)
+		stop
+	Gas:
+		TNT1 A 1 A_SpawnItemEx("GasBombLauncher",0,0,8,0,0,8)
+		stop
+	Chain1:
+		TNT1 A 1 A_SpawnItemEx("WolfChaingun",0,0,8,0,0,8)
+		stop
+	Chain2:
+		TNT1 A 1 A_SpawnItemEx("BurstRifle",0,0,8,0,0,8)
+		stop
+	Thunderbolt:
+		TNT1 A 1 A_SpawnItemEx("Thunderbolt",0,0,8,0,0,8)
+		stop
+	Rail:
+		TNT1 A 1 A_SpawnItemEx("NewRailgun",0,0,8,0,0,8)
+		stop
+	Raven:
+		TNT1 A 1 A_SpawnItemEx("RavenCrossbow",0,0,8,0,0,8)
+		stop
+	Flare:
+		TNT1 A 1 A_SpawnItemEx("FlareGun",0,0,8,0,0,8)
+		stop
+	SpawnBrick:
+		TNT1 A 1 A_SpawnItemEx("BrickWeapon",0,0,8,0,0,8)
+		stop
+	SpawnBottle:
+		TNT1 A 1 A_SpawnItemEx("Bottle",0,0,8,0,0,8)
+		stop
+	SpawnSOB:
+		TNT1 A 1 A_SpawnItemEx("SobPickup",0,0,8,0,0,8)
+		stop
+	Boobytrap:
+		TNT1 A 1 A_SpawnItemEx("GrenadeProj",0,0,8,0,0,8)
+		stop
+	}
+}
+
+actor Crate2 : Crate1
+{
+	states
+	{
+	Spawn:
+		CRAT B 0
+		Goto Super::Spawn+1
+	}
+}
+
+actor Crate3 : Crate1
+{
+	states
+	{
+	Spawn:
+		CRAT C 0
+		Goto Super::Spawn+1
+	}
+}
+
+actor DEBRIS
+{
+	BounceType Doom
+	PROJECTILE
+	-NOGRAVITY
+	-NOBLOCKMAP
+	-NOTELEPORT
+	+CORPSE
+	Radius 1
+	Speed 5
+	Scale .5
+	+CLIENTSIDEONLY
+	States
+	{
+	Spawn:
+		GLAS ABCDABCDABCD 2
+	Death:
+		TNT1 A 1
+		stop
+	}
+}
+
+// The Brick
+actor BrickWeapon : Weapon
+{
+	radius 8
+	height 8
+	inventory.pickupmessage "$GOTBRICK"
+	Tag "$TAGBRICK"
+	weapon.selectionorder 2500
+	weapon.kickback 100
+	weapon.ammotype "BrickAmmo"
+	weapon.ammouse 1
+	weapon.ammogive 1
+	+WEAPON.NOAUTOFIRE
+	scale 0.3
+	states
+	{
+	Ready:
+		BRKW ABCK 4 A_WeaponReady
+		loop
+	Deselect:
+		//BRKW A 0 A_Lower
+		BRKW A 1 A_Lower
+		loop
+	Select:
+		//BRKW A 0 A_Raise
+		BRKW A 1 A_Raise
+		loop
+	Fire:
+		BRKW D 2
+		BRKW E 2 A_FireCustomMissile("Brick")
+		BRKW FGHIJ 2
+		TNT1 A 0 A_TakeInventory("BrickWeapon")
+		goto Ready
+	Spawn:
+		BRIK A 1050 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		stop
+	}
+}
+
+actor Brick
+{
+	obituary "%o hit the bricks."
+	radius 8
+	height 8
+	speed 40
+	damage 70
+	scale 0.3
+	seesound "weapons/grenadethrow"
+	deathsound "attack/punch"
+	PROJECTILE
+	-NOGRAVITY
+	+ROCKETTRAIL
+	+NOEXTREMEDEATH
+	damagetype Fists
+	states
+	{
+	Spawn:
+		BRIK ABCD 4
+		loop
+	Death:
+		BRIK A 8
+		TNT1 A 0 A_SpawnItemEx("BrickWeapon")
+		stop
+	}
+}
+
+// Bottle!
+ACTOR Bottle : Weapon
+{
+	Weapon.Kickback 100
+	Weapon.SelectionOrder 3700
+	Inventory.PickupMessage "$GOTBOTTLE"
+	Obituary "$OB_MPFIST"
+	Tag "$TAGBOTTLE"
+	+WEAPON.WIMPY_WEAPON
+	+WEAPON.MELEEWEAPON
+	scale 0.7
+	Weapon.UpSound "weapons/out"
+	States
+	{
+	Spawn:
+		BOTL E 1050 BRIGHT
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	Ready:
+		BOTL A 0 A_JumpIfInventory("BottleBreaker",1,"Ready2")
+		BOTL A 1 A_WeaponReady
+		Loop
+	Ready2:
+		BOTL C 1 A_WeaponReady
+		Loop
+	Deselect:
+		BOTL A 0 A_PlaySound("weapons/in")
+		BOTL A 0 A_JumpIfInventory("BottleBreaker",1,"Deselect2")
+		TNT1 A 0 A_Lower
+		BOTL A 1 A_Lower
+		goto Deselect+2
+	Deselect2:
+		TNT1 A 0 A_Lower
+		BOTL C 1 A_Lower
+		Loop
+	Select:
+		BOTL A 0 A_JumpIfInventory("BottleBreaker",1,"Select2")
+		TNT1 A 0 A_Raise
+		BOTL A 1 A_Raise
+		goto Select+1
+	Select2:
+		TNT1 A 0 A_Raise
+		BOTL C 1 A_Raise
+		Loop
+	Fire:
+		BOTL A 0 A_JumpIfInventory("BottleBreaker",1,"Fire2")
+		BOTL A 1 Offset (0,32)
+		//BOTL A 1 Offset (8,30)
+		BOTL A 1 Offset (18,30)
+		//BOTL A 2 Offset (25,30)
+		BOTL A 1 Offset (10,30)
+		BOTL A 1 Offset (0,32) A_PlaySound("beggar/wiff")
+		//BOTL A 1 Offset (-3,32)
+		BOTL A 1 Offset (-12,36)
+		BOTL B 1 Offset (0,32) A_CustomPunch(5,0,0,"BottlePuff1")
+	FirePostBreak:
+		BOTL B 0 A_JumpIfInventory("BottleBreaker",1,"FirePostBreak2")
+		BOTL B 1 Offset (-3,34)
+		//BOTL B 1 Offset (-18,42)
+		BOTL B 1 Offset (-24,50)
+		//BOTL B 1 Offset (-26,58)
+		BOTL B 1 Offset (-28,66)
+		//BOTL B 1 Offset (-29,67)
+		BOTL B 6 Offset (-30,68)
+		BOTL B 1 Offset (-29,67)
+		//BOTL B 1 Offset (-26,58)
+		BOTL A 1 Offset (-12,36)
+		//BOTL A 1 Offset (0,32)
+		Goto Ready
+	Fire2:
+		BOTL C 1 Offset (0,32)
+		//BOTL C 1 Offset (8,30)
+		BOTL C 1 Offset (18,30)
+		//BOTL C 2 Offset (25,30)
+		BOTL C 1 Offset (10,30)
+		BOTL C 1 Offset (0,32) A_PlaySound("beggar/wiff")
+		//BOTL C 1 Offset (-3,32)
+		BOTL C 1 Offset (-12,36)
+		BOTL D 1 Offset (0,32) A_CustomPunch(5,0,0,"BottlePuff2")
+	FirePostBreak2:
+		BOTL D 1 Offset (-3,34)
+		//BOTL D 1 Offset (-18,42)
+		BOTL D 1 Offset (-24,50)
+		//BOTL D 1 Offset (-26,58)
+		BOTL D 1 Offset (-28,66)
+		//BOTL D 1 Offset (-29,67)
+		BOTL D 6 Offset (-30,68)
+		//BOTL D 1 Offset (-29,67)
+		BOTL D 1 Offset (-26,58)
+		//BOTL C 1 Offset (-12,36)
+		BOTL C 1 Offset (0,32)
+		Goto Ready
+	}
+}
+
+actor BottlePuff1 : PuffBase
+{
+	AttackSound "bottle/intactwall"
+	SeeSound "bottle/smash"
+	damagetype Fists
+	+PUFFGETSOWNER
+	States
+	{
+	Crash:
+		PUFF CD 4
+		stop
+	Melee:
+		PUFF C 4 A_GiveToTarget("BottleBreaker")
+		PUFF D 4
+		stop
+	}
+}
+
+actor BottlePuff2 : BottlePuff1
+{
+	AttackSound "bottle/wall"
+	SeeSound "bottle/flesh"
+	-PUFFGETSOWNER
+	States
+	{
+	Melee:
+		PUFF CD 4
+		stop
+	}
+}
+
+ACTOR BottleBreaker : Inventory{}
+
+// Treasure Chest
+actor TreasureChest : Crate1
+{
+	scale 2
+	states
+	{
+	Spawn:
+		TCST A 0
+		Goto Super::Spawn+1
+	Death:
+		TNT1 A 0 A_NoBlocking
+		TNT1 A 0 A_PlaySound("crate/die")
+		TNT1 AAAAAAAAAAAAAA 0 A_CustomMissile("DEBRIS",random(4,16),0,random(0,360),2,random(4,32))
+		TNT1 A 0 A_Jump(255,"SpawnHealth","SpawnArmor","SpawnGun","SpawnBrick")
+		stop
+	SpawnHealth:
+		TNT1 A 1 A_SpawnItemEx("SuperHealthKit",0,0,8,0,0,8)
+		stop
+	SpawnArmor:
+		TNT1 A 1 A_SpawnItemEx("SuperBodyArmor",0,0,8,0,0,8)
+		stop
+	SpawnGun:
+		TNT1 A 0 A_Jump(255,"Shotgun","Gas","Flare")
+	Shotgun:
+		TNT1 A 1 A_SpawnItemEx("ExplosiveShotgun",0,0,8,0,0,8)
+		stop
+	Gas:
+		TNT1 A 1 A_SpawnItemEx("HacxNuker",0,0,8,0,0,8)
+		stop
+	Flare:
+		TNT1 A 1 A_SpawnItemEx("RavenWraithverge",0,0,8,0,0,8)
+		stop
+	SpawnBrick:
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("IsMultiplayer", 0, 0, 0) == 1, "Shotgun")
+		TNT1 A 1 A_SpawnItemEx("HolyBrickWeapon",0,0,8,0,0,8)
+		stop
+	}
+}
+
+// HOLY BRICK
+actor HolyBrickWeapon : BrickWeapon
+{
+	inventory.pickupmessage "$GOTHOLYBRICK"
+	Tag "$TAGHOLYBRICK"
+	weapon.ammotype "HolyBrickAmmo"
+	Inventory.PickupSound "weapons/getholybrick"
+	states
+	{
+	Ready:
+		BRKH ABCK 4 A_WeaponReady
+		loop
+	Deselect:
+		//BRKH A 0 A_Lower
+		BRKH A 1 A_Lower
+		loop
+	Select:
+		//BRKH A 0 A_Raise
+		BRKH A 1 A_Raise
+		loop
+	Fire:
+		BRKH D 2
+		BRKW E 2 A_FireCustomMissile("HolyBrick")
+		BRKW FGHIJ 2
+		TNT1 A 0 A_TakeInventory("HolyBrickWeapon",1)
+		goto Ready
+	Spawn:
+		HBRK A -1 bright
+		loop
+	}
+}
+
+actor HolyBrick : Brick
+{
+	damage (9999)
+	damagetype HolyBrick
+	states
+	{
+	Spawn:
+		HBRK ABCD 4
+		loop
+	Death:
+		HBRK A 8
+		TNT1 A 0 A_SpawnItemEx("HolyBrickWeapon")
+		stop
+	}
+}

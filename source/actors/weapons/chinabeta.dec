@@ -1,0 +1,431 @@
+// Splot X3 - Bootleg weapons
+
+// MARS3D Disc Gun
+ACTOR Mars3DDiscGun : Weapon
+{
+	Weapon.AmmoUse1 1
+	Weapon.AmmoType "DiscGunAmmo"
+	Weapon.SelectionOrder 1600
+	Weapon.AmmoGive 25
+	Inventory.PickupMessage "$GOTDISCGUN"
+	Tag "$TAGDISCGUN"
+	Weapon.BobStyle Inverse
+	Scale .7
+	States
+	{
+	Ready:
+		CDCG A 1 A_WeaponReady
+		Loop
+	Deselect:
+		CDCG A 0 A_PlaySound("weapons/in")
+		//CDCG A 0 A_Lower
+		CDCG A 1 A_Lower
+		goto Deselect+1
+	Select:
+		CDCG A 0 A_PlaySound("weapons/out")
+		//CDCG A 0 A_Raise
+		CDCG A 1 A_Raise
+		goto Select+1
+	Fire:
+		CDCF A 2 BRIGHT A_GunFlash
+		CDCF B 2 BRIGHT A_FireCustomMissile("DiscGunShot")
+		CDCF C 2 BRIGHT
+		CDCG BCAA 2
+		TNT1 A 0 A_ReFire
+		Goto Ready
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(902)==5||ACS_ExecuteWithResult(904)>0,2)
+		TNT1 A 0 A_ChangeFlag("DROPPED",0)
+		CDCC A 1050 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		stop
+	Flash:
+		TNT1 A 1
+		Goto LightDone
+	}
+}
+ACTOR DiscGunShot
+{
+	Radius 13
+	Height 8
+	Speed 40
+	Damage 6
+	Projectile
+	BounceType Hexen
+	BounceCount 3
+	+NODAMAGETHRUST
+	+SPAWNSOUNDSOURCE
+	+BOUNCEONACTORS
+	SeeSound "weapons/discgun/fire"
+	BounceSound "weapons/discgun/bounce"
+	+SPECTRAL
+	States
+	{
+	Spawn:
+		CDCS ABCDEF 2
+		Loop
+	Death:
+		TNT1 A 0 A_CustomMissile("DiscGunReturn",0,0,0,0,0)
+		Stop
+	}
+}
+
+actor DiscGunReturn : DiscGunShot
+{
+	SeeSound none
+    States
+    {
+    Spawn:
+	    TNT1 A 0 A_FaceTarget
+        CDCS A 1 Bright A_JumpIfCloser(60,"Gibe")
+	    TNT1 A 0 A_FaceTarget
+		CDCS B 1 Bright A_JumpIfCloser(60,"Gibe")
+	    TNT1 A 0 A_FaceTarget
+		CDCS C 1 Bright A_JumpIfCloser(60,"Gibe")
+	    TNT1 A 0 A_FaceTarget
+		CDCS D 1 Bright A_JumpIfCloser(60,"Gibe")
+	    TNT1 A 0 A_FaceTarget
+		CDCS E 1 Bright A_JumpIfCloser(60,"Gibe")
+	    TNT1 A 0 A_FaceTarget
+		CDCS F 1 Bright A_JumpIfCloser(60,"Gibe")
+        loop
+	Death:
+		TNT1 A 0 A_SpawnItemEx("DiscGunAmmo",1)
+		stop
+    Gibe:
+		TNT1 A 0 A_SpawnItemEx("DiscGunAmmoFat",1)//A_GiveToTarget("DiscGunAmmo",1)
+		TNT1 A 0 //A_PlaySound("weapons/discgun/get")
+        stop
+	}
+}
+
+// L7P Coin Bomb Thing
+actor CoinBombWeapon : Weapon
+{
+	radius 8
+	height 8
+	inventory.pickupmessage "$GOTCOINBOMB"
+	Tag "$TAGCOINBOMB"
+	weapon.selectionorder 2500
+	weapon.kickback 100
+	weapon.ammotype "CoinBombAmmo"
+	weapon.ammouse 1
+	weapon.ammogive 2
+	+WEAPON.NOAUTOFIRE
+	states
+	{
+	Ready:
+		COIB A 1 A_WeaponReady
+		loop
+	Deselect:
+		COIB A 0 A_JumpIfNoAmmo(2)
+		//COIB A 0 A_Lower
+		COIB A 1 A_Lower
+		loop
+		//TNT1 A 0 A_Lower
+		TNT1 A 1 A_Lower
+		loop
+	Select:
+		COIB A 1 A_Raise
+		loop
+	Fire:
+		COIB B 2
+		COIB C 2 A_FireCustomMissile("CoinBomb")
+		COIB DEFGH 2
+		TNT1 A 16 A_CheckReload
+		COIB MLKJI 1
+		goto Ready
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(902)==5||ACS_ExecuteWithResult(904)>0,2)
+		TNT1 A 0 A_ChangeFlag("DROPPED",0)
+		COIB Z 1050 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		stop
+	}
+}
+
+actor CoinBomb
+{
+	radius 8
+	height 8
+	speed 40
+	//damage 70
+	//scale 0.3
+	seesound "weapons/grenadethrow"
+	deathsound "attack/punch"
+	PROJECTILE
+	-NOGRAVITY
+	+ROCKETTRAIL
+	+NOEXTREMEDEATH
+	var int user_count;
+	states
+	{
+	Spawn:
+		COBO A -1
+		loop
+	Death:
+		COBO A 64
+	Spinnah:
+		COBO A 0 A_JumpIf(user_count>=90,"Boom")
+		COBO A 0 A_SetAngle(8 + angle)
+		COBO A 1 A_CustomMissile("HacxMolecule", 16, 0, 0, CMF_TRACKOWNER|CMF_AIMDIRECTION)
+		COBO A 0 A_SetUserVar("user_count",user_count+1)
+		loop
+	Boom:
+		TNT1 A 0 A_Explode
+		TNT1 A 0 A_PlaySound("weapons/explodedist",CHAN_WEAPON,1,0,ATTN_NONE)
+		TNT1 A 0 A_Quake(6,8,0,2048,"weapons/explodedist")
+		TNT1 A 8 A_SpawnItemEx("Spawner_Explosion_Normal2")
+		stop
+	}
+}
+
+// Splot X3 - beta weapons
+
+ACTOR BayonetteRifle : Weapon
+{
+	Weapon.AmmoUse 1
+	Weapon.AmmoGive 20
+	Weapon.SelectionOrder 1600
+	Weapon.AmmoType "DoomClip"
+	Inventory.Pickupmessage "$GOTBAYONET"
+	Tag "$TAGBAYONET"
+	AttackSound "weapons/betarifle/fire"
+	States
+	{
+	Ready:
+		PBAY A 1 A_WeaponReady
+		Loop
+	Deselect:
+		PBAY A 0 A_PlaySound("weapons/in")
+		TNT1 A 0 A_Lower
+		PBAY A 1 A_Lower
+		goto Deselect+1
+	Select:
+		PBAY A 0 A_PlaySound("weapons/in")
+		TNT1 A 0 A_Raise
+		PBAY A 1 A_Raise
+		goto Select+1
+	Fire:
+		PBAY A 2
+		PBAY B 0 A_FireBullets(0,0,1,8,"HandgunPuff")
+		PBAY B 3 A_GunFlash
+		PBAY C 2 A_FireCustomMissile("BulletCasingSpawn",5,0,7,-9)
+		PBAY D 2
+		PBAY A 3 A_ReFire
+		Goto Ready
+	AltFire:
+		PBAY E 4 A_PlaySound("weapons/betarifle/melee")
+		PBAY F 4 A_CustomPunch(10,0,0,"FistPuff")
+		PBAY E 4
+		PBAY A 8
+		Goto Ready
+	Flash:
+		TNT1 A 7 A_Light1
+		Goto LightDone
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(902)==5||ACS_ExecuteWithResult(904)>0,2)
+		TNT1 A 0 A_ChangeFlag("DROPPED",0)
+		PBAY Z 1050 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	}
+}
+
+ACTOR BetaRPG : Weapon
+{
+	Inventory.Pickupmessage "$GOTBETARPG"
+	Tag "$TAGBETARPG"
+	Weapon.AmmoGive 2
+	Weapon.AmmoUse 1
+	Weapon.AmmoType "DoomRocket"
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(902)==5||ACS_ExecuteWithResult(904)>0,2)
+		TNT1 A 0 A_ChangeFlag("DROPPED",0)
+		BRPG Z 1050 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	Ready:
+		BRPG A 1 A_WeaponReady
+		loop
+	Deselect:
+		BRPG A 0 A_PlaySound("weapons/in")
+		TNT1 A 0 A_Lower
+		BRPG A 1 A_Lower
+		goto Deselect+1
+	Select:
+		BRPG A 0 A_PlaySound("weapons/out")
+		BRPG A 0 A_PlaySound("duke/wpnsel")
+		BRPG A 1 A_Raise
+		goto Select+2
+	Fire:
+		BRPG A 0 A_GunFlash
+		BRPG B 1 Offset(4,32) A_FireCustomMissile("ShitMissile")
+		BRPG B 1 Offset(8,32)
+		BRPG C 1 Offset(14,32)
+		BRPG C 1 Offset(17,32)
+		BRPG D 1 Offset(12,32)
+		BRPG D 1 Offset(6,32)
+		BRPG A 1 Offset(2,32)
+		BRPG A 1 Offset(1,32)
+		BRPG A 6 Offset(0,32)
+		BRPG A 0 a_refire
+		Goto Ready
+	Flash:
+		TNT1 A 7 A_Light1
+		TNT1 A 8 A_Light2
+		Goto LightDone
+	}
+}
+
+actor ShitMissile : Missile
+{
+	Damage 4
+	SeeSound "weapons/betarpg/fire"
+	DeathSound ""
+	damagetype Normal
+	States
+	{
+	Death:
+		TNT1 A 0 A_PlaySound("attack/punch")
+		TNT1 A 8 A_SpawnItemEx("ShitMissileThunked",0,0,16,random(0,16),0,0,random(170,190))
+		stop
+	}
+}
+
+actor ShitMissileThunked
+{
+	+CANBOUNCEWATER
+	Radius 11
+	Height 8
+	Speed 3
+	Damage 20
+	PROJECTILE
+	+RANDOMIZE
+	-NOGRAVITY
+	//+FORCEXYBILLBOARD
+	BounceType "Doom"
+	SeeSound "weapons/grenadethrow"
+	BounceSound "weapons/grenadebounce"
+	DeathSound "weapons/explode"
+	Obituary "$OB_MPGRENADE"
+	damagetype Explosive
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 ThrustThingZ(0,16,0,1)
+		MISL A 180 A_PlaySound("weapons/grenadethrow")
+	Death:
+		TNT1 A 0 A_Explode
+		TNT1 A 0 A_PlaySound("weapons/explodedist",CHAN_WEAPON,1,0,ATTN_NONE)
+		TNT1 A 0 A_Quake(6,8,0,2048,"weapons/explodedist")
+		TNT1 A 8 A_SpawnItemEx("Spawner_Explosion_Normal1")
+		stop
+	}
+}
+
+// SUPERWEAPON!
+ACTOR AngstBotAmmo : Ammo
+{
+	Inventory.Amount 8
+	Inventory.MaxAmount 8
+	Inventory.Icon "HUDSUPER"
+	Tag "$TAGSUPER"
+}
+
+actor AngstBotWeapon : Weapon
+{
+	radius 32
+	height 8
+	inventory.pickupmessage "$GOTANGSTBOT"
+	Tag "$TAGANGSTBOT"
+	weapon.selectionorder 2500
+	weapon.kickback 100
+	weapon.ammotype "AngstBotAmmo"
+	weapon.ammouse 1
+	weapon.ammogive 8
+	Inventory.PickupSound "misc/ws_pkup"
+	+WEAPON.NOAUTOFIRE
+	scale 0.75
+	states
+	{
+	Ready:
+		KIBH A 1 A_WeaponReady
+		loop
+	Deselect:
+		//KIBH A 0 A_Lower
+		KIBH A 1 A_Lower
+		loop
+	Select:
+		//KIBH A 0 A_Raise
+		KIBH A 1 A_Raise
+		loop
+	Fire:
+		KIBH A 2 A_PlaySound("weapons/angstbots/drop")
+		KIBH A 1 Offset(0,34)
+		KIBH A 1 Offset(0,38)
+		KIBH A 1 Offset(0,43)
+		KIBH A 1 Offset(0,56)
+		KIBH A 1 Offset(0,72)
+		KIBH A 1 Offset(0,94)
+		KIBH A 1 Offset(0,120)
+		KIBH A 1 Offset(0,150)
+		KIBH A 17 A_FireCustomMissile("AngstBot")
+		KIBH A 1 Offset(0,120)
+		KIBH A 1 Offset(0,94)
+		KIBH A 1 Offset(0,72)
+		KIBH A 1 Offset(0,56)
+		KIBH A 1 Offset(0,43)
+		KIBH A 1 Offset(0,38)
+		KIBH A 1 Offset(0,34)
+		KIBH A 1 Offset(0,32)
+		goto Ready
+	Spawn:
+		//TNT1 A 0
+		//TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(902)==5||ACS_ExecuteWithResult(904)>0,2)
+		//TNT1 A 0 A_ChangeFlag("DROPPED",0)
+		KIBH Z 1050 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	}
+}
+
+ACTOR AngstBot
+{
+	+Missile
+	+DROPOFF
+	+FOILINVUL
+	+RANDOMIZE
+	+RIPPER
+	+NOEXPLODEFLOOR
+	+STEPMISSILE
+	//+FLOORHUGGER
+	MaxStepHeight 16
+	Damage 1
+	speed 16
+	scale 0.4
+	States
+	{
+	Spawn:
+		KIBO A 4 A_PlaySound("weapons/angstbots/move")
+		loop
+	Death:
+		NUK1 A 0 A_NoGravity
+		NUK1 A 0 A_Explode(128,256,1)
+		TNT1 A 0 A_PlaySound("weapons/explodedist",CHAN_WEAPON,1,0,ATTN_NONE)
+		TNT1 A 0 A_Quake(6,8,0,2048,"weapons/explodedist")
+		TNT1 A 0 A_SpawnItemEx("Spawner_Explosion_Normal2")
+		NUK1 A 0 bright A_PlaySound("weapons/angstbots/boom",0,1.0,0,.5)
+		TNT1 A 5 A_SpawnItemEx("HacxNukeBoom",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_Mushroom("HacxNukeSpray",50,MSF_Classic,.5,1.0)
+		TNT1 A 5 A_Mushroom("HacxNukeSmoke",20,MSF_Classic,2.0,.2)
+		Stop
+	}
+}

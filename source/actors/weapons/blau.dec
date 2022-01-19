@@ -1,0 +1,383 @@
+// Splot - Boomies
+
+ACTOR RPG : Weapon
+{
+	Weapon.SelectionOrder 2500
+	Weapon.AmmoUse 1
+	Weapon.AmmoGive 2
+	Weapon.AmmoType "DoomRocket"
+	+WEAPON.NOAUTOFIRE
+	Inventory.PickupMessage "$GOTBAZOOKA"
+	Tag "$TAGBAZOOKA"
+	States
+	{
+	Ready:
+		BAZO A 1 A_WeaponReady
+		Loop
+	Deselect:
+		BAZO A 0 A_PlaySound("weapons/in")
+		TNT1 A 0 A_Lower
+		BAZO A 1 A_Lower
+		goto Deselect+1
+	Select:
+		BAZO A 0 A_PlaySound("weapons/out")
+		TNT1 A 0 A_Raise
+		BAZO A 1 A_Raise
+		goto Select+1
+	Fire:
+		TNT1 A 0 A_JumpIfInventory("PowerDoubleFiringSpeed",1,"FireFast")
+		BAZO BC 1
+		BAZO D 0 A_GunFlash
+		BAZO D 1 bright A_FireCustomMissile("Missile")
+		BAZO EFG 1 bright
+		BAZO HIIIIIIIIIIIIJKL 1
+		BAZO A 0 A_ReFire
+		Goto Ready
+	FireFast:
+		BAZO B 1
+		BAZO D 0 A_GunFlash
+		BAZO D 1 bright A_FireCustomMissile("Missile")
+		BAZO F 1 bright
+		BAZO HIIIIIIK 1
+		BAZO A 0 A_ReFire
+		Goto Ready
+	Flash:
+		TNT1 A 7 A_Light1
+		TNT1 A 8 A_Light2
+		Goto LightDone
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(902)==5||ACS_ExecuteWithResult(904)>0,2)
+		TNT1 A 0 A_ChangeFlag("DROPPED",0)
+		BAZP A 1050 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		stop
+	}
+}
+
+actor Missile
+{
+	Radius 11
+	Height 8
+	Speed 20
+	Damage 20
+	Projectile
+	+RANDOMIZE
+	+BLOODSPLATTER
+	//+FORCEXYBILLBOARD
+	SeeSound "weapons/rpg"
+	DeathSound "weapons/explode"
+	Obituary "$OB_MPROCKET" // "%o rode %k's rocket."
+	damagetype Explosive
+	States
+	{
+	Spawn:
+		MISL A 0
+		MISL A 1 bright A_SpawnItemEx("MissilePart",0,0,8)
+		Wait
+	Death:
+		TNT1 A 0 A_Explode
+		TNT1 A 0 A_PlaySound("weapons/explodedist",CHAN_WEAPON,1,0,ATTN_NONE)
+		TNT1 A 0 A_Quake(6,8,0,2048,"weapons/explodedist")
+		TNT1 A 8 A_SpawnItemEx("Spawner_Explosion_Normal2")
+		stop
+	}
+}
+ACTOR BossMissile : Missile
+{
+	States
+	{
+	Death:
+		TNT1 A 0 A_Explode(128,128,0)
+		Goto Super::Death+1
+	}
+}
+
+ACTOR JavelinLauncher : RPG
+{
+	Inventory.PickupMessage "$GOTJAVELIN"
+	Tag "$TAGJAVELIN"
+	States
+	{
+	Ready:
+		DRLG A 1 A_WeaponReady
+		Loop
+	Deselect:
+		DRLG A 0 A_PlaySound("weapons/in")
+		TNT1 A 0 A_Lower
+		DRLG A 1 A_Lower
+		goto Deselect+1
+	Select:
+		DRLG A 0 A_PlaySound("weapons/out")
+		TNT1 A 0 A_Raise
+		DRLG A 1 A_Raise
+		goto Select+1
+	Fire:
+		DRLG A 2 A_GunFlash
+		DRLF AB 3 bright
+		DRLF C 2 bright A_FireCustomMissile("Javelin")
+		DRLF DE 2
+		DRLG B 1
+		DRLG C 3
+		DRLG A 2
+		DRLG A 0 A_ReFire
+		Goto Ready
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(902)==5||ACS_ExecuteWithResult(904)>0,2)
+		TNT1 A 0 A_ChangeFlag("DROPPED",0)
+		DERL A 1050 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		stop
+	}
+}
+
+actor Javelin
+{
+	+CANBOUNCEWATER
+	Radius 11
+	Height 8
+	Speed 30
+	Damage 1
+	Projectile
+	+RANDOMIZE
+	+BLOODSPLATTER
+	//+FORCEXYBILLBOARD
+	+RIPPER
+	SeeSound "weapons/javelin/fire"
+	DeathSound "weapons/explode"
+	//damagetype Explosive
+	BounceType "Hexen"
+	BounceSound "weapons/javelin/bounce"
+	States
+	{
+	Spawn:
+		JVLN A 0
+		JVLN AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 1 bright A_SpawnItemEx("MissilePart")
+	Death:
+		TNT1 A 0 A_NoBlocking
+		TNT1 A 0 A_Stop
+		TNT1 JJJJJJJJJJJJJJ 0 A_CustomMissile("DEBRIS",random(4,16),0,random(0,360),2,random(4,32))
+		TNT1 AAAAAAAA 4 A_SpawnItemEx("BirthdayPartyBomb",random(0,32),random(0,32),random(10,30),0,0,0,random(0,360))
+		stop
+	}
+}
+
+// Superweapon - Based on the drunk missile from the ROTT TC
+ACTOR MacrossAmmo : Ammo
+{
+	Inventory.Icon "HUDSUPER"
+	Tag "$TAGSUPER"
+	Inventory.Amount 8
+	Inventory.MaxAmount 8
+}
+
+ACTOR MacrossGun : Weapon
+{
+	Inventory.PickupSound "misc/ws_pkup"
+	Inventory.Pickupmessage "$GOTMACROSS"
+	Tag "$TAGMACROSS"
+	Weapon.AmmoGive 8
+	Weapon.AmmoUse 1
+	Weapon.AmmoType "MacrossAmmo"
+	+NOAUTOAIM
+	+NOGRAVITY
+	SCALE 0.50
+	AttackSound "grunt/attack"
+	States
+	{
+	Spawn:
+		//TNT1 A 0
+		//TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(902)==5||ACS_ExecuteWithResult(904)>0,2)
+		//TNT1 A 0 A_ChangeFlag("DROPPED",0)
+		PDNK A 1050 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		stop
+	Ready:
+		DRNK A 1 A_WeaponReady
+		loop
+	Deselect:
+		DRNK A 0 A_PlaySound("weapons/in")
+		TNT1 A 0 A_Lower
+		DRNK A 1 A_Lower
+		goto Deselect+1
+	Select:
+		DRNK A 0 A_PlaySound("weapons/out")
+		TNT1 A 0 A_Raise
+		DRNK A 1 A_Raise
+		goto Select+1
+	Fire:
+		DRNK A 1 Offset(0,36) A_GunFlash
+		DRNK A 1 Offset(0,38)
+		DRNK A 1 Offset(0,42)
+		DRNK B 1 Offset(0,40)
+		DRNK C 1 Offset(0,38)
+		DRNK D 1 Offset(0,36)
+		DRNK A 1 Offset(0,34)
+		DRNK A 6 Offset(0,32)
+		DRNK A 0 a_refire
+		Goto Ready
+	Flash:
+		DRNK A 0 A_PlaySound("drunk/fire")
+		DRNK CCCC 0 A_FireCustomMissile("MacrossMissile",0,0,1,-8,0)
+		DRNK C 1 A_FireCustomMissile("MacrossMissile",0,1,1,-8,0)
+		DRNK CCCCC 0 A_FireCustomMissile("MacrossMissile",0,0,1,-8,0)
+		DRNK C 1
+		DRNK CCCCC 0 A_FireCustomMissile("MacrossMissile",0,0,1,-8,0)
+		DRNK C 1
+		stop
+	}
+}
+
+actor MacrossMissile
+{
+	Radius 11
+	Height 6
+	Speed 30
+	Damage 5
+	SCALE 0.50
+	PROJECTILE
+	+SEEKERMISSILE
+	+EXTREMEDEATH
+	+FOILINVUL
+	+BRIGHT
+	damagetype flame
+	DeathSound "weapons/explode"
+	States
+	{
+	Spawn:
+		RPGX AAA 1 A_CustomMissile("MissilePart",0,0,0,0)
+		RPGX A 0 a_playsound("missile/fly", CHAN_WEAPON, 1.0, 1, ATTN_NORM)
+		RPGX A 1 A_ChangeVelocity (10.0, random(-5.0,5.0), random(0.0,3.5),1)
+		RPGX A 0 a_seekermissile(5,20,SMF_LOOK,50,5)
+		RPGX AAA 1 A_CustomMissile("MissilePart",0,0,0,0)
+		RPGX A 0 a_playsound("missile/fly", CHAN_WEAPON, 1.0, 1, ATTN_NORM)
+		RPGX A 0 a_seekermissile(5,20,SMF_LOOK,50,5)
+		RPGX A 1 A_ChangeVelocity (10.0, random(-5.0,5.0), random(-2.0,5.0),1)
+		RPGX AAA 1 A_CustomMissile("MissilePart",0,0,0,0)
+		RPGX A 0 a_playsound("missile/fly", CHAN_WEAPON, 1.0, 1, ATTN_NORM)
+		RPGX A 0 a_seekermissile(5,20,SMF_LOOK,50,5)
+		RPGX A 1 A_ChangeVelocity (10.0, random(-5.0,5.0), random(-5.0,5.0),1)
+	Flight:
+		RPGX A 0 a_seekermissile(5,20,SMF_LOOK,50,5)
+		RPGX A 1 A_ChangeVelocity (10.0, random(-5.0,5.0), random(-5.0,5.0),1)
+		RPGX A 0 a_playsound("missile/fly", CHAN_WEAPON, 1.0, 1, ATTN_NORM)
+		RPGX AA 1 A_CustomMissile("MissilePart",0,0,0,0)
+		RPGX A 0 a_seekermissile(10,20,SMF_LOOK,50,5)
+		RPGX AA 1 A_CustomMissile("MissilePart",0,0,0,0)
+		loop
+	Death:
+		TNT1 A 0 A_Explode(32,96)
+		TNT1 A 0 A_PlaySound("weapons/explodedist",CHAN_WEAPON,1,0,ATTN_NONE)
+		TNT1 A 0 A_Quake(6,8,0,2048,"weapons/explodedist")
+		TNT1 A 8 A_SpawnItemEx("Spawner_Explosion_Normal1")
+		Stop
+	}
+}
+
+// Cluster Bomb Launcher
+actor ClusterBombLauncher : Weapon
+{
+	Weapon.SelectionOrder 2500
+	Weapon.AmmoUse 1
+	Weapon.AmmoGive 3
+	Weapon.AmmoType "DoomRocket"
+	+WEAPON.NOAUTOFIRE
+	Inventory.PickupMessage "$GOTCLUSTER"
+	Tag "$TAGCLUSTER"
+	+WEAPON.NOAUTOAIM
+	States
+	{
+	Ready:
+		CLUS A 1 A_WeaponReady
+		Loop
+	Deselect:
+		CLUS A 0 A_PlaySound("weapons/in")
+		TNT1 A 0 A_Lower
+		CLUS A 1 A_Lower
+		goto Deselect+1
+	Select:
+		CLUS A 0 A_PlaySound("weapons/out")
+		TNT1 A 0 A_Raise
+		CLUS A 1 A_Raise
+		goto Select+1
+	Fire:
+		CLUS B 0 A_FireCustomMissile("ClusterBomb")
+		CLUS B 2 A_GunFlash
+		CLUS CDEFG 2
+		CLUS A 8
+		CLUS A 0 A_ReFire
+		Goto Ready
+	Flash:
+		TNT1 A 4 A_Light1
+		TNT1 A 2 A_Light2
+		Goto LightDone
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(902)==5||ACS_ExecuteWithResult(904)>0,2)
+		TNT1 A 0 A_ChangeFlag("DROPPED",0)
+		CLUS Z 1050 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		stop
+	}
+}
+
+actor ClusterBomb
+{
+	Radius 8
+	Height 8
+	Speed 20
+	Damage 15
+	PROJECTILE
+	+RANDOMIZE
+	-NOGRAVITY
+	SeeSound "weapons/clusterbomb/fire"
+	DeathSound "weapons/clusterbomb/explode"
+	BounceSound "weapons/grenadebounce"
+	BounceType "Doom"
+	Obituary "$OB_MPGRENADE"
+	scale 1
+	damagetype Explosive
+	BounceCount 3
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==2,"LowGrav")
+		TNT1 A 0 ThrustThingZ(0,32,0,1)
+		goto Active
+	LowGrav:
+		TNT1 A 0 ThrustThingZ(0,16,0,1)
+		goto Active
+	Active:
+		LGRE ABCD 3
+		loop
+	Death:
+		TNT1 A 0 A_Explode
+		TNT1 A 0 A_PlaySound("weapons/explodedist",CHAN_WEAPON,1,0,ATTN_NONE)
+		TNT1 AAAAA 0 A_SpawnItemEx("ClusterBombFragment",0,0,16,8,0,0,random(0,360))
+		TNT1 A 0 A_Quake(6,8,0,2048,"weapons/explodedist")
+		TNT1 A 8 A_SpawnItemEx("Spawner_Explosion_Normal1")
+		stop
+	}
+}
+
+actor ClusterBombFragment : ClusterBomb
+{
+	Speed 10
+	Damage 6
+	SeeSound ""
+	DeathSound "weapons/clusterbomb/pop"
+	Obituary "$OB_MPGRENADE"
+	scale 0.5
+	BounceCount 2
+	States
+	{
+	Death:
+		TNT1 A 0 A_Explode
+		TNT1 A 0 A_PlaySound("weapons/explodedist",CHAN_WEAPON,1,0,ATTN_NONE)
+		TNT1 A 0 A_Quake(6,8,0,2048,"weapons/explodedist")
+		TNT1 A 8 A_SpawnItemEx("Spawner_Explosion_Normal1")
+		stop
+	}
+}

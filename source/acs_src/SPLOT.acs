@@ -1,0 +1,1469 @@
+#library "splot"
+#include "zcommon.acs"
+
+// GLOBAL SCRIPT FOR SPLOT
+
+int REELMAX = 18;
+//User-Changeable parameters
+int REEL1MAX = 18;	//Current maximum value for reel 1
+int REEL2MAX = 18;	//Current maximum value for reel 2
+int REEL3MAX = 18;	//Current maximum value for reel 3
+int BOSSMAX = 13; 	//Current maximum number of bosses
+int REELMAXSHUFFLE;	//Highest value allowed for shuffle mode
+// Slot Reels
+int slot1,slot2,slot3,boss,jackpot;
+
+// [XA] Rigged slots. If any of these values are nonzero,
+// they are used instead of the randomly-generated ones.
+int rigslot1,rigslot2,rigslot3,rigboss;
+
+// Slot Machine Controls
+global int 1:round;
+global int 2:hudtimer;
+int slottimer = 57,slotting,winner,dead,roundsplayed,maxrounds = 5,jackpotfavor,
+jackpotflipacoin,fuckhacksforever;
+
+// for custom slots in the hud
+global int 3:customslotnum1;
+global int 4:customslotnum2;
+global int 5:customslotnum3;
+
+str slot1list[50][3] =
+{
+	{"Slot1_1",	"BLOODY SCREEN SO REAL!",	"Realistic movement, regenerating health, massive profits."},
+	{"Slot1_2",	"Moonwalker",				"Low gravity! Try not to hit your head on anything."},
+	{"Slot1_3",	"Too. Much. Caffeine.",		"Double your firing speed, double your fun."},
+	{"Slot1_4",	"Bloody Mess",				"By some twist of fate, people around you die violently."},
+	{"Slot1_5",	"Green Is Turbo!",			"Double movement speed! Prepare ship for Ludicrous Speed!"},
+	{"Slot1_6",	"Gunfinity",				"Gunlimited Ammo. Go hog wild!"},
+	{"Slot1_7",	"Wing and a Prayer",		"Sixty seconds of flight. Just stay away from the sun..."},
+	{"Slot1_8",	"Birthday Party",			"Enemies explode violently upon death. Keep your distance!"},
+	{"Slot1_9",	"Dog Whistle",				"Enemies become very, very confused."},
+	{"Slot1_10","Grease is the Word",		"Friction is disabled. Be careful around edges!"},
+	{"Slot1_11","Find the Antidote",		"Your health is slowly drained."},
+	{"Slot1_12","Reelism 64",				"A dense Kryptonite Fog descends over the map..."},
+	{"Slot1_13","iReelism",					"Resolutionary touchscreen gaming!"},
+	{"Slot1_14","Blind Skull",				"Dude, where's my HUD?"},
+	{"Slot1_15","HYPERPOWER!",				"Superweapons have a chance of spawning!"},
+	{"Slot1_16","Mentally Retardant",		"Immunity to fire! It's nature's water."},
+	{"Slot1_17","Quad Damage!",				"Four times the punishment! Four times the sick riffs!"},
+	{"Slot1_18","Blood Money",				"Enemies bleed shiny gold coins instead of, you know, blood."},
+	{"","",""},{"","",""},
+	{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},
+	{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},
+	{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},
+	{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},
+	{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},
+	{"","",""},{"","",""},{"","",""},{"","",""},{"","",""}
+};
+str slot2list[50][3] =
+{
+	{"Slot2_1",	"Retro Rockets",			"Wolf 3D weapon spawns. Hooray, shameless pandering to nostalgia!"},
+	{"Slot2_2",	"My Tank Is Fight",			"Spend the next round in a TANK! Three, two, one, let's jam..."},
+	{"Slot2_3",	"Porkchop Sandwiches!",		"Firey weapon spawns. Holy shit, get the fuck outta there!"},
+	{"Slot2_4",	"Nevermore",				"Raven weapon spawns. Swords 'n' sorcery 'n' shitty engine licensees."},
+	{"Slot2_5",	"Crate Shower",				"Boxes, boxes everywhere, and not a clue what's inside..."},
+	{"Slot2_6",	"NRG",						"Energy weapon spawns. Batteries not included."},
+	{"Slot2_7",	"This Is My Boomstick!",	"Shotgun weapon spawns. Spread the love!"},
+	{"Slot2_8",	"BLAU!",					"Explosive weapon spawns. Don't get too close to the walls..."},
+	{"Slot2_9",	"Melee Masters",			"The best and brightest of the hitting-dudes category."},
+	{"Slot2_10","Famine",					"No weapon OR ammo spawns. You'll just have to make do."},
+	{"Slot2_11","Blue Magic",				"Enemy weapon spawns. Freshly filched from the locker room!"},
+	{"Slot2_12","Bullet Hoses",				"Automatic weapon spawns. Just like watering screaming plants."},
+	{"Slot2_13","Dog Mode",					"Spend the next round as a demi-dog! Go barking mad!"},
+	{"Slot2_14","Mad HACX",					"HACX 2.0 weapon spawns. Twitch 'n' kill!"},
+	{"Slot2_15","Sector Effectors",			"Duke 3D weapon spawns. Come get some!"},
+	{"Slot2_16","Crapshoot!",				"Unreliable weapon spawns. Powerful, but at what cost...?"},
+	{"Slot2_17","Has-Beens and Never-Weres","Bootleg and prototype weapon spawns. Scraping the barrel..."},
+	{"Slot2_18","Bomber, Man",				"Special grenade weapon spawns. Things that may or may not go boom."},
+	{"","",""},{"","",""},
+	{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},
+	{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},
+	{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},
+	{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},
+	{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},
+	{"","",""},{"","",""},{"","",""},{"","",""},{"","",""}
+};
+str slot3list[50][3] =
+{
+	{"Slot3_1",	"Friendship Is Tragic",			"Harmless, useless brony monsters. Also, in the game."},
+	{"Slot3_2",	"Imp My Ride",					"All imps, all the time. Big ones, small ones, dumb ones too."},
+	{"Slot3_3",	"Night Of The NPCs",			"The Strife peasants and beggars get their vicious revenge! Again."},
+	{"Slot3_4",	"Optical Invasion",				"The eyes have it... in for you!"},
+	{"Slot3_5",	"Night of the Shooting Dead",	"The flesh-eating undead have taken up firearms!"},
+	{"Slot3_6",	"Order of the Hellish Empire",	"Barons, Hell Knights and other goatman royalty."},
+	{"Slot3_7",	"They Were RoBots",				"None of them knew! None of them knew!"},
+	{"Slot3_8",	"Jetpack Larry",				"Fun Fact: Everyone who owns a jetpack is named Larry."},
+	{"Slot3_9",	"THE JERK Cometh!",				"You... uh... you might wanna hide for a while."},
+	{"Slot3_10","Dogged",						"Man's best friend is a real bitch when it comes down to things."},
+	{"Slot3_11","Spooks 'n' Kooks",				"...is Kooks an old-timey racial slur?... Anyway, ghosts."},
+	{"Slot3_12","Renaissance Unfair",			"Ye Olde Reelisme Rulee."},
+	{"Slot3_13","First Contact",				"The aliens have landed! And they're pissed!"},
+	{"Slot3_14","Wolf3d Anniversary!",			"Man, what a bunch of sour krauts..."},
+	{"Slot3_15","Quick Draws",					"Mamas, don't let your babies grow up to be Reelism slots."},
+	{"Slot3_16","What! About! Bob!",			"They're everywhere! Just remember your oath..."},
+	{"Slot3_17","Oh Fuck, Skeletons!",			"Skeletons have pursued me my entire life."},
+	{"Slot3_18","Crudux Cruo!",					"Cultists, fanatics and other hooded weirdos!"},
+	{"","",""},{"","",""},
+	{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},
+	{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},
+	{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},
+	{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},
+	{"","",""},{"","",""},{"","",""},{"","",""},{"","",""},
+	{"","",""},{"","",""},{"","",""},{"","",""},{"","",""}
+};
+
+//For custom reels
+str slot1script[50]={"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""};
+str slot2script[50]={"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""};
+str slot3script[50]={"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""};
+
+str bosses[30][6] =
+{
+	//Actor name
+	//Entry sound
+	//Full name
+	//Description
+	//Win message
+	{
+		"WMBG",
+		"boss/wmbg",
+		"World's Most Boringest Ghost",
+		"The death of the party. Also you.",
+		"You exorcised The World's Most Boringest Ghost!"
+	},
+	{
+		"DogPope",
+		"boss/pope",
+		"Dog Pope",
+		"VIVA IL PAPA CANE!!",
+		"You assassinated Dog Pope!"
+	},
+	{
+		"Cybredemon",
+		"boss/cyb",
+		"El Cybredemon",
+		"You've never met this guy before. Really.",
+		"You destroyed El Cybredemon!"
+	},
+	{
+		"ImpTank",
+		"boss/tank",
+		"Imp Tank",
+		"My, how quickly the tables turn...",
+		"You dismantled Imp Tank!"
+	},
+	{
+		"MsJerk",
+		"boss/msjerk",
+		"Ms. THE JERK",
+		"The sequel to the instant classic!",
+		"You reached the Kill Screen of Ms. THE JERK!"
+	},
+	{
+		"Player2Boss",
+		"boss/player2",
+		"Player 2",
+		"Looks like someone turned Friendly Fire on...",
+		"You bested Player 2!"
+	},
+	{
+		"ShapeShifter",
+		"boss/shape",
+		"The ShapeShifter",
+		"He must hate intellectual property laws so. much.",
+		"You turned your fight with the Shapeshifter into a win!"
+	},
+	{
+		"MacGuffin",
+		"boss/macg",
+		"MacGuffin",
+		"The hobomancer returns! He's impervious to fire... and love!",
+		"You took down MacGuffin! Again!"
+	},
+	{
+		"Mechahitler",
+		"boss/mehi",
+		"Mecha-Hitler",
+		"By popular demand. Which is kind of weird, really.",
+		"You won World War 2!"
+	},
+	{
+		"MFTruck",
+		"boss/wizard",
+		"A Motherfucking Wizard!",
+		"In a motherfucking monster truck!!",
+		"You dispelled A Motherfucking Wizard!"
+	},
+	{
+		"DevilDriver",
+		"boss/devil",
+		"Devil Driver",
+		"The ultimate revelation machine!",
+		"You nuked the Devil Driver!"
+	},
+	{
+		"Guardian",
+		"boss/guardian",
+		"The Guardian",
+		"Thassa big honkin' robot with some big honkin' lasers.",
+		"You disregarded the Guardian!"
+	},
+	{
+		"Juggernaut",
+		"boss/juggernaut",
+		"The Juggernaut",
+		"The Big Floaty Thing What Kicks Your Ass.",
+		"You kicked seven shades out of the Juggernaut!"
+	},
+	{"","boss/new","","","You survived, against all odds."},
+	{"","boss/new","","","You survived, against all odds."},
+	{"","boss/new","","","You survived, against all odds."},
+	{"","boss/new","","","You survived, against all odds."},
+	{"","boss/new","","","You survived, against all odds."},
+	{"","boss/new","","","You survived, against all odds."},
+	{"","boss/new","","","You survived, against all odds."},
+	{"","boss/new","","","You survived, against all odds."},
+	{"","boss/new","","","You survived, against all odds."},
+	{"","boss/new","","","You survived, against all odds."},
+	{"","boss/new","","","You survived, against all odds."},
+	{"","boss/new","","","You survived, against all odds."},
+	{"","boss/new","","","You survived, against all odds."},
+	{"","boss/new","","","You survived, against all odds."},
+	{"","boss/new","","","You survived, against all odds."},
+	{"","boss/new","","","You survived, against all odds."}
+};
+int bossminions[30]=	//Preferred minions for Boss Rush (based on existing monster reel)
+{
+	11,10,6,2,9,
+	5,13,3,14,12,
+	17,7,16
+};
+str billboard[30] =
+{
+	"BILL01",
+	"BILL02",
+	"BILL03",
+	"BILL04",
+	"BILL05",
+	"BILL06",
+	"BILL07",
+	"BILL08",
+	"BILL09",
+	"BILL10",
+	"BILL11",
+	"BILL12",
+	"BILL13",
+	"BILL14",
+	"BILL15",
+	"BILL16",
+	"BILL17",
+	"BILL18",
+	"BILL19",
+	"BILL20",
+	"BILL21",
+	"BILL22",
+	"BILL23",
+	"BILL24",
+	"BILL25",
+	"BILL26",
+	"BILL27",
+	"BILL28",
+	"BILL29",
+	"BILL30"
+};
+
+str billboardshades[15] =
+{
+	"BILLX1",
+	"BILLX2",
+	"BILLX3",
+	"BILLX4",
+	"BILLX5",
+	"BILLX6",
+	"BILLX7",
+	"BILLX8",
+	"BILLX9",
+	"BILLX10",
+	"BILLX11",
+	"BILLX12",
+	"BILLX13",
+	"BILLX14",
+	"BILLX15"
+};
+
+// Stat Random Funnies
+str dungeonname[32] =
+{
+	"The Dungeons of Doom",
+	"The Gnomish Mines",
+	"Sokoban",
+	"Fort Ludios",
+	"Gehennom",
+	"The Astral Plane",
+	"Knee-Deep In The Dead",
+	"The Shores Of Hell",
+	"Inferno",
+	"City of the Damned",
+	"Mines of Moria",
+	"Velketor's Labyrinth",
+	"Mu Waterway",
+	"Giant Gun 'Justice'",
+	"The Granite Empire",
+	"Bone City",
+	"The Clockwork Solarium",
+	"Azura's Coast",
+	"Red Mountain",
+	"Spectacle Rock",
+	"The Rocks of Darkness",
+	"Tittleman's Crest",
+	"The M&Ms Store",
+	"Heartbreak Hill",
+	"Camp Racialslur",
+	"Blood Creek",
+	"Western Temple",
+	"Eastern Temple",
+	"Wackyworld",
+	"Daytona Speedway",
+	"Kero Sewers",
+	"Bennigan's"
+};
+
+str nostat1[24] =
+{
+	"You were vegan.",
+	"You had good hearing.",
+	"You needed glasses to see.",
+	"Your hair was nice.",
+	"You went genocide-less.",
+	"You used no wishes.",
+	"You were bad at dancing.",
+	"You smelled nice.",
+	"You smelled terrible.",
+	"You gained 6 pounds.",
+	"You found the missing link.",
+	"You ran a marathon.",
+	"You were encumbered.",
+	"You found one of eight crystals.",
+	"You found Philip Seymour Hoffman.",
+	"You rolled snake eyes.",
+	"Your feet were oily.",
+	"You left the stove on.",
+	"You grabbed 18 game tokens.",
+	"You traded for ivory.",
+	"You were fashionable.",
+	"You collected candles.",
+	"You visited both shrines.",
+	"You got the hot wax."
+};
+
+str nostat2[24] =
+{
+	"You never learned to love.",
+	"You were illiterate.",
+	"You were an atheist.",
+	"You were pious.",
+	"You subscribed to magazines.",
+	"You never threw potions.",
+	"You were a chocoholic.",
+	"You had a beer gut.",
+	"You had two left eyes.",
+	"You left nothing but footprints.",
+	"You stole the Declaration of Independence.",
+	"You listened to Depeche Mode.",
+	"You got Y. Spear.",
+	"You pursued Lu Bu.",
+	"You won a television.",
+	"Your book was never unfinished.",
+	"You came, you saw.",
+	"Your favorite drink was cranberry juice.",
+	"You fought the law.",
+	"You licked the knife.",
+	"You lost both shoes.",
+	"You lost one shoe.",
+	"You punched all switches.",
+	"You were retweeted by Kareem-Abdul Jabbar."
+};
+
+str nostat3[24] =
+{
+	"You burped the alphabet.",
+	"You liked coffee.",
+	"You could spell.",
+	"You could not spell.",
+	"You knew what time it was.",
+	"You had an imaginary friend.",
+	"You enjoyed avocados.",
+	"You used no continues.",
+	"You never fought Reptile.",
+	"You transcended your mortal bonds.",
+	"You stopped a forest fire.",
+	"You started a forest fire.",
+	"You got a doctorate.",
+	"You had a child.",
+	"You defeated Strongo.",
+	"You cleared out your DVR.",
+	"You predicted the weather.",
+	"Your check bounced.",
+	"You bought a Slim Jim.",
+	"You remembered the Alamo.",
+	"You preferred javelins.",
+	"You donated your organs.",
+	"You bought a new mug.",
+	"You raised the water level by 2 inches."
+};
+
+// Music Playlist
+int song = 0;
+str playlist[15] =
+{
+	"mus-01",
+	"mus-02",
+	"mus-03",
+	"mus-04",
+	"mus-05",
+	"mus-06",
+	"mus-07",
+	"mus-08",
+	"mus-09",
+	"mus-10",
+	"mus-11",
+	"mus-12",
+	"mus-13",
+	"mus-14",
+	"mus-15",
+};
+
+str bosslist[9] =
+{
+	"mus-bos1",
+	"mus-bos2",
+	"mus-bos3",
+	"mus-bos4",
+	"mus-bos5",
+	"mus-bos6",
+	"mus-bos7",
+	"mus-bos8",
+	"mus-bos9"
+};
+
+str winlist[9] =
+{
+	"mus-win1",
+	"mus-win2",
+	"mus-win3",
+	"mus-win4",
+	"mus-win5",
+	"mus-win6",
+	"mus-win7",
+	"mus-win8",
+	"mus-win9"
+};
+
+// and here's a bunch of goddamn bullshit via nash to make messages scale properly on all resolutions, or something
+// i don't understand or care to understand any of it
+
+function int abs(int x)
+{
+	if(x < 0)
+		return -x;
+	return x;
+}
+
+// GetAspectRatio() by blzut3
+
+#libdefine ASPECT_4_3(4.0 / 3)
+#libdefine ASPECT_5_4 1.25
+#libdefine ASPECT_16_9(16.0 / 9)
+#libdefine ASPECT_16_10 1.6
+
+function int GetAspectRatio(void)
+{
+	int width = GetCVar("vid_defwidth"),height = GetCVar("vid_defheight"),nowidescreen = GetCVar("vid_nowidescreen"),
+	tft = GetCVar("vid_tft"),aspect = GetCVar("vid_aspect");
+
+	switch(aspect)
+	{
+		case 1:	return ASPECT_16_9;
+		case 2:	return ASPECT_16_10;
+		case 3:	return ASPECT_4_3;
+		case 4:	return ASPECT_5_4;
+	}
+	if(nowidescreen)
+	{
+		if(!tft)
+			return ASPECT_4_3;
+		if(FixedMul(height << 16,FixedDiv(5.0,4.0)) == width << 16)
+			Return ASPECT_5_4;
+		else
+			return ASPECT_4_3;
+	}
+
+	if(abs((abs(FixedMul(height << 16,FixedDiv(16.0,9.0))) >> 16) - width) < 10)
+		return ASPECT_16_9;
+
+	if(abs((abs(FixedMul(height << 16,FixedDiv(16.0,10.0))) >> 16) - width) < 60)
+	{
+		if((width == 320 && height == 200) ||(width == 640 && height == 400))
+			return ASPECT_4_3;
+		return ASPECT_16_10;
+	}
+	if(FixedMul(height << 16,FixedDiv(5.0,4.0)) >> 16 == width && tft)
+		return ASPECT_5_4;
+
+	return ASPECT_4_3;
+}
+
+function void PrinterPrep(void)
+{
+	if(GetAspectRatio() != ASPECT_4_3)
+	{
+		SetHUDSize((GetCVar("vid_defwidth") / 3),(GetCVar("vid_defheight") / 2),1); //SetHudSize(640,400,1);
+		fuckhacksforever = (GetCVar("vid_defwidth") / 6);
+	}
+	else
+	{
+		SetHUDSize((GetCVar("vid_defwidth") / 2),(GetCVar("vid_defheight") / 2),1); //SetHudSize(640,400,1);
+		fuckhacksforever = (GetCVar("vid_defwidth") / 4);
+	}
+}
+
+function void PrinterPrepReels(void)
+{
+	if(GetAspectRatio() != ASPECT_4_3)
+	{
+		SetHUDSize(FixedDiv(GetCVar("vid_defwidth"), 2.5), GetCVar("vid_defheight") / 2, 1);
+		fuckhacksforever = (GetCVar("vid_defwidth") / 6);
+	}
+	else
+	{
+		SetHUDSize((GetCVar("vid_defwidth") / 2),(GetCVar("vid_defheight") / 2),1); //SetHudSize(640,400,1);
+		fuckhacksforever = (GetCVar("vid_defwidth") / 4);
+	}
+}
+
+script 472 ENTER // Fun New Per-Frame Effects
+{
+	if(jackpot == 101010)
+	{
+		Thing_Deactivate(900);
+		Thing_Stop(0);
+		Thing_Stop(900);
+		SetPlayerProperty(1,1,PROP_TOTALLYFROZEN);
+
+		for(int i = 1337; i < 1400; i++)		//Based on PinkSilver's suggestion
+			SetActorVelocity(i,0,0,0,0,0);
+	}
+	else
+	{
+		Thing_Activate(900);
+		if(winner == 0)
+			SetPlayerProperty(1,0,PROP_TOTALLYFROZEN);
+	}
+	delay(1);
+	restart;
+}
+
+script 98 ENTER // Hot Slutty Per-Second effects.
+{
+	while(slotting==1)	//Wait for the round to actually start
+		delay(1);
+	if(slot1 == 1 && !dead)
+		HealThing(3);
+	if(slot1 == 11 && !dead)
+	{
+		Thing_Damage2(0,1,"ReelPoison");
+		ActivatorSound("menu/dismiss",127);
+	}
+	if(CheckInventory("Revolver")) //kekeke
+		SetActorProperty(0,APROP_Score,0);
+	if(CheckInventory("ScreamingShits")) //ouch
+	{
+		int dist = -48;
+		Spawn("GrenadeProj",
+		GetActorX(0) + cos(GetActorAngle(0)) * dist,
+		GetActorY(0) + sin(GetActorAngle(0)) * dist,
+		GetActorZ(0)+32.0,0,0);
+	}
+	if(round < 0 || boss == 0)
+		hudtimer = (60 - slottimer);
+	else
+		hudtimer = 99;
+	delay(35);
+	Restart;
+}
+
+script 99 OPEN	// Slot timer script			//Ed - changed from ENTER to OPEN so the level runs it, not the player(s)
+{
+	if(slotting==0 && dead==0)
+		slottimer++;
+	if(slottimer >= 60 && dead==0&&!boss)
+	{
+		round++;
+		slottimer = 0;
+		if(roundsplayed==maxrounds||GetLevelInfo(LEVELINFO_LEVELNUM)>=100)
+			ACS_ExecuteAlways(101,0);
+		else
+			ACS_ExecuteAlways(100,0);
+	}
+	delay(35);
+	Restart;
+}
+
+script 182(void) // reset per-sector fun stuff
+{
+	ACS_ExecuteAlways(185,0);
+	for(int i=0;i<999;i++)
+	{
+		sector_setfade(i,0,0,0);
+		SetGlobalFogParameter(0,255);
+		Sector_SetFriction(i,100);
+	}
+}
+
+script 183(void) // remove friction
+{
+	for(int i=0;i<999;i++)
+		Sector_SetFriction(i,255);
+}
+
+script 184(void) // fog level
+{
+	ACS_ExecuteAlways(186,0);
+	for(int i=0;i<999;i++)
+	{
+		sector_setfade(i,159,175,207);
+		SetGlobalFogParameter(0,486);
+	}
+}
+
+script 185 (void)
+{
+	ChangeSky("sky1","sky1");	// normal sky for fog
+}
+script 186 (void)
+{
+	ChangeSky("fogsky","fogsky");	// fog sky
+}
+
+script 901(void) // for checking reel 1
+{
+	if(slotting==1)
+		SetResultValue(0);
+	else
+		SetResultValue(slot1);
+}
+script 902(void) // for checking reel 2
+{
+	if(slotting==1)
+		SetResultValue(0);
+	else
+		SetResultValue(slot2);
+}
+script 903(void) // for checking reel 3
+{
+	if(slotting==1)
+		SetResultValue(0);
+	else
+		SetResultValue(slot3);
+}
+script 904(void) // for checking the boss
+{
+	if(slotting==1)
+		SetResultValue(0);
+	else
+		SetResultValue(boss);
+}
+script 905(void) // for checking the jackpot
+{
+	if(slotting==1)
+		SetResultValue(0);
+	else
+		SetResultValue(jackpot);
+}
+
+script 992(void) // Death Sequence
+{
+	if(GameType()!=GAME_SINGLE_PLAYER)	//Ed - Let's not end the game if one person dies in multiplayer, right?
+	{
+		AmbientSound("mp/die",64);
+		SetActorProperty(0,APROP_Score,(GetActorProperty(0,APROP_Score) - 2000));
+		terminate;
+	}
+	GiveActorInventory(906,"PowerPseudoInvincible",1);	//Make boss immortal to avoid Double KO's
+	hudmessage(s:" "; HUDMSG_PLAIN,42,9,512.0,384.0,99.0);
+	PrinterPrep();
+
+	int secs = Timer() / 35;
+	int mins = secs / 60;
+	dead = 1;
+	SetFont("BIGFONT");
+	hudmessage(s:"You are Dead."; HUDMSG_FADEOUT,1,6,(fuckhacksforever << 16),32.0,5.0,1.0);
+	hudmessage(s:" "; HUDMSG_FADEOUT,2,5,1.5,0.07,0.1,0.1);
+	hudmessage(s:" "; HUDMSG_FADEOUT,3,5,1.5,0.07,0.1,0.1);
+	hudmessage(s:" "; HUDMSG_FADEOUT,4,5,1.5,0.07,0.1,0.1);
+	hudmessage(s:" "; HUDMSG_FADEOUT,5,5,1.5,0.07,0.1,0.1);
+	hudmessage(s:" "; HUDMSG_FADEOUT,6,5,1.5,0.07,0.1,0.1);
+	SetMusic("mus-die",0);
+	fadeto(0,0,0,5.0,1.0);
+	delay(10);
+	if(GetLevelInfo(LEVELINFO_LEVELNUM)>=100)
+	{
+		Thing_Deactivate (2);
+		if (round == maxrounds)
+			AmbientSound("crowd/rushmiss",127);
+		else
+			AmbientSound("jackpot/denied",127);
+	}
+	delay(25);
+	SetFont("SMALLFONT");
+	hudmessage(s:"...but stick around for your stats rundown!"; HUDMSG_FADEOUT,3,5,(fuckhacksforever << 16),48.0,4.0,1.0);
+	delay(160);
+	Thing_Hate(900,9999,6);
+	if(ThingCount(0,900))		//Try this to avoid the freeze
+		ACS_NamedExecute("CommenceRiot", 0);
+	ChangeCamera(64,1,0);
+	if(GetLevelInfo(LEVELINFO_LEVELNUM)>=100)
+		SetMusic("RUSHFAIL",0);
+	else
+		SetMusic("mus-int",0);
+	fadeto(0,0,0,0.5,2.0);
+	delay(35);
+	SetFont("BIGFONT");
+	hudmessage(s:"Post-Game Stats"; HUDMSG_PLAIN,1,6,(fuckhacksforever << 16),16.0,0.0);
+	delay(35);
+	SetFont("SMALLFONT");
+
+	if(GetLevelInfo(LEVELINFO_LEVELNUM)>=100)
+	{
+		if(round<=1)
+			hudmessage(s:"You didn't beat a single boss!"; HUDMSG_PLAIN,2,9,(fuckhacksforever << 16),33.0,0.0,1.0);
+		else
+			hudmessage(s:"You defeated ",i:round-1,s:" of ",i:maxrounds,s:" bosses."; HUDMSG_PLAIN,2,9,(fuckhacksforever << 16),33.0,0.0,1.0);
+		delay(35);
+		if (round<=1)
+			hudmessage(s:"At least you got ",i:GetActorProperty(0,APROP_Score) ,s:" points."; HUDMSG_PLAIN,3,9,(fuckhacksforever << 16),42.0,0.0,1.0);
+		else
+			hudmessage(s:"You earned ",i:GetActorProperty(0,APROP_Score) ,s:" points."; HUDMSG_PLAIN,3,9,(fuckhacksforever << 16),42.0,0.0,1.0);
+		delay(60);
+		if(GetActorProperty(0,APROP_Score)==0)
+		{
+			hudmessage(s:"Wait, 0 points? For real? Jesus..."; HUDMSG_PLAIN,4,9,(fuckhacksforever << 16),51.0,0.0,1.0);
+			delay(60);
+		}
+		else
+		{
+			hudmessage(i:GetLevelInfo(LEVELINFO_KILLED_MONSTERS),s:" monsters were taken with you."; HUDMSG_PLAIN,4,9,(fuckhacksforever << 16),60.0,0.0,1.0);
+			delay(35);
+		}
+		hudmessage(s:"You lasted ",i:mins,s:" minutes and ",i:secs - (mins * 60),s:" seconds"; HUDMSG_PLAIN,5,9,(fuckhacksforever << 16),69.0,0.0,1.0);
+		delay(60);
+		hudmessage(s:"Press the USE key to try again,"; HUDMSG_PLAIN,9,5,(fuckhacksforever << 16),87.0,0.0,1.0);
+		delay(35);
+		hudmessage(s:"or ESC to go back to the menu."; HUDMSG_PLAIN,10,5,(fuckhacksforever << 16),96.0,0.0,1.0);
+	}
+	else
+	{
+		hudmessage(s:"You died on level ",i:random(1,16),s:" of ",s:dungeonname[random(0,31)]; HUDMSG_PLAIN,2,9,(fuckhacksforever << 16),33.0,0.0,1.0);
+		delay(35);
+		hudmessage(s:"during round ",i:round,s:" with ",i:GetActorProperty(0,APROP_Score) ,s:" points."; HUDMSG_PLAIN,3,9,(fuckhacksforever << 16),42.0,0.0,1.0);
+		delay(60);
+		hudmessage(i:GetLevelInfo(LEVELINFO_KILLED_MONSTERS),s:" monsters were taken with you."; HUDMSG_PLAIN,4,9,(fuckhacksforever << 16),51.0,0.0,1.0);
+		delay(35);
+		hudmessage(s:"You lasted ",i:mins,s:" minutes and ",i:secs - (mins * 60),s:" seconds"; HUDMSG_PLAIN,5,9,(fuckhacksforever << 16),60.0,0.0,1.0);
+		delay(60);
+		hudmessage(s:nostat1[random(0,23)]; HUDMSG_PLAIN,6,9,(fuckhacksforever << 16),78.0,0.0,1.0);
+		delay(35);
+		hudmessage(s:nostat2[random(0,23)]; HUDMSG_PLAIN,7,9,(fuckhacksforever << 16),87.0,0.0,1.0);
+		delay(35);
+		hudmessage(s:nostat3[random(0,23)]; HUDMSG_PLAIN,8,9,(fuckhacksforever << 16),96.0,0.0,1.0);
+		delay(60);
+		hudmessage(s:"Press the USE key to try again,"; HUDMSG_PLAIN,9,5,(fuckhacksforever << 16),114.0,0.0,1.0);
+		delay(35);
+		hudmessage(s:"or ESC to go back to the menu."; HUDMSG_PLAIN,10,5,(fuckhacksforever << 16),123.0,0.0,1.0);
+	}
+}
+
+script 996(void)	// fire death effect
+{
+	if(GameType()==GAME_SINGLE_PLAYER)			//Ed - Let's not end the game if one person dies in multiplayer, right?
+	{
+		dead = 1;
+		SetMusic("mus-fire",0);
+	}
+}
+
+script "Initialize" OPEN 	//707
+{
+	int bill = random(0,29);
+	ReplaceTextures("BILL00",billboard[bill]);
+	round = 0;
+	// Skill Setting Crap
+	delay(5); //Just in case flexible values need a moment to get set up
+	REELMAXSHUFFLE=REEL1MAX;
+	if(REELMAXSHUFFLE > REEL2MAX)
+		REELMAXSHUFFLE=REEL2MAX;
+	if(REELMAXSHUFFLE > REEL3MAX)
+		REELMAXSHUFFLE=REEL3MAX;
+	if(GetLevelInfo(LEVELINFO_LEVELNUM)>=100)
+		maxrounds = BOSSMAX;
+	else if(GameSkill() == 11)
+		maxrounds = 10; // double mode
+	/*else if(GameSkill() == 12)
+		maxrounds = 5; // infinite mode*/
+	else if(GameSkill() == 13)
+		maxrounds = REELMAXSHUFFLE; // shuffle mode
+	else if(GameSkill() == 99)
+		maxrounds = 0; // boss test
+	else if(GameSkill() == 14)
+		maxrounds = 1; // debug
+	// Disable respawn-in-place, thanks Ed
+	for(int i = 0;i < 999;i++)
+		Sector_ChangeFlags(i,SECF_NORESPAWN,0);
+}
+
+// [XA] Slot rigging cheat script. ;)
+script "RigSlots"(int s1,int s2,int s3)
+{
+	rigslot1 = s1;
+	rigslot2 = s2;
+	rigslot3 = s3;
+	log(n:0,s:" has rigged the slots!");
+}
+
+script "RigBoss"(int s1)
+{
+	rigboss = s1;
+	log(n:0,s:" has rigged the boss selector!");
+}
+
+function void ResetMachine(void)
+{
+	//Reset the HUD graphics
+	for(int i = 1337; i < 1400; i++)
+	{
+		for(int j=0;j<30;j++)
+		{
+			TakeActorInventory(i,slot1list[j][0],1);
+			TakeActorInventory(i,slot2list[j][0],1);
+			TakeActorInventory(i,slot3list[j][0],1);
+		}
+
+		TakeActorInventory(i,"SlotBoss1",1);
+		TakeActorInventory(i,"SlotBoss2",1);
+		TakeActorInventory(i,"SlotBoss3",1);
+
+		AmbientSound("slot/start",127);
+		GiveActorInventory(i,"Slot1Spinning",1);
+		GiveActorInventory(i,"Slot2Spinning",1);
+		GiveActorInventory(i,"Slot3Spinning",1);
+
+		//Unmorph The Player
+		SetActivator(i); //Ed - We'll need this for TID reassignment
+		UnMorphActor(i,1);
+		Thing_ChangeTID(0,i);						//Morphing erases the player's TID, so let's give it back
+		GiveActorInventory(i,"youcannotmorph",1);	//To prevent unwanted morphing by something unforseen. Who knows what could happen?!
+
+		// Reset the other effects
+		SetActorProperty(i,APROP_Speed,1.0);
+		TakeActorInventory(i,"PowerInfiniteAmmoFixed",1);
+		TakeActorInventory(i,"PowerFlight",1);
+		TakeActorInventory(i,"PowerDoubleFiringSpeed",1);
+		TakeActorInventory(i,"ScreamingShits",1);
+		TakeActorInventory(i,"DisableHUD",1);
+		TakeActorInventory(i,"PowerAsbestos",1);
+		TakeActorInventory(i,"PowerQuadDamage",1);
+
+		//Reset any custom effects
+		for(j=REELMAX;j<REEL1MAX;j++)
+			ACS_NamedExecuteAlways(slot1script[j],0,3);
+
+	}
+	//Reset global effects
+	slot1 = 0;
+	slot2 = 0;
+	slot3 = 0;
+	jackpot = 0;
+	SetGravity(800.0);
+	SetPlayerProperty(1,0,0);
+	Thing_Remove(899);
+	ACS_ExecuteAlways(182,0);
+	hudmessagebold(s:" "; HUDMSG_PLAIN,42,9,512.0,384.0,99.0);
+	// remove slot numbers
+	customslotnum1 = 0;
+	customslotnum2 = 0;
+	customslotnum3 = 0;
+
+	SetFont("BIGFONT");
+	PrinterPrep();
+
+	hudmessagebold(s:"The Slots Are Rolling..."; HUDMSG_FADEOUT|HUDMSG_LOG,1,5,(fuckhacksforever << 16),32.0,2.0,1.0);
+	hudmessagebold(s:" "; HUDMSG_FADEOUT,2,5,1.5,0.07,0.1,0.1);
+	hudmessagebold(s:" "; HUDMSG_FADEOUT,3,5,1.5,0.07,0.1,0.1);
+	hudmessagebold(s:" "; HUDMSG_FADEOUT,4,5,1.5,0.07,0.1,0.1);
+	hudmessagebold(s:" "; HUDMSG_FADEOUT,5,5,1.5,0.07,0.1,0.1);
+	hudmessagebold(s:" "; HUDMSG_FADEOUT,6,5,1.5,0.07,0.1,0.1);
+	SetMusic("");
+}
+script "MorphMe"(int temptid, int morpher)
+{
+	StopSound(0,CHAN_WEAPON);
+	StopSound(0,5);
+	StopSound(0,6);
+	StopSound(0,7);
+	SetActivator(temptid);					//Ed - We'll need this for TID reassignment
+	GiveActorInventory(temptid,morpher,1);	//This allows even player classes with DONTMORPH to use morphs
+	Thing_ChangeTID(0,temptid);				//and this gives back the erased TID
+}
+
+script 444 (void)
+{
+	// This script runs when the boss is killed in infinite mode.
+	// It should be used to reset boss-specific areas, like special
+	// entrances etc.
+}
+
+script "StartEnding" (void)
+{
+	AmbientSound("holybrick/trigger",127);
+
+	for(int i = 1337; i < 1400; i++)
+	{
+		GiveActorInventory(i,"PowerPseudoInvincible",1);
+		GiveActorInventory(i,"DisableHUD",1);
+		SetActivator(i);
+	}
+
+	SetMusic("");
+	jackpot = 101010;
+	fadeto(255,255,255,5.0,2.0);
+	delay(35 * 3);
+	fadeto(0,0,0,5.0,1.0);
+	delay(35 * 2);
+	ChangeLevel ("VALHALLA", 0, CHANGELEVEL_RESETINVENTORY|CHANGELEVEL_RESETHEALTH|CHANGELEVEL_NOINTERMISSION, -1);
+}
+
+//Spawners!
+function void SpawnHere(str item)
+{
+	Spawn(item,GetActorX(0),GetActorY(0),GetActorZ(0),0,0);
+}
+
+str powerup[9]=
+{
+	"GrenadePickup","BodyArmor","PogoStick","BarrelPickup","Repulsor",
+	"Cash","TV","Microwave","Stereo"
+};
+//Powerup
+script 672 (void)
+{
+	while((slotting||!round)&&!boss)
+		delay(1);
+	if(random(1,256)<=100)
+		SpawnHere("HealthKit");
+	else if(random(0,1))
+		SpawnHere(powerup[random(0,1)]);
+	else if(random(0,1))
+		SpawnHere(powerup[random(2,4)]);
+	else if(random(0,1))
+		SpawnHere(powerup[random(5,8)]);
+	//Ed -- If infinite mode, check every second if the boss has died, so we can reset for the next round
+	if(boss&&GameSkill() == 12)
+	{
+		for(int i=0;i<30&&boss;i++)
+			delay(35);
+		restart;
+	}
+	Delay(1050);
+	restart;
+}
+
+str jackpotweapons[48]=
+{
+	"WolfLuger","WolfMachineGun","WolfChaingun","NewFlamethrower","GasBombLauncher",
+	"FlareGun","RavenCrossbow","RavenMace","RavenHammer","HacxTazer",
+	"HacxUzi","HacxAntiGun","DoomPlasmaRifle","NewRailgun","Thunderbolt",
+	"DoomShotgun","DoomSuperShotgun","StreetSweeper","RPG","GrenadePickup",
+	"JavelinLauncher","Drill","BaseballBat","LarryGun","Psionics",
+	"BaronArm","NewMinigun","Duke3DRPG","Duke3DFreezethrower","Duke3DRipper",
+	"CrapM16","QuantumGun","MasterSword","ClusterBombLauncher","Wolf3DFlamer",
+	"Wolf3DRocketLauncher","M60","BurstRifle","CrapRL","Mars3DDiscGun","CoinBombWeapon",
+	"BayonetteRifle","BetaRPG","GrenadePickup","FlechettePickup","ConcPickup",
+	"IceBombPickup","ProxyMinePickup"
+
+};
+str bossweapons[13]=
+{
+	"DoomSuperShotgun","WolfChaingun","NewFlamethrower","GasBombLauncher","RPG",
+	"RavenMace","NewRailgun","Thunderbolt","StreetSweeper","CoinBombWeapon",
+	"Duke3DRPG","Duke3DRipper","DoomPlasmaRifle"
+};
+str reel1weapons[7]=
+{
+	"WolfLuger","WolfMachineGun","WolfChaingun","Wolf3DFlamer","Wolf3DRocketLauncher","None","WolfSpear"
+};
+str reel3weapons[5]=
+{
+	"NewFlamethrower","GasBombLauncher","FlareGun","None","ThermiteWeapon"
+};
+str reel4weapons[5]=
+{
+	"RavenCrossbow","RavenMace","RavenHammer","None","RavenWraithverge"
+};
+str reel6weapons[5]=
+{
+	"DoomPlasmaRifle","NewRailgun","Thunderbolt","None","BFG"
+};
+str reel7weapons[5]=
+{
+	"DoomShotgun","DoomSuperShotgun","StreetSweeper","None","ExplosiveShotgun"
+};
+str reel8weapons[6]=
+{
+	"RPG","ClusterBombLauncher","GrenadePickup","JavelinLauncher","None","MacrossGun"
+};
+str reel9weapons[5]=
+{
+	"Drill","BaseballBat","MasterSword","None","Defib"
+};
+str reel11weapons[5]=
+{
+	"LarryGun","Psionics","BaronArm","None","BeeGun"
+};
+str reel12weapons[6]=
+{
+	"NewMinigun","StreetSweeper","M60","BurstRifle","None","IDC"
+};
+str reel14weapons[5]=
+{
+	"HacxTazer","HacxUzi","HacxAntiGun","None","HacxNuker"
+};
+str reel15weapons[5]=
+{
+	"Duke3DRPG","Duke3DFreezethrower","Duke3DRipper","None","Duke3DDevastator"
+};
+str reel16weapons[5]=
+{
+	"CrapM16","QuantumGun","CrapRL","None","BlackHolePickup"
+};
+str reel17weapons[6]=
+{
+	"Mars3DDiscGun","CoinBombWeapon","BayonetteRifle","BetaRPG","None","AngstBotWeapon"
+};
+str reel18weapons[7]=
+{
+	"GrenadePickup","FlechettePickup","ConcPickup","IceBombPickup","ProxyMinePickup","None","RTSBasePickup"
+};
+str bossrushweapons[26]=
+{
+	"DoomSuperShotgun","WolfChaingun","NewFlamethrower","GasBombLauncher","RPG",
+	"RavenMace","NewRailgun","Thunderbolt","StreetSweeper","HacxAntiGun",
+	"Duke3DRPG","Duke3DRipper","DoomPlasmaRifle","WolfMachineGun","Wolf3DRocketLauncher",
+	"RavenCrossbow","RavenHammer","DoomShotgun","CrapRL","HacxUzi",
+	"JavelinLauncher","Psionics","ExplosiveShotgunBossRush","M60","BurstRifle",
+	"HacxTazer"
+};
+//Weapon
+script 673 (void)
+{
+	if(GetLevelInfo(LEVELINFO_LEVELNUM)>=100)
+	{
+		SpawnHere(bossrushweapons[random(0,25)]);
+		delay(1050);
+		restart;
+	}
+	while((slotting||!round)&&!boss)
+		delay(1);
+	if(jackpot == 111111)
+		SpawnHere(jackpotweapons[random(0,47)]);
+	else if(boss)
+	{
+		SpawnHere(bossweapons[random(0,10)]);
+		//Ed -- If infinite mode, check every second if the boss has died, so we can reset for the next round
+		if(GameSkill() == 12)
+			for(int i=0;i<30&&boss;i++)
+				delay(35);
+		else
+			delay(1050);
+		restart;
+	}
+	else if (slot2 == 1)
+	{
+		if(slot1==15)
+			SpawnHere(reel1weapons[random(0,6)]);
+		else
+			SpawnHere(reel1weapons[random(0,5)]);
+	}
+	else if (slot2 == 3)
+	{
+		if(slot1==15)
+			SpawnHere(reel3weapons[random(0,4)]);
+		else
+			SpawnHere(reel3weapons[random(0,3)]);
+	}
+	else if (slot2 == 4)
+	{
+		if(slot1==15)
+			SpawnHere(reel4weapons[random(0,4)]);
+		else
+			SpawnHere(reel4weapons[random(0,3)]);
+	}
+	else if (slot2 == 5)
+		SpawnHere("CrateShower");
+	else if (slot2 == 6)
+	{
+		if(slot1==15)
+			SpawnHere(reel6weapons[random(0,4)]);
+		else
+			SpawnHere(reel6weapons[random(0,3)]);
+	}
+	else if (slot2 == 7)
+	{
+		if(slot1==15)
+			SpawnHere(reel7weapons[random(0,4)]);
+		else
+			SpawnHere(reel7weapons[random(0,3)]);
+	}
+	else if (slot2 == 8)
+	{
+		if(slot1==15)
+			SpawnHere(reel8weapons[random(0,5)]);
+		else
+			SpawnHere(reel8weapons[random(0,4)]);
+	}
+	else if (slot2 == 9)
+	{
+		if(slot1==15)
+			SpawnHere(reel9weapons[random(0,4)]);
+		else
+			SpawnHere(reel9weapons[random(0,3)]);
+	}
+	else if (slot2 == 11)
+	{
+		if(slot1==15)
+			SpawnHere(reel11weapons[random(0,4)]);
+		else
+			SpawnHere(reel11weapons[random(0,3)]);
+	}
+	else if (slot2 == 12)
+	{
+		if(slot1==15)
+			SpawnHere(reel12weapons[random(0,5)]);
+		else
+			SpawnHere(reel12weapons[random(0,4)]);
+	}
+	else if (slot2 == 14)
+	{
+		if(slot1==15)
+			SpawnHere(reel14weapons[random(0,4)]);
+		else
+			SpawnHere(reel14weapons[random(0,3)]);
+	}
+	else if (slot2 == 15)
+	{
+		if(slot1==15)
+			SpawnHere(reel15weapons[random(0,4)]);
+		else
+			SpawnHere(reel15weapons[random(0,3)]);
+	}
+	else if (slot2 == 16)
+	{
+		if(slot1==15)
+			SpawnHere(reel16weapons[random(0,4)]);
+		else
+			SpawnHere(reel16weapons[random(0,3)]);
+	}
+	else if (slot2 == 17)
+	{
+		if(slot1==15)
+			SpawnHere(reel17weapons[random(0,5)]);
+		else
+			SpawnHere(reel17weapons[random(0,4)]);
+	}
+	else if (slot2 == 18)
+	{
+		if(slot1==15)
+			SpawnHere(reel18weapons[random(0,6)]);
+		else
+			SpawnHere(reel18weapons[random(0,5)]);
+	}
+	else if (slot2 > REELMAX && slot2 != 100)
+		ACS_NamedExecuteAlways(slot2script[slot2-1],0,1);
+	delay(1050);
+	restart;
+}
+
+str MonsterArray[44]=
+{
+	"Sonic1","Sonic2","Sonic3","Sonic4",
+	"Three",
+	"Brony",
+	"AdultImp","JuvenileImp","SeniorImp",
+	"HomelessGuy","HomelessRabbleRouser","StrifePeasant",
+	"Eye",
+	"DoomZombieMan","DoomShotgunGuy",
+	"DoomHellKnight","DoomBaronOfHell",
+	"Trackbot","Firebot",
+	"JetpackLarry",
+	"Dog1",
+	"ScientistZombie","ScientistZombie","ChainsawZombieman","ChainsawZombieman","BatGhost",
+	"Halt","Archer",
+	"Sectoid",
+	"WolfBrownShirt","WolfBlueShirt","WolfWhiteShirt",
+	"Slim","Tubs","Rifler",
+	"Bob",
+	"SkeletonWarrior","DoomRevenant3",
+	"Cultist1","Cultist2","Cultist3","Cultist4","Anime"
+};
+int MonsterDelay[44]=
+{
+	91,91,91,91,
+	2,
+	300,
+	300,300,300,150,
+	150,150,1200,200,200,
+	600,800,600,600,1600,
+	250,
+	600,600,600,600,600,
+	200,450,
+	350,
+	400,800,400,
+	420,621,821,
+	621,
+	250,1300,
+	400,800,1300,600,600
+};
+//Monster
+script 674 (void)
+{
+	int bluh;
+	if(GetLevelInfo(LEVELINFO_LEVELNUM)>=100)
+	{
+		while(slotting!=2)
+			delay(1);
+	}
+	if(GameType()==GAME_TITLE_MAP)
+		slot3=(random(1,REEL3MAX));
+	else if(GetLevelInfo(LEVELINFO_LEVELNUM)>=100)
+		slot3=bossminions[boss-1];
+	else while(slotting||!round||boss)
+		delay(1);
+	if(jackpot == 111)
+		bluh=random(0,3);
+	else if(jackpot == 333)
+		bluh=4;
+	else if(jackpot == 111111||slot3 == 0)
+		bluh=random(0,35);
+	else if(jackpot == 181818)
+		bluh=42;
+
+	else if(slot3==9)
+	{
+		delay(35);
+		restart;
+	}
+	else if(slot3==1)
+		bluh=5;
+	else if(slot3==2)
+		bluh=random(6,8);
+	else if(slot3==3)
+		bluh=random(9,11);
+	else if(slot3==4)
+		bluh=12;
+	else if(slot3==5)
+		bluh=random(13,14);
+	else if(slot3==6)
+		bluh=random(15,16);
+	else if(slot3==7)
+		bluh=random(17,18);
+	else if(slot3==8)
+		bluh=19;
+	else if(slot3==10)
+		bluh=20;
+	else if(slot3==11)
+		bluh=random(21,25);
+	else if(slot3==12)
+		bluh=random(26,27);
+	else if(slot3==13)
+		bluh=28;
+	else if(slot3==14)
+		bluh=random(29,31);
+	else if(slot3==15)
+		bluh=random(32,34);
+	else if(slot3==16)
+		bluh=35;
+	else if(slot3==17)
+		bluh=random(36,37);
+	else if(slot3==18)
+		bluh=random(38,41);
+	if(slot3 > REELMAX)
+	{
+		if(slot3 == 100)
+		{
+			delay(1);
+			restart;
+		}
+		int newdelay=ACS_NamedExecuteWithResult(slot3script[slot3-1]);
+		if(GameType()==GAME_TITLE_MAP)
+			Thing_Hate (900, 900, 4);
+		delay(newdelay);
+		if(GetLevelInfo(LEVELINFO_LEVELNUM)>=100&&round != maxrounds)
+			delay(newdelay);
+		restart;
+	}
+	else
+	{
+		if(GetLevelInfo(LEVELINFO_LEVELNUM)>=100&&round != maxrounds&&slot3==16)
+		{
+		SpawnHere("PissyBob");
+		} else {		
+		SpawnHere(MonsterArray[bluh]);
+		}		
+		if(GameType()==GAME_TITLE_MAP)
+			Thing_Hate (900, 900, 4);
+		if(GetLevelInfo(LEVELINFO_LEVELNUM)!=100)
+			delay(MonsterDelay[bluh]);
+		if(GetLevelInfo(LEVELINFO_LEVELNUM)>=100) {
+			if(round != maxrounds) {
+				if(PlayerCount() <= 8)
+					delay((MonsterDelay[bluh])*(17/9)*(7/(6+PlayerCount())));
+				else
+					delay((MonsterDelay[bluh])*(7/8));
+			}
+			else {
+				if(PlayerCount() <= 8)
+					delay((MonsterDelay[bluh])*(7/(6+PlayerCount())));
+				else
+					delay((MonsterDelay[bluh])*(7/16));
+			}
+		}
+		restart;
+	}
+}
+
+str AmmoArray[18] =
+{
+	"WolfAmmo","Nope","Pyro","Raven","Random",
+	"NRG","Shells","Blau","Random","Nope",
+	"Blue","LeadHose","Nope","Hacx","Duke",
+	"Crap","Random","Blau"
+};
+//Ammo
+script 675 (void)
+{
+	if(boss)
+		SetActorState(0,"Random");
+	else if(slot2 > REELMAX && slot2 != 100)
+		ACS_NamedExecuteAlways(slot2script[slot2-1],0,2);
+	else if (slot2 > 0 && slot2 != 2 && slot2 != 10 && slot2 != 13)
+		SetActorState(0, AmmoArray[slot2 - 1]);
+}
+
+//Check if WeaponStay -- Thanks to HexaDoken
+script 676 (void)
+{
+	SetResultValue(GetCVar("sv_weaponstay"));
+}
+
+//Driving Car spawner for Abridged
+
+str cars[4] =
+{
+	"DrivingCar1","DrivingCar2","DrivingCar3","DrivingCar4"
+};
+
+script 677 (void)
+{
+	while(boss)
+		delay(35);
+	int x=128;
+	if(jackpot==999)
+		x=32;
+	delay(x);
+	SpawnHere(cars[random(0,3)]);
+	if(random(0,1))
+		delay(1);
+	else
+		delay(x);
+	restart;
+}
+
+// [Ed850] Enhanced version of random call. Adds values outside the RNG to prevent reel stagnation.
+function int random_ext(int min, int max)
+{
+	if(min >= max)
+	{
+		log(s:"random_slot sanity failed!");
+		return min;
+	}
+
+	max -= min; //shift the max backwards
+
+	int RNGreturn = random(0, max);
+	int p = 0;
+	for(int l = 0; l < PlayerCount(); p++)
+	{
+		if(PlayerInGame(p))
+		{
+			l++;
+			RNGreturn += GetActorX(1337+p) + GetActorY(1337+p) + GetActorZ(1337+p) + GetActorPitch(1337+p) + GetActorAngle(1337+p);
+		}
+	}
+	RNGreturn = MAKEPOSITIVE(RNGreturn);
+	RNGreturn %= (max+1);
+	RNGreturn += min;
+	return RNGreturn;
+}
+
+function int MAKEPOSITIVE (int value)
+{	//Returns an always positive value of the input.
+    if(value >= 0)
+        return value;
+    return -value;
+}
+
+script "CommenceRiot" (void)
+{
+			if(ThingCount(0,900)>1)
+			{
+				Thing_Hate(906,900,4);
+				Thing_Hate(899,900,4);
+				Thing_Hate(900,900,4);
+			}
+			delay(1);
+			restart;
+}
+
+function void PlayAnnouncer(str sound)
+{
+	for(int i = 1337; i < 1400; i++)
+	{
+		SetActivator(i);
+		if(GetUserCVar(PlayerNumber(),"announcer")&&random(1,100)<=GetUserCVar(PlayerNumber(),"announcerchance"))
+		LocalAmbientSound(sound,127);
+	}
+}
+
+/*
+script 888 ENTER // voice over for mode announce
+{
+	delay(8);
+	
+	if(GameSkill() == 11)
+		PlayAnnouncer("announcer/mode2");
+	else if(GameSkill() == 12)
+		PlayAnnouncer("announcer/mode3");
+	else if(GameSkill() == 13)
+		PlayAnnouncer("announcer/mode4");
+	else if(GameSkill() == 99)
+		PlayAnnouncer("announcer/mode99");
+}
+*/
+
+script "IsMultiplayer" (void)
+{
+	if (GameType () == GAME_SINGLE_PLAYER)
+		SetResultValue(0);
+	else
+		SetResultValue(1);
+}

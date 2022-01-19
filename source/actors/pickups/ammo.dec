@@ -1,0 +1,378 @@
+// Splot - Dynamic Ammo
+
+// scripts for retrieving slot values
+// 901 - slot 1
+// 902 - slot 2
+// 903 - slot 3
+// 904 - boss
+// 905 - jackpot
+
+ACTOR DynAmmo
+{
+	+NOGRAVITY
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 35 ACS_ExecuteAlways(675,0)
+		stop
+	// randomisers
+	Random:
+		TNT1 A 0 A_Jump(255,"WolfAmmo","Pyro","Raven","NRG","Shells","Blau","NRG","Duke","Blue")
+		stop
+	Pyro:
+		TNT1 A 0 A_Jump(255,"FlamerAmmo","GasAmmo")
+		stop
+	Raven:
+		TNT1 A 0 A_Jump(255,"Crossbow","Mana","Mace")
+		stop
+	LeadHose:
+		TNT1 A 0 A_Jump(255,"WolfAmmo","Shells")
+		stop
+	Blau:
+		TNT1 A 0 A_Jump(255,"GasAmmo","Rawket")
+		stop
+	Hacx:
+		TNT1 A 0 A_Jump(255,"Shells","WolfAmmo","NRG")
+		stop
+	Duke:
+		TNT1 A 0 A_Jump(255,"DukeClip","DukeRocket","DukeCell")
+		stop
+	Crap:
+		TNT1 A 0 A_Jump(255,"WolfAmmo","NRG","Rawket")
+		stop
+	Beta:
+		TNT1 A 0 A_Jump(255,"WolfAmmo","Rawket")
+		stop
+	// ammo itself
+	WolfAmmo:
+		TNT1 A 0 A_SpawnItemEx("DoomClip",0,0,8,0,0,8)
+		stop
+	Shells:
+		TNT1 A 0 A_SpawnItemEx("DoomShell",0,0,8,0,0,8)
+		stop
+	FlamerAmmo:
+		TNT1 A 0 A_SpawnItemEx("FlameAmmo",0,0,8,0,0,8)
+		stop
+	GasAmmo:
+		TNT1 A 0 A_SpawnItemEx("GasBombAmmo",0,0,8,0,0,8)
+		stop
+	Crossbow:
+		TNT1 A 0 A_SpawnItemEx("RavenCrossbowAmmo",0,0,8,0,0,8)
+		stop
+	Mana:
+		TNT1 A 0 A_SpawnItemEx("RavenManaAmmo",0,0,8,0,0,8)
+		stop
+	Mace:
+		TNT1 A 0 A_SpawnItemEx("RavenMaceAmmo",0,0,8,0,0,8)
+		stop
+	NRG:
+		TNT1 A 0 A_SpawnItemEx("DoomCell",0,0,8,0,0,8)
+		stop
+	Blue:
+		TNT1 A 0 A_SpawnItemEx("BlueMagicAmmo",0,0,8,0,0,8)
+		stop
+	Rawket:
+		TNT1 A 0 A_SpawnItemEx("DoomRocket",0,0,8,0,0,8)
+		stop
+	DukeClip:
+		TNT1 A 0 A_SpawnItemEx("DukeChaingunAmmo",0,0,8,0,0,8)
+		stop
+	DukeRocket:
+		TNT1 A 0 A_SpawnItemEx("DukeRPGAmmo",0,0,8,0,0,8)
+		stop
+	DukeCell:
+		TNT1 A 0 A_SpawnItemEx("DukeIceAmmo",0,0,8,0,0,8)
+		stop
+	}
+}
+
+// Ammo Pickups
+
+ACTOR DoomClip : Ammo
+{
+	Inventory.PickupMessage "$GOTCLIP"
+	Inventory.Amount 10
+	Inventory.MaxAmount 200
+	Inventory.Icon "HUDCLIP"
+	Inventory.PickupSound "items/clip"
+	Tag "$TAGCLIP"
+	States
+	{
+	Spawn:
+		CLIP A 1050 BRIGHT
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	}
+}
+
+ACTOR DoomShell : Ammo
+{
+	Inventory.PickupMessage "$GOTSHELLS"
+	Inventory.Amount 4
+	Inventory.MaxAmount 50
+	Inventory.PickupSound "items/shell"
+	Inventory.Icon "HUDSHEL"
+	Tag "$TAGSHELLS"
+	States
+	{
+	Spawn:
+		SHEL A 1050 BRIGHT
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	}
+}
+
+ACTOR DoomRocket : Ammo
+{
+	Inventory.PickupMessage "$GOTROCKET"
+	Inventory.Amount 1
+	Inventory.MaxAmount 50
+	Inventory.PickupSound "items/rocket"
+	Inventory.Icon "HUDRCKT"
+	Tag "$TAGROCKET"
+	States
+	{
+	Spawn:
+		ROCK A 1050 BRIGHT
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	}
+}
+
+ACTOR DoomCell : Ammo
+{
+	Inventory.PickupMessage "$GOTCELL" // "Picked up an energy cell."
+	Inventory.Amount 20
+	Inventory.MaxAmount 200
+	Inventory.PickupSound "items/cell"
+	Inventory.Icon "HUDCELL"
+	Tag "$TAGCELL"
+	States
+	{
+	Spawn:
+		CELL A 1050 BRIGHT
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	}
+}
+
+ACTOR FlameAmmo : Ammo
+{
+	Inventory.PickupMessage "$GOTFLAMEAMMO"
+	Inventory.Amount 20
+	Inventory.MaxAmount 999
+	Ammo.BackpackAmount 10
+	Ammo.BackpackMaxAmount 999
+	Inventory.PickupSound "items/fuel"
+	Inventory.Icon "HUDFIRE"
+	Tag "$TAGFLAMEAMMO"
+	States
+	{
+	Spawn:
+		AMMO B 1050 BRIGHT
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	}
+}
+
+ACTOR GasBombAmmo : Ammo
+{
+	Inventory.PickupMessage "$GOTGASAMMO"
+	Inventory.Amount 2
+	Inventory.MaxAmount 50
+	Ammo.BackpackAmount 10
+	Ammo.BackpackMaxAmount 50
+	scale 0.4
+	Inventory.PickupSound "items/gas"
+	Inventory.Icon "HUDGAS"
+	Tag "$TAGGASAMMO"
+	States
+	{
+	Spawn:
+		AMMO A 1050 BRIGHT
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	}
+}
+
+ACTOR RavenCrossbowAmmo : Ammo
+{
+	Inventory.PickupMessage "$GOTARROWS"
+	Inventory.Amount 5
+	Inventory.MaxAmount 50
+	Ammo.BackpackAmount 5
+	Inventory.PickupSound "items/raven"
+	Inventory.Icon "HUDBOW"
+	Tag "$TAGARROWS"
+	States
+	{
+	Spawn:
+		AMC1 A 1050 BRIGHT
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	}
+}
+
+ACTOR RavenMaceAmmo : Ammo
+{
+	Inventory.PickupMessage "$GOTORBS"
+	Inventory.Amount 20
+	Inventory.MaxAmount 150
+	Inventory.PickupSound "items/raven"
+	Inventory.Icon "HUDMACE"
+	Tag "$TAGORBS"
+	States
+	{
+	Spawn:
+		AMM1 A 1050 BRIGHT
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	}
+}
+
+ACTOR RavenManaAmmo : Ammo
+{
+	Inventory.Amount 5
+	Inventory.MaxAmount 50
+	Radius 8
+	Height 8
+	+FLOATBOB
+	Inventory.PickupMessage "$GOTMANA"
+	Inventory.PickupSound "items/raven"
+	Inventory.Icon "HUDMANA"
+	Tag "$TAGMANA"
+	var int user_count;
+	States
+	{
+	Spawn:
+		MAN2 ABCDEFGHIJKLMNOP 4 BRIGHT
+		AMFR A 0 A_SetUserVar("user_count",user_count+1)
+		AMFR A 0 A_JumpIf(user_count>=16,1)
+		Loop
+		MAN2 ABCDEF 4 BRIGHT
+		MAN2 G 2 BRIGHT
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	}
+}
+
+actor BrickAmmo : Ammo
+{
+	Inventory.Icon "SLOTBLNK"
+	Tag "$TAGBRICKAMMO"
+}
+
+actor HolyBrickAmmo : Ammo
+{
+	Inventory.Icon "SLOTBLNK"
+	Tag "$TAGHBRICKAMMO"
+}
+
+ACTOR BlueMagicAmmo : Ammo
+{
+	Inventory.PickupMessage "$GOTBLUEM"
+	Inventory.Amount 15
+	Inventory.MaxAmount 150
+	Inventory.PickupSound "items/bluem"
+	Inventory.Icon "HUDBLUE"
+	Tag "$TAGBLUEM"
+	var int user_count;
+	States
+	{
+	Spawn:
+		BLUM ABAC 4 BRIGHT
+		AMFR A 0 A_SetUserVar("user_count",user_count+1)
+		AMFR A 0 A_JumpIf(user_count>=65,1)
+		Loop
+		BLUM AB 4 BRIGHT
+		BLUM A 2 BRIGHT
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	}
+}
+
+ACTOR DukeChaingunAmmo : Ammo
+{
+	Inventory.PickupMessage "$GOTRIPPERAMMO"
+	Inventory.Amount 10
+	Inventory.MaxAmount 200
+	Inventory.Icon "HUDDNCG"
+	Inventory.PickupSound "items/duke"
+	Tag "$TAGCLIP"
+	scale 0.75
+	States
+	{
+	Spawn:
+		AMCG A 1050 BRIGHT
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	}
+}
+
+ACTOR DukeRPGAmmo : Ammo
+{
+	Inventory.PickupMessage "$GOTRPGAMMO"
+	Inventory.MaxAmount 50
+	Inventory.PickupSound "items/duke"
+	Inventory.Icon "HUDDNRK"
+	Tag "$TAGROCKET"
+	scale 0.5
+	States
+	{
+	Spawn:
+		AMRP A 1050 BRIGHT
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	}
+}
+
+ACTOR DukeIceAmmo : Ammo
+{
+	Inventory.PickupMessage "$GOTICEAMMO" // "Picked up an energy cell."
+	Inventory.Amount 20
+	Inventory.MaxAmount 100
+	Inventory.PickupSound "items/duke"
+	Inventory.Icon "HUDDNFT"
+	Tag "$TAGCELL"
+	var int user_count;
+	States
+	{
+	Spawn:
+		AMFR ABC 1 BRIGHT
+		AMFR A 0 A_SetUserVar("user_count",user_count+1)
+		AMFR A 0 A_JumpIf(user_count>=350,1)
+		Loop
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	}
+}
+
+ACTOR DiscGunAmmo : Ammo
+{
+	Inventory.PickupMessage "$GOTDISCAMMO"
+	Inventory.MaxAmount 50
+	Inventory.PickupSound "weapons/discgun/get"
+	Inventory.Icon "HUDCLIP"
+	Tag "$TAGDISC"
+	States
+	{
+	Spawn:
+		CDCS A 1050 BRIGHT
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	}
+}
+
+ACTOR DiscGunAmmoFat : DiscGunAmmo
+{
+	radius 72
+}
+
+ACTOR CoinBombAmmo : Ammo
+{
+	Inventory.MaxAmount 5
+	Inventory.PickupSound "weapons/discgun/get"
+	Inventory.Icon "HUDDNFT"
+	Tag "$TAGCELL"
+}

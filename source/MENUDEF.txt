@@ -1,0 +1,104 @@
+// Splot - Menu Edits
+DEFAULTLISTMENU
+{
+	Font "BigFont", "White"
+	Selector "CURSOR", -16, 0
+	Linespacing 16
+	Font "BigFont", "White"
+}
+
+LISTMENU "MainMenu"
+{
+	StaticPatch 60, 22, "LOGO"
+	Font "SMALLFONT", "White"
+	StaticText 120, 57, "$VER"
+
+	Position 97, 75
+	Font "BigFont", "White"
+	TextItem "$MNU_NEWGAME", "n", "PlayerclassMenu"
+	TextItem "$MNU_OPTIONS", "o", "OptionsMenu"
+	TextItem "$MNU_CREDITS", "i", "ReadThisMenu"
+	TextItem "$MNU_QUITGAME", "q", "QuitMenu"
+}
+
+ListMenu "EpisodeMenu"
+{
+	Position 48, 43
+	StaticText 54, 23, "$MNU_MAPSEL"
+	centermenu
+	// items will be filled in by MAPINFO
+}
+
+ListMenu "SkillMenu"
+{
+	Position 48, 43
+	StaticText 54, 23, "$MNU_MODESEL"
+	centermenu
+}
+OptionMenu "OptionsMenu"
+{
+	Title "OPTIONS"
+	Submenu "Customize Controls",		"CustomizeControls"
+	Submenu "Mouse options",			"MouseOptions"
+	Submenu "Joystick options",			"JoystickOptions"
+	StaticText " "
+	Submenu "Player Setup",				"PlayerMenu"
+	Submenu "Gameplay Options",			"GameplayOptions"
+	Submenu "Compatibility Options",	"CompatibilityOptions"
+	Submenu "Automap Options",			"AutomapOptions"
+	Submenu "HUD Options",				"HUDOptions"
+	Submenu "Network Options",			"NetworkOptions"
+	Submenu "Miscellaneous Options",	"MiscOptions"
+	Submenu "Sound Options",			"SoundOptions"
+	Submenu "Display Options",			"VideoOptions"
+	Submenu "Set video mode",			"VideoModeMenu"
+	StaticText " "
+	SafeCommand "Reset to defaults",	"reset2defaults"
+	SafeCommand	"Reset to last saved",	"reset2saved"
+	Command "Go to console",			"menuconsole"
+	StaticText " "
+	Submenu "Reelism General Options",		"ReelismMenu"
+	Submenu "Reelism Multiplayer Options",		"ReelismMPMenu"
+}
+
+OptionMenu "ReelismMenu"
+{
+	Title "Reelism Options"
+	StaticText "Visual Effects"
+	Option "Smoke and Particles","SmokeToggle","OnOff"
+	Option "Reflective Floors","gl_plane_reflection","OnOff"
+	Option "Dynamic Lights","gl_lights","OnOff"
+	StaticText " "
+	StaticText "Gameplay Options"
+	Option "Tougher Bosses!","ToughBoss","OnOff"
+	StaticText "(No flinching, higher health...)"
+	StaticText " "
+	Option "Announcer","announcer","OnOff"
+	Slider "Announcer Frequency","announcerchance",0,100,1
+	StaticText " "
+}
+
+OptionMenu "ReelismMPMenu"
+{
+	Title "Reelism Options"
+	StaticText "Map Toggle"
+	Option "Gutrot Island","GUTROT","OnOff"
+	Option "The Internet Machine","VR","OnOff"
+	Option "Municipal Transpo","X2","OnOff"
+	Option "Creature of Chaos","X3","OnOff"
+	Option "Continuum of Discord","DISCORD","OnOff"
+	Option "Flesh Palace","FLESHY","OnOff"
+	Option "Abridged","X1","OnOff"
+	Option "Candy Planet","RELMAP70","OnOff"
+	Option "JRPGVille","JRPG","OnOff"
+	Option "Astrolab","X4","OnOff"
+	Option "Planet Eioneus","GRAD","OnOff"
+	Option "Grid-Based Combat","TRONIC","OnOff"
+	Option "Deadly Simple","SIMPLER","OnOff"
+	Option "Boss Rush!","BOSSRUSH","OnOff"
+	Option "Alien Ship","ALIEN","OnOff"
+	Option "Reel Stadium","SPORTS","OnOff"
+	Option "Fort Firestorm","CONTRA","OnOff"
+	Option "Dog Hell","DOGHELL","OnOff"
+	Option "??????","BITMAN","OnOff"
+}

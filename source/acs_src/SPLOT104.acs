@@ -1,0 +1,529 @@
+#library "splot104"
+#import "splot.acs"
+#include "zcommon.acs"
+
+function void JackpotWords(str name,str desc)
+{
+	SetFont("BIGFONT");
+	hudmessagebold(s:name; HUDMSG_FADEOUT,8,5,0.0,0.95,6.0,1.0);
+	SetFont("SMALLFONT");
+	hudmessagebold(s:desc; HUDMSG_FADEOUT,9,9,0.0,0.99,6.0,1.0);
+}
+
+str startlingfacts[35] =
+{
+	"DID YOU KNOW... that one of the programmers of Reelism is a brony?\n\nHe finds that one reel pretty funny, apparently.",
+	"DID YOU KNOW... that this string is probably the only Something Awful\nForums reference in Reelism? Self-restraint is rad.",
+	"DID YOU KNOW... that in 1967, Leonard Nimoy released a primarily\nspoken word album of Star Trek-themed songs\ntitled Mr. Spock's Music From Outer Space?\n\nIt's really, really bad.",
+	"DID YOU KNOW... that Reelism was inspired by the Professor Genki\nmissions in Saints Row The Third? Also, that THQ\nare fucking bankrupt? Makes you think.",
+	"DID YOU KNOW... that the developers insisted on at least one\nMarathon and Duke Nukem reel and had to be\ntalked down from multiple each?",
+	"DID YOU KNOW... that because of localization issues, Reelism was\nreleased in Slovenia as Miraculous Gun Gambler?",
+	"ABANDONED REELS: ''Anchorage'' disabled movement for 60 seconds.\nIt was exactly as fun as it sounded.",
+	"DID YOU KNOW... that steak is a delicious snack for breakfast, lunch, or dinner?",
+	"ABANDONED REELS: ''Fast Food Fights Back'' would have spawned angry pigs,\nchickens and cows. It was too similar to ''Dogged''.",
+	"DID YOU KNOW... that the beta name for Reelism was Splot Machine?",
+	"ABANDONED MAPS: Jesse Helms International Airport. The layout\nwas so bad it was pretty much unsalvagable.",
+	"DID YOU KNOW... that in 1927, the US government operated a pirate\nradio station in the Bali Sea called ''Eyes on the Orient''?",
+	"DID YOU KNOW... that Doom and Wolf3D were given Japanese-language\nports to the NEC PC-98? They made up roughly half of the non-hentai game\nlibrary on the platform.",
+	"DID YOU KNOW... that Mordeth has had at least four engine changes\nthroughout its' development cycle? And it's STILL not done.",
+	"ABANDONED REELS: ''Everything Is Permitted'' would have given all monsters\ntheSpectre effect for the round.\nCanned for obvious reasons.",
+	"DID YOU KNOW... that Graf Zahl tried permanently deleting all traces\nof GZDoom when he stopped working on it?",
+	"DID YOU KNOW... that there is a very good reason that\nthere's no cats in Reelism?\n\nMaybe one day we'll tell you.",
+	"DID YOU KNOW... that KDiZD went through a fortnight - a FORTNIGHT - \nof gameplay adjustment\nand thus everyone is REQUIRED to like it?\n\noh nightmare-sama -_-;;;",
+	"DID YOU KNOW... that Xaser has contributed to every Doom\nproject ever? What a harlot.",
+	"ABANDONED BOSS: ''You vs. Spray'', aka the NME from ROTT.\nI... never got around to adding it.",
+	"DID YOU KNOW... that despite that one tombstone texture,\nRIM isn't dead yet? Against all odds.",
+	"ABANDONED MAPS: Road Rage. Ideas like the cars\nwere re-purposed for Abridged.",
+	"ABANDONED MAPS: Battery Canyon. A large outdoor canyon with a tech base.\n\nMostly a Shadows of the Empire nod.",
+	"DID YOU KNOW... Reelism did not have any formal development structure\nuntil X3. Previously changelogs were scrawled on cocktail napkins.",
+	"ABANDONED JACKPOT: Duke3D vs. Marathon.\nThese dev-favorite FPSes were never meant to mix.",
+	"DID YOU KNOW... Plato once published a five-volume work on\nthe horse-controlled continent of Placicus.\n\nIts location remains unknown.",
+	"ABANDONED REELS: Yeti or Not. Yetis! Shitloads of yetis!\n\nScrapped for yeti reasons.",
+	"ABANDONED REELS: Akimbo, Lots of dual weapons. Never really had a hook.",
+	"DID YOU KNOW... Plans were once laid for Reelism 2, which would include\na full campaign mode. That's as far as it got.",
+	"ABANDONED JACKPOT: The original idea for JRPGVille's 9-9-9 jackpot was\na rain of meteors! Scrapped for being too complex.",
+	"DID YOU KNOW... Rutherford B. Hayes was the first president to give\nbirth while in office.",
+	"ABANDONED MAPS: IronWerx. This fire-and-steam factory was complicated and massive...\ntoo big to finish, in fact.",
+	"ABANDONED REELS: Jump Boots. Greatly increased your jump height.\nIncredibly, incredibly boring.",
+	"DID YOU KNOW... This Reelism expansion was completed about\n2 1/2 YEARS after the previous one.\n\nListen, we're lazy, sorry.",
+	"DID YOU KNOW... The first electronic calculator did not include a 5 key,\nas 5 was considered an obsolete number at the time."
+};
+
+script 104(void) // Jackpot Script
+{
+	//JackpotWords("Jackpot Name Test","JACKPOT DESCRIPTION");
+	if(slot1 == 1 & slot2 == 1 & slot3 == 1)
+	{
+		JackpotWords("1-1-1 JACKPOT: Original Character","Do not steal!");
+		jackpot = 111;
+		AmbientSound("slot/jackpot",127);
+		PlayAnnouncer("announcer/jackpot");
+	}
+	else if(slot1 == 2 & slot2 == 2 & slot3 == 2)
+	{
+		JackpotWords("2-2-2 JACKPOT: Number Two Fights Back","How about some scat, you little twat?");
+		jackpot = 222;
+		AmbientSound("slot/jackpot",127);
+		PlayAnnouncer("announcer/jackpot");
+		SpawnSpotForced("Poopla",905,0,0);
+	}
+	else if(slot1 == 3 & slot2 == 3 & slot3 == 3)
+	{
+		JackpotWords("3-3-3 JACKPOT: 333 Is Everywhere","GNIHCTAWSIRALLIPEHT");
+		jackpot = 333;
+		AmbientSound("slot/jackpot",127);
+		PlayAnnouncer("announcer/333");
+	}
+	else if(slot1 == 4 & slot2 == 4 & slot3 == 4)
+	{
+		JackpotWords("4-4-4 JACKPOT: Death Death Death","Oops. Thank you for playing.");
+		jackpot = 444;
+		AmbientSound("jackpot/evillaugh",127);
+		delay(44);
+		fadeto(0,0,0,0.5,1.0);
+		delay(87);
+		AmbientSound("jackpot/smite",127);
+		fadeto(255,255,255,1.0,0.0);
+		for(int i = 1337; i < 1400; i++)
+			Thing_Damage(i,999999999,MOD_LAVA);
+		fadeto(255,255,255,0.0,1.0);
+	}
+	else if(slot1 == 5 & slot2 == 5 & slot3 == 5)
+	{
+		JackpotWords("5-5-5 JACKPOT: Reversal of Fortune","I hope you weren't especially attached to your guns.");
+		jackpot = 555;
+		for(i = 1337; i < 1400; i++)
+		{
+			ClearInventory();
+			GiveInventory("Fists", 1);
+			GiveInventory("Handgun", 1);
+			GiveInventory("DoomClip", 30);
+		}
+		AmbientSound("jackpot/bahbow",127);
+	}
+	else if(slot1 == 6 & slot2 == 6 & slot3 == 6)
+	{
+		JackpotWords("6-6-6 JACKPOT: The Obvious","No, player, you are the demons.");
+		jackpot = 666;
+		AmbientSound("slot/jackpot",127);
+		PlayAnnouncer("announcer/jackpot");
+		for(i = 1337; i < 1400; i++)
+			ACS_NamedExecuteAlways("MorphMe",0,i,"CyberdemonMorpherEx");
+	}
+	else if(slot1 == 7 & slot2 == 7 & slot3 == 7)
+	{
+		JackpotWords("7-7-7 JACKPOT: SCORE!","Big Money! Big Prizes! I love it!");
+		jackpot = 777;
+		AmbientSound("slot/jackpot",127);
+		PlayAnnouncer("announcer/jackpot");
+		for(i = 1337; i < 1400; i++)
+		{
+			if (ThingCount(0,i))	//Check if this player is even here
+				SpawnForced("SevenSevenSeven",GetActorX(i),GetActorY(i),GetActorZ(i),0,0);
+		}
+	}
+	else if(slot1 == 8 & slot2 == 8 & slot3 == 8)
+	{
+		JackpotWords("8-8-8 JACKPOT: Bermuda Triangle","All the monsters suddenly vanish. Because... aliens, I guess?");
+		jackpot = 888;
+		AmbientSound("slot/jackpot",127);
+		PlayAnnouncer("announcer/jackpot");
+		delay(44);
+		AmbientSound("misc/teleport",127);
+		Thing_Remove(900);
+	}
+	else if(slot1 == 9 & slot2 == 9 & slot3 == 9)
+	{
+		JackpotWords("9-9-9 JACKPOT: God Only Knows","Executes script 999... whatever that is.");
+		jackpot = 999;
+		AmbientSound("slot/jackpot",127);
+		PlayAnnouncer("announcer/jackpot");
+		ACS_Execute(999,0);
+	}
+	else if(slot1 == 10 & slot2 == 10 & slot3 == 10)
+	{
+		JackpotWords("10-10-10 JACKPOT: Coffee Break!","Time for a quick, relaxing break.");
+		jackpot = 101010;
+		AmbientSound("jackpot/pause",127);
+		delay(10);
+		SetMusic("");
+		delay(32);
+		SetMusic("mus-coff",0);
+	}
+	else if(slot1 == 11 & slot2 == 11 & slot3 == 11)
+	{
+		JackpotWords("11-11-11 JACKPOT: Grab Bag","All weapons and enemies spawn! Let's rock.");
+		jackpot = 111111;
+		AmbientSound("jackpot/duke",127);
+		PlayAnnouncer("announcer/jackpot");
+	}
+	else if(slot1 == 12 & slot2 == 12 & slot3 == 12)
+	{
+		JackpotWords("12-12-12 JACKPOT: The Screaming Squirts","Explosive Diarrhea! Don't run backwards.");
+		jackpot = 121212;
+		slotting = 0;
+		AmbientSound("slot/jackpot",127);
+		PlayAnnouncer("announcer/jackpot");
+		delay(10);
+		for(i = 1337; i < 1400; i++)
+			GiveActorInventory(i,"ScreamingShits",1);
+	}
+	else if(slot1 == 13 & slot2 == 13 & slot3 == 13)
+	{
+		JackpotWords("13-13-13 JACKPOT: Weird Shades","I found these in a ruined church...");
+		jackpot = 131313;
+		AmbientSound("slot/jackpot",127);
+		PlayAnnouncer("announcer/jackpot");
+		delay(10);
+		int bill = random(0,14);
+
+		for(i = 1337; i < 1400; i++)
+			GiveActorInventory(i,"PowerTheyLive",1);
+		// boy this is a clunky script!
+		ReplaceTextures("BILL01",billboardshades[bill]);
+		ReplaceTextures("BILL02",billboardshades[bill]);
+		ReplaceTextures("BILL03",billboardshades[bill]);
+		ReplaceTextures("BILL04",billboardshades[bill]);
+		ReplaceTextures("BILL05",billboardshades[bill]);
+		ReplaceTextures("BILL06",billboardshades[bill]);
+		ReplaceTextures("BILL07",billboardshades[bill]);
+		ReplaceTextures("BILL08",billboardshades[bill]);
+		ReplaceTextures("BILL09",billboardshades[bill]);
+		ReplaceTextures("BILL10",billboardshades[bill]);
+		ReplaceTextures("BILL11",billboardshades[bill]);
+		ReplaceTextures("BILL12",billboardshades[bill]);
+		ReplaceTextures("BILL13",billboardshades[bill]);
+		ReplaceTextures("BILL14",billboardshades[bill]);
+		ReplaceTextures("BILL15",billboardshades[bill]);
+		ReplaceTextures("BILL16",billboardshades[bill]);
+		ReplaceTextures("BILL17",billboardshades[bill]);
+		ReplaceTextures("BILL18",billboardshades[bill]);
+		ReplaceTextures("BILL19",billboardshades[bill]);
+		ReplaceTextures("BILL20",billboardshades[bill]);
+		ReplaceTextures("BILL21",billboardshades[bill]);
+		ReplaceTextures("BILL22",billboardshades[bill]);
+		ReplaceTextures("BILL23",billboardshades[bill]);
+		ReplaceTextures("BILL24",billboardshades[bill]);
+		ReplaceTextures("BILL25",billboardshades[bill]);
+		ReplaceTextures("BILL26",billboardshades[bill]);
+		ReplaceTextures("BILL27",billboardshades[bill]);
+		ReplaceTextures("BILL28",billboardshades[bill]);
+		ReplaceTextures("BILL29",billboardshades[bill]);
+		ReplaceTextures("BILL30",billboardshades[bill]);
+		ReplaceTextures("MALLMA0","MALLXA0");
+		ReplaceTextures("MALLMA1","MALLXA01");
+		ReplaceTextures("MALLMA2","MALLXA02");
+		ReplaceTextures("MALLMA3","MALLXA03");
+		ReplaceTextures("MALLMA4","MALLXA04");
+		ReplaceTextures("MALLMA5","MALLXA05");
+		ReplaceTextures("MALLMA6","MALLXA06");
+		ReplaceTextures("MALLMA7","MALLXA07");
+		ReplaceTextures("MALLMA8","MALLXA08");
+		ReplaceTextures("MALLMA9","MALLXA09");
+		ReplaceTextures("MALLMA10","MALLXA10");
+		ReplaceTextures("MALLMA11","MALLXA11");
+		ReplaceTextures("MALLMA12","MALLXA12");
+		ReplaceTextures("MALLMA13","MALLXA13");
+		ReplaceTextures("MALLMA14","MALLXA14");
+		ReplaceTextures("MALLMA15","MALLXA15");
+		ReplaceTextures("MALLMA16","MALLXA16");
+		ReplaceTextures("MALLMA17","MALLXA17");
+		ReplaceTextures("MALLMA18","MALLXA18");
+		ReplaceTextures("MALLMA19","MALLXA19");
+		ReplaceTextures("MALLMA20","MALLXA20");
+		ReplaceTextures("MALLMA21","MALLXA21");
+		ReplaceTextures("MALLMA22","MALLXA22");
+		ReplaceTextures("MALLMA23","MALLXA23");
+		ReplaceTextures("MALLMA24","MALLXA24");
+		ReplaceTextures("MALLMA25","MALLXA25");
+		ReplaceTextures("MALLMA26","MALLXA26");
+		ReplaceTextures("MALLMA27","MALLXA27");
+		ReplaceTextures("MALLMA28","MALLXA28");
+		ReplaceTextures("MALLMA29","MALLXA29");
+		ReplaceTextures("MALLMA30","MALLXA30");
+		ReplaceTextures("MALLMA31","MALLXA31");
+		ReplaceTextures("MALLMA32","MALLXA32");
+		ReplaceTextures("X1MA1","X1XA1");
+		ReplaceTextures("POSTR1","XOSTR1");
+		ReplaceTextures("POSTR2","XOSTR2");
+		ReplaceTextures("POSTR3","XOSTR3");
+		ReplaceTextures("X1MA1","X1XA2");
+		ReplaceTextures("X1MA2","X1XA3");
+		ReplaceTextures("X1MA4","X1XA4");
+		ReplaceTextures("DNZSGN07","EMPSX");
+		ReplaceTextures("SCREEN","SCREENX");
+		ReplaceTextures("HAZARD","HAZARDX");
+		ReplaceTextures("SAILRWIN","SAILRXIN");
+		ReplaceTextures("TRNWIN1S","TRNXIN1S");
+		ReplaceTextures("TRNWIN2S","TRNXIN2S");
+		ReplaceTextures("TRNWIN3S","TRNXIN3S");
+		ReplaceTextures("TRNWIN4S","TRNXIN4S");
+		ReplaceTextures("TRNWIN5S","TRNXIN5S");
+		ReplaceTextures("TRNWIN6S","TRNXIN6S");
+		ReplaceTextures("BBSCAD01","BBSCADTL");
+		ReplaceTextures("BBSCAD02","BBSCADTL");
+		ReplaceTextures("BBSCAD03","BBSCADTL");
+		ReplaceTextures("BBSCAD04","BBSCADTL");
+		ReplaceTextures("BBSCAD05","BBSCADTL");
+		ReplaceTextures("BBSCO01","BBSCOTL");
+		ReplaceTextures("BBSCO02","BBSCOTL");
+		ReplaceTextures("BBSCO03","BBSCOTL");
+		ReplaceTextures("BBSCO04","BBSCOTL");
+		ReplaceTextures("BBSCO05","BBSCOTL");
+		ReplaceTextures("BBSCO06","BBSCOTL");
+		ReplaceTextures("BBSCO07","BBSCOTL");
+		ReplaceTextures("BBSCO08","BBSCOTL");
+		ReplaceTextures("CONCESS1","XONCESS1");
+		ReplaceTextures("CONCESS2","XONCESS2");
+		ReplaceTextures("CONCESS3","XONCESS3");
+		ReplaceTextures("CONCESS4","XONCESS4");
+		ReplaceTextures("CONCESS5","XONCESS5");
+		ReplaceTextures("CONCESS6","XONCESS6");
+		ReplaceTextures("CONCESS7","XONCESS7");
+		ReplaceTextures("CONCESS8","XONCESS8");
+		ReplaceTextures("CONCESS9","XONCESS9");
+		ReplaceTextures("CONCESSA","XONCESSA");
+		ReplaceTextures("CONCESSB","XONCESSB");
+		ReplaceTextures("CONCESSC","XONCESSC");
+		ReplaceTextures("CONCESSD","XONCESSD");
+		ReplaceTextures("8XUTAWOO","XXUTAWOO");
+	}
+	else if(slot1 == 14 & slot2 == 14 & slot3 == 14)
+	{
+		JackpotWords("14-14-14 JACKPOT: The More You Know","Startling facts that will leave you stunned! And startled.");
+		jackpot = 141414;
+		AmbientSound("slot/jackpot",127);
+		PlayAnnouncer("announcer/jackpot");
+		delay(44);
+		AmbientSound("slot/ding",127);
+		//PrintBold(s:startlingfacts[random(0,32)]);
+		HudMessageBold (s:startlingfacts[random(0,32)]; HUDMSG_FADEOUT, 3286, CR_GOLD, 0.5, 0.5, 7.0, 1.0);
+	}
+	else if(slot1 == 15 & slot2 == 15 & slot3 == 15)
+	{
+		JackpotWords("15-15-15 JACKPOT: Instant Army","You and what ar--oh.");
+		jackpot = 151515;
+		AmbientSound("slot/jackpot",127);
+		PlayAnnouncer("announcer/jackpot");
+
+		for(i = 1337; i < 1400; i++)
+		{
+			if (ThingCount(0,i))	//Check if this player is even here
+			{
+				SpawnForced("InstantArmy",GetActorX(i),GetActorY(i),GetActorZ(i),0,0);
+				delay(20);
+				SpawnForced("InstantArmy",GetActorX(i),GetActorY(i),GetActorZ(i),0,0);
+				delay(20);
+				SpawnForced("InstantArmy",GetActorX(i),GetActorY(i),GetActorZ(i),0,0);
+			}
+		}
+	}
+	else if(slot1 == 16 & slot2 == 16 & slot3 == 16)
+	{
+		JackpotWords("16-16-16 JACKPOT: InsightGuy's Request","You're a cock. In the game, too.");
+		jackpot = 161616;
+		AmbientSound("slot/jackpot",127);
+		PlayAnnouncer("announcer/jackpot");
+		for(i = 1337; i < 1400; i++)
+			ACS_NamedExecuteAlways("MorphMe",0,i,"ChickenMorpherEx");
+		delay(120);
+		AmbientSound("jackpot/chickenmorph",127);
+	}
+
+	else if(slot1 == 17 & slot2 == 17 & slot3 == 17)
+	{
+		JackpotWords("17-17-17 JACKPOT: Jerk Buddy","A golden, friendly JERK! For YOU!");
+		jackpot = 171717;
+		AmbientSound("slot/jackpot",127);
+		PlayAnnouncer("announcer/jackpot");
+		delay(44);
+		AmbientSound("slot/ding",127);
+
+		SpawnSpotForced("GoldenJerk",905,899,0);	//Even if someone runs over the spawnpoint, it'll show up
+	}
+
+	else if(slot1 == 18 & slot2 == 18 & slot3 == 18)
+	{
+		JackpotWords("18-18-18 JACKPOT: Come With Me To Anime World","Watashi wa uisuki ya piza ga sukidesu.");
+		jackpot = 181818;
+		AmbientSound("slot/jackpot",127);
+		PlayAnnouncer("announcer/jackpot");
+		delay(10);
+		SetMusic("");
+		delay(32);
+		SetMusic("mus-swan",0);
+	}
+
+	else if(slot1 > REELMAX & slot2 == slot1 & slot3 == slot2)
+	{
+		JackpotWords("CUSTOM REEL JACKPOT: Payout!","Three in a row, have some bucks!");
+		AmbientSound("jackpot/mini",127);
+		PlayAnnouncer("announcer/jackpot");
+		SpawnSpotForced("JackpotPayout",901,899,0);	//Even if someone runs over the spawnpoint, it'll show up
+		delay(44);
+		AmbientSound("slot/ding",127);
+	}
+
+	// MINI JACKPOTS
+	else if(slot1 == 9 & slot2 == 13 & slot3 == 10)
+	{
+		JackpotWords("9-13-10 MINI-JACKPOT: Dogpot!","It's all dogs, all the way down...");
+		jackpot = 91310;
+		AmbientSound("jackpot/mini",127);
+		PlayAnnouncer("announcer/dogpot");
+		delay(10);
+		SetMusic("");
+		delay(32);
+		SetMusic("mus-dogs",0);
+	}
+	else if(slot1 == 7 & slot2 == 6 & slot3 == 5)
+	{
+		JackpotWords("7-6-5 MINI-JACKPOT: Namco Jackpot!","Power Pills aren't gonna save you today.");
+		jackpot = 765;
+		AmbientSound("jackpot/mini",127);
+		PlayAnnouncer("announcer/minijackpot");
+		SpawnSpotForced("PAC1",905,0,0);
+		delay(32);
+		SpawnSpotForced("PAC2",905,0,0);
+		delay(32);
+		SpawnSpotForced("PAC3",905,0,0);
+		delay(32);
+		SpawnSpotForced("PAC4",905,0,0);
+		delay(32);
+	}
+	else if(slot1 == 3 & slot2 == 2 & slot3 == 1)
+	{
+		JackpotWords("3-2-1 MINI-JACKPOT: Tick, Tick, Tick...","You now have more explosives than an Atari ST error screen!");
+		jackpot = 321;
+		AmbientSound("jackpot/mini",127);
+		PlayAnnouncer("announcer/minijackpot");
+		for(i = 1337; i < 1400; i++)
+		{
+			GiveActorInventory(i,"GrenadePickup",12);
+			GiveActorInventory(i,"BarrelPickup",12);
+			GiveActorInventory(i,"FlechettePickup",12);
+			GiveActorInventory(i,"ConcPickup",12);
+			GiveActorInventory(i,"IceBombPickup",12);
+			GiveActorInventory(i,"ProxyMinePickup",12);
+			GiveActorInventory(i,"SobPickup",1);
+		}
+	}
+	else if(slot1 == 4 & slot2 == 5 & slot3 == 1)
+	{
+		JackpotWords("4-5-1 MINI-JACKPOT: Free Flamethrower!","Books and scathing social commentary not included.");
+		jackpot = 451;
+		AmbientSound("jackpot/mini",127);
+		PlayAnnouncer("announcer/minijackpot");
+		for(i = 1337; i < 1400; i++)
+		{
+			GiveActorInventory(i,"NewFlamethrower",1);
+			GiveActorInventory(i,"FlameAmmo",999);
+		}
+		SetWeapon("NewFlamethrower");
+	}
+	else if(slot1 == 9 & slot2 == 1 & slot3 == 1)
+	{
+		JackpotWords("9-1-1 MINI-JACKPOT: Emergency Assistance","Free health care? Who made this stupid mod? Commies?");
+		jackpot = 911;
+		AmbientSound("jackpot/mini",127);
+		PlayAnnouncer("announcer/minijackpot");
+		for(i = 1337; i < 1400; i++)
+		{
+			SetActivator(i);
+			HealThing(500);
+		}
+	}
+	else if(slot1 == 3 & slot2 == 9 & slot3 == 7)
+	{
+		JackpotWords("3-9-7 MINI-JACKPOT: Meanwhile, in Poland...","Why do I feel a sudden urge to kill?");
+		jackpot = 397;
+		AmbientSound("jackpot/mini",127);
+		PlayAnnouncer("announcer/minijackpot");
+		delay(10);
+		SetMusic("");
+		delay(32);
+		SetMusic("mus-num",0);
+	}
+	else if(slot1 == 6 & slot2 == 6 & slot3 == 7)
+	{
+		JackpotWords("6-6-7 MINI-JACKPOT: OH JESUS LOOK OUT","RIGHT IN FRONT OF YOU!!!");
+		jackpot = 667;
+		AmbientSound("jackpot/mini",127);
+		PlayAnnouncer("announcer/minijackpot");
+		for(i = 1337; i < 1400; i++)
+		{
+			if (ThingCount(0,i))	//Check if this player is even here
+			{
+				Spawn("AdultImp",
+				GetActorX(i) + cos(GetActorAngle(i)) * 64,
+				GetActorY(i) + sin(GetActorAngle(i)) * 64,
+				GetActorZ(i)+32.0,0,0);
+			}
+		}
+	}
+	else if(slot1 == 1 & slot2 == 4 & slot3 == 9)
+	{
+		JackpotWords("1-4-9 MINI-JACKPOT: Shadsy's Debug Jackpot","An arbitrary number of points for an arbitrary jackpot!");
+		jackpot = 397;
+		AmbientSound("jackpot/mini",127);
+		PlayAnnouncer("announcer/minijackpot");
+		for(i = 1337; i < 1400; i++)
+			GiveActorInventory(i,"ScoreItem",1989);
+	}
+	else if(slot1 == 17 & slot2 == 7 & slot3 == 6)
+	{
+		JackpotWords("17-7-6 MINI-JACKPOT: USA #3, at least","When in the Course of humans events etc. etc. here's a flag.");
+		jackpot = 1776;
+		AmbientSound("jackpot/mini",127);
+		PlayAnnouncer("announcer/minijackpot");
+		delay(10);
+		SetMusic("");
+		delay(32);
+		SetMusic("mus-usa",10);
+		SetHudSize(1024,768,1);
+		SetFont("USAFLAG");
+		hudmessagebold(s:"A"; HUDMSG_PLAIN,42,9,0.1,0.1,99.0);
+		hudmessagebold(s:"A"; HUDMSG_PLAIN,43,9,724.1,0.1,99.0);
+		hudmessagebold(s:"A"; HUDMSG_PLAIN,44,9,0.1,441.1,99.0);
+		hudmessagebold(s:"A"; HUDMSG_PLAIN,45,9,724.1,441.1,99.0);
+		slotting = 0;
+		delay(1095);
+		SetMusic("mus-usa2");
+	}
+	else if(slot1 == 2 & slot2 == 5 & slot3 == 12)
+	{
+		JackpotWords("2-5-12 MINI-JACKPOT: Christmastime is Here!","Tis the season for giving! You give us half your score, Santa gives you some presents.");
+		jackpot = 2512;
+		slotting = 0;
+		AmbientSound("jackpot/mini",127);
+		PlayAnnouncer("announcer/minijackpot");
+		delay(10);
+		SetMusic("mus-xmas",2);
+		for(i = 1337; i < 1400; i++)
+			SetActorProperty(i,APROP_Score,(GetActorProperty(i,APROP_Score)/2));
+		for (int santa = 1; santa < 30; santa++)
+		{
+			for(i = 1337; i < 1400; i++)
+			{
+				if (ThingCount(0,i))	//Check if this player is even here
+					SpawnForced("CrateShower",GetActorX(i),GetActorY(i),GetActorZ(i)+32.0,0,0);
+			}
+			delay(40);
+		}
+	}
+
+	// STRAIGHTS
+	else if(slot2 == (slot1 + 1) & slot3 == (slot2 + 1))
+	{
+		JackpotWords("STRAIGHT ROLL!","Have some points, you charming devil!");
+		AmbientSound("jackpot/mini",127);
+		PlayAnnouncer("announcer/straight");
+		for(i = 1337; i < 1400; i++)
+		{
+			GiveActorInventory(i,"ScoreItem",(slot1 * 1000));
+			GiveActorInventory(i,"ScoreItem",(slot2 * 100));
+			GiveActorInventory(i,"ScoreItem",(slot3 * 10));
+		}
+	}
+	slotting = 0;
+}

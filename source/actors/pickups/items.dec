@@ -1,0 +1,149 @@
+// Splot - Pickup Items
+actor HealthKit : CustomInventory
+{
+	Height 20
+	+INVENTORY.ALWAYSPICKUP
+	Inventory.PickupMessage "$GOTHEALTH"
+	Inventory.PickupSound "items/health"
+	States
+	{
+	Spawn:
+		HKIT A 1050 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	Pickup:
+		TNT1 A 0 A_GiveInventory("ScoreItem",50)
+		TNT1 A 0 HealThing(100,0)
+		Stop
+	}
+}
+
+actor HealthKitCensored : HealthKit
+{
+	Inventory.PickupMessage "$GOTHEALTHC"
+	Inventory.PickupSound "items/health_c"
+	States
+	{
+	Spawn:
+		HKIT B 1050 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	}
+}
+
+// Splot - Pickup Items
+actor SuperHealthKit : CustomInventory
+{
+	Height 20
+	+INVENTORY.ALWAYSPICKUP
+	Inventory.PickupMessage "$GOTSUPERHEALTH"
+	Inventory.PickupSound "items/superheal"
+	States
+	{
+	Spawn:
+		SOU2 ABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCBABCDCB 4 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	Pickup:
+		TNT1 A 0 A_GiveInventory("ScoreItem",200)
+		TNT1 A 0 A_GiveInventory("MegasphereHealth", 1)
+		Stop
+	}
+}
+
+Actor BodyArmor : BasicArmorPickup
+{
+	Height 20
+	Inventory.Pickupmessage "$GOTARMOR"
+	Inventory.PickupSound "items/armor"
+	Inventory.Icon "HUDARMR"
+	Armor.SavePercent 50
+	Armor.SaveAmount 100
+	+INVENTORY.ALWAYSPICKUP
+	States
+	{
+	Spawn:
+		ARMR A 1050 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		stop
+	}
+}
+
+Actor SuperBodyArmor : BasicArmorPickup
+{
+	Height 20
+	scale 0.5
+	Inventory.Pickupmessage "$GOTSUPERARMOR"
+	Inventory.PickupSound "items/superarmor"
+	Inventory.Icon "HUDARMR"
+	Armor.SavePercent 100
+	Armor.SaveAmount 200
+	+INVENTORY.ALWAYSPICKUP
+	States
+	{
+	Spawn:
+		GEMR A 1050 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		stop
+	}
+}
+
+Actor Cash : ScoreItem
+{
+	Inventory.PickupMessage "$GOTCASH"
+	Inventory.PickupSound "items/cash"
+	Inventory.Amount 500
+	+INVENTORY.ALWAYSPICKUP
+	States
+	{
+	Spawn:
+		CASH A 1050 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		stop
+	}
+}
+
+Actor Stereo : ScoreItem
+{
+	Inventory.PickupMessage "$GOTSTEREO"
+	Inventory.PickupSound "items/cash"
+	Inventory.Amount 700
+	+INVENTORY.ALWAYSPICKUP
+	States
+	{
+	Spawn:
+		CASH C 1050 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		stop
+	}
+}
+
+Actor Microwave : ScoreItem
+{
+	Inventory.PickupMessage "$GOTMICROWAVE"
+	Inventory.PickupSound "items/cash"
+	Inventory.Amount 450
+	+INVENTORY.ALWAYSPICKUP
+	States
+	{
+	Spawn:
+		CASH D 1050 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		stop
+	}
+}
+
+Actor TV : ScoreItem
+{
+	Inventory.PickupMessage "$GOTTV"
+	Inventory.PickupSound "items/cash"
+	Inventory.Amount 1000
+	+INVENTORY.ALWAYSPICKUP
+	States
+	{
+	Spawn:
+		CASH B 1050 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		stop
+	}
+}

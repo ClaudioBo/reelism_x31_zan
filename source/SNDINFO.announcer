@@ -1,0 +1,39 @@
+// Splot Announcer
+
+$random announcer/title		{ announcer/title1 announcer/title2 announcer/title3 }
+announcer/title1		an-title1
+announcer/title2		an-title2
+announcer/title3		an-title3
+
+announcer/mode2			an-mode2
+announcer/mode3			an-mode3
+announcer/mode4			an-mode4
+announcer/mode99		an-modex
+
+$random announcer/boss		{ announcer/boss1 announcer/boss2 announcer/boss3 announcer/boss4 }
+announcer/boss1			an-boss1
+announcer/boss2			an-boss2
+announcer/boss3			an-boss3
+announcer/boss4			an-boss4
+
+$random announcer/jackpot	{ announcer/jackpot1 announcer/jackpot2 }
+announcer/jackpot1		an-jack1
+announcer/jackpot2		an-jack2
+announcer/minijackpot		an-mjack
+announcer/straight		an-jackst
+
+$random announcer/dogpot { announcer/dogpot1 announcer/dogpot2 announcer/dogpot3 }
+announcer/dogpot1		an-dog1
+announcer/dogpot2		an-dog2
+announcer/dogpot3		an-dog3
+
+announcer/bossrush		an-brush
+announcer/finalround		an-frund
+
+$random announcer/winner	{ announcer/winner1 announcer/winner2 }
+announcer/winner1		an-win1
+announcer/winner2		an-win2
+
+announcer/quad			an-quad
+announcer/333			an-333
+announcer/gameover		an-gover

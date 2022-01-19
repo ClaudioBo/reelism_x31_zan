@@ -1,0 +1,430 @@
+// Secret Ending Stuff
+
+ACTOR SecretDog1 : MonsterTemplate 32767
+{
+	//$Category Reelism Props - Secret Ending
+	Health 5000
+	Speed 5
+	PainChance 0
+	Radius 12
+	Height 56
+	Mass 100
+	States
+	{
+	Spawn:
+		DOGS A 1 A_Look
+		goto See
+	See:
+		DOGS AEFGFE 4 A_Wander
+		Loop
+	}
+}
+
+ACTOR SecretDecoration01 32668
+{
+	//$Category Reelism Props - Secret Ending
+	Radius 16
+	+NOGRAVITY
+	States
+	{
+	Spawn:
+		PLAY F -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration02 : SecretDecoration01 32669
+{
+	//$Category Reelism Props - Secret Ending
+	States
+	{
+	Spawn:
+		BEGR A -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration03 : SecretDecoration01 32670
+{
+	//$Category Reelism Props - Secret Ending
+	States
+	{
+	Spawn:
+		BEGR E -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration04 : SecretDecoration01 32671
+{
+	//$Category Reelism Props - Secret Ending
+	States
+	{
+	Spawn:
+		BEGR H -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration05 : SecretDecoration01 32672
+{
+	//$Category Reelism Props - Secret Ending
+	States
+	{
+	Spawn:
+		DOGS A -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration06 : SecretDecoration01 32673
+{
+	//$Category Reelism Props - Secret Ending
+	States
+	{
+	Spawn:
+		DOGS C -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration07 : SecretDecoration01 32674
+{
+	//$Category Reelism Props - Secret Ending
+	States
+	{
+	Spawn:
+		DPOP F -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration08 : SecretDecoration01 32675
+{
+	//$Category Reelism Props - Secret Ending
+	States
+	{
+	Spawn:
+		PLAY A -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration09 : SecretDecoration01 32676
+{
+	//$Category Reelism Props - Secret Ending
+	States
+	{
+	Spawn:
+		PLAY I -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration10 : SecretDecoration01 32677
+{
+	//$Category Reelism Props - Secret Ending
+	States
+	{
+	Spawn:
+		BRNY F -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration11 : SecretDecoration01 32678
+{
+	//$Category Reelism Props - Secret Ending
+	States
+	{
+	Spawn:
+		DOGS I -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration12 : SecretDecoration01 32679
+{
+	//$Category Reelism Props - Secret Ending
+	States
+	{
+	Spawn:
+		PLAY G -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration13 : SecretDecoration01 32680
+{
+	//$Category Reelism Props - Secret Ending
+	States
+	{
+	Spawn:
+		BRNY B -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration14 : SecretDecoration01 32681
+{
+	//$Category Reelism Props - Secret Ending
+	States
+	{
+	Spawn:
+		SONC D -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration15 : SecretDecoration01 32682
+{
+	//$Category Reelism Props - Secret Ending
+	scale 0.8
+	States
+	{
+	Spawn:
+		ARCH E -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration16 : SecretDecoration01 32683
+{
+	//$Category Reelism Props - Secret Ending
+	States
+	{
+	Spawn:
+		ELCY F -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration17 : SecretDecoration01 32684
+{
+	//$Category Reelism Props - Secret Ending
+	States
+	{
+	Spawn:
+		MISL A -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration18 : SecretDecoration01 32685
+{
+	//$Category Reelism Props - Secret Ending
+	States
+	{
+	Spawn:
+		MAGE A -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration19 : SecretDecoration01 32686
+{
+	//$Category Reelism Props - Secret Ending
+	scale 0.25
+	States
+	{
+	Spawn:
+		JSKL A -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration20 : SecretDecoration01 32687
+{
+	//$Category Reelism Props - Secret Ending
+	States
+	{
+	Spawn:
+		CHUB A -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration21 : SecretDecoration01 32688
+{
+	//$Category Reelism Props - Secret Ending
+	scale 2.0
+	States
+	{
+	Spawn:
+		CONF A -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration22 : SecretDecoration01 32689
+{
+	//$Category Reelism Props - Secret Ending
+	States
+	{
+	Spawn:
+		BSTP A -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration23 : SecretDecoration01 32690
+{
+	//$Category Reelism Props - Secret Ending
+	States
+	{
+	Spawn:
+		CASR A -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration24 : SecretDecoration01 32691
+{
+	//$Category Reelism Props - Secret Ending
+	Scale 4
+	Translation "128:151=112:127,64:79=112:127,152:159=112:127"
+	States
+	{
+	Spawn:
+		BEGR D -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration25 : SecretDecoration01 32692
+{
+	//$Category Reelism Props - Secret Ending
+	scale 2
+	States
+	{
+	Spawn:
+		VALH A -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration26 : SecretDecoration01 32693
+{
+	//$Category Reelism Props - Secret Ending
+	States
+	{
+	Spawn:
+		FATT A -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration27 : SecretDecoration01 32694
+{
+	//$Category Reelism Props - Secret Ending
+	States
+	{
+	Spawn:
+		BSPI A -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration28 : SecretDecoration01 32695
+{
+	//$Category Reelism Props - Secret Ending
+	Scale 0.7
+	States
+	{
+	Spawn:
+		DFOD C -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration29 : SecretDecoration01 32696
+{
+	//$Category Reelism Props - Secret Ending
+	Scale 0.7
+	States
+	{
+	Spawn:
+		DFOD G -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration30 : SecretDecoration01 32697
+{
+	//$Category Reelism Props - Secret Ending
+	Scale 0.7
+	States
+	{
+	Spawn:
+		DFOD I -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration31 : SecretDecoration01 32698
+{
+	//$Category Reelism Props - Secret Ending
+	Scale 2
+	States
+	{
+	Spawn:
+		VALH B -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration32 : SecretDecoration01 32699
+{
+	//$Category Reelism Props - Secret Ending
+	States
+	{
+	Spawn:
+		BAL1 A -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration33 : SecretDecoration01 32700
+{
+	//$Category Reelism Props - Secret Ending
+	States
+	{
+	Spawn:
+		VALH C -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration34 : SecretDecoration01 32701
+{
+	//$Category Reelism Props - Secret Ending
+	States
+	{
+	Spawn:
+		VALH D -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration35 : SecretDecoration01 32702
+{
+	YScale 0.9
+	//$Category Reelism Props - Secret Ending
+	States
+	{
+	Spawn:
+		DDRV A -1
+		Stop
+	}
+}
+
+ACTOR SecretDecoration36 : SecretDecoration01 32703
+{
+	//$Category Reelism Props - Secret Ending
+	States
+	{
+	Spawn:
+		MFWI C -1
+		Stop
+	}
+}

@@ -1,0 +1,1527 @@
+//Splot - Bosses
+ACTOR BossTemplate
+{
+	Monster
+	+BOSS
+	//+FORCEXYBILLBOARD
+	+WINDTHRUST
+	+FLOORCLIP
+	+DROPOFF
+	+LOOKALLAROUND
+	MaxStepHeight 32
+	MaxDropoffHeight 32
+	DamageFactor Enemy,0
+	DamageFactor EnemyShotgun,0
+	DamageFactor EnemyAlien,0
+	DamageFactor Nuke,0
+	DamageFactor CarCrash,0
+	DamageFactor Barkblast,0
+	DamageFactor RunOver,0
+	DamageFactor Quantum,0
+	DamageFactor Defib,0.2
+	PainChance Lightning,0
+	+NOICEDEATH
+	+DONTMORPH
+	states
+	{
+	Idle:
+		"####" A 0 A_Jump(256,"See")
+	Death.HolyBrick:
+		TNT1 A 0 ACS_NamedExecute("StartEnding",0,0,0,0)
+	SpewShit:
+		TNT1 AAAAAAAAAAAA 0 A_CustomMissile(soul,32,0,frandom(-180,180))
+		TNT1 AAAAAAAAAAAA 0 A_CustomMissile(soul2,32,0,frandom(-180,180))
+		TNT1 A 1
+		loop
+	}
+}
+actor BossBoom
+{
+	states
+	{
+	Spawn:
+		TNT1 A 0 A_Explode(100)	//This won't do anything on the first frame...
+		//TNT1 A 0 A_PlaySound("weapons/explode",CHAN_AUTO)
+		TNT1 A 0 A_Quake(6,8,0,2048,"null")
+		TNT1 A 8 A_SpawnItemEx("Spawner_Explosion_Normal1")
+		stop
+	}
+}
+
+// World's Most Boring Ghost
+actor WMBG : BossTemplate
+{
+	-FLOORCLIP
+	-DROPOFF
+	+FLOAT
+	+NOGRAVITY
+	+DONTFALL
+	//+NOBLOCKMONST
+	obituary "$OB_GHOST"
+	health 2000
+	radius 100
+	height 100
+	mass 400
+	speed 4
+	painchance 128
+	PainChance Lightning,0
+	painsound "wmbg/pain"
+	deathsound "wmbg/die"
+	ActiveSound "wmbg/idle"
+	MaxStepHeight 24	//Do these even matter? Need to verify...
+	MaxDropoffHeight 24	//""
+	states
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 Thing_ChangeTID(0,906)
+		GHST A 1 A_Look
+		goto See
+	See:
+		GHST A 1 A_FastChase
+		loop
+	Missile:
+		GHST A 10 A_FaceTarget
+		GHST A 1 bright A_FastChase
+		GHST A 1 bright A_CustomMissile("GhostBall",64)
+		GHST A 0 A_MonsterRefire(40,"See")
+		Goto Missile+1
+	Pain:
+		GHST A 0 ThrustThing(angle*256/360+128,4,0,0)
+		GHST A 12 A_Pain
+		goto See
+	Death:
+		GHST A 0 ACS_Execute(993,0)
+		GHST A 0 A_Stop
+		GHST A 60 A_Scream
+		TNT1 A 0 A_PlaySound("boss/explode",CHAN_BODY,1,0,ATTN_NONE)
+		GHST AAAAAAAA 8 A_SpawnItemEx("BossBoom",random(0,60),random(0,60),random(20,90),0,0,0,random(0,360))
+		GHST AAAAAAAAAAA 4 A_SpawnItemEx("BossBoom",random(0,60),random(0,60),random(20,90),0,0,0,random(0,360))
+		GHST AAAAAAAAAAAAA 2 A_SpawnItemEx("BossBoom",random(0,60),random(0,60),random(20,90),0,0,0,random(0,360))
+		TNT1 A 200 A_GiveToTarget("ScoreItem",5000)
+		Stop
+	}
+}
+ACTOR GhostBall : PlasmaBall
+{
+	Speed 45
+	+BLOODSPLATTER
+	//+FORCEXYBILLBOARD
+}
+
+ACTOR ImpTank : BossTemplate
+{
+	-FLOORCLIP
+	+NOBLOODDECALS
+	obituary "$OB_IMPTANK"
+	Speed 8
+	Health 4000
+	Radius 100
+	Height 128
+	Mass 0XFFFF
+	PainChance 0
+	PainChance Lightning,0
+	PainChance Fire,255
+	bloodtype "MetalSpark"
+	painsound "imp/pain"
+	deathsound "imptank/die"
+	ActiveSound "imptank/idle"
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 Thing_ChangeTID(0,906)
+		ITNK A 1 A_Look
+		goto See
+	See:
+		ITNK A 0 A_Chase
+		ITNK A 0 A_PlaySound("tank/move",6)
+		ITNK A 0 A_SpawnItemEx("TankTreads128")
+		ITNK A 4 A_Quake(1,8,0,64,"null")
+		ITNK A 0 A_JumpIf(velz!=0,"MidAir")
+		goto Spawn
+	MidAir:
+		ITNK AAAAAA 1 A_CheckFloor("See")
+		ITNK A 0 A_SpawnItemEx("TankTreads128")
+		ITNK A 1 A_CheckFloor("Landing")
+		TNT1 A 0 A_JumpIf(velz==0,"See")
+		goto MidAir+6
+	Landing:
+		ITNK A 0 A_Quake(9,8,0,9999,"weapons/explodedist")
+		ITNK A 0 A_SpawnItemEx("Spawner_Explosion_Normal1",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		ITNK A 5 A_PlaySound("boss/land")
+		goto See
+	Missile:
+		ITNK A 10 A_FaceTarget
+		ITNK A 0 A_PlaySound("imptank/fire",CHAN_WEAPON,1,0,ATTN_NONE)
+		ITNK A 1 A_CustomMissile("BossTankRocket",100)
+		ITNK A 5 ThrustThing(angle*256/360+128,8,0,0)
+		ITNK A 10 ThrustThing(angle*256/360,8,0,0)
+		ITNK A 64
+		Goto Spawn
+	Pain:
+		ITNK A 1 A_PlaySound("tank/hit")
+		Goto Spawn
+	Pain.Fire:
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(1)
+		TNT1 A 0 ThrustThingZ(0,1,0,1)
+		goto Pain
+	Death:
+		ITNK A 0 ACS_Execute(993,0)
+		ITNK A 0 A_Stop
+		ITNK A 60 A_Scream
+		TNT1 A 0 A_PlaySound("boss/explode",CHAN_BODY,1,0,ATTN_NONE)
+		ITNK AAAAAAAA 8 A_SpawnItemEx("BossBoom",random(0,150),random(0,150),random(20,100),0,0,0,random(0,360))
+		ITNK AAAAAAAAAAA 4 A_SpawnItemEx("BossBoom",random(0,150),random(0,150),random(20,100),0,0,0,random(0,360))
+		ITNK AAAAAAAAAAAAA 2 A_SpawnItemEx("BossBoom",random(0,150),random(0,150),random(20,100),0,0,0,random(0,360))
+		TNT1 A 200 A_GiveToTarget("ScoreItem",5000)
+		Stop
+	}
+}
+
+// Ol Cybie
+actor Cybredemon : BossTemplate
+{
+	+NORADIUSDMG
+	+MISSILEMORE
+	obituary "$OB_CYB"
+	health 4000
+	radius 40
+	height 110
+	mass 1000
+	speed 16
+	painchance 20
+	PainChance Lightning,0
+	PainChance Fire,255
+	painsound "cyber/pain"
+	deathsound "cyb/die"
+	activesound "cyber/active"
+	states
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 Thing_ChangeTID(0,906)
+		ELCY A 1 A_Look
+		goto See
+	See:
+		ELCY A 3 A_Hoof
+		POSS A 0 A_JumpIf(velz!=0,"MidAir")
+		ELCY A 3 A_Chase
+		POSS A 0 A_JumpIf(velz!=0,"MidAir")
+		ELCY B 3 A_Chase
+		POSS A 0 A_JumpIf(velz!=0,"MidAir")
+		ELCY B 3 A_Chase
+		POSS A 0 A_JumpIf(velz!=0,"MidAir")
+		ELCY C 3 A_Chase
+		POSS A 0 A_JumpIf(velz!=0,"MidAir")
+		ELCY C 3 A_Chase
+		POSS A 0 A_JumpIf(velz!=0,"MidAir")
+		ELCY D 3 A_Metal
+		POSS A 0 A_JumpIf(velz!=0,"MidAir")
+		ELCY D 3
+		loop
+	MidAir:
+		ELCY DDDDDD 1 A_CheckFloor("See")
+		ELCY D 1 A_CheckFloor("Landing")
+		TNT1 A 0 A_JumpIf(velz==0,"See")
+		goto MidAir+6
+	Landing:
+		ELCY E 1
+		ELCY E 0 A_SpawnItemEx("Spawner_Explosion_Normal1",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		ELCY E 5 A_PlaySound("boss/land")
+		goto See
+	Missile:
+		ELCY E 6 A_FaceTarget
+		ELCY F 12 A_CustomMissile("BossMissile",70)
+		ELCY E 12 A_FaceTarget
+		ELCY F 12 A_CustomMissile("BossMissile",70)
+		ELCY E 12 A_FaceTarget
+		ELCY F 12 A_CustomMissile("BossMissile",70)
+		goto See
+	Pain:
+		ELCY G 10 A_Pain
+		goto See
+	Pain.Fire:
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(1)
+		TNT1 A 0 ThrustThingZ(0,1,0,1)
+		goto Pain
+	Death:
+		ELCY G 0 ACS_Execute(993,0)
+		ELCY G 0 A_Stop
+		ELCY G 60 A_Scream
+		TNT1 A 0 A_PlaySound("boss/explode",CHAN_BODY,1,0,ATTN_NONE)
+		ELCY GGGGGGGG 8 A_SpawnItemEx("BossBoom",random(0,60),random(0,60),random(20,80),0,0,0,random(0,360))
+		ELCY GGGGGGGGGGG 4 A_SpawnItemEx("BossBoom",random(0,60),random(0,60),random(20,80),0,0,0,random(0,360))
+		ELCY GGGGGGGGGGGGG 2 A_SpawnItemEx("BossBoom",random(0,60),random(0,60),random(20,80),0,0,0,random(0,360))
+		TNT1 A 200 A_GiveToTarget("ScoreItem",5000)
+		Stop
+	}
+}
+
+// DOG POPE!!!
+ACTOR DogPope : BossTemplate
+{
+	Health 3000
+	PainChance 180
+	PainChance Lightning,0
+	PainChance Fire,255
+	Speed 10
+	Radius 30
+	Height 56
+	Mass 400
+	AttackSound "dogpope/idle"
+	PainSound "dogpope/pain"
+	DeathSound "dogpope/die"
+	ActiveSound "dogpope/idle"
+	Obituary "$OB_DOGPOPE"
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 Thing_ChangeTID(0,906)
+		DPOP A 10 A_Look
+		goto See
+	See:
+		//DPOP A 0 A_JumpIf(velz!=0,"MidAir")
+		DPOP A 2 A_FastChase
+		DPOP A 0 A_JumpIf(velz!=0,"MidAir")
+		DPOP A 2 A_FastChase
+		DPOP B 0 A_JumpIf(velz!=0,"MidAir")
+		DPOP B 2 A_FastChase
+		DPOP B 0 A_JumpIf(velz!=0,"MidAir")
+		DPOP B 2 A_FastChase
+		DPOP C 0 A_JumpIf(velz!=0,"MidAir")
+		DPOP C 2 A_FastChase
+		DPOP C 0 A_JumpIf(velz!=0,"MidAir")
+		DPOP C 2 A_FastChase
+		DPOP D 0 A_JumpIf(velz!=0,"MidAir")
+		DPOP D 2 A_FastChase
+		DPOP D 0 A_JumpIf(velz!=0,"MidAir")
+		DPOP D 2 A_FastChase
+		Loop
+	MidAir:
+		DPOP DDDDDD 1 A_CheckFloor("See")
+		DPOP D 1 A_CheckFloor("Landing")
+		TNT1 A 0 A_JumpIf(velz==0,"See")
+		goto MidAir+6
+	Landing:
+		DPOP E 1
+		DPOP E 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		DPOP E 5 A_PlaySound("boss/land")
+		goto See
+	Missile:
+		DPOP E 8 A_FaceTarget
+		DPOP FFFFFFF 4 A_CustomMissile("DogPopeBees",64)
+		DPOP E 4
+		Goto See
+	Pain:
+		DPOP H 2
+		DPOP H 2 A_Pain
+		Goto See
+	Pain.Fire:
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(1)
+		TNT1 A 0 ThrustThingZ(0,1,0,1)
+		goto Pain
+	Death:
+		DPOP H 0 ACS_Execute(993,0)
+		DPOP H 0 A_Stop
+		DPOP H 60 A_Scream
+		TNT1 A 0 A_PlaySound("boss/explode",CHAN_BODY,1,0,ATTN_NONE)
+		DPOP HHHHHHHH 8 A_SpawnItemEx("BossBoom",random(0,60),random(0,60),random(20,90),0,0,0,random(0,360))
+		DPOP HHHHHHHHHHH 4 A_SpawnItemEx("BossBoom",random(0,60),random(0,60),random(20,90),0,0,0,random(0,360))
+		DPOP HHHHHHHHHHHHH 2 A_SpawnItemEx("BossBoom",random(0,60),random(0,60),random(20,90),0,0,0,random(0,360))
+		TNT1 A 200 A_GiveToTarget("ScoreItem",5000)
+		Stop
+	}
+}
+actor DogPopeBees
+{
+	Radius 6
+	Height 6
+	Speed 15
+	FastSpeed 25
+	Damage 5
+	scale 0.5
+	SeeSound "dogbees/fire"
+	DeathSound "dogbees/hit"
+	Projectile
+	+RANDOMIZE
+	+BLOODSPLATTER
+	//+FORCEXYBILLBOARD
+	States
+	{
+	Spawn:
+		DBEE A -1
+		loop
+	Death:
+		TNT1 A 1
+		stop
+	}
+}
+
+// Sub-boss - THE JERK!
+ACTOR TheJerk : BossTemplate
+{
+	+NODAMAGE
+	+NOBLOODDECALS
+	Health 99999
+	Speed 30
+	Radius 60
+	Height 112
+	Mass 400
+	bloodtype "MetalSpark"
+	scale 2.0
+	Translation "16:47=241:247"
+	SeeSound "jerk/see"
+	AttackSound "jerk/run"
+	ActiveSound "jerk/run"
+	Obituary "$OB_THEJERK"
+	PainChance 0
+	States
+	{
+	Spawn:
+		SARG A 0
+		SARG A 0 Thing_ChangeTID(0,899)
+		SARG A 1 A_Look
+		goto See
+	See:
+		SARG A 0 A_SpawnItemEx("TankTreads")
+		SARG AAAAAA 0 A_SpawnItemEx("Particle_Smoke_Normal5",Random(-32,32),Random(-32,32),Random(0,112),Random(-1,1),Random(-1,1),Random(-1,1))
+		//SARG A 0 A_JumpIf(velz!=0,"MidAir")
+		SARG A 2 A_Chase
+		SARG A 0 A_SpawnItemEx("TankTreads")
+		SARG AAAAAA 0 A_SpawnItemEx("Particle_Smoke_Normal5",Random(-32,32),Random(-32,32),Random(0,112),Random(-1,1),Random(-1,1),Random(-1,1))
+		SARG A 0 A_JumpIf(velz!=0,"MidAir")
+		SARG A 2 A_Chase
+		SARG A 0 A_SpawnItemEx("TankTreads")
+		SARG AAAAAA 0 A_SpawnItemEx("Particle_Smoke_Normal5",Random(-32,32),Random(-32,32),Random(0,112),Random(-1,1),Random(-1,1),Random(-1,1))
+		SARG A 0 A_JumpIf(velz!=0,"MidAir")
+		SARG B 2 A_Chase
+		SARG A 0 A_SpawnItemEx("TankTreads")
+		SARG AAAAAA 0 A_SpawnItemEx("Particle_Smoke_Normal5",Random(-32,32),Random(-32,32),Random(0,112),Random(-1,1),Random(-1,1),Random(-1,1))
+		SARG A 0 A_JumpIf(velz!=0,"MidAir")
+		SARG B 2 A_Chase
+		SARG A 0 A_SpawnItemEx("TankTreads")
+		SARG AAAAAA 0 A_SpawnItemEx("Particle_Smoke_Normal5",Random(-32,32),Random(-32,32),Random(0,112),Random(-1,1),Random(-1,1),Random(-1,1))
+		SARG A 0 A_JumpIf(velz!=0,"MidAir")
+		SARG C 2 A_Chase
+		SARG A 0 A_SpawnItemEx("TankTreads")
+		SARG AAAAAA 0 A_SpawnItemEx("Particle_Smoke_Normal5",Random(-32,32),Random(-32,32),Random(0,112),Random(-1,1),Random(-1,1),Random(-1,1))
+		SARG A 0 A_JumpIf(velz!=0,"MidAir")
+		SARG C 2 A_Chase
+		SARG A 0 A_SpawnItemEx("TankTreads")
+		SARG AAAAAA 0 A_SpawnItemEx("Particle_Smoke_Normal5",Random(-32,32),Random(-32,32),Random(0,112),Random(-1,1),Random(-1,1),Random(-1,1))
+		SARG A 0 A_JumpIf(velz!=0,"MidAir")
+		SARG D 2 A_Chase
+		SARG A 0 A_SpawnItemEx("TankTreads")
+		SARG AAAAAA 0 A_SpawnItemEx("Particle_Smoke_Normal5",Random(-32,32),Random(-32,32),Random(0,112),Random(-1,1),Random(-1,1),Random(-1,1))
+		SARG A 0 A_JumpIf(velz!=0,"MidAir")
+		SARG D 2 A_Chase
+		Loop
+	MidAir:
+		SARG DDDDDD 1 A_CheckFloor("See")
+		SARG AAAAAA 0 A_SpawnItemEx("Particle_Smoke_Normal5",Random(-32,32),Random(-32,32),Random(0,112),Random(-1,1),Random(-1,1),Random(-1,1))
+		SARG DD 1 A_CheckFloor("Landing")
+		TNT1 A 0 A_JumpIf(velz==0,"See")
+		goto MidAir+6
+	Landing:
+		SARG E 1
+		SARG E 0 A_SpawnItemEx("Spawner_Explosion_Normal1",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		SARG E 5 A_PlaySound("boss/land")
+		goto See
+	Melee:
+		SARG EF 8 A_FaceTarget
+		SARG G 8 A_SargAttack
+		Goto See
+	Death:
+		Stop
+	}
+}
+
+// Ms. The Jerk!
+ACTOR MsJerk : TheJerk
+{
+	-NODAMAGE
+	Translation "0:0=0:0"
+	SeeSound ""
+	Health 3000
+	PainChance 180
+	PainChance Lightning,0
+	PainChance Fire,255
+	AttackSound "msjerk/run"
+	PainSound "msjerk/pain"
+	DeathSound "msjerk/die"
+	ActiveSound "msjerk/run"
+	Obituary "$OB_MSJERK"
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 Thing_ChangeTID(0,906)
+		SAR2 A 1 A_Look
+		goto See
+	See:
+		SAR2 A 0 A_SpawnItemEx("TankTreads")
+		SAR2 AAAAAA 0 A_SpawnItemEx("Particle_Smoke_Normal5",Random(-32,32),Random(-32,32),Random(0,112),Random(-1,1),Random(-1,1),Random(-1,1))
+		//SAR2 A 0 A_JumpIf(velz!=0,"MidAir")
+		SAR2 A 2 A_Chase
+		SAR2 A 0 A_SpawnItemEx("TankTreads")
+		SAR2 AAAAAA 0 A_SpawnItemEx("Particle_Smoke_Normal5",Random(-32,32),Random(-32,32),Random(0,112),Random(-1,1),Random(-1,1),Random(-1,1))
+		SAR2 A 0 A_JumpIf(velz!=0,"MidAir")
+		SAR2 A 2 A_Chase
+		SAR2 A 0 A_SpawnItemEx("TankTreads")
+		SAR2 AAAAAA 0 A_SpawnItemEx("Particle_Smoke_Normal5",Random(-32,32),Random(-32,32),Random(0,112),Random(-1,1),Random(-1,1),Random(-1,1))
+		SAR2 A 0 A_JumpIf(velz!=0,"MidAir")
+		SAR2 B 2 A_Chase
+		SAR2 A 0 A_SpawnItemEx("TankTreads")
+		SAR2 AAAAAA 0 A_SpawnItemEx("Particle_Smoke_Normal5",Random(-32,32),Random(-32,32),Random(0,112),Random(-1,1),Random(-1,1),Random(-1,1))
+		SAR2 A 0 A_JumpIf(velz!=0,"MidAir")
+		SAR2 B 2 A_Chase
+		SAR2 A 0 A_SpawnItemEx("TankTreads")
+		SAR2 AAAAAA 0 A_SpawnItemEx("Particle_Smoke_Normal5",Random(-32,32),Random(-32,32),Random(0,112),Random(-1,1),Random(-1,1),Random(-1,1))
+		SAR2 A 0 A_JumpIf(velz!=0,"MidAir")
+		SAR2 C 2 A_Chase
+		SAR2 A 0 A_SpawnItemEx("TankTreads")
+		SAR2 AAAAAA 0 A_SpawnItemEx("Particle_Smoke_Normal5",Random(-32,32),Random(-32,32),Random(0,112),Random(-1,1),Random(-1,1),Random(-1,1))
+		SAR2 A 0 A_JumpIf(velz!=0,"MidAir")
+		SAR2 C 2 A_Chase
+		SAR2 A 0 A_SpawnItemEx("TankTreads")
+		SAR2 AAAAAA 0 A_SpawnItemEx("Particle_Smoke_Normal5",Random(-32,32),Random(-32,32),Random(0,112),Random(-1,1),Random(-1,1),Random(-1,1))
+		SAR2 A 0 A_JumpIf(velz!=0,"MidAir")
+		SAR2 D 2 A_Chase
+		SAR2 A 0 A_SpawnItemEx("TankTreads")
+		SAR2 AAAAAA 0 A_SpawnItemEx("Particle_Smoke_Normal5",Random(-32,32),Random(-32,32),Random(0,112),Random(-1,1),Random(-1,1),Random(-1,1))
+		SAR2 A 0 A_JumpIf(velz!=0,"MidAir")
+		SAR2 D 2 A_Chase
+		SAR2 A 0 A_Jump(64,"Launch")
+		Loop
+	MidAir:
+		SAR2 DDDDDD 1 A_CheckFloor("See")
+		SAR2 A 0 A_SpawnItemEx("TankTreads")
+		SAR2 AAAAAA 0 A_SpawnItemEx("Particle_Smoke_Normal5",Random(-32,32),Random(-32,32),Random(0,112),Random(-1,1),Random(-1,1),Random(-1,1))
+		SAR2 DD 1 A_CheckFloor("Landing")
+		TNT1 A 0 A_JumpIf(velz==0,"See")
+		goto MidAir+6
+	Landing:
+		SAR2 E 0
+		SAR2 A 0 A_SpawnItemEx("TankTreads")
+		SAR2 E 0 A_SpawnItemEx("Spawner_Explosion_Normal1",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		SAR2 E 5 A_PlaySound("boss/land")
+		goto See
+	Launch:
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(-32)
+		TNT1 A 0 ThrustThingZ(0,48,0,0)
+		SAR2 A 6
+		goto MidAir+6
+	Melee:
+		SAR2 E 8 A_FaceTarget
+		Goto See
+	Pain:
+		SAR2 E 5 A_Pain
+		Goto See
+	Pain.Fire:
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(1)
+		TNT1 A 0 ThrustThingZ(0,1,0,1)
+		goto Pain
+	Death:
+		SAR2 E 0 ACS_Execute(993,0)
+		SAR2 E 0 A_Stop
+		SAR2 E 60 A_Scream
+		TNT1 A 0 A_PlaySound("boss/explode",CHAN_BODY,1,0,ATTN_NONE)
+		SAR2 EEEEEEEE 8 A_SpawnItemEx("BossBoom",random(0,60),random(0,60),random(20,90),0,0,0,random(0,360))
+		SAR2 EEEEEEEEEEE 4 A_SpawnItemEx("BossBoom",random(0,60),random(0,60),random(20,90),0,0,0,random(0,360))
+		SAR2 EEEEEEEEEEEEE 2 A_SpawnItemEx("BossBoom",random(0,60),random(0,60),random(20,90),0,0,0,random(0,360))
+		TNT1 A 200 A_GiveToTarget("ScoreItem",5000)
+		Stop
+	}
+}
+
+// Player 2 Boss
+ACTOR Player2Boss : BossTemplate
+{
+	-WINDTHRUST
+	+NOSPLASHALERT
+	+LOOKALLAROUND
+	Health 2000
+	Height 56
+	Speed 12
+	PainChance 255
+	PainChance Lightning,0
+	PainSound "*pain100"
+	DeathSound "*xdeath"
+	ActiveSound "*grunt"
+	Obituary "$OB_PLAYER2"
+	MaxStepHeight 24
+	MaxDropoffHeight 24
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 Thing_ChangeTID(0,906)
+		PLAY A 1 A_Look
+		PLAY A 0 A_AlertMonsters
+		goto See
+	See:
+		//PLAY A 0 A_JumpIf(velz!=0,"MidAir")
+		PLAY AAAA 1 A_FastChase
+		PLAY A 0 A_JumpIf(velz!=0,"MidAir")
+		PLAY AAAA 1 A_FastChase
+		PLAY A 0 A_JumpIf(velz!=0,"MidAir")
+		PLAY BBBB 1 A_FastChase
+		PLAY A 0 A_JumpIf(velz!=0,"MidAir")
+		PLAY BBBB 1 A_FastChase
+		PLAY A 0 A_JumpIf(velz!=0,"MidAir")
+		PLAY CCCC 1 A_FastChase
+		PLAY A 0 A_JumpIf(velz!=0,"MidAir")
+		PLAY CCCC 1 A_FastChase
+		PLAY A 0 A_JumpIf(velz!=0,"MidAir")
+		PLAY DDDD 1 A_FastChase
+		PLAY A 0 A_JumpIf(velz!=0,"MidAir")
+		PLAY DDDD 1 A_FastChase
+		Loop
+	MidAir:
+		PLAY DDDDDD 1 A_CheckFloor("See")
+		PLAY D 1 A_CheckFloor("Landing")
+		TNT1 A 0 A_JumpIf(velz==0,"See")
+		goto MidAir+6
+	Landing:
+		PLAY E 1
+		PLAY E 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		PLAY E 5 A_PlaySound("*land")
+		goto See
+	Missile:
+		PLAY E 0 A_FaceTarget
+		PLAY F 0 A_JumpIfCloser (96, "AttackClose")
+		PLAY F 0 A_JumpIfCloser (600, "AttackMedium")
+		PLAY F 0 A_Jump(255,"RocketAttack") //A_Jump(255,"BulletAttack","ShotgunAttack","FireAttack","RocketAttack","GasBombAttack")
+		Goto See
+	AttackMedium:
+		PLAY F 0 A_Jump(255,"FireAttack","GasBombAttack","BulletAttack")
+		goto See
+	AttackClose:
+		PLAY F 0 A_Jump(255,"ShotgunAttack","BulletAttack")
+		goto See
+	BulletAttack:
+		PLAY E 10 A_FaceTarget
+		PLAY F 0 A_PlaySound("weapons/handgun/fire")
+		PLAY F 4 BRIGHT A_CustomBulletAttack(22.5,0,1,random(1,5) * 3,"EnemyHandgunPuff",0,CBAF_NORANDOM)
+		PLAY E 4
+		PLAY F 0 A_PlaySound("weapons/handgun/fire")
+		PLAY F 4 BRIGHT A_CustomBulletAttack(22.5,0,1,random(1,5) * 3,"EnemyHandgunPuff",0,CBAF_NORANDOM)
+		PLAY E 4
+		PLAY F 0 A_PlaySound("weapons/handgun/fire")
+		PLAY F 4 BRIGHT A_CustomBulletAttack(22.5,0,1,random(1,5) * 3,"EnemyHandgunPuff",0,CBAF_NORANDOM)
+		PLAY E 4
+		PLAY F 0 A_PlaySound("weapons/handgun/fire")
+		PLAY F 4 BRIGHT A_CustomBulletAttack(22.5,0,1,random(1,5) * 3,"EnemyHandgunPuff",0,CBAF_NORANDOM)
+		PLAY E 8
+		Goto See
+	ShotgunAttack:
+		PLAY E 15 A_FaceTarget
+		PLAY F 0 A_PlaySound("weapons/sshotf")
+		PLAY F 8 BRIGHT A_CustomBulletAttack(11.25,7.125,15,random(1,3) * 2,"EnemyShotgunPuff",0,CBAF_NORANDOM)
+		PLAY E 20
+		PLAY A 14 A_PlaySound("weapons/sshoto")
+		PLAY E 14 A_PlaySound("weapons/sshotl")
+		PLAY A 14 A_PlaySound("weapons/sshotc")
+		Goto See
+	FireAttack:
+		PLAY E 10 A_FaceTarget
+		PLAY F 0 A_PlaySound("weapons/flamethrower/start",7)
+		PLAY FFFFFFFFFFFFFFFFFFFFFFFFF 1 BRIGHT A_CustomMissile("BossFlamerFire",32)
+		PLAY F 0 A_StopSound(7)
+		PLAY E 8
+		Goto See
+	RocketAttack:
+		PLAY E 10 A_FaceTarget
+		PLAY F 8 BRIGHT A_CustomMissile("BossMissile",32)
+		PLAY E 8
+		Goto See
+	GasBombAttack:
+		PLAY E 10 A_FaceTarget
+		PLAY F 8 BRIGHT A_CustomMissile("BossGasBomb",32)
+		PLAY E 8
+		Goto See
+	Pain:
+		PLAY G 3 A_StopSound(7)
+		PLAY G 3 A_Pain
+		Goto See
+	Death:
+		PLAY H 0 A_StopSound(7)
+		PLAY H 0 ACS_Execute(993,0)
+		PLAY H 0 A_Stop
+		PLAY H 5 A_Scream
+		PLAY I 55
+		TNT1 A 0 A_PlaySound("boss/explode",CHAN_BODY,1,0,ATTN_NONE)
+		PLAY IIIIIIII 8 A_SpawnItemEx("BossBoom",random(0,30),random(0,30),random(20,50),0,0,0,random(0,360))
+		PLAY IIIIIIIIIII 4 A_SpawnItemEx("BossBoom",random(0,30),random(0,30),random(20,50),0,0,0,random(0,360))
+		PLAY IIIIIIIIIIIII 2 A_SpawnItemEx("BossBoom",random(0,30),random(0,30),random(20,50),0,0,0,random(0,360))
+		TNT1 A 200 A_GiveToTarget("ScoreItem",5000)
+		Stop
+	}
+}
+
+// ShapeShifter
+ACTOR Shapeshifter : BossTemplate
+{
+	Health 3000
+	PainChance 8
+	PainChance Lightning,0
+	PainChance Fire,255
+	Speed 12
+	Radius 30
+	Height 56
+	Mass 400
+	PainSound "shape/die"
+	DeathSound "shape/die"
+	ActiveSound "shape/act"
+	Obituary "$OB_SHAPESHIFTER"
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 Thing_ChangeTID(0,906)
+		SHAP A 10 A_Look
+		goto See
+	See:
+		//SHAP A 0 A_JumpIf(velz!=0,"MidAir")
+		SHAP A 2 A_Chase
+		SHAP A 0 A_JumpIf(velz!=0,"MidAir")
+		SHAP A 2 A_Chase
+		SHAP B 0 A_JumpIf(velz!=0,"MidAir")
+		SHAP B 2 A_Chase
+		SHAP B 0 A_JumpIf(velz!=0,"MidAir")
+		SHAP B 2 A_Chase
+		SHAP C 0 A_JumpIf(velz!=0,"MidAir")
+		SHAP C 2 A_Chase
+		SHAP C 0 A_JumpIf(velz!=0,"MidAir")
+		SHAP C 2 A_Chase
+		SHAP D 0 A_JumpIf(velz!=0,"MidAir")
+		SHAP D 2 A_Chase
+		SHAP D 0 A_JumpIf(velz!=0,"MidAir")
+		SHAP D 2 A_Chase
+		Loop
+	MidAir:
+		SHAP DDDDDD 1 A_CheckFloor("See")
+		SHAP D 1 A_CheckFloor("Landing")
+		TNT1 A 0 A_JumpIf(velz==0,"See")
+		goto MidAir+6
+	Landing:
+		SHAP E 1
+		SHAP E 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		SHAP E 5 A_PlaySound("human/land")
+		goto See
+	Missile:
+		SHAP EFG 2 A_FaceTarget
+		SHAP G 0 A_PlaySound("shape/morph")
+		SHAP GGG 0 A_SpawnItemEx("GreenHugeBloodShred",Random(-16,16),Random(-16,16),Random(0,16),Random(-1,1),Random(-1,1),Random(-1,1),0,0)
+		//SHAP G 0 A_Jump(255,"MechaHitlerMorph") // for testing a single morph
+		SHAP G 0 A_Jump(255,"DogPopeMorph","CyberdemonMorph","WMBGMorph","ImpTankMorph","MsJerkMorph","MechaHitlerMorph","ShangTsungMorph")
+		Goto UnMorph
+	CyberdemonMorph:
+		ELCY E 0 A_SetScale(0.5)
+		ELCY EEEEE 1 A_SetScale(scaleX + 0.1)
+		ELCY A 0 A_PlaySound("cyber/active",CHAN_VOICE)
+		ELCY E 1 A_FaceTarget
+		ELCY F 12 A_CustomMissile("BossMissile",70)
+		ELCY E 12 A_FaceTarget
+		ELCY F 12 A_CustomMissile("BossMissile",70)
+		ELCY E 12 A_FaceTarget
+		ELCY F 12 A_CustomMissile("BossMissile",70)
+		ELCY EEEEE 1 A_SetScale(scaleX - 0.1)
+		Goto UnMorph
+	DogPopeMorph:
+		DPOP E 0 A_SetScale(0.5)
+		DPOP EEEEE 1 A_SetScale(scaleX + 0.1)
+		ITNK A 0 A_PlaySound("dogpope/idle",CHAN_VOICE)
+		DPOP E 3 A_FaceTarget
+		DPOP FFFFFFF 4 A_CustomMissile("DogPopeBees",64)
+		DPOP E 4
+		DPOP EEEEE 1 A_SetScale(scaleX - 0.1)
+		Goto UnMorph
+	WMBGMorph:
+		GHST A 0 A_SetScale(0.5)
+		GHST AAAAA 1 A_SetScale(scaleX + 0.1)
+		ITNK A 0 A_PlaySound("wmbg/pain",CHAN_VOICE)
+		GHST A 5 A_FaceTarget
+		GHST AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 1 bright A_CustomMissile("GhostBall",64)
+		GHST A 4
+		GHST AAAAA 1 A_SetScale(scaleX - 0.1)
+		Goto UnMorph
+	ImpTankMorph:
+		ITNK A 0 A_SetScale(0.5)
+		ITNK AAAAA 1 A_SetScale(scaleX + 0.1)
+		ITNK A 0 A_PlaySound("imptank/idle",CHAN_VOICE)
+		ITNK A 10 A_FaceTarget
+		ITNK A 0 A_PlaySound("imptank/fire",CHAN_WEAPON,1,0,ATTN_NONE)
+		ITNK A 1 A_CustomMissile("BossTankRocket",100)
+		ITNK A 0 ThrustThing(angle*256/360+128,8,0,0)
+		ITNK AAAAA 1
+		ITNK A 0 ThrustThing(angle*256/360,8,0,0)
+		ITNK AAAAAAAAAA 1
+		ITNK A 16
+		ITNK AAAAA 1 A_SetScale(scaleX - 0.1)
+		Goto UnMorph
+	MsJerkMorph:
+		SAR2 A 0 A_SetScale(1.0)
+		SAR2 AAAAAAAAAA 1 A_SetScale(scaleX + 0.1)
+		SAR2 A 5
+		SAR2 A 0 A_PlaySound("msjerk/run",CHAN_VOICE)
+		SAR2 A 0 A_FaceTarget
+		SAR2 A 0 A_Recoil(-32)
+		SAR2 A 6 ThrustThingZ(0,40,0,0)
+		goto MsJerkMorphMidair
+	MsJerkMorphMidair:
+		SAR2 A 0 A_SpawnItemEx("TankTreads")
+		SAR2 AAAAAA 0 A_SpawnItemEx("Particle_Smoke_Normal5",Random(-32,32),Random(-32,32),Random(0,112),Random(-1,1),Random(-1,1),Random(-1,1))
+		SAR2 DD 1 A_CheckFloor("MsJerkMorphLanding")
+		TNT1 A 0 A_JumpIf(velz==0,"MsJerkMorphLanding")
+		loop
+	MsJerkMorphLanding:
+		SAR2 E 0 A_SpawnItemEx("Spawner_Explosion_Normal1",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		SAR2 E 0 A_PlaySound("weapons/explode")
+		SAR2 EEE 5 A_SpawnItemEx("TankTreads")
+		SAR2 AAAAAAAAAA 1 A_SetScale(scaleX - 0.1)
+		goto UnMorph
+	MechaHitlerMorph:
+		HTL1 B 0 A_SetScale(0.5)
+		HTL1 BBBBB 1 A_SetScale(scaleX + 0.1)
+		HTL1 B 5 A_PlaySound("shape/mechahitler",CHAN_VOICE)
+		HTL1 B 5 A_FaceTarget
+		HTL1 G 2
+		HTL1 E 0 A_PlaySound("hitler/chaingun",CHAN_WEAPON)
+		HTL1 F 2 BRIGHT A_CustomBulletAttack(22.5,0,1,random(1,5)*3,"HandgunPuff",0,CBAF_NORANDOM)
+		HTL1 G 2
+		HTL1 E 0 A_PlaySound("hitler/chaingun",CHAN_WEAPON)
+		HTL1 F 2 BRIGHT A_CustomBulletAttack(22.5,0,1,random(1,5)*3,"HandgunPuff",0,CBAF_NORANDOM)
+		HTL1 G 2
+		HTL1 E 0 A_PlaySound("hitler/chaingun",CHAN_WEAPON)
+		HTL1 F 2 BRIGHT A_CustomBulletAttack(22.5,0,1,random(1,5)*3,"HandgunPuff",0,CBAF_NORANDOM)
+		HTL1 G 2
+		HTL1 E 0 A_PlaySound("hitler/chaingun",CHAN_WEAPON)
+		HTL1 F 2 BRIGHT A_CustomBulletAttack(22.5,0,1,random(1,5)*3,"HandgunPuff",0,CBAF_NORANDOM)
+		HTL1 G 2
+		HTL1 E 0 A_PlaySound("hitler/chaingun",CHAN_WEAPON)
+		HTL1 F 2 BRIGHT A_CustomBulletAttack(22.5,0,1,random(1,5)*3,"HandgunPuff",0,CBAF_NORANDOM)
+		HTL1 G 2
+		HTL1 E 0 A_PlaySound("hitler/chaingun",CHAN_WEAPON)
+		HTL1 F 2 BRIGHT A_CustomBulletAttack(22.5,0,1,random(1,5)*3,"HandgunPuff",0,CBAF_NORANDOM)
+		HTL1 G 2
+		HTL1 E 0 A_PlaySound("hitler/chaingun",CHAN_WEAPON)
+		HTL1 F 2 BRIGHT A_CustomBulletAttack(22.5,0,1,random(1,5)*3,"HandgunPuff",0,CBAF_NORANDOM)
+		HTL1 G 2
+		HTL1 E 0 A_PlaySound("hitler/chaingun",CHAN_WEAPON)
+		HTL1 F 2 BRIGHT A_CustomBulletAttack(22.5,0,1,random(1,5)*3,"HandgunPuff",0,CBAF_NORANDOM)
+		HTL1 G 2
+		HTL1 E 3
+		HTL1 A 5
+		HTL1 BBBBB 1 A_SetScale(scaleX - 0.1)
+		goto UnMorph
+	ShangTsungMorph:
+		SHNG A 0 A_SetScale(0.1)
+		SHNG AAAAA 1 A_SetScale(scaleX + 0.05)
+		SHNG A 20
+		SHNG A 0 A_PlaySound("shape/ohmaw")
+		SHNG A 0 A_SpawnItemEx("Confusion",0,0,56)
+		SHNG A 20
+		SHNG AAAAA 1 A_SetScale(scaleX - 0.05)
+		Goto UnMorph
+	UnMorph:
+		SHAP G 0 A_PlaySound("shape/morph")
+		SHAP GGG 0 A_SpawnItemEx("GreenHugeBloodShred",Random(-16,16),Random(-16,16),Random(0,16),Random(-1,1),Random(-1,1),Random(-1,1))
+		SHAP G 2 A_SetScale(1)
+		SHAP FE 2
+		goto See
+	Pain:
+		SHAP H 2 A_SetScale(1)
+		SHAP H 2 A_Pain
+		Goto See
+	Pain.Fire:
+		SHAP E 0 A_SetScale(1)
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(1)
+		TNT1 A 0 ThrustThingZ(0,1,0,1)
+		goto Pain
+	Death:
+		SHAP E 0 A_SetScale(1)
+		SHAP H 0 ACS_Execute(993,0)
+		SHAP H 0 A_Stop
+		SHAP H 60 A_Scream
+		TNT1 A 0 A_PlaySound("boss/explode",CHAN_BODY,1,0,ATTN_NONE)
+		SHAP HHHHHHHH 8 A_SpawnItemEx("BossBoom",random(0,30),random(0,30),random(20,50),0,0,0,random(0,360))
+		SHAP HHHHHHHHHHH 4 A_SpawnItemEx("BossBoom",random(0,30),random(0,30),random(20,50),0,0,0,random(0,360))
+		SHAP HHHHHHHHHHHHH 2 A_SpawnItemEx("BossBoom",random(0,30),random(0,30),random(20,50),0,0,0,random(0,360))
+		TNT1 A 200 A_GiveToTarget("ScoreItem",5000)
+		Stop
+	}
+}
+
+// MacGuffin! Ported by Ed
+ACTOR Macguffin	: BossTemplate
+{
+	Mass 0XFFFF
+	Health 3500
+	Speed 3
+	Radius 80
+	Height 150
+	Scale 4
+	+DONTSPLASH
+	MinMissileChance 150
+	//MaxStepHeight 16
+	//MaxDropoffHeight 24
+	PainChance 0
+	DamageFactor Enemy,0
+	DamageFactor EnemyShotgun,0
+	DamageFactor EnemyAlien,0
+	DamageFactor Nuke,0
+	DamageFactor CarCrash,0
+	DamageFactor Barkblast,0
+	DamageFactor RunOver,0
+	DamageFactor Quantum,0
+	DamageFactor Defib,0.2
+	DamageFactor Fire,0
+	MaxTargetRange 500
+	Translation "128:151=112:127,64:79=112:127,152:159=112:127"
+	Obituary "$OB_MACGUFFIN"
+	AttackSound "human/attack"
+	PainSound "beggar/pain"
+	DeathSound "boss/macdeath"
+	ActiveSound "beggar/idle"
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 Thing_ChangeTID(0,906)
+		BEGR A 10 A_Look
+		Goto See
+	See:
+		BEGR AAAAAAAAAAAAAAAAAA 1 A_Chase(0,0)
+		TNT1 A 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_PlaySound("boss/land")
+		BEGR A 0 A_SpawnItemEx("TankTreads")
+		BEGR BBBBBBBBBBBBBBBBBB 1 A_Chase(0,0)
+		TNT1 A 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_PlaySound("boss/land")
+		BEGR A 0 A_SpawnItemEx("TankTreads")
+		BEGR CCCCCCCCCCCCCCCCCC 1 A_Chase(0,0)
+		TNT1 A 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_PlaySound("boss/land")
+		BEGR A 0 A_SpawnItemEx("TankTreads")
+		BEGR AAAAAAAAAAAAAAAAAA 1 A_Chase
+		TNT1 A 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_PlaySound("boss/land")
+		BEGR A 0 A_SpawnItemEx("TankTreads")
+		BEGR BBBBBBBBBBBBBBBBBB 1 A_Chase
+		TNT1 A 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_PlaySound("boss/land")
+		BEGR A 0 A_SpawnItemEx("TankTreads")
+		BEGR CCCCCCCCCCCCCCCCCC 1 A_Chase
+		TNT1 A 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_PlaySound("boss/land")
+		BEGR A 0 A_SpawnItemEx("TankTreads")
+		Loop
+	Missile:
+		//TNT1 A 0 A_Jump(255,"Missile1","Missile2","Missile1","Missile2","Missile1","Missile2","Missile1","Missile2","Roar")
+		TNT1 A 0 A_Jump(28,"Roar")	//About one-in-nine
+		BEGR D 8 A_FaceTarget
+		BEGR D 0 A_PlaySound("boss/macshot")
+		TNT1 A 0 A_Jump(256,"Missile1","Missile2")	//Guaranteed to be an attack if not a roar
+	Missile1:
+		BEGR D 1 A_CustomMissile("MacFlameShot",180,0,0)
+		BEGR D 1 A_CustomMissile("MacFlameShot",180,0,1)
+		BEGR D 1 A_CustomMissile("MacFlameShot",180,0,6)
+		BEGR D 1 A_CustomMissile("MacFlameShot",180,0,5)
+		BEGR D 1 A_CustomMissile("MacFlameShot",180,0,10)
+		BEGR D 1 A_CustomMissile("MacFlameShot",180,0,-5)
+		BEGR D 1 A_CustomMissile("MacFlameShot",180,0,-10)
+		BEGR D 1 A_CustomMissile("MacFlameShot",180,0,-6)
+		BEGR D 1 A_CustomMissile("MacFlameShot",180,0,2)
+		BEGR D 1 A_CustomMissile("MacFlameShot",180,0,-8)
+		BEGR D 1 A_CustomMissile("MacFlameShot",180,0,10)
+		BEGR D 1 A_CustomMissile("MacFlameShot",180,0,11)
+		BEGR D 1 A_CustomMissile("MacFlameShot",180,0,16)
+		BEGR D 1 A_CustomMissile("MacFlameShot",180,0,15)
+		BEGR D 1 A_CustomMissile("MacFlameShot",180,0,20)
+		BEGR D 1 A_CustomMissile("MacFlameShot",180,0,-15)
+		BEGR D 1 A_CustomMissile("MacFlameShot",180,0,-20)
+		BEGR D 1 A_CustomMissile("MacFlameShot",180,0,-16)
+		BEGR D 1 A_CustomMissile("MacFlameShot",180,0,12)
+		BEGR D 17 A_CustomMissile("MacFlameShot",180,0,-18)
+		BEGR A 20
+		Goto See
+	Missile2:
+		BEGR DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD 1 A_CustomMissile("MacFlameShot",random(178,182),0,0,2,16)
+		BEGR D 17
+		BEGR A 20
+		Goto See
+	Roar:
+		BEGR A 10
+		MACG F 20 A_PlaySound("boss/macroar",CHAN_VOICE,1,0,ATTN_NONE)	//Full volume across the entire map!
+		MACG GFGFG 20
+		BEGR A 20
+		Goto See
+	Death:
+		BEGR F 0 ACS_Execute(993,0)
+		BEGR F 0 A_Stop
+		BEGR F 60 A_Scream
+		TNT1 A 0 A_PlaySound("boss/explode",CHAN_BODY,1,0,ATTN_NONE)
+		BEGR FFFFFFFF 8 A_SpawnItemEx("BossBoom",random(0,60),random(0,120),random(20,90),0,0,0,random(0,360))
+		BEGR FFFFFFFFFFF 4 A_SpawnItemEx("BossBoom",random(0,60),random(0,120),random(20,90),0,0,0,random(0,360))
+		BEGR FFFFFFFFFFFFF 2 A_SpawnItemEx("BossBoom",random(0,60),random(0,120),random(20,90),0,0,0,random(0,360))
+		TNT1 A 200 A_GiveToTarget("ScoreItem",5000)
+		stop
+	}
+}
+ACTOR MacFlameShot : Fire
+{
+	Obituary "%o turned the heat up a tad too high."
+	Speed 25
+	Projectile
+	-NOGRAVITY
+	+DONTSPLASH
+	States
+	{
+	Death:
+		TNT1 A 0 A_Explode(50,50,0)
+		TNT1 A 0 A_PlaySound("SFX/FireLoop2",CHAN_VOICE,1,1)
+		TNT1 A 0 A_SpawnItemEx("MacFlameEffect")
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 4 A_Explode(15,15,0)
+		stop
+	}
+}
+Actor MacFlameEffect
+{
+	var int user_count;
+	States
+	{
+	Spawn:
+		TNT1 A 4 A_SetUserVar("user_count",user_count+1)
+		TNT1 A 0 A_JumpIf(user_count>=30,"Death")
+		TNT1 A 0 A_PlaySound("SFX/FireLoop2",6,1,1)
+		TNT1 A 0 A_SpawnItemEx("MediumFlame")
+		TNT1 A 0 A_Jump(216,3)
+		TNT1 A 1 A_SpawnItemEx("Flame4A")
+		TNT1 A 0 A_SpawnItemEx("Ember2")
+		Loop
+		TNT1 A 0 A_Jump(176,2)
+		TNT1 A 1 A_SpawnItemEx("Flame4B")
+		Loop
+		TNT1 A 0 A_Jump(136,2)
+		TNT1 A 1 A_SpawnItemEx("Flame5A")
+		Loop
+		TNT1 A 0 A_Jump(96,2)
+		TNT1 A 1 A_SpawnItemEx("Flame5B")
+		Loop
+		TNT1 A 0 A_Jump(56,2)
+		TNT1 A 1 A_SpawnItemEx("Flame6A")
+		Loop
+		TNT1 A 1 A_SpawnItemEx("Flame6B")
+		Loop
+	Death:
+		TNT1 A 1
+		Stop
+	}
+}
+
+// Hitler Part 1
+ACTOR MechaHitler : BossTemplate
+{
+	Health 1500
+	PainChance 8
+	PainChance Lightning,0
+	PainChance Fire,255
+	Speed 12
+	Radius 30
+	Height 56
+	Mass 400
+	PainSound "brown/pain"
+	DeathSound "hitler/shit"
+	ActiveSound "shape/mechahitler"
+	Obituary "$OB_MECHAHITLER"
+	bloodtype "MetalSpark"
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 Thing_ChangeTID(0,906)
+		HTL1 A 10 A_Look
+		goto See
+	See:
+		HTL1 A 0 A_PlaySound("hitler/hoof")
+		HTL1 A 2 A_Chase
+		HTL1 A 0 A_JumpIf(velz!=0,"MidAir")
+		HTL1 A 2 A_Chase
+		HTL1 A 0 A_JumpIf(velz!=0,"MidAir")
+		HTL1 A 2 A_Chase
+		HTL1 A 0 A_JumpIf(velz!=0,"MidAir")
+		HTL1 A 2 A_Chase
+		HTL1 A 0 A_JumpIf(velz!=0,"MidAir")
+		HTL1 B 2 A_Chase
+		HTL1 A 0 A_JumpIf(velz!=0,"MidAir")
+		HTL1 B 2 A_Chase
+		HTL1 A 0 A_JumpIf(velz!=0,"MidAir")
+		HTL1 B 2 A_Chase
+		HTL1 A 0 A_JumpIf(velz!=0,"MidAir")
+		HTL1 B 2 A_Chase
+		HTL1 A 0 A_PlaySound("hitler/hoof")
+		HTL1 B 0 A_JumpIf(velz!=0,"MidAir")
+		HTL1 C 2 A_Chase
+		HTL1 B 0 A_JumpIf(velz!=0,"MidAir")
+		HTL1 C 2 A_Chase
+		HTL1 B 0 A_JumpIf(velz!=0,"MidAir")
+		HTL1 C 2 A_Chase
+		HTL1 B 0 A_JumpIf(velz!=0,"MidAir")
+		HTL1 C 2 A_Chase
+		HTL1 B 0 A_JumpIf(velz!=0,"MidAir")
+		HTL1 D 2 A_Chase
+		HTL1 B 0 A_JumpIf(velz!=0,"MidAir")
+		HTL1 D 2 A_Chase
+		HTL1 B 0 A_JumpIf(velz!=0,"MidAir")
+		HTL1 D 2 A_Chase
+		HTL1 B 0 A_JumpIf(velz!=0,"MidAir")
+		HTL1 D 2 A_Chase
+		Loop
+	MidAir:
+		HTL1 BBBBBB 1 A_CheckFloor("See")
+		HTL1 B 1 A_CheckFloor("Landing")
+		TNT1 A 0 A_JumpIf(velz==0,"See")
+		goto MidAir+6
+	Landing:
+		"####" E 1
+		"####" E 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		"####" E 5 A_PlaySound("human/land")
+		"####" A 0 A_Jump(256,"See")
+	Missile:
+		HTL1 B 5
+		HTL1 B 5 A_FaceTarget
+		HTL1 G 2
+		HTL1 E 0 A_PlaySound("hitler/chaingun",CHAN_WEAPON)
+		HTL1 F 2 BRIGHT A_CustomBulletAttack(22.5,0,1,random(1,5)*3,"HandgunPuff",0,CBAF_NORANDOM)
+		HTL1 G 2
+		HTL1 E 0 A_PlaySound("hitler/chaingun",CHAN_WEAPON)
+		HTL1 F 2 BRIGHT A_CustomBulletAttack(22.5,0,1,random(1,5)*3,"HandgunPuff",0,CBAF_NORANDOM)
+		HTL1 G 2
+		HTL1 E 0 A_PlaySound("hitler/chaingun",CHAN_WEAPON)
+		HTL1 F 2 BRIGHT A_CustomBulletAttack(22.5,0,1,random(1,5)*3,"HandgunPuff",0,CBAF_NORANDOM)
+		HTL1 G 2
+		HTL1 E 0 A_PlaySound("hitler/chaingun",CHAN_WEAPON)
+		HTL1 F 2 BRIGHT A_CustomBulletAttack(22.5,0,1,random(1,5)*3,"HandgunPuff",0,CBAF_NORANDOM)
+		HTL1 G 2
+		HTL1 E 0 A_PlaySound("hitler/chaingun",CHAN_WEAPON)
+		HTL1 F 2 BRIGHT A_CustomBulletAttack(22.5,0,1,random(1,5)*3,"HandgunPuff",0,CBAF_NORANDOM)
+		HTL1 G 2
+		HTL1 E 0 A_PlaySound("hitler/chaingun",CHAN_WEAPON)
+		HTL1 F 2 BRIGHT A_CustomBulletAttack(22.5,0,1,random(1,5)*3,"HandgunPuff",0,CBAF_NORANDOM)
+		HTL1 G 2
+		HTL1 E 0 A_PlaySound("hitler/chaingun",CHAN_WEAPON)
+		HTL1 F 2 BRIGHT A_CustomBulletAttack(22.5,0,1,random(1,5)*3,"HandgunPuff",0,CBAF_NORANDOM)
+		HTL1 G 2
+		HTL1 E 0 A_PlaySound("hitler/chaingun",CHAN_WEAPON)
+		HTL1 F 2 BRIGHT A_CustomBulletAttack(22.5,0,1,random(1,5)*3,"HandgunPuff",0,CBAF_NORANDOM)
+		HTL1 G 2
+		HTL1 E 6
+		HTL1 F 4 BRIGHT A_CustomMissile("MHMissile",32)
+		HTL1 G 2
+		HTL1 E 3
+		HTL1 A 5
+		goto See
+	Pain:
+		HTL1 E 2
+		HTL1 E 2 A_Pain
+		Goto See
+	Pain.Fire:
+		"####" A 0 A_FaceTarget
+		"####" A 0 A_Recoil(1)
+		"####" A 0 ThrustThingZ(0,1,0,1)
+		"####" A 0 A_Jump(256,"Pain")
+	Death:
+		HTL1 E 0 ACS_NamedExecute("SpecialBossMusic",0)
+		HTL1 E 0 A_Stop
+		HTL1 E 60 A_Scream
+		TNT1 A 0 A_PlaySound("boss/explode",CHAN_BODY,1,0,ATTN_NONE)
+		HTL1 EEEEEEEE 8 A_SpawnItemEx("BossBoom",random(0,30),random(0,30),random(20,50),0,0,0,random(0,360))
+		HTL1 EEEEEEEEEEE 4 A_SpawnItemEx("BossBoom",random(0,30),random(0,30),random(20,50),0,0,0,random(0,360))
+		HTL1 EEEEEEEEEEEEE 2 A_SpawnItemEx("BossBoom",random(0,30),random(0,30),random(20,50),0,0,0,random(0,360))
+		TNT1 A 0 A_PlaySound("hitler/break",CHAN_AUTO)
+		TNT1 AAAAAAAAAAAAAAAAAAAAA 0 A_CustomMissile("DEBRIS",random(16,56),0,random(0,360),2,random(4,32))
+		TNT1 AAAAAAAAAAAAAAAAAAAAA 0 A_CustomMissile("RobotShards",random(16,56),0,random(0,360),2,random(4,32))
+		TNT1 A 25
+		TNT1 A 0 ACS_NamedExecute("SpecialBossMusic",0,1)
+		TNT1 A 0 A_SpawnItemEx("NormalHitler",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	}
+}
+actor MHMissile : BossMissile
+{
+	SeeSound "hitler/rocket"
+}
+
+// Hitler Part 2
+ACTOR NormalHitler : MechaHitler
+{
+	Obituary "$OB_MECHAHITLER"
+	bloodtype "MetalSpark"
+	Health 2000
+	PainChance 32
+	DeathSound "hitler/die"
+	Obituary "$OB_HITLER"
+	BloodType Blood,BloodSplatter
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 Thing_ChangeTID(0,906)
+		HTL2 A 10 A_Look
+		goto See
+	See:
+		HTL2 A 2 A_Chase
+		HTL2 A 0 A_JumpIf(velz!=0,"MidAir")
+		HTL2 A 2 A_Chase
+		HTL2 A 0 A_JumpIf(velz!=0,"MidAir")
+		HTL2 B 2 A_Chase
+		HTL2 B 0 A_JumpIf(velz!=0,"MidAir")
+		HTL2 B 2 A_Chase
+		HTL2 B 0 A_JumpIf(velz!=0,"MidAir")
+		HTL2 C 2 A_Chase
+		HTL2 C 0 A_JumpIf(velz!=0,"MidAir")
+		HTL2 C 2 A_Chase
+		HTL2 C 0 A_JumpIf(velz!=0,"MidAir")
+		HTL2 D 2 A_Chase
+		HTL2 D 0 A_JumpIf(velz!=0,"MidAir")
+		HTL2 D 2 A_Chase
+		HTL2 D 0 A_JumpIf(velz!=0,"MidAir")
+		Loop
+	MidAir:
+		HTL2 CCCCCC 1 A_CheckFloor("See")
+		HTL2 C 1 A_CheckFloor("Landing")
+		TNT1 A 0 A_JumpIf(velz==0,"See")
+		goto MidAir+6
+	Missile:
+		HTL2 E 5
+		HTL2 E 5 A_FaceTarget
+		HTL2 F 0 A_PlaySound("hitler/chaingun",CHAN_WEAPON)
+		HTL2 F 1 BRIGHT A_CustomBulletAttack(22.5,0,1,random(1,5)*3,"HandgunPuff",0,CBAF_NORANDOM)
+		HTL2 E 1
+		HTL2 G 0 A_PlaySound("hitler/chaingun",CHAN_WEAPON)
+		HTL2 G 1 BRIGHT A_CustomBulletAttack(22.5,0,1,random(1,5)*3,"HandgunPuff",0,CBAF_NORANDOM)
+		HTL2 E 1
+		HTL2 F 0 A_PlaySound("hitler/chaingun",CHAN_WEAPON)
+		HTL2 F 1 BRIGHT A_CustomBulletAttack(22.5,0,1,random(1,5)*3,"HandgunPuff",0,CBAF_NORANDOM)
+		HTL2 E 1
+		HTL2 G 0 A_PlaySound("hitler/chaingun",CHAN_WEAPON)
+		HTL2 G 1 BRIGHT A_CustomBulletAttack(22.5,0,1,random(1,5)*3,"HandgunPuff",0,CBAF_NORANDOM)
+		HTL2 E 1
+		HTL2 F 0 A_PlaySound("hitler/chaingun",CHAN_WEAPON)
+		HTL2 F 1 BRIGHT A_CustomBulletAttack(22.5,0,1,random(1,5)*3,"HandgunPuff",0,CBAF_NORANDOM)
+		HTL2 E 1
+		HTL2 G 0 A_PlaySound("hitler/chaingun",CHAN_WEAPON)
+		HTL2 G 1 BRIGHT A_CustomBulletAttack(22.5,0,1,random(1,5)*3,"HandgunPuff",0,CBAF_NORANDOM)
+		HTL2 E 1
+		HTL2 F 0 A_PlaySound("hitler/chaingun",CHAN_WEAPON)
+		HTL2 F 1 BRIGHT A_CustomBulletAttack(22.5,0,1,random(1,5)*3,"HandgunPuff",0,CBAF_NORANDOM)
+		HTL2 E 1
+		HTL2 G 0 A_PlaySound("hitler/chaingun",CHAN_WEAPON)
+		HTL2 G 1 BRIGHT A_CustomBulletAttack(22.5,0,1,random(1,5)*3,"HandgunPuff",0,CBAF_NORANDOM)
+		HTL2 E 1
+		HTL2 EA 5
+		goto See
+	Pain:
+		HTL2 H 2
+		HTL2 H 2 A_Pain
+		Goto See
+	Death:
+		HTL2 H 0 ACS_Execute(993,0)
+		HTL2 H 0 A_Stop
+		HTL2 H 60 A_Scream
+		TNT1 A 0 A_PlaySound("boss/explode",CHAN_BODY,1,0,ATTN_NONE)
+		HTL2 HHHHHHHH 8 A_SpawnItemEx("BossBoom",random(0,30),random(0,30),random(20,50),0,0,0,random(0,360))
+		HTL2 HHHHHHHHHHH 4 A_SpawnItemEx("BossBoom",random(0,30),random(0,30),random(20,50),0,0,0,random(0,360))
+		HTL2 HHHHHHHHHHHHH 2 A_SpawnItemEx("BossBoom",random(0,30),random(0,30),random(20,50),0,0,0,random(0,360))
+		TNT1 A 200 A_GiveToTarget("ScoreItem",5000)
+		Stop
+	}
+}
+
+// A Motherfucking Wizard!
+ACTOR MFTruck : BossTemplate
+{
+	-FLOORCLIP
+	+NOBLOODDECALS
+	obituary "$OB_WIZARDTRUCK"
+	Speed 8
+	Health 2000
+	Radius 100
+	Height 128
+	Mass 0XFFFF
+	PainChance 0
+	PainChance Fire,255
+	bloodtype "MetalSpark"
+	painsound "beggar/die"
+	deathsound "wizard/truckdie"
+	ActiveSound "wizard/truck"
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 Thing_ChangeTID(0,906)
+		TRUK A 1 A_Look
+		goto See
+	See:
+		TRUK A 0 A_Chase
+		TRUK A 0 A_PlaySound("tank/move",6)
+		TRUK A 0 A_SpawnItemEx("TankTreads128")
+		TRUK A 3 A_Quake(1,8,0,64,"")
+		TRUK A 0 A_JumpIf(velz!=0,"MidAir")
+		goto Spawn
+	MidAir:
+		TRUK AAAAAA 1 A_CheckFloor("See")
+		TRUK A 0 A_SpawnItemEx("TankTreads128")
+		TRUK A 1 A_CheckFloor("Landing")
+		TNT1 A 0 A_JumpIf(velz==0,"See")
+		goto MidAir+6
+	Landing:
+		TRUK A 0 A_Quake(9,8,0,9999,"weapons/explodedist")
+		TRUK A 0 A_SpawnItemEx("Spawner_Explosion_Normal1",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		TRUK A 32 A_PlaySound("boss/land")
+		goto See
+	Missile:
+		TNT1 A 0 A_Jump(255,"Missile1","Launch")
+	Missile1:
+		TRUK A 10 A_FaceTarget
+		TRUK A 0 A_PlaySound("imptank/fire",CHAN_WEAPON,1,0,ATTN_NONE)
+		TRUK A 65 A_CustomMissile("TruckNukeShot1",100,0,0,2,32) //A_CustomMissile("TruckNukeShot",100)
+		Goto Spawn
+	Missile2:
+		TRUK A 10 A_FaceTarget
+		TRUK A 0 A_PlaySound("imptank/fire",CHAN_WEAPON,1,0,ATTN_NONE)
+		TRUK A 65 A_CustomMissile("TruckNukeShot2",100,0,0,2,0) //A_CustomMissile("TruckNukeShot",100)
+		Goto Spawn
+	Launch:
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(-32)
+		TRUK A 6 ThrustThingZ(0,48,0,0)
+		goto MidAir+6
+	Pain:
+		TRUK A 1 A_PlaySound("tank/hit")
+		Goto Spawn
+	Pain.Fire:
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(1)
+		TNT1 A 0 ThrustThingZ(0,1,0,1)
+		goto Pain
+	Death:
+		TRUK A 0 ACS_NamedExecute("SpecialBossMusic",0)
+		TRUK A 0 A_Stop
+		TRUK A 60 A_Scream
+		TNT1 A 0 A_PlaySound("boss/explode",CHAN_BODY,1,0,ATTN_NONE)
+		TRUK AAAAAAAA 8 A_SpawnItemEx("BossBoom",random(0,150),random(0,150),random(20,100),0,0,0,random(0,360))
+		TRUK AAAAAAAAAAA 4 A_SpawnItemEx("BossBoom",random(0,150),random(0,150),random(20,100),0,0,0,random(0,360))
+		TRUK AAAAAAAAAAAAA 2 A_SpawnItemEx("BossBoom",random(0,150),random(0,150),random(20,100),0,0,0,random(0,360))
+		TNT1 A 40 A_SpawnItemEx("MFWizard",0,0,128,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_PlaySound("wizard/see",CHAN_VOICE,1,0,ATTN_NONE)
+		TNT1 A 0 ACS_NamedExecute("SpecialBossMusic",0,2)
+		Stop
+	}
+}
+
+Actor TruckNukeShot1 : BFGBall
+{
+	//game Hacx
+	Damage 10
+	Speed 30
+	Scale 0.5
+	Obituary "$OB_MPNUKE"
+	Renderstyle Normal
+	Bouncetype Doom
+	Bouncefactor 0.5
+	Wallbouncefactor 0.25
+	-NOGRAVITY
+	+BOUNCEONACTORS
+	Decal BFGScorch
+	DeathSound ""
+	BounceSound ""
+	damagetype Explosive
+	States
+	{
+	Spawn:
+		NCAN ABCD 2 bright
+		loop
+	Death:
+		NUK1 A 0 A_NoGravity
+		NCAN A 0 A_Stop
+		NUK1 A 0 A_Explode(128,256,0)
+		NUK1 A 0 A_PlaySound("weapons/tankmissile/explode", 0, 1.0, 0, 0.5)
+		TNT1 A 5 A_SpawnItemEx("HacxNukeBoom",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0)
+		TNT1 A 0 A_Mushroom("HacxNukeSprayMFW", 50, MSF_Classic, 0.5, 1.0)
+		TNT1 A 5 A_Mushroom("HacxNukeSmoke", 20, MSF_Classic, 2.0, 0.2)
+		Stop
+	}
+}
+
+actor HacxNukeSprayMFW : HacxNukeSpray
+{
+	Damagetype Enemy
+}
+
+Actor TruckNukeShot2 : TruckNukeShot1
+{
+	Speed 40
+}
+
+actor MFWizard : BossTemplate
+{
+	-FLOORCLIP
+	-DROPOFF
+	+FLOAT
+	+NOGRAVITY
+	+DONTFALL
+	//+NOBLOCKMONST
+	obituary "$OB_WIZARD"
+	health 2000
+	Radius 30
+	Height 56
+	mass 400
+	speed 4
+	painchance 128
+	PainChance Lightning,0
+	//SeeSound "wizard/see"
+	painsound "beggar/die"
+	deathsound "wizard/die"
+	ActiveSound "wizard/idle"
+	var int user_count;
+	states
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 Thing_ChangeTID(0,906)
+		MFWI A 1 A_Look
+		goto See
+	See:
+		MFWI AAAAAAAAABBBBBBBB 1 A_Chase
+		loop
+	Missile:
+		MFWI C 0 A_Stop
+		MFWI C 0 A_PlaySound("wizard/charge")
+		MFWI CCC 1 BRIGHT A_FaceTarget
+		MFWI CCC 1 A_FaceTarget
+		MFWI CCC 1 BRIGHT A_FaceTarget
+		MFWI CCC 1 A_FaceTarget
+		MFWI CCC 1 BRIGHT A_FaceTarget
+		MFWI CCC 1 A_FaceTarget
+		MFWI CCC 1 BRIGHT A_FaceTarget
+		MFWI CCC 1 A_FaceTarget
+		MFWI CCC 1 BRIGHT A_FaceTarget
+		TNT1 A 0 A_Jump(255,"Missile1","Missile1","Missile2")
+		goto Missile1
+	Missile1:
+		MFWI C 0 A_PlaySound("wizard/blitz")
+		MFWI C 0 A_SetUserVar("user_count",0)
+	MissileLoop:
+		MFWI D 1 bright A_CustomMissile("WizBall1",32,0,random(-8,8),CMF_OFFSETPITCH,random(-8,8))
+		MFWI D 0 A_FaceTarget
+		MFWI D 1 bright A_CustomMissile("WizBall2",32,0,random(-8,8),CMF_OFFSETPITCH,random(-8,8))
+		MFWI D 0 A_FaceTarget
+		MFWI C 0 A_SetUserVar("user_count",user_count+1)
+		MFWI C 0 A_JumpIf(user_count>=31,1)
+		Loop
+		MFWI DC 10
+		Goto See
+	Missile2:
+		MFWI D 1 bright A_CustomMissile("WizHomer",32)
+		MFWI DC 10
+		Goto See
+	Pain:
+		MFWI E 0 ThrustThing(angle*256/360+128,4,0,0)
+		MFWI E 12 A_Pain
+		goto See
+	Death:
+		MFWI A 0 ACS_Execute(993,0)
+		MFWI A 0 A_Stop
+		MFWI E 60 A_Scream
+		MFWI A 0 A_PlaySound("boss/explode",CHAN_BODY,1,0,ATTN_NONE)
+		MFWI EEEEEEEE 8 A_SpawnItemEx("BossBoom",random(0,60),random(0,60),random(20,90),0,0,0,random(0,360))
+		MFWI EEEEEEEEEEE 4 A_SpawnItemEx("BossBoom",random(0,60),random(0,60),random(20,90),0,0,0,random(0,360))
+		MFWI EEEEEEEEEEEEE 2 A_SpawnItemEx("BossBoom",random(0,60),random(0,60),random(20,90),0,0,0,random(0,360))
+		TNT1 A 200 A_GiveToTarget("ScoreItem",5000)
+		Stop
+	}
+}
+
+ACTOR WizBall1 : PlasmaBall
+{
+	Speed 45
+	Damage 3
+	+BLOODSPLATTER
+	//+FORCEXYBILLBOARD
+	SeeSound ""
+	States
+	{
+	Spawn:
+		PLS1 AB 6 Bright
+		Loop
+	Death:
+		PLS1 CDEFG 4 Bright
+		Stop
+	}
+}
+
+ACTOR WizBall2 : Wizball1
+{
+	States
+	{
+	Spawn:
+		PLS2 AB 6 Bright
+		Loop
+	Death:
+		PLS2 CDE 4 Bright
+		Stop
+	}
+}
+
+ACTOR WizHomer
+{
+	radius 11
+	height 8
+	speed 10
+	damage 10
+	renderstyle Add
+	decal RevenantScorch
+	seesound "skeleton/attack"
+	deathsound "skeleton/tracex"
+	PROJECTILE
+	+RANDOMIZE
+	+SEEKERMISSILE
+	states
+	{
+	Spawn:
+		FATB A 0 A_CustomMissile("WizHomerSmokeEffect",0,0,0)
+		FATB A 0 A_PlaySound("gibbage/beep")
+		FATB A 2 bright A_Tracer2
+		FATB B 0 A_CustomMissile("WizHomerSmokeEffect",0,0,0)
+		FATB B 2 bright A_Tracer2
+		loop
+	Death:
+		TNT1 A 0 A_PlaySound("weapons/explodedist",CHAN_WEAPON,1,0,ATTN_NONE)
+		TNT1 A 0 A_Quake(6,8,0,2048,"weapons/explodedist")
+		TNT1 A 8 A_SpawnItemEx("Spawner_Explosion_Normal2")
+		stop
+	}
+}
+
+ACTOR WizHomerSmokeEffect
+{
+	+NOBLOCKMAP
+	+NOGRAVITY
+	states
+	{
+	Spawn:
+		PUFF A 0
+		PUFF C 2 A_FadeOut
+		loop
+	}
+}

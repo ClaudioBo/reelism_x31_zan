@@ -1,0 +1,276 @@
+//Splot - Enemy Weapons
+
+ACTOR LarryGun : Weapon
+{
+	Weapon.SelectionOrder 2500
+	Weapon.AmmoUse 1
+	Weapon.AmmoGive 10
+	Weapon.AmmoType "BlueMagicAmmo"
+	+WEAPON.NOAUTOFIRE
+	Inventory.PickupMessage "$GOTLARRYGUN"
+	Tag "$TAGLARRYGUN"
+	States
+	{
+	Ready:
+		LASR A 1 A_WeaponReady
+		Loop
+	Deselect:
+		LASR A 0 A_PlaySound("weapons/in")
+		TNT1 A 0 A_Lower
+		LASR A 1 A_Lower
+		goto Deselect+1
+	Select:
+		LASR A 0 A_PlaySound("weapons/out")
+		TNT1 A 0 A_Raise
+		LASR A 1 A_Raise
+		goto Select+1
+	Fire:
+		LASR B 1 bright A_FireCustomMissile("PlayerLaserShot")
+		LASR B 0 A_GunFlash
+		TNT1 A 0 A_JumpIfInventory("PowerDoubleFiringSpeed",1,"FireFast")
+		LASR BC 1 bright
+		LASR DEFAAAA 1
+		BAZO A 0 A_ReFire
+		Goto Ready
+	FireFast:
+		LASR B 2 bright
+		LASR DFAA 2
+		BAZO A 0 A_ReFire
+		Goto Ready
+	Flash:
+		TNT1 A 7 A_Light1
+		TNT1 A 8 A_Light2
+		Goto LightDone
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(902)==5||ACS_ExecuteWithResult(904)>0,2)
+		TNT1 A 0 A_ChangeFlag("DROPPED",0)
+		PULG A 1050 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		stop
+	}
+}
+
+ACTOR PlayerLaserShot
+{
+	Radius 8
+	Height 8
+	Speed 24
+	Damage 8
+	Projectile
+	+RANDOMIZE
+	+BLOODSPLATTER
+	RenderStyle Add
+	Alpha 0.75
+	scale 0.3
+	SeeSound "laser/fire"
+	DeathSound "laser/hit"
+	States
+	{
+	Spawn:
+		EMBR A 1 Bright A_SpawnItemEx("LaserTrail")
+		Loop
+	Death:
+		TNT1 A 1
+		Stop
+	}
+}
+
+ACTOR Psionics : Weapon
+{
+	Weapon.SelectionOrder 2500
+	Weapon.AmmoUse 1
+	Weapon.AmmoGive 10
+	Weapon.AmmoType "BlueMagicAmmo"
+	+WEAPON.NOAUTOFIRE
+	Inventory.PickupMessage "$GOTPSIONICS"
+	Tag "$TAGPSIONICS"
+	States
+	{
+	Ready:
+		PSIO A 1 A_WeaponReady
+		Loop
+	Deselect:
+		PSIO A 0 A_PlaySound("weapons/in")
+		TNT1 A 0 A_Lower
+		PSIO A 1 A_Lower
+		goto Deselect+1
+	Select:
+		PSIO A 0 A_PlaySound("weapons/out")
+		TNT1 A 0 A_Raise
+		PSIO A 1 A_Raise
+		goto Select+1
+	Fire:
+		PSIO ABC 2 bright
+		PSIO DDD 1 bright A_FireCustomMissile("PlayerAlienBomb")
+		PSIO D 8
+		PSIO C 2 A_GunFlash
+		PSIO BAAAA 2
+		PSIO A 0 A_ReFire
+		Goto Ready
+	Flash:
+		TNT1 A 7 A_Light1
+		TNT1 A 8 A_Light2
+		Goto LightDone
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(902)==5||ACS_ExecuteWithResult(904)>0,2)
+		TNT1 A 0 A_ChangeFlag("DROPPED",0)
+		PSIO Z 1050 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		stop
+	}
+}
+
+ACTOR PlayerAlienBomb : AlienBomb
+{
+	DamageType Normal
+	Damage 1
+}
+
+ACTOR BaronArm : Weapon
+{
+	Weapon.SelectionOrder 2500
+	Weapon.AmmoUse 3
+	Weapon.AmmoGive 10
+	Weapon.AmmoType "BlueMagicAmmo"
+	+WEAPON.NOAUTOFIRE
+	Inventory.PickupMessage "$GOTBARONARM"
+	Tag "$TAGBARONARM"
+	Inventory.PickupSound "weapons/baronarm"
+	scale 1.5
+	States
+	{
+	Ready:
+		BARM A 1 A_WeaponReady
+		Loop
+	Deselect:
+		BARM A 0 A_PlaySound("weapons/in")
+		TNT1 A 0 A_Lower
+		BARM A 1 A_Lower
+		goto Deselect+1
+	Select:
+		BARM A 0 A_PlaySound("weapons/armin")
+		TNT1 A 0 A_Raise
+		BARM A 1 A_Raise
+		goto Select+1
+	Fire:
+		BARM B 3
+		BARM C 0 A_FireCustomMissile("BOHArmBall")
+		BARM C 1 Offset(0,36) A_GunFlash
+		BARM D 1 bright Offset(0,40)
+		BARM C 1 bright Offset(0,42)
+		BARM E 1 bright Offset(0,38)
+		BARM C 1 bright Offset(0,37)
+		BARM D 1 bright Offset(0,36)
+		BARM C 1 bright Offset(0,35)
+		BARM C 1 bright Offset(0,34)
+		BARM C 1 bright Offset(0,33)
+		BARM C 1 bright Offset(0,32)
+		BARM B 1 Offset(0,31)
+		BARM B 1 Offset(0,30)
+		BARM B 1 Offset(0,31)
+		BARM A 3 Offset(0,32)
+		BARM A 0 A_ReFire
+		Goto Ready
+	Flash:
+		TNT1 A 7 A_Light1
+		TNT1 A 8 A_Light2
+		Goto LightDone
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(902)==5||ACS_ExecuteWithResult(904)>0,2)
+		TNT1 A 0 A_ChangeFlag("DROPPED",0)
+		BARA A 1050 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		stop
+	}
+}
+
+ACTOR BOHArmBall : BaronBall
+{
+	Speed 24
+	FastSpeed 40
+	Damage 25
+	SeeSound "baronarm/fire"
+	DeathSound "baron/shotx"
+}
+
+// Superweapon - The Bee Gun!
+ACTOR BeeGunAmmo : Ammo
+{
+	Inventory.Amount 100
+	Inventory.MaxAmount 100
+	Inventory.Icon "HUDSUPER"
+	Tag "$TAGSUPER"
+}
+
+ACTOR BeeGun : Weapon
+{
+	Weapon.AmmoUse 1
+	Weapon.AmmoGive 100
+	Weapon.AmmoType "BeeGunAmmo"
+	+WEAPON.NOAUTOFIRE
+	Inventory.PickupMessage "$GOTBEEGUN"
+	Tag "$TAGBEEGUN"
+	Inventory.PickupSound "misc/ws_pkup"
+	States
+	{
+	Ready:
+		BBGN A 1 A_WeaponReady
+		Loop
+	Deselect:
+		BBGN A 0 A_PlaySound("weapons/in")
+		TNT1 A 0 A_Lower
+		BBGN A 1 A_Lower
+		goto Deselect+1
+	Select:
+		BBGN A 0 A_PlaySound("weapons/out")
+		TNT1 A 0 A_Raise
+		BBGN A 1 A_Raise
+		goto Select+1
+	Fire:
+		BBGN A 1 bright A_FireCustomMissile("PlayerBeeShot",0,1,-8)
+		LASR B 0 A_GunFlash
+		BBGN BC 1 bright
+		BBGN BAA 1
+		BBGN A 0 A_ReFire
+		Goto Ready
+	Flash:
+		TNT1 A 7 A_Light1
+		TNT1 A 8 A_Light2
+		Goto LightDone
+	Spawn:
+		//TNT1 A 0
+		//TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(902)==5||ACS_ExecuteWithResult(904)>0,2)
+		//TNT1 A 0 A_ChangeFlag("DROPPED",0)
+		BBGN Z 1050 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		stop
+	}
+}
+
+actor PlayerBeeShot
+{
+	+CANBOUNCEWATER
+	Radius 12
+	Height 8
+	Speed 25
+	Damage 10
+	SeeSound "dogbees/fire"
+	DeathSound "dogbees/hit"
+	Projectile
+	+SEEKERMISSILE
+	+SCREENSEEKER
+	States
+	{
+	Spawn:
+		DBEE A 1 bright A_SeekerMissile(80,90)
+		DBEE A 0 A_SeekerMissile (0,2, SMF_LOOK, 50)
+		Loop
+	See:
+	Death:
+		TNT1 A 1
+		Stop
+	}
+}

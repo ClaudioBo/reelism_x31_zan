@@ -1,0 +1,163 @@
+#library "splot993"
+#import "splot.acs"
+#include "zcommon.acs"
+
+script 993(void) // Victory Sequence
+{
+	if(GameType()!=GAME_SINGLE_PLAYER)
+	{
+		SetActivatorToTarget(0);
+		PrinterPrep();
+		if(PlayerNumber()>=0)
+			hudmessage(s:"\cc",n:0,s:"\cd got ",s:bosses[boss - 1][2],s:"!";HUDMSG_FADEOUT|HUDMSG_LOG,1,6,(fuckhacksforever << 16),96.0,3.0,1.0);
+		else
+			hudmessage(s:"\cc Something weird\cd happened, and ",s:bosses[boss - 1][2],s:" died. Oops!";HUDMSG_FADEOUT|HUDMSG_LOG,1,6,(fuckhacksforever << 16),96.0,3.0,1.0);
+	}
+	if(GetLevelInfo(LEVELINFO_LEVELNUM)>=100&&round != maxrounds)
+    {
+		if (round == maxrounds-1)
+		{
+			SetMusic("");
+			Thing_Deactivate (2);
+		}
+		round++;
+		ACS_ExecuteAlways(444,0);
+		ACS_ExecuteAlways(101,0);
+		terminate;
+    }
+	if(GameSkill() != 12)
+	{
+		for(int i = 1337; i < 1400; i++)
+			GiveActorInventory(i,"PowerPseudoInvincible",1);
+		SetPlayerProperty(1,1,PROP_NOTARGET);
+		int secs = Timer() / 35;
+		int mins = secs / 60;
+	}
+	SetMusic("");
+	delay(210);
+	if(GameSkill() == 12)
+	{
+		slottimer = 0;
+		slotting = 0;
+		roundsplayed = 0;
+		boss = 0;
+		round++;
+		ACS_ExecuteAlways(444,0);
+		ACS_ExecuteAlways(100,0);
+		terminate;
+	}
+	SetFont("BIGFONT");
+	dead = 1;
+	winner = 1;
+	PrinterPrep();
+	str winmessage;
+	if(GetLevelInfo(LEVELINFO_LEVELNUM)>=100)
+	{
+	PlayAnnouncer("announcer/winner");
+		SetMusic("RUSHWIN",0);
+		if(GameType()==GAME_SINGLE_PLAYER)
+			winmessage="Holy Shit! You beat Boss Rush!";
+		else
+			winmessage="Whew! Your team beat Boss Rush!";
+	}
+	else
+	{
+	PlayAnnouncer("announcer/winner");
+		SetMusic("mus-win",0);
+		if(GameType()==GAME_SINGLE_PLAYER)
+			winmessage="You have Triumphed!";
+		else
+			winmessage="Your team has Triumphed!";
+	}
+	hudmessagebold(s:winmessage; HUDMSG_FADEOUT,1,6,(fuckhacksforever << 16),32.0,5.0,1.0);
+	SetPlayerProperty(1,1,4);
+	fadeto(0,0,0,5.0,1.0);
+	for(i = 1337; i < 1400; i++)	//Ed - This is the only part that needs a new Activator,
+	{								//So let's do that right here to keep the loop small
+		SetActivator(i);
+		fadeto(0,0,0,5.0,1.0);
+	}
+	delay(35);
+	SetFont("SMALLFONT");
+
+	if(GameType()==GAME_SINGLE_PLAYER)
+		hudmessagebold(s:"Let's see how well you did..."; HUDMSG_FADEOUT,3,5,(fuckhacksforever << 16),48.0,4.0,1.0);
+	else
+		hudmessagebold(s:"Let's see how well you all did..."; HUDMSG_FADEOUT,3,5,(fuckhacksforever << 16),48.0,4.0,1.0);
+
+	delay(160);
+	Thing_Hate(900,9999,6);
+	if(ThingCount(0,900)>1)		//Try this to avoid the freeze
+		ACS_NamedExecute("CommenceRiot", 0);
+	ChangeCamera(64,1,0);
+	ACS_ExecuteAlways(105,0); //SetMusic("");
+	fadeto(0,0,0,0.5,2.0);
+	delay(35);
+	SetFont("BIGFONT");
+	hudmessagebold(s:"Post-Game Stats"; HUDMSG_PLAIN,1,6,(fuckhacksforever << 16),16.0,0.0);
+	delay(35);
+	SetFont("SMALLFONT");
+	int totalscore;	//Ed - This will show the combined total of all players' scores for the read-out. Team effort!
+	for(i = 1337; i < 1400; i++)
+		totalscore+=GetActorProperty(i,APROP_Score);
+	if(GetLevelInfo(LEVELINFO_LEVELNUM)>=100)
+	{
+		if(GameType()==GAME_SINGLE_PLAYER)
+			hudmessage(s:"You defeated all ",i:round,s:" bosses."; HUDMSG_PLAIN,2,9,(fuckhacksforever << 16),33.0,0.0,1.0);
+		else
+			hudmessagebold(s:"Your team defeated all ",i:round,s:" bosses."; HUDMSG_PLAIN,2,9,(fuckhacksforever << 16),33.0,0.0,1.0);
+		delay(35);
+		if(GameType()==GAME_SINGLE_PLAYER)
+			hudmessagebold(s:"You earned ",i:totalscore ,s:" points."; HUDMSG_PLAIN,3,9,(fuckhacksforever << 16),42.0,0.0,1.0);
+		else
+			hudmessagebold(s:"You earned a combined score of ",i:totalscore ,s:" points."; HUDMSG_PLAIN,3,9,(fuckhacksforever << 16),42.0,0.0,1.0);
+	}
+	else
+	{
+		if(GameType()==GAME_SINGLE_PLAYER)
+			hudmessagebold(s:"You ascended on level ",i:random(1,16),s:" of ",s:dungeonname[random(0,31)]; HUDMSG_PLAIN,2,9,(fuckhacksforever << 16),33.0,0.0,1.0);
+		else
+			hudmessagebold(s:"You all ascended on level ",i:random(1,16),s:" of ",s:dungeonname[random(0,19)]; HUDMSG_PLAIN,2,9,(fuckhacksforever << 16),33.0,0.0,1.0);
+		delay(35);
+		if(GameType()==GAME_SINGLE_PLAYER)
+			hudmessagebold(s:"during round ",i:round,s:" with ",i:totalscore ,s:" points."; HUDMSG_PLAIN,3,9,(fuckhacksforever << 16),42.0,0.0,1.0);
+		else
+			hudmessagebold(s:"during round ",i:round,s:" with a combined score of ",i:totalscore ,s:" points."; HUDMSG_PLAIN,3,9,(fuckhacksforever << 16),42.0,0.0,1.0);
+	}
+	delay(60);
+	if(GameType()==GAME_SINGLE_PLAYER)
+		hudmessagebold(i:GetLevelInfo(LEVELINFO_KILLED_MONSTERS),s:" monsters were taken with you."; HUDMSG_PLAIN,4,9,(fuckhacksforever << 16),51.0,0.0,1.0);
+	else
+		hudmessagebold(i:GetLevelInfo(LEVELINFO_KILLED_MONSTERS),s:" monsters were vanquished."; HUDMSG_PLAIN,4,9,(fuckhacksforever << 16),51.0,0.0,1.0);
+	delay(35);
+	if(GameType()==GAME_SINGLE_PLAYER)
+		hudmessagebold(s:"You lasted ",i:mins,s:" minutes and ",i:secs - (mins * 60),s:" seconds."; HUDMSG_PLAIN,5,9,(fuckhacksforever << 16),60.0,0.0,1.0);
+	else
+		hudmessagebold(s:"You all lasted ",i:mins,s:" minutes and ",i:secs - (mins * 60),s:" seconds."; HUDMSG_PLAIN,5,9,(fuckhacksforever << 16),60.0,0.0,1.0);
+	delay(60);
+
+	if(GetLevelInfo(LEVELINFO_LEVELNUM)>=100)
+	{
+		delay(35);
+		if(GameType()==GAME_SINGLE_PLAYER)
+			hudmessagebold(s:"You conquered Boss Rush! Incredible!"; HUDMSG_PLAIN,9,9,(fuckhacksforever << 16),78.0,0.0,1.0);
+		else
+			hudmessagebold(s:"You all beat Boss Rush! Nicely done!"; HUDMSG_PLAIN,9,9,(fuckhacksforever << 16),78.0,0.0,1.0);
+	}
+	else
+	{
+		hudmessagebold(s:nostat1[random(0,23)]; HUDMSG_PLAIN,6,9,(fuckhacksforever << 16),78.0,0.0,1.0);
+		delay(35);
+		hudmessagebold(s:nostat2[random(0,23)]; HUDMSG_PLAIN,7,9,(fuckhacksforever << 16),87.0,0.0,1.0);
+		delay(35);
+		hudmessagebold(s:nostat3[random(0,23)]; HUDMSG_PLAIN,8,9,(fuckhacksforever << 16),96.0,0.0,1.0);
+		delay(35);
+		hudmessagebold(s:bosses[boss - 1][4]; HUDMSG_PLAIN,9,9,(fuckhacksforever << 16),105.0,0.0,1.0);
+	}
+	delay(60);
+	ACS_Execute(994,0);
+	if(GetLevelInfo(LEVELINFO_LEVELNUM)>=100)
+		hudmessagebold(s:"Press the USE key to continue!"; HUDMSG_PLAIN,10,5,(fuckhacksforever << 16),96.0,0.0,1.0);
+	else
+		hudmessagebold(s:"Press the USE key to continue!"; HUDMSG_PLAIN,10,5,(fuckhacksforever << 16),123.0,0.0,1.0);
+}

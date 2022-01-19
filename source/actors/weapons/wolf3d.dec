@@ -1,0 +1,404 @@
+// Splot - Wolfenstein Guns
+// code and art courtesy of afadoomer's wolf3d mod
+// then hideously butchered to fit in this one
+
+//Luger
+ACTOR WolfWeapon : Weapon
+{
+	Weapon.AmmoType "DoomClip"
+	Weapon.AmmoUse 1
+	//Weapon.YAdjust 17
+	+WEAPON.DONTBOB
+}
+ACTOR WolfLuger : WolfWeapon
+{
+	Weapon.SelectionOrder 3
+	Inventory.PickupSound "pickups/ammo"
+	Inventory.PickupMessage "$GOTWOLFLUGER"
+	Tag "$TAGWOLFLUGER"
+	Weapon.AmmoGive 8
+	+Weapon.Wimpy_Weapon
+	+WEAPON.NOAUTOFIRE
+	Inventory.PickupSound "wolf/lugerget"
+	AttackSound "wolf/lugerfire"
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(902)==5||ACS_ExecuteWithResult(904)>0,2)
+		TNT1 A 0 A_ChangeFlag("DROPPED",0)
+		LUGP A 1050 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	Ready:
+		LUGR A 1 A_WeaponReady
+		Loop
+	Deselect:
+		LUGR A 0 A_PlaySound("weapons/in")
+		TNT1 A 0 A_Lower
+		LUGR A 1 A_Lower
+		goto Deselect+1
+	Select:
+		LUGR A 0 A_PlaySound("weapons/out")
+		TNT1 A 0 A_Raise
+		LUGR A 1 A_Raise
+		goto Select+1
+	Fire:
+		LUGR B 2
+		LUGR C 3 BRIGHT A_FireBullets(2.0,2.0,1,7)
+		LUGR DE 3
+		Goto Ready
+	}
+}
+
+// Machinegun
+ACTOR WolfMachineGun : WolfWeapon
+{
+	Weapon.SelectionOrder 2
+	Inventory.PickupSound "wolf/machineget"
+	Inventory.PickupMessage "$GOTWOLFMG"
+	Tag "$TAGWOLFMG"
+	Weapon.AmmoGive 16
+	AttackSound "wolf/machinefire"
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(902)==5||ACS_ExecuteWithResult(904)>0,2)
+		TNT1 A 0 A_ChangeFlag("DROPPED",0)
+		MGUN P 1050 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	Ready:
+		MGUN W 1 A_WeaponReady
+		Loop
+	Deselect:
+		MGUN W 0 A_PlaySound("weapons/in")
+		TNT1 A 0 A_Lower
+		MGUN W 1 A_Lower
+		goto Deselect+1
+	Select:
+		MGUN W 0 A_PlaySound("weapons/out")
+		TNT1 A 0 A_Raise
+		MGUN W 1 A_Raise
+		goto Select+1
+	Fire:
+		MGUN WB 2
+	Hold:
+		MGUN C 3 BRIGHT A_FireBullets(3.0,3.0,1,7)
+		MGUN D 3
+		MGUN E 3 A_ReFire
+		Goto Ready
+	}
+}
+
+// BRAAAAAAAAAPPPPPPPP
+ACTOR WolfChaingun : WolfWeapon
+{
+	Weapon.SelectionOrder 1
+	Inventory.PickupSound "wolf/chainget"
+	Inventory.PickupMessage "$GOTWOLFCHAINGUN"
+	Tag "$TAGWOLFCHAINGUN"
+	Weapon.AmmoGive 32
+	+Weapon.BFG
+	AttackSound "wolf/chainfire"
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(902)==5||ACS_ExecuteWithResult(904)>0,2)
+		TNT1 A 0 A_ChangeFlag("DROPPED",0)
+		CGUN P 1050 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	Ready:
+		CGUN A 1 A_WeaponReady
+		Loop
+	Deselect:
+		CGUN A 0 A_PlaySound("weapons/in")
+		TNT1 A 0 A_Lower
+		CGUN A 1 A_Lower
+		goto Deselect+1
+	Select:
+		CGUN A 0 A_PlaySound("weapons/out")
+		TNT1 A 0 A_Raise
+		CGUN A 1 A_Raise
+		goto Select+1
+	Fire:
+		CGUN AB 2
+	Hold:
+		CGUN CD 3 BRIGHT A_FireBullets(4.0,4.0,1,7)
+		CGUN E 2 A_ReFire
+		Goto Ready
+	}
+}
+
+// SUPERWEAPON - The Spear
+ACTOR WolfSpearAmmo : Ammo
+{
+	Inventory.Amount 10
+	Inventory.MaxAmount 10
+	Inventory.Icon "HUDSUPER"
+	Tag "$TAGSUPER"
+}
+
+ACTOR WolfSpear : Weapon
+{
+	Weapon.SelectionOrder 3
+	Inventory.PickupSound "wolf/chainget"
+	Inventory.PickupMessage "$GOTWOLFSPEAR"
+	Tag "$TAGWOLFSPEAR"
+	Weapon.AmmoGive 10
+	+Weapon.Wimpy_Weapon
+	+WEAPON.NOAUTOFIRE
+	Inventory.PickupSound "wolf/spearget"
+	Weapon.AmmoType "WolfSpearAmmo"
+	Weapon.AmmoUse 1
+	+WEAPON.DONTBOB
+	Obituary ""
+	States
+	{
+	Spawn:
+		//TNT1 A 0
+		//TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(902)==5||ACS_ExecuteWithResult(904)>0,2)
+		//TNT1 A 0 A_ChangeFlag("DROPPED",0)
+		WSPP A 1050 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	Ready:
+		WSPR A 1 A_WeaponReady
+		Loop
+	Deselect:
+		WSPR A 0 A_PlaySound("weapons/in")
+		TNT1 A 0 A_Lower
+		WSPR A 1 A_Lower
+		goto Deselect+1
+	Select:
+		WSPR A 0 A_PlaySound("weapons/out")
+		TNT1 A 0 A_Raise
+		WSPR A 1 A_Raise
+		goto Select+1
+	Fire:
+		WSPR B 2
+		WSPR C 0 A_PlaySound("wolf/spearfire")
+		WSPR C 3 BRIGHT A_FireCustomMissile ("WolfSpearSeeker1",0,1,9,-2)
+		WSPR DCB 3
+		Goto Ready
+	}
+}
+
+// code shamelessly stolen from the seeker bazooka on realm667
+
+actor WolfSpearSeeker1
+{
+	+CANBOUNCEWATER
+	Radius 12
+	Height 8
+	Speed 35
+	Damage 30
+	Projectile
+	scale 1
+	+ROCKETTRAIL
+	+SEEKERMISSILE
+	+RIPPER
+	+NOBOSSRIP
+	+SCREENSEEKER
+	BounceType "Doom"
+	BounceCount 5
+	DamageType "Godly"
+	DeathSound "wolf/spearhit"
+	States
+	{
+	Spawn:
+		GODP A 1 bright A_SeekerMissile(80,90)
+		PLSS A 0 A_CustomMissile("WolfSpearSeekerTrail",0,0,0,0)
+		PLSS A 0 A_LookEx(2,0,12,0,360,"Death")
+		PLSS A 0 A_SeekerMissile (0,2, SMF_LOOK, 50)
+		GODP A 1 bright A_SeekerMissile(80,90)
+		PLSS A 0 A_CustomMissile("WolfSpearSeekerTrail",0,0,0,0)
+		PLSS A 0 A_LookEx(2,0,12,0,360,"Death")
+		PLSS A 0 A_SeekerMissile (0,2, SMF_LOOK, 50)
+		GODP B 1 bright A_SeekerMissile(80,90)
+		PLSS A 0 A_CustomMissile("WolfSpearSeekerTrail",0,0,0,0)
+		PLSS A 0 A_LookEx(2,0,12,0,360,"Death")
+		PLSS A 0 A_SeekerMissile (0,2, SMF_LOOK, 50)
+		GODP B 1 bright A_SeekerMissile(80,90)
+		PLSS A 0 A_CustomMissile("WolfSpearSeekerTrail",0,0,0,0)
+		PLSS A 0 A_LookEx(2,0,12,0,360,"Death")
+		PLSS A 0 A_SeekerMissile (0,2, SMF_LOOK, 50)
+		GODP C 1 bright A_SeekerMissile(80,90)
+		PLSS A 0 A_CustomMissile("WolfSpearSeekerTrail",0,0,0,0)
+		PLSS A 0 A_LookEx(2,0,12,0,360,"Death")
+		PLSS A 0 A_SeekerMissile (0,2, SMF_LOOK, 50)
+		GODP C 1 bright A_SeekerMissile(80,90)
+		PLSS A 0 A_CustomMissile("WolfSpearSeekerTrail",0,0,0,0)
+		PLSS A 0 A_LookEx(2,0,12,0,360,"Death")
+		PLSS A 0 A_SeekerMissile (0,2, SMF_LOOK, 50)
+		GODP D 1 bright A_SeekerMissile(80,90)
+		PLSS A 0 A_CustomMissile("WolfSpearSeekerTrail",0,0,0,0)
+		PLSS A 0 A_LookEx(2,0,12,0,360,"Death")
+		PLSS A 0 A_SeekerMissile (0,2, SMF_LOOK, 50)
+		GODP D 1 bright A_SeekerMissile(80,90)
+		PLSS A 0 A_CustomMissile("WolfSpearSeekerTrail",0,0,0,0)
+		PLSS A 0 A_LookEx(2,0,12,0,360,"Death")
+		PLSS A 0 A_SeekerMissile (0,2, SMF_LOOK, 50)
+		Loop
+	Death:
+		PLSS A 2 Bright A_Explode
+		//TNT1 A 0 A_SpawnItemEx("ExtraExplosion")
+		PLSE ABCDE 4 bright
+		Stop
+	}
+}
+
+actor WolfSpearSeekerTrail
+{
+	Radius 1
+	Height 1
+	Scale .4
+	RenderStyle Add
+	+NOGRAVITY
+	+CLIENTSIDEONLY
+	States
+	{
+	Spawn:
+		//PLSE ABCDE 4 bright
+		PLSE A 0 A_SetScale((scaleY - 0.3))
+		PLSE C 1 bright A_FadeOut(0.1)
+		loop
+	}
+}
+
+// thanks to woolie wool for this code
+
+actor Wolf3DFlamer : WolfWeapon
+{
+	inventory.pickupmessage "$GOTWOLFFLAMER"
+	Tag "$TAGWOLFFLAMER"
+	weapon.ammotype "FlameAmmo"
+	weapon.ammogive1 50
+	Inventory.PickupSound "weapons/wolfflamer/get"
+	states
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(902)==5||ACS_ExecuteWithResult(904)>0,2)
+		TNT1 A 0 A_ChangeFlag("DROPPED",0)
+		WOFL Z 1050 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		stop
+	Ready:
+		WOFL A 1 A_WeaponReady
+		loop
+	Deselect:
+		WOFL A 0 A_PlaySound("weapons/in")
+		TNT1 A 0 A_Lower
+		WOFL A 1 A_Lower
+		goto Deselect+1
+	Select:
+		WOFL A 0 A_PlaySound("weapons/out")
+		TNT1 A 0 A_Raise
+		WOFL A 1 A_Raise
+		goto Select+1
+	Fire:
+		WOFL B 3 bright
+	Hold:
+		WOFL CD 3 A_FireCustomMissile("Wolf3DFlameShot")
+		WOFL E 3 A_ReFire
+		goto Ready
+	}
+}
+
+actor Wolf3DFlameShot
+{
+	radius 8
+	speed 6
+	damage 6
+	seesound "weapons/wolfflamer/attack"
+	deathsound "weapons/wolfflamer/impact"
+	PROJECTILE
+	damagetype Fire
+	states
+	{
+	Spawn:
+		WOFI ABABABABABABABABABABABABABABABABABA 1 bright
+		WOFI B 1 bright A_ScaleVelocity(4)
+	GottaGoFast:
+		WOFI AB 1 bright
+		loop
+	Death:
+		WOFI CD 3 bright
+		stop
+	}
+}
+
+ACTOR Wolf3DRocketLauncher : WolfWeapon
+{
+ 	Weapon.AmmoType "DoomRocket"
+	Weapon.AmmoGive1 5
+	Weapon.AmmoUse1 1
+	Weapon.SlotNumber 5
+	+WEAPON.NOAUTOFIRE
+	Inventory.PickupSound "weapons/wolfpanzer/get"
+	Inventory.PickupMessage "$GOTWOLFROCKET"
+	Tag "$TAGWOLFROCKET"
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(902)==5||ACS_ExecuteWithResult(904)>0,2)
+		TNT1 A 0 A_ChangeFlag("DROPPED",0)
+		WOPA Z 1050 bright
+		TNT1 A 0 A_SpawnItemEx("DespawnCloudPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		stop
+	Ready:
+		WOPA A 1 A_WeaponReady
+		loop
+	Deselect:
+		WOPA A 0 A_PlaySound("weapons/in")
+		TNT1 A 0 A_Lower
+		WOPA A 1 A_Lower
+		goto Deselect+1
+	Select:
+		WOPA A 0 A_PlaySound("weapons/out")
+		TNT1 A 0 A_Raise
+		WOPA A 1 A_Raise
+		goto Select+1
+	Fire:
+		WOPA A 2
+		WOPA AB 3 bright
+		WOPA C 3 bright A_FireCustomMissile("Wolf3DMissile")
+		WOPA D 3 bright
+		WOPA EF 3
+		WOPA A 12 A_CheckReload
+		Goto Ready
+	Flash:
+		TNT1 A 1 A_Light(4)
+		TNT1 A 1 A_Light(3)
+		TNT1 A 1 A_Light2
+		TNT1 A 2 A_Light1
+		Goto LightDone
+	}
+}
+
+actor Wolf3DMissile : Missile
+{
+	Radius 8
+	Height 8
+	Speed 30
+	Damage 25
+	scale 0.5
+	SeeSound "hitler/rocket"
+	DeathSound "weapons/wolfexplode"
+	States
+	{
+	Death:
+		TNT1 A 0 A_Explode(128,32)
+		TNT1 A 0 A_PlaySound("weapons/explodedist",CHAN_WEAPON,1,0,ATTN_NONE)
+		TNT1 A 0 A_Quake(6,8,0,2048,"weapons/explodedist")
+		WOFB A 16 Bright A_SetScale(0.7)
+	Fade:
+		WOFB A 1 A_FadeOut(0.2)
+		loop
+	}
+}

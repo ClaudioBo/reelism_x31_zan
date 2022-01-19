@@ -1,0 +1,432 @@
+[enu default]
+
+// Startup Text
+STARTUP1 = "SlotMac_Init: Checking the Slot Machine for tampering...";
+STARTUP2 = "Phys_Init: Initializing Comedy Physics System...";
+STARTUP3 = "RNG_Init: Inducing appropriate levels of surliness...";
+STARTUP4 = "Spline_Init: Reticulating Splines...";
+STARTUP5 = "Done! (Good boy!) Now lets get Reel!";
+
+// Menu Text
+VER = "VERSION X3.1 (17/09/2015)\nEXPANSION PACK 3"; //update name after line break!
+//VER = "X3 BUILD 19 (06/09/2015)"; //update name after line break!
+MNU_NEWGAME	= "Start";
+MNU_OPTIONS	= "Options";
+MNU_INFO = "Help 'n' Info";
+MNU_CREDITS = "What's Up?";
+MNU_QUITGAME = "Quit";
+MNU_MAPSEL = "Select Your Map";
+MNU_MODESEL = "Select Game Mode";
+
+// Skills
+SKILL1 = "Standard Play";
+SKILL2 = "Endurance Mode";
+SKILL3 = "Infinite Mode";
+SKILL4 = "Shuffle Mode";
+SKILL99 = "Boss Practice";
+
+// Quit messages
+DOSY = "";
+TXT_YES = "Quit";
+TXT_NO = "Continue";
+
+// Original Reelism Ones
+QUITMSG_R1 = "Heading back to Reelity?";
+QUITMSG_R2 = "Are you sure you want to\nleave things to chance?";
+QUITMSG_R3 = "Go out with a bang?\nOr several hundred?";
+QUITMSG_R4 = "Are you sure you want to trade\none form of chaos for another?";
+QUITMSG_R5 = "So soon? I thought you'd have\nmore... you know... stamina.";
+QUITMSG_R6 = "You're just going to play\nBrutal Doom, aren't you?";
+QUITMSG_R7 = "Better run, I can hear\nthe boats coming!";
+QUITMSG_R8 = "Seriously? Come on,\nwork with me here.";
+QUITMSG_R9 = "What, did your anime horse porn\nfinish downloading?";
+QUITMSG_R10 = "Not enough polygons for ya?";
+QUITMSG_R11 = "To quit, please enter word 7 of line 10\non page 52 of your manual.";
+QUITMSG_R12 = "Remember to send in your\nregistration card for two new episodes!";
+QUITMSG_R12 = "You'll be back! They all\ncome back eventually!";
+QUITMSG_R13 = "Watch this neighbourhood\ngo to the dogs?";
+QUITMSG_R14 = "...and pregnancy.";																// 333333333333333
+
+// Wolfenstein and Variants
+QUITMSG_W1 = "Giving up... already?";															// Wolfenstein 3D
+QUITMSG_W2 = "Click Continue for guns 'n' glory.\nClick Quit for work 'n' worry.";				// Wolfenstein 3D
+QUITMSG_W3 = "I'm thinkin' that\nyou might wanna click Continue\nto play more. You do it.";		// Wolfenstein 3D?
+QUITMSG_W4 = "Sure you don't want to\nwaste a few more\nproductive hours?";						// Spear of Destiny
+QUITMSG_W5 = "Sure. Fine. Quit.\nSee if we care.\nGet it over with.";							// Spear of Destiny
+QUITMSG_W6 = "The animals might get\nhungry if you're gone too long!";							// Super Noah's Ark 3D
+
+// Misc. Stuff
+QUITMSG_M1 = "I don't know who you are, pal,\nbut America has two words for you:\nGET THE FUCK OUT.";	// SeanBaby
+QUITMSG_M2 = "If you quit, I'm gonna sneak into\nyour house tonight and paint\nall your pets purple.";	// SimonTheDigger
+QUITMSG_M3 = "You can't quit, because you're FIRED!";													// SimonTheDigger
+QUITMSG_M4 = "Man, don't leave now. El Cybredemon's\ngonna cook up some ostrich burgers!";				// SimonTheDigger
+
+// Carmageddon
+QUITMSG_C1 = "Return to reel life, including\nkids, shopping and toilet-training pets?";		// Carmageddon
+QUITMSG_C2 = "Give up the joys of bursting open\naliens and return to a life of reason?";		// Carmageddon
+QUITMSG_C3 = "Return to a life where you don't\nget internal organs in your hair?";				// Carmageddon
+
+// Doom Variants
+QUITMSG_D1 = "Well, go click on your icons, then.\nI'll be waiting.";							// Doom for Mac OS
+QUITMSG_D2 = "You're saying you like the desktop pattern better than me, right?";				// Doom for Mac OS
+
+// funney computer
+QUITMSG_Y1 = "Are you sure you want\nto quit to Workbench?";									// Amiga
+QUITMSG_Y2 = "''This illegal copy of WINDOWS\nREEL ISM will no longer function.''";				// Windows
+QUITMSG_Y3 = "Format C:> ?";																	// MS-DOS
+QUITMSG_Y4 = "This will end your Reelism session.";												// Windows 3.1
+
+// Other Games that don't really fit into a category yet
+QUITMSG_G1 = "Please don't go. The drones need you.\nThey look up to you.";						// Alpha Centauri
+QUITMSG_G2 = "Are you sure you want to implode your\nmonitor, causing severe bodily harm?";		// Sim Earth
+QUITMSG_G3 = "Are you sure? You can run, but\nthey'll find you before dawn...";					// Killing Floor
+QUITMSG_G4 = "Click Quit to signal firing squad.";												// Rise of the Triad
+QUITMSG_G5 = "Don't go yet! You're nearly\nat the best part!";									// ???
+QUITMSG_G6 = "Game Quit\nWould You Play?";														// Super Metroid
+QUITMSG_G7 = "Are you sure you want to\nplead ''very guilty''?";								// Kangaroo Court
+QUITMSG_G8 = "But all your friends think that\nour LSP is best 3d game on the earth!";			// Legend of the Seven Paladins
+QUITMSG_G9 = "Are you sure you want your\npossessions identified?";								// Nethack
+QUITMSG_G10 = "Are you sure? This will\ncause a time paradox!";									// The Journeyman Project?
+QUITMSG_G11 = "Taking a break to retake\nthe vidmaster's oath?";									// Marathon
+QUITMSG_G12 = "Temporal Rip Status unresolved.\nExit not allowed.";								// The Journeyman Project
+QUITMSG_G13 = "Leave the battlefield and\nreturn to HERC base?";								// Missionforce Cyberstorm
+QUITMSG_G14 = "How about a slice of quiche?";													// Quest for Glory
+QUITMSG_G15 = "Please don't leave... You don't know\nwhat the CPU does to us when you're away!";// Leisure Suit Larry
+QUITMSG_G16 = "Godd Game End:\nSave Chat Log";													// Exploding Lips
+QUITMSG_G17 = "Thanks for playing! As usual,\nyou've been a real pantload.";					// Space Quest 4
+QUITMSG_G18 = "Do you really expect me to believe that you want to quit playing?"; 				// Anachronox
+QUITMSG_G19 = "Really leave the Kingdom of Reelism?\nHow will it survive without your precious administrations?"; 	// Desktop Dungeons
+QUITMSG_G20 = "Are you sure?\nYou'll be letting your teammates down...";						// Left 4 Dead
+QUITMSG_G21 = "You're going AWOL on me, son?";													// HL1 OpForce
+
+// I... have no idea. http://www.doomworld.com/vb/wads-mods/62633-doom-human-body-allegory/
+QUITMSG_CRAZY1 = "sudden silence horizon\nagonize echo muladhara [base tail bone chakra]\nfade night mare sky\nblue heap monster corpse start\nevaporate devil [white person] stench";
+QUITMSG_CRAZY2 = "[fire water air/tree earth quintescense/metal real won\ndistant rumble\nblue light begin glow\nruin daemon spit skull";
+QUITMSG_CRAZY3 = "time vacation burst\nmuladhara [base tail bone chakra] bowel golly read\nbreak mutter\nkick muladhara ass\ntime lie quiet town\n";
+QUITMSG_CRAZY4 = "peace flow water quaint\nbuild Satan child\nstep transport hear\nstomp cyber daemon iron shoe";
+QUITMSG_CRAZY5 = "id software made millions by visciously abusing daemons gentile Gods and the player as super stalin bros did";
+QUITMSG_CRAZY6 = "32 level 33 vertabre";
+
+// Expansion 3 stuff
+QUITMSG_X3_1 = "Where ya goin'? I just finished baking cookies!";
+QUITMSG_X3_2 = "Something might happen here. And if it does, so what?";
+QUITMSG_X3_3 = "Yeah, well, we didn't like you too much either.";
+QUITMSG_X3_4 = "See you later, Steve.\n\n\(If we call you Steve long enough,\nyou'll start believing it.)";
+QUITMSG_X3_5 = "Faaaughh!! What sick wizardry is this?";										// Realmz
+
+// Weapon Pickups
+GOTDRILL = "The Frejus Super-Drill! Pierce the heavens!";
+GOTBAT = "The Louisville Slugger!";
+GOTSHOTGUN = "The UAC Shotgun!";
+GOTSHOTGUN2 = "The UAC Super Shotgun!";
+GOTWOLFLUGER = "The Retro Luger!";
+GOTWOLFMG = "The Retro Machine Gun!";
+GOTWOLFCHAINGUN = "The Retro Gatling Gun!";
+GOTWOLFFLAMER = "The Retro Flammenwerfer!";
+GOTWOLFROCKET = "The Retro Panzerfaust!";
+GOTFLAMETHROWER = "The ''Byzantinian Special'' Flame Thrower!";
+GOTGASBOMB = "The Vyacheslav Co. Gasoline Bomb Launcher!";
+GOTBAZOOKA = "The Bazooko Discount Missile Launcher!";
+GOTPLASMA = "The UAC Plasma Rifle!";
+GOTRAIL = "The ER-1 ''Manshoot'' Railgun!";
+GOTCROSSBOW = "The Sidhe Etheral Crossbow!";
+GOTFIREMACE = "The Riders' Fire Mace!";
+GOTHAMMER = "Baratus's Hammer of Retribution!";
+GOTLARRYGUN = "Larry's Laser Gun!";
+GOTPSIONICS = "The Psionic Amplifier!";
+GOTMINIGUN = "The GOU-4 Home Defense Supplement!";
+GOTSWEEPER = "The Riley-Morello Jackhammer!";
+GOTTHUNDERBOLT = "CabalCo Thunderbolt! Keep Out Of Water...";
+GOTFLARE= "The Jacawitz and Sons Flare Gun!";
+GOTJAVELIN= "I Can't Believe It's Not A Javelin Launcher!";
+GOTBARONARM= "Ewww...!";
+GOTTAZER= "The GenEmp Tazer!";
+GOTUZI= "The Evanger SMG!";
+GOTANTIGUN= "The Anti-Gun! Rotten to the core!";
+GOTRPG= "The EDF RPG Launcher!";
+GOTRIPPER= "The EDF ''Ripper'' Chaingun Cannon!";
+GOTFREEZETHROWER= "The Alien Freezethrower!";
+GOTBOTTLE= "A hastily-drained bottle!";
+GOTCRAPM16="A battered, mud-soaked, rusty XM16E1 rifle!";
+GOTQUANTUM="The Electron DiscombuUSF838@$$###ne-)))";
+GOTDISCGUN="The Zaker Pan-Qiang 550!";
+GOTCOINBOMB="The Weizao-Yuan Coin Bomb!";
+GOTBAYONET="The UAC Bayonette Rifle!";
+GOTCRAPRL="A Slightly Pre-Loved Homing Missile Launcher!";
+GOTM60="A Lobotomized M-60!";
+GOTBURST="The Short, Controlled Burst Rifle!";
+GOTSWORD="The Master Sword!";
+GOTCLUSTER="The Clustersucker!";
+GOTBETARPG="A Slightly Defective Prototype EDF RPG Launcher!";
+
+GOTBRICK = "The... uh... the brick.";
+
+// Superweapon Pickups!
+GOTWOLFSPEAR= "The Spear of Destiny! You may wield it...";
+GOTXSHOT= "The Explosive Shotgun! Come get some!";
+GOTBFG= "The UAC BFG 9000! Oh, yes.";
+GOTDEV= "Devastator Weapon!";
+GOT1SHOT= "The Instant Discharge Cannon! You must be Blessed!";
+GOTBEEGUN= "The Red Ryder Bee Bee Gun! ...Oh, Iiiii get it!";
+GOTNUKER= "The GenEmp Nuker! Suck on this!";
+GOTWRAITHVERGE= "The Wraithverge! Thy Black Plague Posesses Thee!";
+GOTTHERMITE="The USACMA Surplus Thermite Detonation Device, aka ''The Skid Mark''!";
+GOTMACROSS="The Ikeda/Itano United Salvo Launcher! Spam away, spammer!";
+GOTDEFIB="The DeFUCKYOUlator! How shocking.";
+GOTBLACKHOLE="The Dimensional Barrier Wrecker! Careful with that thing...";
+GOTANGSTBOT="Some Angsty-Ass Man-Machines! Shadsy hates these.";
+GOTRTSBASE="A Tiny RTS Base, Full Of Tiny RTS Men!";
+
+GOTHOLYBRICK= "The Holy Brick! I knew there was a purpose to this stupid thing!";
+
+// Ammo Pickups
+GOTCLIP = "A clip of bullets.";
+GOTROCKET = "A rocket.";
+GOTCELL = "A plasma battery.";
+GOTSHELLS = "Four shotgun shells.";
+GOTFLAMEAMMO = "A Petrol Tanker.";
+GOTGASAMMO = "A couple of Gasoline Bombs.";
+GOTARROWS = "Some etheral arrows.";
+GOTORBS = "Some Mace Orbs.";
+GOTMANA = "Some Green Mana.";
+GOTBLUEM = "A shard of Blumium.";
+GOTRIPPERAMMO = "Ammo for Chaingun Cannon!";
+GOTRPGAMMO = "Ammo for RPG!";
+GOTICEAMMO = "Ammo for Freezethrower!";
+GOTDISCAMMO = "Recovered a disc!";
+
+// Inventory Pickups
+GOTGRENADES = "''Zhen Tian Lei'' Budget Brand Hand Grenades!";
+GOTHEALTH = "My First MedKit, for Boys and Girls!";
+GOTHEALTHC = "My First Poorly-Censored MedKit, for Boys and Girls!";
+GOTARMOR = "Negroli and Sons Protective Vest!";
+GOTPOGO = "The Holy Pogo Stick!";
+GOTREPULSE = "Professor Hall's Personal Space Retrieval Device!";
+GOTBARREL = "Highly Explosive Barrels!";
+GOTSOAB = "The Son Of A Bitch! Oh, yes.";
+
+GOTFLECHETTE = "PariasCorp Poisonous Flechettes! Do Not Drink.";
+GOTCONC = "Goodell and Sons Concussion Grenades!";
+GOTICEBOMB = "Lynn Quay's Home-Style Ice Bombs!";
+GOTPROXY = "Proximity Mines!";
+
+GOTSUPERHEALTH = "A SoulSphere! Or is it Atomic Health?";
+GOTSUPERARMOR = "Stamper & Stamper Branded Body Armor!";
+
+// Item Tags
+TAGDRILL = "Super-Drill";
+TAGBAT = "Louisville Slugger";
+TAGSHOTGUN = "UAC Shotgun";
+TAGSHOTGUN2 = "UAC Super Shotgun";
+TAGWOLFLUGER = "Retro Luger";
+TAGWOLFMG = "Retro Machine Gun";
+TAGWOLFCHAINGUN = "Retro Gatling Gun";
+TAGWOLFFLAMER = "Retro Flammenwerfer";
+TAGWOLFROCKET = "Retro Panzerfaust";
+TAGFLAMETHROWER = "Flame Thrower";
+TAGGASBOMB = "Gasoline Bomb Launcher";
+TAGBAZOOKA = "Missile Launcher";
+TAGPLASMA = "UAC Plasma Rifle";
+TAGRAIL = "Railgun";
+TAGCROSSBOW = "Sidhe Etheral Crossbow";
+TAGFIREMACE = "Riders' Fire Mace";
+TAGHAMMER = "Baratus's Hammer of Retribution";
+TAGLARRYGUN = "Larry's Laser Gun";
+TAGPSIONICS = "Psionic Amplifier";
+TAGMINIGUN = "GOU-4 Minigun";
+TAGSWEEPER = "Riley-Morello Jackhammer";
+TAGTHUNDERBOLT = "CabalCo Thunderbolt";
+TAGFLARE= "Jacawitz & Sons Flare Gun";
+TAGJAVELIN= "Javelin Launcher";
+TAGBARONARM= "Ewww!";
+TAGTAZER= "GenEmp Tazer";
+TAGUZI= "Evanger SMG";
+TAGUZI2= "Evanger SMG (2x)";
+TAGANTIGUN= "Anti-Gun";
+TAGRPG= "EDF RPG";
+TAGRIPPER= "EDF Chaingun Cannon";
+TAGBOTTLE= "Glass Bottle";
+TAGCRAPM16="Crap XM16E1 Rifle";
+TAGQUANTUM="?????";
+TAGBLACKHOLE="Dimensional Barrier Wrecker";
+TAGCRAPRL="Slightly Pre-Loved Homing Missile Launcher";
+TAGM60="Lobotomized M-60";
+TAGBURST="Short, Controlled Burst Rifle";
+TAGBAYONET="UAC Bayonette Rifle";
+TAGSWORD="Master Sword";
+TAGCLUSTER="Clustersucker";
+TAGBETARPG="Slightly Defective RPG";
+TAGDISCGUN="Zaker Pan-Qiang 550";
+TAGCOINBOMB="Weizao-Yuan Coin Bomb";
+
+TAGBRICK = "The Brick";
+TAGGRENADES = "Grenades";
+TAGDOG= "Woof!";
+TAGTANK= "Three, Two, One, Let's Jam!";
+TAGCYB= "Harbinger's Prosthetic";
+
+TAGPOGO = "Holy Pogo Stick";
+TAGREPULSE = "Personal Space Retrieval Device";
+TAGBARREL = "Highly Explosive Barrels";
+TAGSOAB = "Son Of A Bitch";
+TAGRTSBASE="Tiny RTS Base";
+
+TAGFLECHETTE = "Poisonous Flechette";
+TAGCONC = "Concussion Grenade";
+TAGICEBOMB = "Ice Bomb";
+TAGPROXY = "Proximity Mine";
+
+// Ammo Tags
+TAGCLIP = "Bullets";
+TAGSHELLS = "Shells";
+TAGROCKET = "Rockets";
+TAGCELL = "Battery";
+TAGFLAMEAMMO = "Petrol";
+TAGGASAMMO = "Gasoline Bombs";
+TAGARROWS = "Etheral Arrows";
+TAGORBS = "Mace Orbs";
+TAGMANA = "Green Mana";
+TAGBLUEM = "Blumium";
+TAGBRICKAMMO = "Bricks";
+TAGHBRICKAMMO = "Holy Bricks";
+TAGSUPER = "Super Ammo";
+
+TAGWOLFSPEAR= "Spear of Destiny";
+TAGXSHOT= "Explosive Shotgun";
+TAGNUKER= "GenEmp Nuker";
+TAGDEV= "Devastator Weapon";
+TAG1SHOT= "Instant Discharge Cannon";
+TAGBEEGUN= "Bee Bee Gun";
+TAGNUKER= "GenEmp Nuker";
+TAGWRAITHVERGE= "Wraithverge";
+TAGTHERMITE="Thermite Bomb";
+TAGMACROSS="Macross Cannon";
+TAGDEFIB="DeFUCKYOUlator";
+TAGANGSTBOT="Angsty-Ass Man-Machine";
+
+TAGHOLYBRICK= "The Holy Brick!";
+
+// Score Pickups
+GOTMICROWAVE = "A shiny new microwave! 450 points!";
+GOTCASH = "Dosh, lads! 500 points!";
+GOTSTEREO = "A state-of-the-art sound system! 700 points!";
+GOTTV = "A shiny new TV! 1000 points!";
+GOTCOIN = "Pocket Change! 25 points!";
+
+TXT_DEFAULTPICKUPMSG = "A... thing. Tell Kinsie he forgot to set a pickup string!";
+
+// Obits - Slaughtered by the Enemy
+OB_BEGGAR = "%o got shanked by a beggar.";
+OB_PEASANT = "%o was dealt a citizen's arrest.";
+OB_JIMP = "%o was taken down in their prime by a Juvenile Imp.";
+OB_JIMPHIT = "%o was clawed by a Juvenile Imp.";
+OB_BIGIMP = "%o was flamed out by a Senior Imp.";
+OB_BIGIMPHIT = "%o was crash-tackled by a Senior Imp.";
+OB_EYE = "%o was blinked out by a Eye.";
+OB_BARON = "%o was executed by the Baron of Hell.";
+OB_BARONHIT = "%o bowed down to the Baron of Hell.";
+OB_KNIGHT = "%o was pasted by a Hell Knight.";
+OB_KNIGHTHIT = "%o was slain by a Hell Knight.";
+OB_ZOMBIE = "%o was shot dead by a Former Human.";
+OB_SHOTGUY = "%o was blown away by a Former Sergeant.";
+OB_TRACKBOT = "%o got movie sign from a Trackbot.";
+OB_FIREBOT = "%o felt the burn from a Firebot.";
+OB_THEJERK = "%o didn't run far enough away from THE JERK.";
+OB_LARRY = "%o became Jetpack Larry's first kill.";
+OB_DOG = "%o was devoured by wild dogs.";
+OB_SECTOID = "%o was psionically panicked by a Sectoid.";
+OB_HALT = "%o was stopped for violating the law.";
+OB_SCIZOMB = "%o was speared by a Former Scientist.";
+OB_ARCHER= "%o was sent into the danger zone by an Archer.";
+OB_BATGHOST= "%o was sent to bat heaven by a bat ghost.";
+OB_BROWNSHIRT= "%o got waxed by a Brownshirt.";
+OB_BLUESHIRT= "%o fell to the Waffen SS.";
+OB_WHITESHIRT= "%o had %p papers checked by an Officer.";
+OB_REALZOMBIE= "%o got creamed by a zombie, man.";
+OB_SLIM= "%o was planted by a gunslinger.";
+OB_TUBS= "%o was ventilated by some outlaw.";
+OB_RIFLER= "%o was sniped by one tough hombre.";
+OB_WHOOPSY= "%o was glitched out by an Oopsie.";
+OB_CAR= "%o was roadkilled.";
+OB_CHAINZOMBIE= "%o was gored by a Chainsaw Zombieman.";
+OB_SKELETON= "%o was rattled by a Skeleton.";
+OB_UNDEADHIT = "%o was B.R.H-ed in the Octagon by a Revenant.";
+OB_UNDEAD = "%o was agitated by a Revenant.";
+OB_CULTIST1= "%o was splattered by a Cultist.";
+OB_CULTIST2= "%o was tollboothed by a Fanatic.";
+OB_CULTIST3= "%o was blinded with science by a Zealot.";
+OB_CULTIST4= "%o was splintered by a Akolyte.";
+OB_BOB= "%o's vent core was frog-blasted.";
+OB_RTSGUY= "%o was teamkilled by tiny, angry people.";
+
+OB_POOPLA = "%o cracked the shits.";
+OB_GOLDENJERK = "%o was teamkilled by THE GOLDEN FRIEND JERK!";
+OB_PAC1 = "%o was Blinked out in an instant.";
+OB_PAC2 = "%o was Sue-d out of existence.";
+OB_PAC3 = "%o is pretty dead in Pink.";
+OB_PAC4 = "%o was kicked in the head by a Clyde-sdale."; //fuck you its late
+OB_JUMPER = "%k was jumped by a nasty from the past-y.";
+OB_QUARTERBACK = "%o made an interception. With %p face.";
+OB_QUARTERBACKHIT = "%o got sacked by a QB.";
+OB_ANIME = "%o wa kimyode kutsujoku-tekina shi o shinimashita."; // OB_DEFAULT filtered through google translate
+
+OB_GHOST = "%o was smote by the World's Most Boringest Ghost!";
+OB_DOGPOPE = "%o was excommunicated by Dog Pope!";
+OB_CYB = "%o was splattered by a cybredemon!";
+OB_IMPTANK = "%o got hosed by the Imp Tank!";
+OB_MSJERK = "%o became another victory for gender equality and Ms. THE JERK!";
+OB_PLAYER2 = "%o was teamkilled by Player 2!";
+OB_SHAPESHIFTER = "%o was ceased by the shapeshifter!";
+OB_MACGUFFIN = "%o fell to Macguffin!";
+OB_MECHAHITLER = "%o struggled against Mecha-Hitler!";
+OB_HITLER = "%o was splattered by Master D!";
+OB_WIZARDTRUCK = "%o was roadkilled by a motherfucking wizard!";
+OB_WIZARD = "%o was disassembled by a motherfucking wizard!";
+OB_DEVILDRIVER = "%o bore witness to the ultimate revelation machine!";
+OB_GUARDIAN = "%o was killed by the Guardians.";
+OB_JUGG = "%o gazed in stunned disbelief at the tool of %p destruction!";
+
+// Obits - Killed By Other Stuff
+OB_SUICIDE = "%o had a whoopsie.";
+OB_FALLING = "%o succumbed to gravity.";
+OB_CRUSH = "%o was efficiently compressed.";
+OB_EXIT = "%o left the arena in a box.";
+OB_WATER = "%o swam like a Kennedy.";
+OB_SLIME = "%o became one with the gunk.";
+OB_LAVA = "%o spontaneously combusted.";
+OB_BARREL = "%o got barrelled over.";
+OB_SPLASH = "%o got splashed.";
+OB_R_SPLASH = "%o sure showed that wall a lesson.";
+OB_ROCKET = "%o smacked two missiles together to see what would happen.";
+OB_KILLEDSELF = "%o killed %p own dumb self.";
+OB_MPTELEFRAG = "%o was blinded with science by %k.";
+OB_MONTELEFRAG = "%o was blinded with science.";
+OB_BIRTHDAYPARTY = "%o had the worst birthday ever.";
+OB_DEFAULT = "%o died a strange and humiliating death.";
+OB_VOODOO = "%o felt that voodoo that you do.";
+
+// Obits - Team Kills
+OB_FRIENDLY1 = "%k happily mowed down a friend.";
+OB_FRIENDLY2 = "%k scored an own goal.";
+OB_FRIENDLY3 = "%k waxed a teammate. The SCANDAL of it all!";
+OB_FRIENDLY4 = "%k wonders why finding co-op partners is so hard...";
+
+// System
+STSTR_DQDON = "Cheater!";
+STSTR_DQDOFF = "Hope you enjoyed yourself.";
+STSTR_KFAADDED = "Cheater!";
+STSTR_FAADDED = "Cheater!";
+STSTR_NCON = "Cheater!";
+STSTR_NCOFF = "Hope you enjoyed yourself.";
+STSTR_BEHOLD = "Cheater!";
+STSTR_BEHOLDX = "Cheater!";
+STSTR_CHOPPERS = "Cheater!";
+TXT_BUDDHAON = "Cheater!";
+TXT_BUDDHAOFF = "Hope you enjoyed yourself.";
+GGSAVED = "";
+
+// Killing Sprees
+MULTI2 = "TWO-FER!";
+MULTI3 = "THREESOME!";
+MULTI4 = "QUADRILATERAL!";
+MULTI5 = "ORGY OF BLOOD!!";

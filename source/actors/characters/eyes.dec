@@ -1,0 +1,205 @@
+// Splot - Eye Monsters
+ACTOR Eye : MonsterTemplate
+{
+	-FLOORCLIP
+	-NOSPLASHALERT
+	-DROPOFF
+	-LOOKALLAROUND
+	Health 100
+	Radius 32
+	Height 56
+	Mass 400
+	Speed 2
+	PainChance 128
+	+FLOAT
+	+NOGRAVITY
+	+FLOATBOB
+	PainSound "eye/idle"
+	DeathSound "eye/die"
+	ActiveSound "eye/idle"
+	Obituary "$OB_EYE"
+	States
+	{
+	Spawn:
+		EYEB A 0
+		EYEB A 0 Thing_ChangeTID(0,900)
+		EYEB A 1 A_Look
+		goto See
+	See:
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==9,"DogWhistle")
+		EYEB A 1 A_Chase
+		Loop
+	Missile:
+		EYEB A 0 A_PlaySound("eye/fire")
+		EYEB BCB 3 A_FaceTarget
+		EYEB A 10 A_CustomMissile("EyeBall",32)
+		Goto See
+	Pain:
+		EYEB E 12 A_Pain
+		Goto See
+	Death:
+		BEGR FF 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		EYEB D 8 A_GiveToTarget("ScoreItem",120)
+		EYEB E 8 A_PlaySound("human/gib")
+		BEGR FF 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		EYEB F 8
+	DeathLoop:
+		EYEB EF 8
+		TNT1 A 0 A_JumpIf(velz==0,"Crash")
+		loop
+	Crash:
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==8,"BirthdayParty")
+		TNT1 A 0 A_ChangeFlag("FLOATBOB",0)
+		BEGR FF 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		EYEB E 0 A_Scream
+		EYEB E 0 A_NoBlocking
+		EYEB GH 8
+		EYEB I 1 A_SetFloorClip
+	Corpse:
+		EYEB I 1
+		TNT1 A 0 A_CheckSight("Cleanup")
+		loop
+	DogWhistle:
+		TNT1 A 0 A_SpawnItemEx("Confusion",0,0,56)
+		EYEB AAAAA 1 A_Wander
+		goto See
+	Death.Drill:
+		TNT1 A 0 A_GiveToTarget("ScoreItem",20)
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(12)
+		TNT1 A 0 ThrustThingZ(0,32,0,1)
+		goto Death
+	Death.Bat:
+		TNT1 A 0 A_GiveToTarget("ScoreItem",20)
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(48)
+		TNT1 A 0 ThrustThingZ(0,128,0,1)
+		TNT1 A 0 A_NoBlocking
+		goto Death
+	Death.Fire:
+		EYEB D 0 A_GiveToTarget("ScoreItem",120)
+		EYEB A 0 A_PlaySound("human/scream")
+		EYEB A 0 A_SpawnItemEx("Flame1A",0,0,32)
+		EYEB A 0 A_Recoil(-8)
+		EYEB A 0 A_SpawnItemEx("Ember1",0,0,32)
+		EYEB AAAA 1 A_SetAngle(12 + angle)
+		EYEB A 0 A_Recoil(-8)
+		EYEB A 0 A_SpawnItemEx("Flame2A",0,0,32)
+		EYEB AAAA 1 A_SetAngle(12 + angle)
+		EYEB A 0 A_Recoil(-8)
+		EYEB A 0 A_SpawnItemEx("Flame1A",0,0,32)
+		EYEB AAAA 1 A_SetAngle(12 + angle)
+		EYEB A 0 A_Recoil(-8)
+		EYEB AAAA 1 A_SetAngle(12 + angle)
+		EYEB A 0 A_SpawnItemEx("Flame3B",0,0,32)
+		goto Death.Fire+1
+	// COMEDY PAIN STATES
+	Pain.Fists:
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(8)
+		goto Pain
+	Pain.Bat:
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(16)
+		TNT1 A 0 ThrustThingZ(0,16,0,1)
+		goto Pain
+	// COMEDY DEATH STATES
+	Death.Fists:
+		TNT1 A 0 A_GiveToTarget("ScoreItem",20)
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(8)
+		goto Death
+	Death.SuperShotgun:
+		TNT1 A 0 A_JumpIfCloser(72,"Death.SuperShotgunClose")
+	Death.EnemyShotgun:
+	Death.Shotgun:
+		TNT1 A 0 A_JumpIfCloser(72,"Death.ShotgunClose")
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(16)
+		goto Death
+	Death.ShotgunClose:
+		TNT1 A 0 A_GiveToTarget("ScoreItem",20)
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(15)
+		TNT1 A 0 ThrustThingZ(0,50,0,1)
+		TNT1 A 0 A_NoBlocking
+		goto Death
+	Death.SuperShotgunClose:
+		TNT1 A 0 A_GiveToTarget("ScoreItem",20)
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(100)
+		TNT1 A 0 ThrustThingZ(0,50,0,1)
+		TNT1 A 0 A_NoBlocking
+		goto Death
+	Death.Explosive:
+		TNT1 A 0 A_GiveToTarget("ScoreItem",100)
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(random(16,48))
+		TNT1 A 0 ThrustThingZ(0,random(32,128),0,1)
+		TNT1 A 0 A_NoBlocking
+		goto Death
+	Death.Barkblast:
+		BEGR FF 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		EYEB D 8 A_GiveToTarget("ScoreItem",50)
+		EYEB E 8 A_Scream
+		BEGR FF 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		EYEB F 8
+		goto DeathLoop
+	Death.CarCrash:
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==8,"BirthdayParty")
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_PlaySound("car/smash")
+		TNT1 A 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		TNT1 A 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		TNT1 A 0 A_Recoil(random(-30,50))
+		TNT1 A 0 ThrustThingZ(0,random(30,50),0,1)
+		TNT1 A 0 A_NoBlocking
+		TNT1 A 2 A_Scream
+		goto DeathLoop
+	Death.DukeRPG:
+		TNT1 AAAAAA 0 A_SpawnDebris("DukeGibs2")
+		TNT1 AAA 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		TNT1 A 0 A_PlaySound("duke/enemygib")
+		TNT1 A 1 A_NoBlocking
+		Stop
+	Death.Defib:
+		TNT1 A 0 A_NoBlocking
+		TNT1 A 0 A_GiveToTarget("ScoreItem",50)
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_StopSound(CHAN_VOICE)
+		TNT1 A 0 A_PlaySound("human/gib")
+		TNT1 AA 0 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		TNT1 A 0 A_Stop
+		GIBS MNO 5 A_SpawnItemEx("HugeBloodShred",0,0,16)
+		GIBS PQRST 4
+		GIBS U 5
+		GIBS V 1400
+		Stop
+	}
+}
+
+ACTOR EyeBall
+{
+	Radius 6
+	Height 8
+	Speed 10
+	FastSpeed 20
+	Damage 2
+	Projectile
+	+RANDOMIZE
+	+BLOODSPLATTER
+	RenderStyle Add
+	Alpha 1
+	SeeSound "imp/fire"
+	DeathSound "caco/shotx"
+	damagetype Enemy
+	States
+	{
+	Spawn:
+		BAL2 AB 4 BRIGHT
+		Loop
+	Death:
+		BAL2 CDE 6 BRIGHT
+		Stop
+	}
+}

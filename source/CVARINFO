@@ -1,0 +1,25 @@
+server bool SmokeToggle = true;
+server bool ReelDev = false;
+server bool ToughBoss = true;
+user bool announcer = true;
+user int announcerchance = 100;
+//Maps, for server control
+server bool GUTROT = true;
+server bool VR = true;
+server bool X2 = true;
+server bool X3 = true;
+server bool DISCORD = true;
+server bool FLESHY = true;
+server bool X1 = true;
+server bool RELMAP70 = true;
+server bool JRPG = true;
+server bool X4 = true;
+server bool GRAD = true;
+server bool TRONIC = true;
+server bool SIMPLER = true;
+server bool BOSSRUSH = true;
+server bool ALIEN = true;
+server bool SPORTS = true;
+server bool CONTRA = true;
+server bool DOGHELL = true;
+server bool BITMAN = true;

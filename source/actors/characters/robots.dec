@@ -1,0 +1,334 @@
+// Splot - Robots
+ACTOR Trackbot : MonsterTemplate
+{
+	Health 80
+	Height 56
+	Mass 100
+	Speed 4
+	PainChance 0
+	PainSound "tank/hit"
+	DeathSound "tankbot/die"
+	Obituary "$OB_TRACKBOT"
+	bloodtype "MetalSpark"
+	+NOBLOODDECALS
+	States
+	{
+	Spawn:
+		TRAX A 0
+		TRAX A 0 Thing_ChangeTID(0,900)
+		TRAX A 1 A_Look
+		TRAX A 0 A_AlertMonsters
+		goto See
+	See:
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==9,"DogWhistle")
+		TRAX A 0 A_PlaySoundEx("weapons/sawidle",SoundSlot6)
+		TRAX AA 3 A_Chase
+		TRAX B 0 A_PlaySoundEx("weapons/sawidle",SoundSlot6)
+		TRAX BB 3 A_Chase
+		TRAX C 0 A_PlaySoundEx("weapons/sawidle",SoundSlot6)
+		TRAX CC 3 A_Chase
+		TRAX D 0 A_PlaySoundEx("weapons/sawidle",SoundSlot6)
+		TRAX DD 3 A_Chase
+		TRAX E 0 A_PlaySoundEx("weapons/sawidle",SoundSlot6)
+		TRAX EE 3 A_Chase
+		TRAX D 0 A_PlaySoundEx("weapons/sawidle",SoundSlot6)
+		TRAX DD 3 A_Chase
+		TRAX C 0 A_PlaySoundEx("weapons/sawidle",SoundSlot6)
+		TRAX CC 3 A_Chase
+		TRAX B 0 A_PlaySoundEx("weapons/sawidle",SoundSlot6)
+		TRAX BB 3 A_Chase
+		Loop
+	Missile:
+		TRAX F 1 A_FaceTarget
+		TRAX F 20
+		TRAX G 4 BRIGHT A_CustomMissile("LaserShot",32)
+		TRAX F 8
+		TRAX G 4 BRIGHT A_CustomMissile("LaserShot",32)
+		TRAX F 8
+		TRAX G 4 BRIGHT A_CustomMissile("LaserShot",32)
+		TRAX F 20
+		Goto See
+	Pain:
+		TRAX F 0
+		TRAX F 1 A_Pain
+		Goto See
+	Death:
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==4,"XDeath")
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==8,"BirthdayParty")
+		TRAX H 8 A_Scream
+		TRAX HIHIHIHIHIHIHIHI 2
+		TRAX J 0
+		goto XDeath
+	XDeath:
+	CorpseFlying:
+		TRAX J 0 A_NoBlocking
+		TRAX H 0 A_GiveToTarget("ScoreItem",100)
+		TRAX J 0 A_PlaySound("tankbot/boom")
+		TRAX JJJJJJJJJJJJJJ 0 A_CustomMissile("RobotShards",random(16,56),0,random(0,360),2,random(4,32))
+		TRAX JJJJJJJJJJ 0 A_SpawnItemEx("Particle_Smoke_Normal5",Random(-32,32),Random(-32,32),Random(16,56),Random(-1,1),Random(-1,1),Random(-1,1))
+		TRAX J 1
+	Corpse:
+		TRAX J 1
+		TNT1 A 0 A_CheckSight("Cleanup")
+		loop
+	DogWhistle:
+		TNT1 A 0 A_SpawnItemEx("Confusion",0,0,56)
+		TRAX A 0 A_PlaySoundEx("weapons/sawidle",SoundSlot6)
+		TRAX AA 2 A_Wander
+		TRAX B 0 A_PlaySoundEx("weapons/sawidle",SoundSlot6)
+		TRAX BB 2 A_Wander
+		TRAX C 0 A_PlaySoundEx("weapons/sawidle",SoundSlot6)
+		TRAX CC 2 A_Wander
+		TRAX D 0 A_PlaySoundEx("weapons/sawidle",SoundSlot6)
+		TRAX DD 2 A_Wander
+		TNT1 A 0 A_SpawnItemEx("Confusion",0,0,56)
+		TRAX E 0 A_PlaySoundEx("weapons/sawidle",SoundSlot6)
+		TRAX EE 2 A_Wander
+		TRAX D 0 A_PlaySoundEx("weapons/sawidle",SoundSlot6)
+		TRAX DD 2 A_Wander
+		TRAX C 0 A_PlaySoundEx("weapons/sawidle",SoundSlot6)
+		TRAX CC 2 A_Wander
+		TRAX B 0 A_PlaySoundEx("weapons/sawidle",SoundSlot6)
+		TRAX BB 2 A_Wander
+		goto See
+		// COMEDY PAIN STATES
+	Pain.Fists:
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(8)
+		goto Pain
+	Pain.Bat:
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(16)
+		TNT1 A 0 ThrustThingZ(0,16,0,1)
+		goto Pain
+	// COMEDY DEATH STATES
+	Death.DukeRPG:
+	Death.Explosive:
+		goto XDeath
+	Death.RunOver:
+		CARZ A 0 A_Stop
+		TNT1 A 0 A_GiveToTarget("ScoreItem",130)
+		CARZ AAAAAAAAAAAAAAAAAAAAA 0 A_CustomMissile("DEBRIS",random(16,56),0,random(0,360),2,random(4,32))
+		CARZ AAAAAAAAAAAAAAAAAAAAA 0 A_CustomMissile("RobotShards",random(16,56),0,random(0,360),2,random(4,32))
+		CARZ A 0 A_PlaySound("tank/runovercar")
+		CARZ A 0 A_NoBlocking
+		CARZ A 0 A_SetScale(1,0.2)
+		TRAX J 1 A_CheckSight("Cleanup")
+		wait
+	Death.Barkblast:
+		CARZ A 0 A_Stop
+		TNT1 A 0 A_GiveToTarget("ScoreItem",50)
+		CARZ AAAAAAAAAAAAAAAAAAAAA 0 A_CustomMissile("DEBRIS",random(16,56),0,random(0,360),2,random(4,32))
+		CARZ AAAAAAAAAAAAAAAAAAAAA 0 A_CustomMissile("RobotShards",random(16,56),0,random(0,360),2,random(4,32))
+		CARZ A 0 A_PlaySound("tank/runovercar")
+		CARZ A 0 A_NoBlocking
+		CARZ A 0 A_SetScale(1,0.2)
+		TRAX J 1 A_CheckSight("Cleanup")
+		wait
+	Death.CarCrash:
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==8,"BirthdayParty")
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_PlaySound("car/smash")
+		TNT1 AAAAAAAA 0 A_CustomMissile("DEBRIS",random(16,56),0,random(0,360),2,random(4,32))
+		TNT1 AAAAAAAA 0 A_CustomMissile("RobotShards",random(16,56),0,random(0,360),2,random(4,32))
+		TNT1 A 0 A_Recoil(random(-30,50))
+		TNT1 A 0 ThrustThingZ(0,random(30,50),0,1)
+		TNT1 A 0 A_NoBlocking
+		TNT1 A 2 A_Scream
+		goto CorpseFlying
+	}
+}
+
+actor RobotShards
+{
+	BounceType Doom
+	PROJECTILE
+	-NOGRAVITY
+	-NOBLOCKMAP
+	-NOTELEPORT
+	-SOLID
+	+CORPSE
+	+CLIENTSIDEONLY
+	Radius 1
+	Speed 5
+	BounceSound "tank/hit"
+	States
+	{
+	Spawn:
+		GLAS ABCDABCDABCDABCDABCD 2
+	Death:
+		NULL A 0
+		stop
+	}
+}
+
+
+ACTOR FireBot : MonsterTemplate
+{
+	Health 70
+	Painchance 0
+	Speed 8
+	Height 60
+	scale 0.8
+	Mass 500
+	+NOBLOODDECALS
+	bloodtype "MetalSpark"
+	DeathSound "firebot/die"
+	HitObituary "$OB_TEMPLARHIT"
+	Obituary "$OB_FIREBOT"
+	States
+	{
+	Spawn:
+		PGRD A 0
+		PGRD A 0 Thing_ChangeTID(0,900)
+		PGRD A 1 A_Look
+		PGRD A 0 A_AlertMonsters
+		goto See
+	See:
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==9,"DogWhistle")
+		//PGRD A 0 A_JumpIf(velz!=0,"MidAir")
+		PGRD A 2 A_Chase
+		PGRD A 0 A_JumpIf(velz!=0,"MidAir")
+		PGRD A 2 A_Chase
+		PGRD A 0 A_JumpIf(velz!=0,"MidAir")
+		PGRD B 2 A_Chase
+		PGRD A 0 A_JumpIf(velz!=0,"MidAir")
+		PGRD B 0 A_PlaySound("robot/walk")
+		PGRD B 2 A_Chase
+		PGRD A 0 A_JumpIf(velz!=0,"MidAir")
+		PGRD C 2 A_Chase
+		PGRD A 0 A_JumpIf(velz!=0,"MidAir")
+		PGRD C 2 A_Chase
+		PGRD A 0 A_JumpIf(velz!=0,"MidAir")
+		PGRD D 0 A_PlaySound("robot/walk")
+		PGRD D 2 A_Chase
+		PGRD A 0 A_JumpIf(velz!=0,"MidAir")
+		PGRD D 2 A_Chase
+		Loop
+	MidAir:
+		PGRD DDDDDD 1 A_CheckFloor("See")
+		TNT1 A 0 A_SpawnItemEx("CrushDamage")
+		PGRD D 1 A_CheckFloor("Landing")
+		TNT1 A 0 A_JumpIf(velz==0,"See")
+		goto MidAir+6
+	Landing:
+		PGRD E 1
+		PGRD E 0 A_SpawnItemEx("LandingPart",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		PGRD E 5 A_PlaySound("human/land")
+		goto See
+	Missile:
+		PGRD G 8 BRIGHT A_FaceTarget
+		PGRD H 0 A_PlaySoundEx("weapons/flamethrower/start","SoundSlot7",0)
+		PGRD HHHHHHHHHHH 1 BRIGHT A_CustomMissile("FlamerFire",32)
+		PGRD H 0 A_StopSoundEx("SoundSlot7")
+		PGRD G 8
+		Goto See
+	Pain:
+		PGRD A 2
+		PGRD A 2 A_Pain
+		Goto See
+	Death.DukeRPG:
+	Death:
+	CorpseFlying:	//Temporary solution
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==8,"BirthdayParty")
+		TRAX H 0 A_GiveToTarget("ScoreItem",100)
+		PGRD I 4 A_CustomMissile("RobotShards",random(16,56),0,random(0,360),2,random(4,32))
+		PGRD J 4 A_Scream
+		PGRD K 4 A_CustomMissile("RobotShards",random(16,56),0,random(0,360),2,random(4,32))
+		PGRD L 4 A_NoBlocking
+		PGRD MN 4
+		PGRD O 4 A_CustomMissile("RobotShards",random(16,56),0,random(0,360),2,random(4,32))
+		PGRD PQ 4
+		PGRD R 4 A_PlaySound("robot/body")
+		PGRD ST 4
+	Corpse:
+		PGRD V 1
+		TNT1 A 0 A_CheckSight("Cleanup")
+		loop
+	// COMEDY DEATH STATES
+	Death.Drill:
+		TNT1 A 0 A_GiveToTarget("ScoreItem",20)
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(12)
+		TNT1 A 0 ThrustThingZ(0,32,0,1)
+		goto Death
+	DogWhistle:
+		TNT1 A 0 A_SpawnItemEx("Confusion",0,0,64)
+		//PGRD A 0 A_JumpIf(velz!=0,"MidAir")
+		PGRD A 2 A_Wander
+		PGRD A 0 A_JumpIf(velz!=0,"MidAir")
+		PGRD A 2 A_Wander
+		PGRD A 0 A_JumpIf(velz!=0,"MidAir")
+		PGRD B 0 A_PlaySound("robot/walk")
+		PGRD B 2 A_Wander
+		PGRD A 0 A_JumpIf(velz!=0,"MidAir")
+		PGRD B 2 A_Wander
+		PGRD A 0 A_JumpIf(velz!=0,"MidAir")
+		TNT1 A 0 A_SpawnItemEx("Confusion",0,0,64)
+		PGRD C 2 A_Wander
+		PGRD A 0 A_JumpIf(velz!=0,"MidAir")
+		PGRD C 2 A_Wander
+		PGRD A 0 A_JumpIf(velz!=0,"MidAir")
+		PGRD B 0 A_PlaySound("robot/walk")
+		PGRD D 2 A_Wander
+		PGRD A 0 A_JumpIf(velz!=0,"MidAir")
+		PGRD D 2 A_Wander
+		goto See
+	Death.RunOver:
+		CARZ A 0 A_Stop
+		TNT1 A 0 A_GiveToTarget("ScoreItem",130)
+		CARZ AAAAAAAAAAAAAAAAAAAAA 0 A_CustomMissile("DEBRIS",random(16,56),0,random(0,360),2,random(4,32))
+		CARZ AAAAAAAAAAAAAAAAAAAAA 0 A_CustomMissile("RobotShards",random(16,56),0,random(0,360),2,random(4,32))
+		CARZ A 0 A_PlaySound("tank/runovercar")
+		CARZ A 0 A_NoBlocking
+		CARZ A 0 A_SetScale(1,0.2)
+		PGRD V 1 A_CheckSight("Cleanup")
+		wait
+	Death.Explosive:
+		TNT1 A 0
+		goto Death
+	Death.Barkblast:
+		CARZ A 0 A_Stop
+		TNT1 A 0 A_GiveToTarget("ScoreItem",50)
+		CARZ AAAAAAAAAAAAAAAAAAAAA 0 A_CustomMissile("DEBRIS",random(16,56),0,random(0,360),2,random(4,32))
+		CARZ AAAAAAAAAAAAAAAAAAAAA 0 A_CustomMissile("RobotShards",random(16,56),0,random(0,360),2,random(4,32))
+		CARZ A 0 A_PlaySound("tank/runovercar")
+		CARZ A 0 A_NoBlocking
+		CARZ A 0 A_SetScale(1,0.2)
+		PGRD V 1 A_CheckSight("Cleanup")
+		wait
+	Death.SuperShotgun:
+		TNT1 A 0 A_JumpIfCloser(72,"Death.SuperShotgunClose")
+	Death.EnemyShotgun:
+	Death.Shotgun:
+		TNT1 A 0 A_JumpIfCloser(72,"Death.ShotgunClose")
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(16)
+		goto Death
+	Death.ShotgunClose:
+		TNT1 A 0 A_GiveToTarget("ScoreItem",20)
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(15)
+		TNT1 A 0 ThrustThingZ(0,50,0,1)
+		TNT1 A 0 A_NoBlocking
+		goto Death
+	Death.SuperShotgunClose:
+		TNT1 A 0 A_GiveToTarget("ScoreItem",20)
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(100)
+		TNT1 A 0 ThrustThingZ(0,50,0,1)
+		TNT1 A 0 A_NoBlocking
+		goto Death
+	Death.CarCrash:
+		TNT1 A 0 A_JumpIf(ACS_ExecuteWithResult(901) ==8,"BirthdayParty")
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_PlaySound("car/smash")
+		TNT1 AAAAAAAA 0 A_CustomMissile("DEBRIS",random(16,56),0,random(0,360),2,random(4,32))
+		TNT1 AAAAAAAA 0 A_CustomMissile("RobotShards",random(16,56),0,random(0,360),2,random(4,32))
+		TNT1 A 0 A_Recoil(random(-30,50))
+		TNT1 A 0 ThrustThingZ(0,random(30,50),0,1)
+		TNT1 A 0 A_NoBlocking
+		TNT1 A 2 A_Scream
+		goto CorpseFlying
+	}
+}
