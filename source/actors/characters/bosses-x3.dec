@@ -20,7 +20,7 @@ ACTOR DevilDriver : BossTemplate
     Height 110
     Mass 1000
     Speed 8
-    PainChance 12
+    PainChance 1
     MinMissileChance 160
     +FLOORCLIP
     +DONTMORPH
@@ -1097,9 +1097,9 @@ actor Guardian : BossTemplate
 	height 128
 	mass 1000
 	speed 16
-	painchance 20
+	painchance 2
 	PainChance Lightning,0
-	PainChance Fire,255
+	PainChance Fire,25
 	painsound "guardian/temp"
 	deathsound "guardian/die"
 	activesound "guardian/idle"
@@ -1212,7 +1212,7 @@ actor Juggernaut : BossTemplate
 	Mass 0XFFFF
 	bloodtype "MetalSpark"
 	speed 15
-	painchance 128
+	painchance 12
 	PainChance Lightning,0
 	painsound "juggernaut/pain"
 	deathsound "juggernaut/die"

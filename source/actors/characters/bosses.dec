@@ -63,7 +63,7 @@ actor WMBG : BossTemplate
 	height 100
 	mass 400
 	speed 4
-	painchance 128
+	painchance 12
 	PainChance Lightning,0
 	painsound "wmbg/pain"
 	deathsound "wmbg/die"
@@ -121,7 +121,7 @@ ACTOR ImpTank : BossTemplate
 	Mass 0XFFFF
 	PainChance 0
 	PainChance Lightning,0
-	PainChance Fire,255
+	PainChance Fire,25
 	bloodtype "MetalSpark"
 	painsound "imp/pain"
 	deathsound "imptank/die"
@@ -191,9 +191,9 @@ actor Cybredemon : BossTemplate
 	height 110
 	mass 1000
 	speed 16
-	painchance 20
+	painchance 2
 	PainChance Lightning,0
-	PainChance Fire,255
+	PainChance Fire,25
 	painsound "cyber/pain"
 	deathsound "cyb/die"
 	activesound "cyber/active"
@@ -264,9 +264,9 @@ actor Cybredemon : BossTemplate
 ACTOR DogPope : BossTemplate
 {
 	Health 3000
-	PainChance 180
+	PainChance 18
 	PainChance Lightning,0
-	PainChance Fire,255
+	PainChance Fire,25
 	Speed 10
 	Radius 30
 	Height 56
@@ -448,9 +448,9 @@ ACTOR MsJerk : TheJerk
 	Translation "0:0=0:0"
 	SeeSound ""
 	Health 3000
-	PainChance 180
+	PainChance 18
 	PainChance Lightning,0
-	PainChance Fire,255
+	PainChance Fire,25
 	AttackSound "msjerk/run"
 	PainSound "msjerk/pain"
 	DeathSound "msjerk/die"
@@ -550,7 +550,7 @@ ACTOR Player2Boss : BossTemplate
 	Health 2000
 	Height 56
 	Speed 12
-	PainChance 255
+	PainChance 25
 	PainChance Lightning,0
 	PainSound "*pain100"
 	DeathSound "*xdeath"
@@ -670,9 +670,9 @@ ACTOR Player2Boss : BossTemplate
 ACTOR Shapeshifter : BossTemplate
 {
 	Health 3000
-	PainChance 8
+	PainChance 0
 	PainChance Lightning,0
-	PainChance Fire,255
+	PainChance Fire,25
 	Speed 12
 	Radius 30
 	Height 56
@@ -1032,9 +1032,9 @@ Actor MacFlameEffect
 ACTOR MechaHitler : BossTemplate
 {
 	Health 1500
-	PainChance 8
+	PainChance 1
 	PainChance Lightning,0
-	PainChance Fire,255
+	PainChance Fire,25
 	Speed 12
 	Radius 30
 	Height 56
@@ -1167,7 +1167,7 @@ ACTOR NormalHitler : MechaHitler
 	Obituary "$OB_MECHAHITLER"
 	bloodtype "MetalSpark"
 	Health 2000
-	PainChance 32
+	PainChance 3
 	DeathSound "hitler/die"
 	Obituary "$OB_HITLER"
 	BloodType Blood,BloodSplatter
@@ -1259,7 +1259,7 @@ ACTOR MFTruck : BossTemplate
 	Height 128
 	Mass 0XFFFF
 	PainChance 0
-	PainChance Fire,255
+	PainChance Fire,25
 	bloodtype "MetalSpark"
 	painsound "beggar/die"
 	deathsound "wizard/truckdie"
@@ -1387,7 +1387,7 @@ actor MFWizard : BossTemplate
 	Height 56
 	mass 400
 	speed 4
-	painchance 128
+	painchance 12
 	PainChance Lightning,0
 	//SeeSound "wizard/see"
 	painsound "beggar/die"
