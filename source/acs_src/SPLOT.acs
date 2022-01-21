@@ -688,6 +688,20 @@ script 992(void) // Death Sequence
 	{
 		AmbientSound("mp/die",64);
 		SetActorProperty(0,APROP_Score,(GetActorProperty(0,APROP_Score) - 2000));
+
+		//Is coop?
+		if (GetCVar("survival") == false) {
+			terminate;
+		}
+
+		//Is mission failed message not showing?
+		if(GetGameModeState() != 3){
+			terminate;
+		}
+
+		SetMusic("mus-die",0);
+		delay(175);
+		ChangeLevel("LOBBY",0,CHANGELEVEL_RESETINVENTORY|CHANGELEVEL_RESETHEALTH|CHANGELEVEL_NOINTERMISSION,-1);
 		terminate;
 	}
 	GiveActorInventory(906,"PowerPseudoInvincible",1);	//Make boss immortal to avoid Double KO's
