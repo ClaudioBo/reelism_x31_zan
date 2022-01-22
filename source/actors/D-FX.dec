@@ -34,7 +34,6 @@ ACTOR BloodShred replaces Blood
 	+FLOORCLIP
 	+NOTELEPORT
 	//+FORCEXYBILLBOARD
-	+CLIENTSIDEONLY
 	States
 	{
 	Spawn:
@@ -82,7 +81,6 @@ ACTOR BloodSpurt
 	+NOTELEPORT
 	+NOBLOCKMAP
 	//+FORCEXYBILLBOARD
-	+CLIENTSIDEONLY
 	States
 	{
 	Spawn:
