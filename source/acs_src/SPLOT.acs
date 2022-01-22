@@ -589,8 +589,15 @@ script 98 ENTER // Hot Slutty Per-Second effects.
 		hudtimer = (60 - slottimer);
 	else
 		hudtimer = 99;
+	ACS_Execute(670, 0, hudtimer, round, 0);
 	delay(35);
 	Restart;
+}
+
+script 670 (int a, int b) clientside
+{
+	hudtimer = a;
+	round = b;
 }
 
 script 99 OPEN	// Slot timer script			//Ed - changed from ENTER to OPEN so the level runs it, not the player(s)
