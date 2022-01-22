@@ -1,6 +1,6 @@
 # Reelism x3.1 Zandronum patches
 An attempt to patch a Doom-mod 'Reelism x3.1' to be run with Zandronum engine.  
-All the issues / TODOs are on the [Issues](issues/) page
+All the issues / TODOs are on the [Issues](https://github.com/ClaudioBo/reelism_x31_zan/issues) page
 
 Command to build the PK3 file
 ```
