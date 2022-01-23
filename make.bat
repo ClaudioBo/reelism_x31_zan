@@ -28,3 +28,4 @@ utils\7za.exe u -tzip reelism_x3.1_zanv1.pk3 -uq0 .\source\* -mx=1
 
 ::AutoExec server and clients for quick testing
 if exist "server.bat" START /b server.bat
+exit
