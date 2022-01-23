@@ -197,7 +197,10 @@ script "BossSlotResults"(void)
 		ACS_ExecuteAlways(103,0);
 	if(GetCVAR("ToughBoss"))
 	{
-		SetActorProperty(906,APROP_HEALTH,GetActorProperty(906,APROP_Health)*PlayerCount());
+		int p_count = PlayerCount();
+		if(p_count > 1){
+			SetActorProperty(906,APROP_HEALTH,GetActorProperty(906,APROP_Health)*PlayerCount());
+		}
 		while(GetActorProperty(906,APROP_Health)>0)
 		{
 			GiveActorInventory(906,"IFeelNoPain",1);
