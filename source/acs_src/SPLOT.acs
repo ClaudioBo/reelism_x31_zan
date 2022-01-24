@@ -28,6 +28,9 @@ global int 3:customslotnum1;
 global int 4:customslotnum2;
 global int 5:customslotnum3;
 
+//Props to "HexaDoken" for this way for restoring player's score
+int scoreHolder[64];
+
 str slot1list[50][3] =
 {
 	{"Slot1_1",	"BLOODY SCREEN SO REAL!",	"Realistic movement, regenerating health, massive profits."},
@@ -695,6 +698,9 @@ script 992(void) // Death Sequence
 	{
 		AmbientSound("mp/die",64);
 		SetActorProperty(0,APROP_Score,(GetActorProperty(0,APROP_Score) - 2000));
+
+		//Save player score to reassign when respawning
+		scoreHolder[PlayerNumber()] = GetActorProperty(0,APROP_Score);
 
 		//Is coop?
 		if (GetCVar("survival") == false) {
@@ -1480,6 +1486,20 @@ script 888 ENTER // voice over for mode announce
 		PlayAnnouncer("announcer/mode99");
 }
 */
+
+
+//Props to "HexaDoken" for this way for restoring player score
+script "ScoreReassign" RESPAWN
+{
+	int player_id = PlayerNumber();
+	SetActorProperty(0, APROP_SCORE, scoreHolder[player_id]);
+	ACS_Execute(672, 0, scoreHolder[player_id]);
+}
+
+script "ScoreReassign_HUD" (int score) clientside
+{
+	SetActorProperty(0, APROP_SCORE, score);
+}
 
 script "IsMultiplayer" (void)
 {
