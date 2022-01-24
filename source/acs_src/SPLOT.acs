@@ -713,7 +713,11 @@ script 992(void) // Death Sequence
 		}
 
 		SetMusic("mus-die",0);
+		SetActivator(-1);
+		fadeto(0,0,0,5.0,1.0);
+
 		delay(175);
+
 		ChangeLevel("LOBBY",0,CHANGELEVEL_RESETINVENTORY|CHANGELEVEL_RESETHEALTH|CHANGELEVEL_NOINTERMISSION,-1);
 		terminate;
 	}
