@@ -14,7 +14,8 @@ script 995 ENTER // Initialize the player!
 
 Script 997 RESPAWN		//Ed - Special script to make sure everyone's got the right stuff for the round, even if they died
 {
-	Thing_ChangeTID(0,1337+PlayerNumber());		//Ed - Restore the TID, since dying seems to erase it
+	int new_tid = (1337+PlayerNumber());
+	Thing_ChangeTID(0,new_tid);		//Ed - Restore the TID, since dying seems to erase it
 
 	if(slotting&&slot1==0)
 		GiveInventory("Slot1Spinning",1);
@@ -50,14 +51,14 @@ Script 997 RESPAWN		//Ed - Special script to make sure everyone's got the right 
 
 	if(slot2 == 2)
 		if(slot1 == 15)
-			ACS_NamedExecuteAlways("MorphMe",0,0,"HyperTankMorpherEX");
+			ACS_NamedExecuteAlways("MorphMe",0,new_tid,"HyperTankMorpherEX");
 		else
-			ACS_NamedExecuteAlways("MorphMe",0,0,"TankMorpherEX");
+			ACS_NamedExecuteAlways("MorphMe",0,new_tid,"TankMorpherEX");
 	else if(slot2 == 13)
 		if(slot1 == 15)
-			ACS_NamedExecuteAlways("MorphMe",0,0,"HyperDogMorpherEX");
+			ACS_NamedExecuteAlways("MorphMe",0,new_tid,"HyperDogMorpherEX");
 		else
-			ACS_NamedExecuteAlways("MorphMe",0,0,"DogMorpherEX");
+			ACS_NamedExecuteAlways("MorphMe",0,new_tid,"DogMorpherEX");
 	else if(slot2 > REELMAX && slot2 <= 100)
 	ACS_NamedExecuteAlways(slot2script[slot2-1],0,3);
 
