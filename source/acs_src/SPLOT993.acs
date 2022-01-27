@@ -84,6 +84,7 @@ script 993(void) // Victory Sequence
 		hudmessagebold(s:"Let's see how well you did..."; HUDMSG_FADEOUT,3,5,(fuckhacksforever << 16),48.0,4.0,1.0);
 	else
 		hudmessagebold(s:"Let's see how well you all did..."; HUDMSG_FADEOUT,3,5,(fuckhacksforever << 16),48.0,4.0,1.0);
+		ACS_NamedExecute("ScoreStore",0);
 
 	delay(160);
 	Thing_Hate(900,9999,6);

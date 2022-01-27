@@ -698,9 +698,7 @@ script 992(void) // Death Sequence
 	{
 		AmbientSound("mp/die",64);
 		SetActorProperty(0,APROP_Score,(GetActorProperty(0,APROP_Score) - 2000));
-
-		//Save player score to reassign when respawning
-		scoreHolder[PlayerNumber()] = GetActorProperty(0,APROP_Score);
+		ACS_NamedExecute("ScoreStore", 0, 0);
 
 		//Is coop?
 		if (GetCVar("survival") == false) {
@@ -712,10 +710,11 @@ script 992(void) // Death Sequence
 			terminate;
 		}
 
+		dead = 1;
 		SetMusic("mus-die",0);
+
 		SetActivator(-1);
 		fadeto(0,0,0,5.0,1.0);
-
 		delay(175);
 
 		ChangeLevel("LOBBY",0,CHANGELEVEL_RESETINVENTORY|CHANGELEVEL_RESETHEALTH|CHANGELEVEL_NOINTERMISSION,-1);
@@ -1491,13 +1490,131 @@ script 888 ENTER // voice over for mode announce
 }
 */
 
+script "ScoreStore" (void)
+{
+	int player_id = PlayerNumber();
+	if(player_id==-1){
+		for(int i = 0;i < PlayerCount();i++){
+			if(PlayerIsSpectator(i))
+					continue;
+			int reel_id = i+1337;
+			log(s:"Stored Player #",d:i,s:" score ",d:GetActorProperty(reel_id,APROP_Score));
+			scoreHolder[i] = GetActorProperty(reel_id,APROP_Score);
+		}
+	} else {
+		log(s:"Stored Player #",d:player_id,s:" score ",d:GetActorProperty(0,APROP_Score));
+		scoreHolder[player_id] = GetActorProperty(0,APROP_Score);
+	}
+	ACS_NamedExecute("ScoreDBStore_Check",0);
+}
 
-//Props to "HexaDoken" for this way for restoring player score
+script "ScoreDBStore_Check" (void){
+	// Reglas:
+	// - Guardar individualmente a todo los jugadores que se le acaben sus vidas (survival=1, lives=0)
+	// - Guardar a todos los jugadores vivos cuando se derrote al boss (survival=0, winner=1)
+	int player_id = PlayerNumber();
+
+	log(s:"Score DB Store: (player_id=",d:player_id,s:")");
+	if(player_id!=-1){
+		if(GetCVar("survival")){
+			log(s:" - Vidas:",d:GetPlayerLivesLeft(player_id));
+			if(GetPlayerLivesLeft(player_id) != 0){
+				log(s:" - Este jugador sigue vivo.");
+				terminate;
+			}
+		}
+	} else {
+		log(s:" (Asumo que se guardaran a todos...)");
+	}
+
+	if(player_id!=-1){
+		log(s:" - Begin solo");
+		ACS_NamedExecute("ScoreDBStore",0, player_id);
+	} else {
+		log(s:" - Begin todos -- PlayerCount:",d:PlayerCount());
+		for(int i = 0;i < PlayerCount();i++){
+			log(s:" - ",d:i,s:" is Spectator:",d:PlayerIsSpectator(i));
+			if(PlayerIsSpectator(i) == 0){
+				log(s:"  + Guardando...");
+				ACS_NamedExecute("ScoreDBStore",0, i, 0 , 0);
+			} else {
+				log(s:"  + Si es espectador :/");
+			}
+		}
+	}
+	log(s:" - Finalizado.");
+}
+
+script "ScoreDBStore" (int player_id)
+{
+	if (!PlayerIsLoggedIn(player_id)){
+		log(s:"  + Jugador ",d:player_id,s:" no tiene la sesion iniciada.");
+		terminate;
+	}
+	BeginDBTransaction();
+	str userName = GetPlayerAccountName(player_id);
+	str playerName = StrParam(n:player_id+1);
+	int current_score = scoreHolder[player_id];
+	int db_score = GetDBEntry("scores", userName);
+	log(s:"  + Datos del jugador precargados (",s:userName,s:", ",s:playerName,s:", ",d:current_score,s:", ",d:db_score,s:")");
+
+	if(current_score > db_score){
+		log(s:"  + Jugador rompe su propio record");
+		SetDBEntry("scores", userName, current_score);
+		SetActivator(player_id);
+		AmbientSound("jackpot/mini",128);
+		str mess = StrParam(s:"\cfCongrats, ",s:playerName,s:"\cf!\n\ccYou broke a personal record.");
+		delay(1);
+		SetFont("SMALLFONT");
+		PrinterPrep();
+		HudMessage(s:mess;
+		HUDMSG_TYPEON | HUDMSG_LOG,0,12,(fuckhacksforever << 16),230.0,5.0,
+		0.01,2.0);
+	} else {
+		log(s:"  + Score actual es menor... saltando.");
+	}
+	SetDBEntryString("name", userName, playerName);
+	EndDBTransaction();
+
+	log(s:"  + Datos del jugador ",d:player_id,s:" guardado (",s:playerName,s:")");
+}
+
+script "ScoreLeaderboard" (void) NET
+{
+	int result = GetDBEntries("scores");
+    int count = CountDBResults(result);
+	FreeDBResults(result);
+
+	str messagestr = "";
+	if(count > 10){
+		count = 10;
+	}
+    if (count != 0){
+		messagestr = "\cgTOP SCORES:\n";
+        result = SortDBEntries("scores", count, 0, true);
+		for(int i = 0; i < count; i++){
+			str userName = GetDBResultKeyString(result, i);
+			int score = GetDBResultValue(result, i);
+			str playerName = GetDBEntryString("name", userName);
+			messagestr = StrParam(s:messagestr, s:"\cf", d:i+1, s:". \cc", s:playerName, s:" \cj \t- \cc", d:GetDBResultValue(result, 0), s:" score\n\n\cc'Login' to store your score");
+		}
+    } else {
+		messagestr = "\cgWhoopsie!\n\ccThis server doesn't have any records yet.\n\cc'Login' to store your score";
+	}
+	SetFont("SMALLFONT");
+	PrinterPrep();
+	HudMessage(
+		s:messagestr;
+	HUDMSG_TYPEON | HUDMSG_LOG,0,0,(fuckhacksforever << 16),230.0,5.0,
+	0.01,2.0
+	);
+}
+
 script "ScoreReassign" RESPAWN
 {
 	int player_id = PlayerNumber();
 	SetActorProperty(0, APROP_SCORE, scoreHolder[player_id]);
-	ACS_Execute(672, 0, scoreHolder[player_id]);
+	ACS_NamedExecute("ScoreReassign_HUD", 0, scoreHolder[player_id]);
 }
 
 script "ScoreReassign_HUD" (int score) clientside

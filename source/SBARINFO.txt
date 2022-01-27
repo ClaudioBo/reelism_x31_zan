@@ -102,7 +102,7 @@ statusbar fullscreen, fullscreenoffsets // ZDoom HUD
 	} else {
 	// Score
 	DrawString SMALLFONT2, untranslated, "score:", -100, -64;
-	drawnumber 9, SMALLFONT, untranslated, Score, interpolate(16), -8, -64;
+	drawnumber 9, SMALLFONT, untranslated, Score, interpolate(256), -8, -64;
 	}
 	// Round
 	DrawString SMALLFONT2, untranslated, "round:", 50, -64;

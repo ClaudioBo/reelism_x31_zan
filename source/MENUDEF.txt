@@ -38,6 +38,7 @@ ListMenu "SkillMenu"
 OptionMenu "OptionsMenu"
 {
 	Title "OPTIONS"
+	Submenu "Multiplayer Options",		"ZA_MultiplayerOptions"
 	Submenu "Customize Controls",		"CustomizeControls"
 	Submenu "Mouse options",			"MouseOptions"
 	Submenu "Joystick options",			"JoystickOptions"
