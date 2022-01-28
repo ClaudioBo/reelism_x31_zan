@@ -9,9 +9,9 @@ DEFAULTLISTMENU
 
 LISTMENU "MainMenu"
 {
-	StaticPatch 60, 22, "LOGO"
-	Font "SMALLFONT", "White"
-	StaticText 120, 57, "$VER"
+	StaticPatch 60, 19, "LOGO"
+	Font "CONFONT", "White"
+	StaticText 100, 57, "$VER"
 
 	Position 97, 75
 	Font "BigFont", "White"

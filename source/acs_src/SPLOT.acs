@@ -1517,15 +1517,51 @@ script "ScoreDBStore_Check" (void){
 		}
 	}
 
+	//Reset queue message
+	str record_top_announce_queue[10];
+
 	if(player_id!=-1){
-		ACS_NamedExecute("ScoreDBStore",0, player_id);
+		str name_result1 = ACS_NamedExecuteWithResult("ScoreDBStore",0, player_id);
+		// record_top_announce_queue[0] = name_result1;
 	} else {
 		for(int i = 0;i < PlayerCount();i++){
 			if(PlayerIsSpectator(i) == 0){
-				ACS_NamedExecute("ScoreDBStore",0, i, 0 , 0);
+				str name_result2 = ACS_NamedExecuteWithResult("ScoreDBStore",0, i);
+				// record_top_announce_queue[i] = name_result2;
 			}
 		}
 	}
+
+	record_top_announce_queue[0] = "Kledioz";
+	record_top_announce_queue[1] = "TUvIEJA";
+	record_top_announce_queue[2] = "Jijijojaja";
+	log(s:" ---   Mascapitos ",s:record_top_announce_queue[0],d:record_top_announce_queue[0]);
+
+	if(record_top_announce_queue[0] != 0){
+		str record_announce_str = "\cgCongratulations to...\n";
+		for(int j = 0;j < 10;j++){
+			str name = record_top_announce_queue[j];
+			if(name == 0){
+				continue;
+			}
+			if(j != 0){
+				if(record_top_announce_queue[j] != 0){
+					record_announce_str = StrParam(s:record_announce_str,s:"\cc, ");
+				}
+			}
+			record_announce_str = StrParam(s:record_announce_str,s:name);
+		}
+		record_announce_str = StrParam(s:record_announce_str,s:"\n\ccwho broke their record and entered \n\ccto the \cfTop 10 Leaderboard");
+
+		AmbientSound("jackpot/mini",64);
+		delay(1);
+		SetActivator(-1);
+		SetFont("SMALLFONT");
+		PrinterPrep();
+		HudMessage(s:record_announce_str;
+		HUDMSG_PLAIN,0,12,(fuckhacksforever << 16),230.0,5.0);
+	}
+
 }
 
 script "ScoreDBStore" (int player_id)
@@ -1542,7 +1578,7 @@ script "ScoreDBStore" (int player_id)
 	if(current_score > db_score){
 		SetDBEntry("scores", userName, current_score);
 		SetActivator(player_id);
-		AmbientSound("jackpot/mini",128);
+		AmbientSound("kledioz/tada",128);
 		str mess = StrParam(s:"\cfCongrats, ",s:playerName,s:"\cf!\n\ccYou broke a personal record.");
 		delay(1);
 		SetFont("SMALLFONT");
@@ -1555,8 +1591,42 @@ script "ScoreDBStore" (int player_id)
 	EndDBTransaction();
 }
 
+int lb_query_cooldown = 0;
+str lb_cached_message;
+
 script "ScoreLeaderboard" (void) NET
 {
+	ACS_NamedExecuteWithResult("ScoreLeaderboard_Query",0);
+	SetFont("SMALLFONT");
+	PrinterPrep();
+	if(winner == 1){
+		lb_query_cooldown = 0;
+		ACS_NamedExecuteWithResult("ScoreLeaderboard_Query",0);
+		HudMessage(
+			s:lb_cached_message;
+		HUDMSG_TYPEON | HUDMSG_LOG,0,0,(fuckhacksforever << 16),230.0,5.0,
+		0.01,2.0
+		);
+	} else {
+		int seconds_ago = ((Timer()/35)+60) - lb_query_cooldown;
+		HudMessage(
+			s:lb_cached_message,s:"\n\n\ccLast updated: ",d:seconds_ago,s:" seconds ago.";
+		HUDMSG_TYPEON | HUDMSG_LOG,2023,0,(fuckhacksforever << 16),330.0,999,
+		0.01,2.0
+		);
+		str mess = StrParam(s:"\cfCongrats, \cnPUTOTE",s:"\cf!\n\ccYou broke a personal record.");
+		HudMessage(s:mess;
+		HUDMSG_TYPEON | HUDMSG_LOG,2022,12,(fuckhacksforever << 16),230.0,999,
+		0.01,2.0);
+	}
+}
+
+script "ScoreLeaderboard_Query" (void)
+{
+	int now = (Timer()/35);
+	if(now <= lb_query_cooldown){
+		terminate;
+	}
 	int result = GetDBEntries("scores");
     int count = CountDBResults(result);
 	FreeDBResults(result);
@@ -1565,25 +1635,20 @@ script "ScoreLeaderboard" (void) NET
 	if(count > 10){
 		count = 10;
 	}
-    if (count != 0){
+    if (count > 0){
+		lb_query_cooldown = now+60;
 		messagestr = "\cgTOP SCORES:\n";
         result = SortDBEntries("scores", count, 0, true);
 		for(int i = 0; i < count; i++){
 			str userName = GetDBResultKeyString(result, i);
 			int score = GetDBResultValue(result, i);
 			str playerName = GetDBEntryString("name", userName);
-			messagestr = StrParam(s:messagestr, s:"\cf", d:i+1, s:". \cc", s:playerName, s:" \cj \t- \cc", d:GetDBResultValue(result, 0), s:" score\n\n\cc'Login' to store your score");
+			messagestr = StrParam(s:messagestr, s:"\cf", d:i+1, s:". \cc", s:playerName, s:" \cj \t- \cc", d:score, s:" score\n");
 		}
     } else {
 		messagestr = "\cgWhoopsie!\n\ccThis server doesn't have any records yet.\n\cc'Login' to store your score";
 	}
-	SetFont("SMALLFONT");
-	PrinterPrep();
-	HudMessage(
-		s:messagestr;
-	HUDMSG_TYPEON | HUDMSG_LOG,0,0,(fuckhacksforever << 16),230.0,5.0,
-	0.01,2.0
-	);
+	lb_cached_message = messagestr;
 }
 
 script "ScoreReassign" RESPAWN

@@ -8,8 +8,7 @@ STARTUP4 = "Spline_Init: Reticulating Splines...";
 STARTUP5 = "Done! (Good boy!) Now lets get Reel!";
 
 // Menu Text
-VER = "VERSION X3.1 (17/09/2015)\nEXPANSION PACK 3"; //update name after line break!
-//VER = "X3 BUILD 19 (06/09/2015)"; //update name after line break!
+VER = "        Version x3.1\nZandronum Patch v1.0";
 MNU_NEWGAME	= "Start";
 MNU_OPTIONS	= "Options";
 MNU_INFO = "Help 'n' Info";

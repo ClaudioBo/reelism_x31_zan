@@ -94,6 +94,10 @@ script 993(void) // Victory Sequence
 	ACS_ExecuteAlways(105,0); //SetMusic("");
 	fadeto(0,0,0,0.5,2.0);
 	delay(35);
+	
+	if(GameType()!=GAME_SINGLE_PLAYER)
+		ACS_NamedExecute("ScoreLeaderboard",0);
+
 	SetFont("BIGFONT");
 	hudmessagebold(s:"Post-Game Stats"; HUDMSG_PLAIN,1,6,(fuckhacksforever << 16),16.0,0.0);
 	delay(35);
