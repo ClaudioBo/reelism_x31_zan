@@ -1498,57 +1498,39 @@ script "ScoreStore" (void)
 			if(PlayerIsSpectator(i))
 					continue;
 			int reel_id = i+1337;
-			log(s:"Stored Player #",d:i,s:" score ",d:GetActorProperty(reel_id,APROP_Score));
 			scoreHolder[i] = GetActorProperty(reel_id,APROP_Score);
 		}
 	} else {
-		log(s:"Stored Player #",d:player_id,s:" score ",d:GetActorProperty(0,APROP_Score));
 		scoreHolder[player_id] = GetActorProperty(0,APROP_Score);
 	}
 	ACS_NamedExecute("ScoreDBStore_Check",0);
 }
 
 script "ScoreDBStore_Check" (void){
-	// Reglas:
-	// - Guardar individualmente a todo los jugadores que se le acaben sus vidas (survival=1, lives=0)
-	// - Guardar a todos los jugadores vivos cuando se derrote al boss (survival=0, winner=1)
 	int player_id = PlayerNumber();
 
-	log(s:"Score DB Store: (player_id=",d:player_id,s:")");
 	if(player_id!=-1){
 		if(GetCVar("survival")){
-			log(s:" - Vidas:",d:GetPlayerLivesLeft(player_id));
 			if(GetPlayerLivesLeft(player_id) != 0){
-				log(s:" - Este jugador sigue vivo.");
 				terminate;
 			}
 		}
-	} else {
-		log(s:" (Asumo que se guardaran a todos...)");
 	}
 
 	if(player_id!=-1){
-		log(s:" - Begin solo");
 		ACS_NamedExecute("ScoreDBStore",0, player_id);
 	} else {
-		log(s:" - Begin todos -- PlayerCount:",d:PlayerCount());
 		for(int i = 0;i < PlayerCount();i++){
-			log(s:" - ",d:i,s:" is Spectator:",d:PlayerIsSpectator(i));
 			if(PlayerIsSpectator(i) == 0){
-				log(s:"  + Guardando...");
 				ACS_NamedExecute("ScoreDBStore",0, i, 0 , 0);
-			} else {
-				log(s:"  + Si es espectador :/");
 			}
 		}
 	}
-	log(s:" - Finalizado.");
 }
 
 script "ScoreDBStore" (int player_id)
 {
 	if (!PlayerIsLoggedIn(player_id)){
-		log(s:"  + Jugador ",d:player_id,s:" no tiene la sesion iniciada.");
 		terminate;
 	}
 	BeginDBTransaction();
@@ -1556,10 +1538,8 @@ script "ScoreDBStore" (int player_id)
 	str playerName = StrParam(n:player_id+1);
 	int current_score = scoreHolder[player_id];
 	int db_score = GetDBEntry("scores", userName);
-	log(s:"  + Datos del jugador precargados (",s:userName,s:", ",s:playerName,s:", ",d:current_score,s:", ",d:db_score,s:")");
 
 	if(current_score > db_score){
-		log(s:"  + Jugador rompe su propio record");
 		SetDBEntry("scores", userName, current_score);
 		SetActivator(player_id);
 		AmbientSound("jackpot/mini",128);
@@ -1570,13 +1550,9 @@ script "ScoreDBStore" (int player_id)
 		HudMessage(s:mess;
 		HUDMSG_TYPEON | HUDMSG_LOG,0,12,(fuckhacksforever << 16),230.0,5.0,
 		0.01,2.0);
-	} else {
-		log(s:"  + Score actual es menor... saltando.");
 	}
 	SetDBEntryString("name", userName, playerName);
 	EndDBTransaction();
-
-	log(s:"  + Datos del jugador ",d:player_id,s:" guardado (",s:playerName,s:")");
 }
 
 script "ScoreLeaderboard" (void) NET
