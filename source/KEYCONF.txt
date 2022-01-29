@@ -1,0 +1,4 @@
+addkeysection "Reelism x3.1 Zandronum Patch" ReelKeysection
+addmenukey "Top 10 Scoreboard" reelscoreboard
+alias reelscoreboard "pukename scoreleaderboard"
+defaultbind KP5 reelscoreboard

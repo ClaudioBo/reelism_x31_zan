@@ -1503,8 +1503,14 @@ script "ScoreStore" (void)
 	} else {
 		scoreHolder[player_id] = GetActorProperty(0,APROP_Score);
 	}
-	ACS_NamedExecute("ScoreDBStore_Check",0);
+
+	if(GetCVar("reel_enabledb"))
+		ACS_NamedExecute("ScoreDBStore_Check",0);
 }
+
+str lb_cache[10][2];
+int lb_cache_cooldown = 0;
+str record_top_announce_queue[10];
 
 script "ScoreDBStore_Check" (void){
 	int player_id = PlayerNumber();
@@ -1517,28 +1523,28 @@ script "ScoreDBStore_Check" (void){
 		}
 	}
 
-	//Reset queue message
-	str record_top_announce_queue[10];
-
 	if(player_id!=-1){
-		str name_result1 = ACS_NamedExecuteWithResult("ScoreDBStore",0, player_id);
-		// record_top_announce_queue[0] = name_result1;
+		int announce_top10 = ACS_NamedExecuteWithResult("ScoreDBStore",0, player_id);
+		if(announce_top10==1)
+			record_top_announce_queue[0] = player_id+1;
 	} else {
 		for(int i = 0;i < PlayerCount();i++){
 			if(PlayerIsSpectator(i) == 0){
-				str name_result2 = ACS_NamedExecuteWithResult("ScoreDBStore",0, i);
-				// record_top_announce_queue[i] = name_result2;
+				str announce_top10_ = ACS_NamedExecuteWithResult("ScoreDBStore",0, i);
+				if(announce_top10_==1 && i <= 10)
+					record_top_announce_queue[i] = i+1;
 			}
 		}
 	}
 
-	record_top_announce_queue[0] = "Kledioz";
-	record_top_announce_queue[1] = "TUvIEJA";
-	record_top_announce_queue[2] = "Jijijojaja";
-	log(s:" ---   Mascapitos ",s:record_top_announce_queue[0],d:record_top_announce_queue[0]);
-
 	if(record_top_announce_queue[0] != 0){
-		str record_announce_str = "\cgCongratulations to...\n";
+		AmbientSound("jackpot/mini",64);
+		delay(1);
+		SetActivator(-1);
+		SetFont("SMALLFONT");
+		PrinterPrep();
+		HudMessage(s:"\cgCongratulations to...";HUDMSG_PLAIN,0,12,(fuckhacksforever << 16),365.0,5.0);
+		str record_announce_str = "";
 		for(int j = 0;j < 10;j++){
 			str name = record_top_announce_queue[j];
 			if(name == 0){
@@ -1551,104 +1557,134 @@ script "ScoreDBStore_Check" (void){
 			}
 			record_announce_str = StrParam(s:record_announce_str,s:name);
 		}
-		record_announce_str = StrParam(s:record_announce_str,s:"\n\ccwho broke their record and entered \n\ccto the \cfTop 10 Leaderboard");
-
-		AmbientSound("jackpot/mini",64);
-		delay(1);
-		SetActivator(-1);
-		SetFont("SMALLFONT");
-		PrinterPrep();
-		HudMessage(s:record_announce_str;
-		HUDMSG_PLAIN,0,12,(fuckhacksforever << 16),230.0,5.0);
+		HudMessage(s:record_announce_str;HUDMSG_PLAIN,0,12,(fuckhacksforever << 16),365.0,5.0);
+		HudMessage(s:"\ccwho broke their record and entered";HUDMSG_PLAIN,0,12,(fuckhacksforever << 16),375.0,5.0);
+		HudMessage(s:"\ccto the \cfTop 10 Leaderboard";HUDMSG_PLAIN,0,12,(fuckhacksforever << 16),385.0,5.0);
 	}
 
 }
 
 script "ScoreDBStore" (int player_id)
 {
+	SetResultValue(0);
 	if (!PlayerIsLoggedIn(player_id)){
 		terminate;
 	}
-	BeginDBTransaction();
 	str userName = GetPlayerAccountName(player_id);
 	str playerName = StrParam(n:player_id+1);
 	int current_score = scoreHolder[player_id];
 	int db_score = GetDBEntry("scores", userName);
 
+	SetDBEntryString("name", userName, playerName);
 	if(current_score > db_score){
 		SetDBEntry("scores", userName, current_score);
+
+		//Check if he's in the top 10
+		if(lb_cache[0][0] == 0){
+			//Maybe leaderboard is not cached... querying it
+			lb_cache_cooldown = 0;
+			ACS_NamedExecuteWithResult("ScoreLeaderboard_Query",0);
+			if(lb_cache[0][0] == 0){
+				//No records at the database
+				terminate;
+			}
+		}
+		//Check if new score is greater at the leaderboards
+		for(int i=0;i<10;i++){
+			str lb_playerName = lb_cache[i][0];
+			int lb_score = lb_cache[i][1];
+			if(playerName == 0)
+				break; //There's no more records
+			if(current_score > lb_score){
+				//Player breaks top10 record.. check if he's the same guy
+				if(playerName != lb_playerName){
+					SetResultValue(1);
+					break;
+				}
+			}
+		}
+
 		SetActivator(player_id);
 		AmbientSound("kledioz/tada",128);
-		str mess = StrParam(s:"\cfCongrats, ",s:playerName,s:"\cf!\n\ccYou broke a personal record.");
 		delay(1);
-		SetFont("SMALLFONT");
 		PrinterPrep();
-		HudMessage(s:mess;
-		HUDMSG_TYPEON | HUDMSG_LOG,0,12,(fuckhacksforever << 16),230.0,5.0,
-		0.01,2.0);
+		SetFont("SMALLFONT");
+		HudMessage(s:"\cfCongrats, ",s:playerName,s:"!";HUDMSG_TYPEON,0,12,(fuckhacksforever << 16),230.0,5.0,0.01,2.0);
+		HudMessage(s:"\ccYou broke a personal record.";HUDMSG_TYPEON,0,12,(fuckhacksforever << 16),240.0,5.0,0.01,2.0);
 	}
-	SetDBEntryString("name", userName, playerName);
-	EndDBTransaction();
+
+	
 }
 
-int lb_query_cooldown = 0;
-str lb_cached_message;
 
 script "ScoreLeaderboard" (void) NET
 {
+	if(!GetCVar("reel_enabledb")){
+		Print(s:"\cfServer isn't saving scores yet.\n\n\cgNote to server administrators:\n\ccPlease use 'set reel_enabledb 1' to enable this feature.");
+		terminate;
+	}
+	
+	if(winner == 1)
+		lb_cache_cooldown = 0;
 	ACS_NamedExecuteWithResult("ScoreLeaderboard_Query",0);
-	SetFont("SMALLFONT");
+
+	int stay_time = 2.0;
+	if(winner == 1)
+		stay_time = 999.0;
+
 	PrinterPrep();
-	if(winner == 1){
-		lb_query_cooldown = 0;
-		ACS_NamedExecuteWithResult("ScoreLeaderboard_Query",0);
-		HudMessage(
-			s:lb_cached_message;
-		HUDMSG_TYPEON | HUDMSG_LOG,0,0,(fuckhacksforever << 16),230.0,5.0,
-		0.01,2.0
-		);
-	} else {
-		int seconds_ago = ((Timer()/35)+60) - lb_query_cooldown;
-		HudMessage(
-			s:lb_cached_message,s:"\n\n\ccLast updated: ",d:seconds_ago,s:" seconds ago.";
-		HUDMSG_TYPEON | HUDMSG_LOG,2023,0,(fuckhacksforever << 16),330.0,999,
-		0.01,2.0
-		);
-		str mess = StrParam(s:"\cfCongrats, \cnPUTOTE",s:"\cf!\n\ccYou broke a personal record.");
-		HudMessage(s:mess;
-		HUDMSG_TYPEON | HUDMSG_LOG,2022,12,(fuckhacksforever << 16),230.0,999,
-		0.01,2.0);
+	SetFont("SMALLFONT");
+
+	if(lb_cache[0][0] == 0){
+		HudMessage(s:"\cgWhoopsie!";HUDMSG_TYPEON,0,0,(fuckhacksforever << 16),240.0,stay_time,0.01,2.0);
+		HudMessage(s:"\ccThis server doesn't have any records yet.";HUDMSG_TYPEON,0,0,(fuckhacksforever << 16),250.0,stay_time,0.01,2.0);
+		HudMessage(s:"\cc'Login' to store your score";HUDMSG_TYPEON,0,0,(fuckhacksforever << 16),260.0,stay_time,0.01,2.0);
+		terminate;
+	}
+
+	HudMessage(s:"\cgTOP 10 SCORES:";HUDMSG_TYPEON,0,0,(fuckhacksforever << 16),230.0,stay_time,0.01,2.0);
+	int y = 240.0;
+	for(int i=0;i<10;i++){
+		str playerName = lb_cache[i][0];
+		int score = lb_cache[i][1];
+		if(playerName == 0)
+			break;
+		HudMessage(s:"\cf", d:i+1, s:". \cc", s:playerName, s:" \cj \t- \cc", d:score, s:" score";HUDMSG_TYPEON,0,0,(fuckhacksforever << 16),y,stay_time,0.01,2.0);
+		y = y+10.0;
+	}
+	if(winner == 0){
+		y = y+10.0;
+		int seconds_ago = ((Timer()/35)+60) - lb_cache_cooldown;
+		HudMessage(s:"\n\ccLast updated: ",d:seconds_ago,s:" seconds ago.";HUDMSG_TYPEON,0,0,(fuckhacksforever << 16),y,stay_time,0.01,2.0);
 	}
 }
 
 script "ScoreLeaderboard_Query" (void)
 {
 	int now = (Timer()/35);
-	if(now <= lb_query_cooldown){
+	if(now <= lb_cache_cooldown){
 		terminate;
 	}
+
+	ClearLeaderboard();
 	int result = GetDBEntries("scores");
     int count = CountDBResults(result);
 	FreeDBResults(result);
 
-	str messagestr = "";
 	if(count > 10){
 		count = 10;
 	}
     if (count > 0){
-		lb_query_cooldown = now+60;
-		messagestr = "\cgTOP SCORES:\n";
+		lb_cache_cooldown = now+60;
         result = SortDBEntries("scores", count, 0, true);
 		for(int i = 0; i < count; i++){
 			str userName = GetDBResultKeyString(result, i);
-			int score = GetDBResultValue(result, i);
 			str playerName = GetDBEntryString("name", userName);
-			messagestr = StrParam(s:messagestr, s:"\cf", d:i+1, s:". \cc", s:playerName, s:" \cj \t- \cc", d:score, s:" score\n");
+			int score = GetDBResultValue(result, i);
+			lb_cache[i][0] = playerName;
+			lb_cache[i][1] = score;
 		}
-    } else {
-		messagestr = "\cgWhoopsie!\n\ccThis server doesn't have any records yet.\n\cc'Login' to store your score";
 	}
-	lb_cached_message = messagestr;
 }
 
 script "ScoreReassign" RESPAWN
@@ -1669,4 +1705,28 @@ script "IsMultiplayer" (void)
 		SetResultValue(0);
 	else
 		SetResultValue(1);
+}
+
+function void ClearLeaderboard(void){
+	//This is bullshit i cant update fuckin acc version i wanna cry
+	lb_cache[0][0] = "";
+	lb_cache[0][1] = "";
+	lb_cache[1][0] = "";
+	lb_cache[1][1] = "";
+	lb_cache[2][0] = "";
+	lb_cache[2][1] = "";
+	lb_cache[3][0] = "";
+	lb_cache[3][1] = "";
+	lb_cache[4][0] = "";
+	lb_cache[4][1] = "";
+	lb_cache[5][0] = "";
+	lb_cache[5][1] = "";
+	lb_cache[6][0] = "";
+	lb_cache[6][1] = "";
+	lb_cache[7][0] = "";
+	lb_cache[7][1] = "";
+	lb_cache[8][0] = "";
+	lb_cache[8][1] = "";
+	lb_cache[9][0] = "";
+	lb_cache[9][1] = "";
 }

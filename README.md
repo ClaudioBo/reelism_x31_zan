@@ -2,10 +2,19 @@
 An attempt to patch a Doom-mod 'Reelism x3.1' to be run with Zandronum engine.  
 All the issues / TODOs are on the [Issues](https://github.com/ClaudioBo/reelism_x31_zan/issues) page
 
-Command to build the PK3 file
-```
+Command to build the PK3 file:
+```terminal
 make.bat
 ```
+
+Command to enable saving hi-scores on servers:
+```terminal
+set reel_enabledb 1
+archivecvar reel_enabledb
+databasefile YOUR-DATABASENAME.db
+```
+
+
 
 **Mod originally developed by 300 Pounds.**
 
