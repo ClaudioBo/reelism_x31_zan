@@ -9,8 +9,7 @@ make.bat
 
 Command to enable saving hi-scores on servers:
 ```terminal
-set reel_enabledb 1
-archivecvar reel_enabledb
+reel_enabledb 1
 databasefile YOUR-DATABASENAME.db
 ```
 
