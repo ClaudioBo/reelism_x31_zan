@@ -692,6 +692,26 @@ script 905(void) // for checking the jackpot
 		SetResultValue(jackpot);
 }
 
+script 667(int unused) DISCONNECT { //Check if no players alive for changing map
+	if(GameType()==GAME_SINGLE_PLAYER){
+		terminate;
+	}
+	if (GetCVar("survival") == false) {
+		terminate;
+	}
+	if(GetGameModeState() != 3){
+		terminate;
+	}
+	dead = 1;
+	SetMusic("mus-die",0);
+
+	fadeto(0,0,0,5.0,1.0);
+	delay(175);
+
+	ChangeLevel("LOBBY",0,CHANGELEVEL_RESETINVENTORY|CHANGELEVEL_RESETHEALTH|CHANGELEVEL_NOINTERMISSION,-1);
+	terminate;
+}
+
 script 992(void) // Death Sequence
 {
 	if(GameType()!=GAME_SINGLE_PLAYER)	//Ed - Let's not end the game if one person dies in multiplayer, right?
