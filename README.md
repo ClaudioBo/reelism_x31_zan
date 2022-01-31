@@ -13,7 +13,7 @@ reel_enabledb 1
 databasefile YOUR-DATABASENAME.db
 ```
 
-
+Most of the fixes were made by me and many of the fixes were copied from [reelism-x2.1_zan_0.5.pk3](https://static.allfearthesentinel.net/wads/reelism-x2.1_zan_0.5.pk3) wad.
 
 **Mod originally developed by 300 Pounds.**
 
@@ -23,6 +23,8 @@ All materials used are the copyright of their respective owners.
 
 [Reelism Website](https://www.thekinsie.com/reelism/)
 
+## Contributors
+- [Kledioz](https://github.com/ClaudioBo)
 
-
+###### Repository/changelog found at https://github.com/ClaudioBo/reelism_x31_zan/  
 ###### Bugs were found at Multiplayer which it seems to behave differently on Singleplayer

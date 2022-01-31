@@ -20,6 +20,8 @@ utils\bcc.exe .\source\acs_src\SPLOT994.acs .\source\acs\SPLOT994.lmp
 utils\bcc.exe .\source\acs_src\SPLOT995.acs .\source\acs\SPLOT995.lmp
 utils\bcc.exe .\source\acs_src\SPLOTFX.acs .\source\acs\SPLOTFX.lmp
 
+::Copy README.md to be zipped with the PK3
+COPY README.md .\source\README.md
 
 ::Pack everything on PK3
 :build
