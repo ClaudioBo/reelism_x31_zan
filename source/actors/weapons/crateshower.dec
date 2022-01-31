@@ -40,7 +40,7 @@ actor Crate1
 	+NOICEDEATH
 	+CANPASS
 	+CANBLAST
-	+CORPSE
+	// +CORPSE
 	states
 	{
 	Spawn:
