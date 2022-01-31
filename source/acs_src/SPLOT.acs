@@ -1528,26 +1528,27 @@ script "ScoreDBStore_Check" (void){
 		if(announce_top10==1)
 			record_top_announce_queue[0] = player_id+1;
 	} else {
+		int k = 0;
 		for(int i = 0;i < PlayerCount();i++){
 			if(PlayerIsSpectator(i) == 0){
 				str announce_top10_ = ACS_NamedExecuteWithResult("ScoreDBStore",0, i);
-				if(announce_top10_==1 && i <= 10)
-					record_top_announce_queue[i] = i+1;
+				if(announce_top10_==1 && k <= 10)
+					record_top_announce_queue[k] = k+1;
+					k = k+1;
 			}
 		}
 	}
 
 	if(record_top_announce_queue[0] != 0){
-		AmbientSound("jackpot/mini",64);
-		delay(1);
 		SetActivator(-1);
+		AmbientSound("jackpot/mini",64);
 		SetFont("SMALLFONT");
 		PrinterPrep();
-		HudMessage(s:"\cgCongratulations to...";HUDMSG_PLAIN,0,12,(fuckhacksforever << 16),365.0,5.0);
+		HudMessage(s:"\cgCongratulations to...";HUDMSG_PLAIN,0,12,(fuckhacksforever << 16),260.0,5.0);
 		str record_announce_str = "";
 		for(int j = 0;j < 10;j++){
-			str name = record_top_announce_queue[j];
-			if(name == 0){
+			int player_queue_id = record_top_announce_queue[j];
+			if(player_queue_id == 0){
 				continue;
 			}
 			if(j != 0){
@@ -1555,11 +1556,13 @@ script "ScoreDBStore_Check" (void){
 					record_announce_str = StrParam(s:record_announce_str,s:"\cc, ");
 				}
 			}
-			record_announce_str = StrParam(s:record_announce_str,s:name);
+			record_announce_str = StrParam(s:record_announce_str,n:player_queue_id);
 		}
-		HudMessage(s:record_announce_str;HUDMSG_PLAIN,0,12,(fuckhacksforever << 16),365.0,5.0);
-		HudMessage(s:"\ccwho broke their record and entered";HUDMSG_PLAIN,0,12,(fuckhacksforever << 16),375.0,5.0);
-		HudMessage(s:"\ccto the \cfTop 10 Leaderboard";HUDMSG_PLAIN,0,12,(fuckhacksforever << 16),385.0,5.0);
+		HudMessage(s:record_announce_str;HUDMSG_PLAIN,0,12,(fuckhacksforever << 16),270.0,5.0);
+		HudMessage(s:"\ccwho broke their record and";HUDMSG_PLAIN,0,12,(fuckhacksforever << 16),280.0,5.0);
+		HudMessage(s:"\ccentered or climbed one more place";HUDMSG_PLAIN,0,12,(fuckhacksforever << 16),290.0,5.0);
+		HudMessage(s:"\ccto the \cfTop 10 Leaderboard";HUDMSG_PLAIN,0,12,(fuckhacksforever << 16),300.0,5.0);
+		ClearAnnounceTopTen();
 	}
 
 }
@@ -1596,21 +1599,18 @@ script "ScoreDBStore" (int player_id)
 			if(playerName == 0)
 				break; //There's no more records
 			if(current_score > lb_score){
-				//Player breaks top10 record.. check if he's the same guy
-				if(playerName != lb_playerName){
-					SetResultValue(1);
-					break;
-				}
+				SetResultValue(1);
+				break;
 			}
 		}
 
-		SetActivator(player_id);
-		AmbientSound("kledioz/tada",128);
-		delay(1);
+		SetActivator(player_id+1337);
 		PrinterPrep();
 		SetFont("SMALLFONT");
-		HudMessage(s:"\cfCongrats, ",s:playerName,s:"!";HUDMSG_TYPEON,0,12,(fuckhacksforever << 16),230.0,5.0,0.01,2.0);
-		HudMessage(s:"\ccYou broke a personal record.";HUDMSG_TYPEON,0,12,(fuckhacksforever << 16),240.0,5.0,0.01,2.0);
+		HudMessage(s:"\cfCongrats, ",s:playerName,s:"\cf!";HUDMSG_TYPEON,0,12,(fuckhacksforever << 16),230.0,5.0,0.01,2.0);
+		HudMessage(s:"\ccYou broke your personal record.";HUDMSG_TYPEON,0,12,(fuckhacksforever << 16),240.0,5.0,0.01,2.0);
+		HudMessage(s:"\cr",d:db_score,s:" \cc\> \cd",d:current_score;HUDMSG_TYPEON,0,12,(fuckhacksforever << 16),250.0,5.0,0.01,2.0);
+		LocalAmbientSound("kledioz/tada",128);
 	}
 }
 
@@ -1618,7 +1618,8 @@ script "ScoreDBStore" (int player_id)
 script "ScoreLeaderboard" (void) NET
 {
 	if(!GetCVar("reel_enabledb")){
-		Print(s:"\cfServer isn't saving scores yet.\n\n\cgNote to server administrators:\n\ccPlease use 'set reel_enabledb 1' to enable this feature.");
+		if(PlayerNumber() != -1)
+			Print(s:"\cfServer isn't saving scores yet.\n\n\cgNote to server administrators:\n\ccPlease use 'set reel_enabledb 1' to enable this feature.");
 		terminate;
 	}
 	
@@ -1636,11 +1637,11 @@ script "ScoreLeaderboard" (void) NET
 	if(lb_cache[0][0] == 0){
 		HudMessage(s:"\cgWhoopsie!";HUDMSG_TYPEON,0,0,(fuckhacksforever << 16),240.0,stay_time,0.01,2.0);
 		HudMessage(s:"\ccThis server doesn't have any records yet.";HUDMSG_TYPEON,0,0,(fuckhacksforever << 16),250.0,stay_time,0.01,2.0);
-		HudMessage(s:"\cc'Login' to store your score";HUDMSG_TYPEON,0,0,(fuckhacksforever << 16),260.0,stay_time,0.01,2.0);
+		HudMessage(s:"\cc'Login' to save your score";HUDMSG_TYPEON,0,0,(fuckhacksforever << 16),260.0,stay_time,0.01,2.0);
 		terminate;
 	}
 
-	HudMessage(s:"\cgTOP 10 SCORES:";HUDMSG_TYPEON,0,0,(fuckhacksforever << 16),230.0,stay_time,0.01,2.0);
+	HudMessage(s:"\cgTOP 10 MOST SCORE:";HUDMSG_TYPEON,0,0,(fuckhacksforever << 16),230.0,stay_time,0.01,2.0);
 	int y = 240.0;
 	for(int i=0;i<10;i++){
 		str playerName = lb_cache[i][0];
@@ -1682,6 +1683,7 @@ script "ScoreLeaderboard_Query" (void)
 			lb_cache[i][0] = playerName;
 			lb_cache[i][1] = score;
 		}
+		FreeDBResults(result);
 	}
 }
 
@@ -1689,10 +1691,10 @@ script "ScoreReassign" RESPAWN
 {
 	int player_id = PlayerNumber();
 	SetActorProperty(0, APROP_SCORE, scoreHolder[player_id]);
-	ACS_NamedExecute("ScoreReassign_HUD", 0, scoreHolder[player_id]);
+	ACS_NamedExecute("ScoreReassign_UpdateHUD", 0, scoreHolder[player_id]);
 }
 
-script "ScoreReassign_HUD" (int score) clientside
+script "ScoreReassign_UpdateHUD" (int score) clientside
 {
 	SetActorProperty(0, APROP_SCORE, score);
 }
@@ -1707,24 +1709,37 @@ script "IsMultiplayer" (void)
 
 function void ClearLeaderboard(void){
 	//This is bullshit i cant update fuckin acc version i wanna cry
-	lb_cache[0][0] = "";
-	lb_cache[0][1] = "";
-	lb_cache[1][0] = "";
-	lb_cache[1][1] = "";
-	lb_cache[2][0] = "";
-	lb_cache[2][1] = "";
-	lb_cache[3][0] = "";
-	lb_cache[3][1] = "";
-	lb_cache[4][0] = "";
-	lb_cache[4][1] = "";
-	lb_cache[5][0] = "";
-	lb_cache[5][1] = "";
-	lb_cache[6][0] = "";
-	lb_cache[6][1] = "";
-	lb_cache[7][0] = "";
-	lb_cache[7][1] = "";
-	lb_cache[8][0] = "";
-	lb_cache[8][1] = "";
-	lb_cache[9][0] = "";
-	lb_cache[9][1] = "";
+	lb_cache[0][0]= 0;
+	lb_cache[0][1]= 0;
+	lb_cache[1][0]= 0;
+	lb_cache[1][1]= 0;
+	lb_cache[2][0]= 0;
+	lb_cache[2][1]= 0;
+	lb_cache[3][0]= 0;
+	lb_cache[3][1]= 0;
+	lb_cache[4][0]= 0;
+	lb_cache[4][1]= 0;
+	lb_cache[5][0]= 0;
+	lb_cache[5][1]= 0;
+	lb_cache[6][0]= 0;
+	lb_cache[6][1]= 0;
+	lb_cache[7][0]= 0;
+	lb_cache[7][1]= 0;
+	lb_cache[8][0]= 0;
+	lb_cache[8][1]= 0;
+	lb_cache[9][0]= 0;
+	lb_cache[9][1]= 0;
+}
+
+function void ClearAnnounceTopTen(void){
+	record_top_announce_queue[0]= 0;
+	record_top_announce_queue[1]= 0;
+	record_top_announce_queue[2]= 0;
+	record_top_announce_queue[3]= 0;
+	record_top_announce_queue[4]= 0;
+	record_top_announce_queue[5]= 0;
+	record_top_announce_queue[6]= 0;
+	record_top_announce_queue[7]= 0;
+	record_top_announce_queue[8]= 0;
+	record_top_announce_queue[9]= 0;
 }
