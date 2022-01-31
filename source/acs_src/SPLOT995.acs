@@ -40,8 +40,11 @@ Script 997 RESPAWN		//Ed - Special script to make sure everyone's got the right 
 		GiveInventory("PowerAsbestos",1);
 	else if(slot1 == 17)
 		GiveInventory("PowerQuadDamage",1);
-	else if(slot1 > REELMAX && slot1 <= 100)
-		ACS_NamedExecuteAlways(slot1script[slot1-1],0,2);
+	else if(slot1 > REELMAX && slot1 <= 100){
+		str slot1script_ = slot1script[slot1-1];
+		if(slot1script_ != 0)
+			ACS_NamedExecuteAlways(slot1script_,0,2);
+	}
 	if(slotting&&slot2==0)
 		GiveInventory("Slot2Spinning",1);
 	else if(slot2==100)
@@ -59,8 +62,11 @@ Script 997 RESPAWN		//Ed - Special script to make sure everyone's got the right 
 			ACS_NamedExecuteAlways("MorphMe",0,new_tid,"HyperDogMorpherEX");
 		else
 			ACS_NamedExecuteAlways("MorphMe",0,new_tid,"DogMorpherEX");
-	else if(slot2 > REELMAX && slot2 <= 100)
-	ACS_NamedExecuteAlways(slot2script[slot2-1],0,3);
+	else if(slot2 > REELMAX && slot2 <= 100){
+		str slot2script_ = slot2script[slot2-1];
+		if(slot2script_ != 0)
+			ACS_NamedExecuteAlways(slot2script_,0,3);
+	}
 
 	if(slotting&&slot3==0)
 		GiveInventory("Slot3Spinning",1);

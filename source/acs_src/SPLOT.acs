@@ -905,8 +905,11 @@ function void ResetMachine(void)
 		TakeActorInventory(i,"PowerQuadDamage",1);
 
 		//Reset any custom effects
-		for(j=REELMAX;j<REEL1MAX;j++)
-			ACS_NamedExecuteAlways(slot1script[j],0,3);
+		for(j=REELMAX;j<REEL1MAX;j++){
+			str slot1script_ = slot1script[j];
+			if(slot1script_ != 0)
+				ACS_NamedExecuteAlways(slot1script_,0,3);
+		}
 
 	}
 	//Reset global effects
@@ -1217,8 +1220,11 @@ script 673 (void)
 		else
 			SpawnHere(reel18weapons[random(0,5)]);
 	}
-	else if (slot2 > REELMAX && slot2 != 100)
-		ACS_NamedExecuteAlways(slot2script[slot2-1],0,1);
+	else if (slot2 > REELMAX && slot2 != 100){
+		str slot2script_ = slot2script[slot2-1];
+		if(slot2script_ != 0)
+			ACS_NamedExecuteAlways(slot2script_,0,1);
+	}
 	delay(1050);
 	restart;
 }
@@ -1383,8 +1389,11 @@ script 675 (void)
 {
 	if(boss)
 		SetActorState(0,"Random");
-	else if(slot2 > REELMAX && slot2 != 100)
-		ACS_NamedExecuteAlways(slot2script[slot2-1],0,2);
+	else if(slot2 > REELMAX && slot2 != 100){
+		str slot2script_ = slot2script[slot2-1];
+		if(slot2script_ != 0)
+			ACS_NamedExecuteAlways(slot2script_,0,2);
+	}
 	else if (slot2 > 0 && slot2 != 2 && slot2 != 10 && slot2 != 13)
 		SetActorState(0, AmmoArray[slot2 - 1]);
 }

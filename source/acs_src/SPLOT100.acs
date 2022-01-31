@@ -248,8 +248,11 @@ script "SlotResults"(void)
 		PlayAnnouncer("announcer/quad");
 	}
 
-	if(slot1 > REELMAX)
-		ACS_NamedExecuteAlways(slot1script[slot1-1],0,1);
+	if(slot1 > REELMAX){
+		str slot1script_ = slot1script[slot1-1];
+		if(slot1script_ != 0)
+			ACS_NamedExecuteAlways(slot1script_,0,1);
+	}
 
 	if(slot3 == 9)
 		SpawnSpotForced("TheJerk",905,899,0);	//Even if someone runs over the spawnpoint, it'll show up
