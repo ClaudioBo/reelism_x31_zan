@@ -13,6 +13,13 @@ reel_enabledb 1
 databasefile YOUR-DATABASENAME.db
 ```
 
+Text shown on HUD is too big on servers, HELP!:
+```terminal
+//Im too lazy to fix it, so please exec
+vid_defwidth 1920
+vid_defheight 1080
+```
+
 Most of the fixes were made by me and many of the fixes were copied from [reelism-x2.1_zan_0.5.pk3](https://static.allfearthesentinel.net/wads/reelism-x2.1_zan_0.5.pk3) wad.
 
 **Mod originally developed by 300 Pounds.**

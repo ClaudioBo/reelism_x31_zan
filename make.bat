@@ -1,5 +1,4 @@
 :: Compile ACS
-@REM if "%1"=="" goto :build
 if not exist "source\acs" mkdir "source\acs"
 DEL .\source\acs\SPLOT.lmp
 DEL .\source\acs\SPLOT100.lmp
@@ -26,10 +25,10 @@ COPY README.md .\source\README.md
 ::Pack everything on PK3
 :build
 DEL reelism_x3.1_zanv1.pk3
-utils\7za.exe u -tzip reelism_x3.1_zanv1.pk3 -uq0 .\source\* -mx=1
+utils\7za.exe u -tzip reelism_x3.1_zanv01CLOSEDBETA.pk3 -uq0 .\source\* -mx=1
 
 ::AutoExec server and clients for quick testing
-if exist "server.bat" START /b server.bat
-if exist "client.bat" START /b client.bat
-if exist "client.bat" START /b client.bat
+@REM if exist "server.bat" START /b server.bat
+@REM if exist "client.bat" START /b client.bat
+@REM if exist "client.bat" START /b client.bat
 exit
