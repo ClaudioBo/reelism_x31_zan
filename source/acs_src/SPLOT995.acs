@@ -76,9 +76,14 @@ Script 997 RESPAWN		//Ed - Special script to make sure everyone's got the right 
 		GiveInventory(slot3list[slot3-1][0],1);
 
 	if(slot1==6&&slot2==6&&slot3==6)
-		ACS_NamedExecuteAlways("MorphMe",0,0,"CyberdemonMorpherEx");
+		ACS_NamedExecuteAlways("MorphMe",0,new_tid,"CyberdemonMorpherEx");
 	else if(slot1==12&&slot2==12&&slot3==12)
 		GiveInventory("ScreamingShits",1);
 	else if(slot1 == 16 & slot2 == 16 & slot3 == 16)
-		ACS_NamedExecuteAlways("MorphMe",0,0,"ChickenMorpherEx");
+		ACS_NamedExecuteAlways("MorphMe",0,new_tid,"ChickenMorpherEx");
+
+	delay(4);
+	if(slot1==6&slot2==6&slot3==6 || slot1==16&slot2==16&slot3==16 || slot2==2 || slot2==13)
+		SetActivator(new_tid);
+		ACS_NamedExecute("ScoreReassign_UpdateHUD", 0, GetActorProperty(0, APROP_SCORE));
 }

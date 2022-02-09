@@ -109,6 +109,7 @@ script 104(void) // Jackpot Script
 		PlayAnnouncer("announcer/jackpot");
 		for(i = 1337; i < 1400; i++)
 			ACS_NamedExecuteAlways("MorphMe",0,i,"CyberdemonMorpherEx");
+		ACS_NamedExecute("ScoreReassign_UpdateHUDAll",0);
 	}
 	else if(slot1 == 7 & slot2 == 7 & slot3 == 7)
 	{
@@ -326,6 +327,7 @@ script 104(void) // Jackpot Script
 		PlayAnnouncer("announcer/jackpot");
 		for(i = 1337; i < 1400; i++)
 			ACS_NamedExecuteAlways("MorphMe",0,i,"ChickenMorpherEx");
+		ACS_NamedExecute("ScoreReassign_UpdateHUDAll",0);
 		delay(120);
 		AmbientSound("jackpot/chickenmorph",127);
 	}

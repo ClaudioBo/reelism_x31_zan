@@ -718,6 +718,7 @@ script 992(void) // Death Sequence
 	{
 		AmbientSound("mp/die",64);
 		SetActorProperty(0,APROP_Score,(GetActorProperty(0,APROP_Score) - 2000));
+		ACS_NamedExecute("ScoreReassign_UpdateHUD", 0, GetActorProperty(0, APROP_SCORE));
 		ACS_NamedExecute("ScoreStore", 0, 0);
 
 		//Is coop?
@@ -913,6 +914,7 @@ function void ResetMachine(void)
 		UnMorphActor(i,1);
 		Thing_ChangeTID(0,i);						//Morphing erases the player's TID, so let's give it back
 		GiveActorInventory(i,"youcannotmorph",1);	//To prevent unwanted morphing by something unforseen. Who knows what could happen?!
+		ACS_NamedExecute("ScoreReassign_UpdateHUD", 0, GetActorProperty(i,APROP_SCORE));
 
 		// Reset the other effects
 		SetActorProperty(i,APROP_Speed,1.0);
@@ -1638,7 +1640,6 @@ script "ScoreDBStore" (int player_id)
 		SetFont("SMALLFONT");
 		HudMessage(s:"\cfCongrats, ",s:playerName,s:"\cf!";HUDMSG_TYPEON,0,12,(fuckhacksforever << 16),230.0,5.0,0.01,2.0);
 		HudMessage(s:"\ccYou broke your personal record.";HUDMSG_TYPEON,0,12,(fuckhacksforever << 16),240.0,5.0,0.01,2.0);
-		HudMessage(s:"\cr",d:db_score,s:" \cc\> \cd",d:current_score;HUDMSG_TYPEON,0,12,(fuckhacksforever << 16),250.0,5.0,0.01,2.0);
 		LocalAmbientSound("kledioz/tada",128);
 	}
 }
@@ -1721,6 +1722,15 @@ script "ScoreReassign" RESPAWN
 	int player_id = PlayerNumber();
 	SetActorProperty(0, APROP_SCORE, scoreHolder[player_id]);
 	ACS_NamedExecute("ScoreReassign_UpdateHUD", 0, scoreHolder[player_id]);
+}
+
+script "ScoreReassign_UpdateHUDAll" (void)
+{
+	for(int j = 1337; j < 1400; j++)
+	{
+		SetActivator(j);
+		ACS_NamedExecute("ScoreReassign_UpdateHUD", 0, GetActorProperty(j, APROP_SCORE));
+	}
 }
 
 script "ScoreReassign_UpdateHUD" (int score) clientside

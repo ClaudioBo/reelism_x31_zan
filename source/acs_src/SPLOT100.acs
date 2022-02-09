@@ -257,6 +257,11 @@ script "SlotResults"(void)
 	if(slot3 == 9)
 		SpawnSpotForced("TheJerk",905,899,0);	//Even if someone runs over the spawnpoint, it'll show up
 
+	//Update Score hud when morphing (had to put this here bc doesnt work inside MorphMe script)
+	if(slot2 == 2 || slot2 == 13){
+		ACS_NamedExecute("ScoreReassign_UpdateHUDAll",0);
+	}
+
 	delay(4);
 	roundsplayed++;
 	//slottimer = 60;
