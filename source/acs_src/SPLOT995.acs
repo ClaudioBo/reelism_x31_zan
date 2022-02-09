@@ -17,6 +17,11 @@ Script 997 RESPAWN		//Ed - Special script to make sure everyone's got the right 
 	int new_tid = (1337+PlayerNumber());
 	Thing_ChangeTID(0,new_tid);		//Ed - Restore the TID, since dying seems to erase it
 
+	//Is it not neccesary to give stuff to the player when the game is over
+	//This fixes the crash when morphing the player just on the map change
+	if(dead)
+		terminate;
+
 	if(slotting&&slot1==0)
 		GiveInventory("Slot1Spinning",1);
 	else if(slot1==100)
