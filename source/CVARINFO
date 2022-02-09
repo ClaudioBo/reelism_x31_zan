@@ -1,6 +1,7 @@
 server bool SmokeToggle = true;
 server bool ReelDev = false;
 server bool ToughBoss = true;
+server int ToughBoss_Factor = 10;
 server bool Reel_EnableDB = false;
 user bool announcer = true;
 user int announcerchance = 100;

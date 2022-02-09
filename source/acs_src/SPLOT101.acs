@@ -199,7 +199,13 @@ script "BossSlotResults"(void)
 	{
 		int p_count = PlayerCount();
 		if(p_count > 1){
-			SetActorProperty(906,APROP_HEALTH,GetActorProperty(906,APROP_Health)*PlayerCount());
+			int base_health = GetActorProperty(906,APROP_Health);
+			int factor = GetCVAR("ToughBoss_Factor");
+			int maxplayers = GetCVAR("SV_MaxPlayers");
+			int part1 = FixedDiv(p_count*factor, maxplayers);
+			int part2 = FixedMul(base_health, part1);
+			int new_health = base_health + c;
+			SetActorProperty(906,APROP_HEALTH,new_health);
 		}
 		while(GetActorProperty(906,APROP_Health)>0)
 		{
