@@ -204,7 +204,7 @@ script "BossSlotResults"(void)
 			int maxplayers = GetCVAR("SV_MaxPlayers");
 			int part1 = FixedDiv(p_count*factor, maxplayers);
 			int part2 = FixedMul(base_health, part1);
-			int new_health = base_health + c;
+			int new_health = base_health + part2;
 			SetActorProperty(906,APROP_HEALTH,new_health);
 		}
 		while(GetActorProperty(906,APROP_Health)>0)
