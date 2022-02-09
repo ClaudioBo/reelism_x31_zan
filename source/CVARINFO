@@ -1,4 +1,4 @@
-server bool SmokeToggle = true;
+user bool SmokeToggle = true;
 server bool ReelDev = false;
 server bool ToughBoss = true;
 server int ToughBoss_Factor = 10;

@@ -427,10 +427,10 @@ Actor Ember1 : Flame1A
 	States
 	{
 	Spawn:
-		EMBR A 0
+		EMBR A 0 A_JumpIf(CallACS("SmokeToggleCheck")==0,"QuickDeath")
 		EMBR A 0 ThrustThingZ(0,Random(4,16),0,0)
 		EMBR A 0 ThrustThing(Random(0,255),Random(0,1),0,0)
-		EMBR A 32 Bright A_JumpIf(CallACS("SmokeToggleCheck")==0,"QuickDeath")
+		EMBR A 32 Bright 
 		Goto Death
 	Death:
 		EMBR A 2 Bright A_FadeOut(0.1)
@@ -446,10 +446,10 @@ Actor Ember2 : Ember1
 	States
 	{
 	Spawn:
-		EMBR A 0
+		TNT1 A 0 A_JumpIf(CallACS("SmokeToggleCheck")==0,"QuickDeath")
 		EMBR A 0 ThrustThingZ(0,Random(4,16),0,0)
 		EMBR A 0 ThrustThing(Random(0,255),Random(0,1),0,0)
-		EMBR A 64 Bright A_JumpIf(CallACS("SmokeToggleCheck")==0,"QuickDeath")
+		EMBR A 64 Bright 
 		Goto Death
 	}
 }
