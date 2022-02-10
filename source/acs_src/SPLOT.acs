@@ -717,7 +717,9 @@ script 992(void) // Death Sequence
 	if(GameType()!=GAME_SINGLE_PLAYER)	//Ed - Let's not end the game if one person dies in multiplayer, right?
 	{
 		AmbientSound("mp/die",64);
-		SetActorProperty(0,APROP_Score,(GetActorProperty(0,APROP_Score) / GetCVar("ScorePenalty_Division")));
+		int current_score = GetActorProperty(0,APROP_Score);
+		int take = FixedMul(current_score, FixedDiv(GetCVar("ScorePenalty_Percentage"),100));
+		SetActorProperty(0,APROP_Score,(current_score-take));
 		ACS_NamedExecute("ScoreReassign_UpdateHUD", 0, GetActorProperty(0, APROP_SCORE));
 		ACS_NamedExecute("ScoreStore", 0, 0);
 

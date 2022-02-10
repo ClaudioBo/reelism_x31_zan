@@ -23,11 +23,10 @@ vid_defwidth 1920
 vid_defheight 1080
 ```
 
-## Score Penalty Division
-Instead of just removing 2000 score to the player, it now just removes the half.
-Formula: <ins>Player_Score / ScorePenalty_Division</ins>
+## Score Penalty Percentage
+Instead of just removing 2000 score to the player, it now just removes the 25% (default).
 ```terminal
-ScorePenalty_Division 2
+ScorePenalty_Percentage 25
 ```
 
 ## Tougher Bosses Health Formula:  

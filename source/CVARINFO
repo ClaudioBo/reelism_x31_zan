@@ -26,5 +26,5 @@ server bool BITMAN = true;
 
 //New
 server bool Reel_EnableDB = false;
-server int ScorePenalty_Division = 2;
+server int ScorePenalty_Percentage = 25;
 server int ToughBoss_Factor = 10;
