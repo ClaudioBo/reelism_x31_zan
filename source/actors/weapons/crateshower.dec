@@ -31,7 +31,7 @@ actor Crate1
 {
 	health 10
 	radius 32
-	height 0
+	height 32
 	+SOLID
 	+SHOOTABLE
 	+NOBLOOD
