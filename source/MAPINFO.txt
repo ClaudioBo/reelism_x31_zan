@@ -87,6 +87,7 @@ defaultmap
 	resethealth
 	resetinventory
 	noautosavehint
+	randomplayerstarts
 }
 
 map TITLEMAP "Splot"

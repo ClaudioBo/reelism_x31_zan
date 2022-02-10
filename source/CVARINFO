@@ -1,8 +1,6 @@
 user bool SmokeToggle = true;
 server bool ReelDev = false;
 server bool ToughBoss = true;
-server int ToughBoss_Factor = 10;
-server bool Reel_EnableDB = false;
 user bool announcer = true;
 user int announcerchance = 100;
 //Maps, for server control
@@ -25,3 +23,8 @@ server bool SPORTS = true;
 server bool CONTRA = true;
 server bool DOGHELL = true;
 server bool BITMAN = true;
+
+//New
+server bool Reel_EnableDB = false;
+server int ScorePenalty_Division = 2;
+server int ToughBoss_Factor = 10;

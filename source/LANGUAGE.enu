@@ -8,7 +8,7 @@ STARTUP4 = "Spline_Init: Reticulating Splines...";
 STARTUP5 = "Done! (Good boy!) Now lets get Reel!";
 
 // Menu Text
-VER = "        Version x3.1\nZandronum Patch v1.0";
+VER = "        Version x3.1\nZandronum Patch v1.1";
 MNU_NEWGAME	= "Start";
 MNU_OPTIONS	= "Options";
 MNU_INFO = "Help 'n' Info";

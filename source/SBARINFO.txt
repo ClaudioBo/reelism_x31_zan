@@ -102,11 +102,11 @@ statusbar fullscreen, fullscreenoffsets // ZDoom HUD
 	} else {
 	// Score
 	DrawString SMALLFONT2, untranslated, "score:", -100, -64;
-	drawnumber 9, SMALLFONT, untranslated, Score, interpolate(256), -8, -64;
+	drawnumber 9, SMALLFONT2, untranslated, Score, interpolate(256), -8, -64;
 	}
 	// Round
 	DrawString SMALLFONT2, untranslated, "round:", 50, -64;
-	drawnumber 2, SMALLFONT, untranslated, globalvar 1, 64, -64;
+	drawnumber 2, SMALLFONT2, untranslated, globalvar 1, 64, -64;
 	// Timer
 	InInventory Slot3Spinning, 1
 	{
@@ -209,7 +209,7 @@ statusbar normal // Standard Doom Status bar
 	} else {
 	// Score
 	DrawString SMALLFONT2, untranslated, "score:", 250, 160;
-	drawnumber 9, SMALLFONT2, untranslated, Score, interpolate(16), 319, 160;
+	drawnumber 9, SMALLFONT2, untranslated, Score, interpolate(256), 319, 160;
 	}
 	// Round
 	DrawString SMALLFONT2, untranslated, "round:", 50, 160;

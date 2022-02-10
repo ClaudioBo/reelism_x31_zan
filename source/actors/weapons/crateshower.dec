@@ -31,7 +31,7 @@ actor Crate1
 {
 	health 10
 	radius 32
-	height 32
+	height 0
 	+SOLID
 	+SHOOTABLE
 	+NOBLOOD
@@ -40,7 +40,7 @@ actor Crate1
 	+NOICEDEATH
 	+CANPASS
 	+CANBLAST
-	// +CORPSE
+	+CORPSE
 	states
 	{
 	Spawn:

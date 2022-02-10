@@ -224,7 +224,7 @@ ACTOR SplotPlayer : StrifePlayer
 		"----" A 1 A_FreezeDeathChunks
 		Wait
 	Firehands:
-		WAVE ABCD 3
+		WAVE ABCDABCDABCD 3 A_HandLower
 		Loop
 	Firehandslower:
 		WAVE ABCD 3 A_HandLower

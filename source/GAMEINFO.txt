@@ -1,0 +1,2 @@
+STARTUPTITLE = "Reelism x3.1 - Zandronum Patch v1.1"
+STARTUPCOLORS = "#000000", "#ffff00" 

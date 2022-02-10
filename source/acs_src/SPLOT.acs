@@ -717,7 +717,7 @@ script 992(void) // Death Sequence
 	if(GameType()!=GAME_SINGLE_PLAYER)	//Ed - Let's not end the game if one person dies in multiplayer, right?
 	{
 		AmbientSound("mp/die",64);
-		SetActorProperty(0,APROP_Score,(GetActorProperty(0,APROP_Score) - 2000));
+		SetActorProperty(0,APROP_Score,(GetActorProperty(0,APROP_Score) / GetCVar("ScorePenalty_Division")));
 		ACS_NamedExecute("ScoreReassign_UpdateHUD", 0, GetActorProperty(0, APROP_SCORE));
 		ACS_NamedExecute("ScoreStore", 0, 0);
 
@@ -871,6 +871,11 @@ script "Initialize" OPEN 	//707
 	// Disable respawn-in-place, thanks Ed
 	for(int i = 0;i < 999;i++)
 		Sector_ChangeFlags(i,SECF_NORESPAWN,0);
+	if(GetCVar("Reel_EnableDB")){
+		PrinterPrep();
+		hudmessagebold(s:"\cfRemember: You can \cclogin \cfto save your personal score."; HUDMSG_FADEOUT|HUDMSG_LOG,-1,5,(fuckhacksforever << 16),390.0,2.0,1.0);
+	}
+	ConsoleCommand("sv_randomcoopstarts true"); //Good for evading boss spawnkilling
 }
 
 // [XA] Slot rigging cheat script. ;)
@@ -879,13 +884,15 @@ script "RigSlots"(int s1,int s2,int s3)
 	rigslot1 = s1;
 	rigslot2 = s2;
 	rigslot3 = s3;
-	log(n:0,s:" has rigged the slots!");
+	SetActivator(-1);
+	log(s:"Someone has rigged the slots!");
 }
 
 script "RigBoss"(int s1)
 {
 	rigboss = s1;
-	log(n:0,s:" has rigged the boss selector!");
+	SetActivator(-1);
+	log(s:"Someone has rigged the boss selector!");
 }
 
 function void ResetMachine(void)
@@ -1575,7 +1582,7 @@ script "ScoreDBStore_Check" (void){
 		AmbientSound("jackpot/mini",64);
 		SetFont("SMALLFONT");
 		PrinterPrep();
-		HudMessage(s:"\cgCongratulations to...";HUDMSG_PLAIN,0,12,(fuckhacksforever << 16),260.0,5.0);
+		HudMessage(s:"\cgCongratulations to...";HUDMSG_PLAIN,-555,12,(fuckhacksforever << 16),360.0,5.0);
 		str record_announce_str = "";
 		for(int j = 0;j < 10;j++){
 			int player_queue_id = record_top_announce_queue[j];
@@ -1589,10 +1596,9 @@ script "ScoreDBStore_Check" (void){
 			}
 			record_announce_str = StrParam(s:record_announce_str,n:player_queue_id);
 		}
-		HudMessage(s:record_announce_str;HUDMSG_PLAIN,0,12,(fuckhacksforever << 16),270.0,5.0);
-		HudMessage(s:"\ccwho broke their record and";HUDMSG_PLAIN,0,12,(fuckhacksforever << 16),280.0,5.0);
-		HudMessage(s:"\ccentered or climbed one more place";HUDMSG_PLAIN,0,12,(fuckhacksforever << 16),290.0,5.0);
-		HudMessage(s:"\ccto the \cfTop 10 Leaderboard";HUDMSG_PLAIN,0,12,(fuckhacksforever << 16),300.0,5.0);
+		HudMessage(s:record_announce_str;HUDMSG_PLAIN,-554,12,(fuckhacksforever << 16),370.0,5.0);
+		HudMessage(s:"\ccwho broke their record and entered or climbed one more place";HUDMSG_PLAIN,-553,12,(fuckhacksforever << 16),380.0,5.0);
+		HudMessage(s:"\ccto the \cfTop 10 Leaderboard";HUDMSG_PLAIN,-551,12,(fuckhacksforever << 16),390.0,5.0);
 		ClearAnnounceTopTen();
 	}
 
@@ -1638,8 +1644,8 @@ script "ScoreDBStore" (int player_id)
 		SetActivator(player_id+1337);
 		PrinterPrep();
 		SetFont("SMALLFONT");
-		HudMessage(s:"\cfCongrats, ",s:playerName,s:"\cf!";HUDMSG_TYPEON,0,12,(fuckhacksforever << 16),230.0,5.0,0.01,2.0);
-		HudMessage(s:"\ccYou broke your personal record.";HUDMSG_TYPEON,0,12,(fuckhacksforever << 16),240.0,5.0,0.01,2.0);
+		HudMessage(s:"\cfCongrats, ",s:playerName,s:"\cf!";HUDMSG_TYPEON,0,12,(fuckhacksforever << 16),280.0,5.0,0.01,2.0);
+		HudMessage(s:"\ccYou broke your personal record.";HUDMSG_TYPEON,0,12,(fuckhacksforever << 16),390.0,5.0,0.01,2.0);
 		LocalAmbientSound("kledioz/tada",128);
 	}
 }
